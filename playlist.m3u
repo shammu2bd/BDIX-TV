@@ -10,15 +10,18 @@ http://mycoffeetime.net/play/tSDRdsaoGGQ2qYgRPDEe9jf8sm4JqAgGibsGkL1eU4kmsa3hiFV
 #EXTINF:-1,BTV BDIX
 http://mycoffeetime.net/play/tSDRdsaoGGQ2qYgRPDEe9jf8sm4JqAgGibsGkL1eU4mBNHzsh_iiJ6rzls5YqrpI
 
-
 #EXTINF:-1,T sports 2
 http://redforce.live:8082/T-SPORTS-HD/index.m3u8?token=7f87b538cbbce08fdb34fd087f6cafef556da612-a5e00213a67bf0dda9f831078204d015-1782221193-1782210393&remote=no_check_ip
 
 #EXTINF:-1,BTV 2
 http://redforce.live:8082/BTV.HD/tracks-v1a1/mono.m3u8?token=4828fd95605dc3d6d9e98176f253f46f3fc59870-8f267c84d6fa2b62f83c1cb8dd807d01-1782226202-1782215402
 
+#EXTINF:-1,United Sports 2
+http://redforce.live:8082/AND.FLIX.HD/tracks-v1a1/mono.m3u8?token=091aa99d6cb4741f52acb0df848b95def1673fea-26f3f0d5aa0f0b7df8e6451a9dc7c06c-1782226806-1782216006
+
 #EXTINF:-1,Discovery HD Bangla
 http://redforce.live:8082/DISCOVERY.HD/index.m3u8?token=dcb3ea0a4c1da11e2a0731cc333e4154196ea496-5420ce6d3080fb8824ed3fecfa0908b9-1782226402-1782215602&remote=no_check_ip
 
 #EXTINF:-1,NATGeo Bangla
 http://redforce.live:8082/NATGEO.HD/tracks-v1a1/mono.m3u8?token=0bbb3fdbbfeb29f5fa337b91ed1dfe7840b16150-a286732abaeb856d32ee0707e23f2f2e-1782226510-1782215710
+
