@@ -1,0 +1,85 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 Last login: Sun Nov  1 01:15:52 on ttys000\
+shohel@Mahfujuls-MacBook-Pro ~ % cd /Users/shohel/Downloads/RTL88WiFi-1.0.11-Sequoia-WCL-workbench\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % sw_vers\
+sw_vers -buildVersion\
+uname -m\
+ProductName:		macOS\
+ProductVersion:		15.8.1\
+BuildVersion:		24H32\
+24H32\
+x86_64\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-focused.py\
+\{\
+  "firmware": \{\
+    "embedded_blobs_verified": [\
+      \{\
+        "name": "rtw8821c_fw.bin",\
+        "compressed": 56993,\
+        "original": 139472,\
+        "crc32": "d0a2b137"\
+      \},\
+      \{\
+        "name": "rtw8822b_fw.bin",\
+        "compressed": 87223,\
+        "original": 161240,\
+        "crc32": "87f81761"\
+      \},\
+      \{\
+        "name": "rtw8822c_fw.bin",\
+        "compressed": 92712,\
+        "original": 202600,\
+        "crc32": "ef5020dd"\
+      \}\
+    ],\
+    "malformed_metadata": [\
+      "ok.bin LOADED",\
+      "short_orig.bin REJECTED",\
+      "long_orig.bin REJECTED",\
+      "truncated.bin REJECTED",\
+      "junk.bin REJECTED",\
+      "zero_orig.bin REJECTED",\
+      "zero_comp.bin REJECTED",\
+      "null.bin REJECTED",\
+      "huge.bin REJECTED",\
+      "LIVE 0 0"\
+    ],\
+    "allocation_balance": "zero live allocations after release"\
+  \},\
+  "peer_caps": "passed: 2x2 AP intersected to RTL8821C 1x1 (HT LDPC/RX-STBC cleared, VHT RX-STBC cleared, MCS masks limited to 1SS), band/NULL/VHT-without-HT handling, truncated/short/duplicate IEs, response-over-cache priority, 50,000 fuzz inputs under ASan/UBSan",\
+  "station_registry": "passed: lookup/iteration/vif/localaddr matching, foreign-station unregister no-op, unregister waits for an RX poll holding the pointer, 3,000 register/unregister/free cycles against a live RX lookup thread under ASan, self-unregister inside poll, bounded timeout returns false",\
+  "diagnostic_ring": "passed: pre-init drop, empty/NULL/zero-capacity, record format with ticks, repeated snapshots are non-consuming, small-capacity truncation, long message bounded, 150 KB stream keeps newest 32,767 bytes in order with exact byte counter, consuming reader drains without resetting counter",\
+  "timer_power_teardown": "source-structure review passed: teardown sets shutdown, disables, cancels, removes (gate wait), cancels any re-arm, releases, then frees buffer; callback checks shutdown and publishes hardware access before re-checking PM/DMA flags; sleep and wake set the PM flag then wait for in-flight diagnostic reads before touching hardware; LPS is compiled off for RTW88_MACOS. Not executed against IOKit."\
+\}\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-assoc-wire.py\
+PASS: empty-key open request with key-version 0; 22-byte SSID normalized; old-ABI misread prevented; WPA2 and transition fallback retained; SAE-only rejected\
+PASS: native host32 ASSOCIATE decoder accepts open/no-key v0 and normalizes before Ventura struct parsing\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-handshake.py\
+test(8916,0x7ff84676c1c0) malloc: nano zone abandoned due to inability to reserve vm space.\
+PASS: HMAC/AES vectors; actual M1/M3 retries, replay/MIC rejection, PN preservation, submission failure, serialization and malformed inputs\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-rx-filter.py\
+rtw88: RX trailer check 1 payload=100 ip_total=100 extra=0\
+rtw88: RX trailer check 2 payload=60 ip_total=60 extra=0\
+rtw88: RX trailer check 3 payload=80 ip_total=80 extra=0\
+rtw88: RX trailer check 4 payload=20 ip_total=60 extra=-40\
+PASS: MIC/ICV trailer trim (CCMP 8, TKIP group 12), undecrypted drop, plaintext-on-keyed drop with EAPOL exception, open-network delivery, non-SNAP drop, A-MSDU trim and first-DA check, truncation and 20,000 fuzz frames\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-scan-ssid.py\
+PASS: r10 TIM carried into probe responses, padding not copied, _curBssTim tracking, hidden AP still hidden; named beacon broadcast, blank/empty/missing SSID restored after a named beacon (beacon and probe response), rename, truly hidden AP unchanged, 512-byte cap, truncation at every length, 20,000 fuzz frames, no leaks\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-join-policy.py\
+PASS: join ranking (strongest/freshest, 5 GHz bonus, stale and failed-node demotion, exact pinning, privacy match), failed-BSS memory expiry/forget/overflow, tried-set bounds, fallback walks at most 3 distinct nodes then reports failure, single-AP behaviour unchanged, cancelled/powered-off joins left alone, pending-join coalescing, RSN override re-applied (SAE-only never mistaken for PSK), protected PSK join with a PMK now uses WPA2 even when the beacon parser is unsure (open/no-PMK joins unchanged),          open association Privacy bit clear / WPA2 bit set, WPA2/WPA3 transition falls back only when PMF is optional, SAE-only and PMF-required rejected, target-security log line (shows the AKM list, capped, never overruns on 30,000 random/truncated element lists), noise estimate (-95/-92/-89/-86, plausibility window, never 0, snr never negative), 20,000 randomized joins, locks always balanced\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-join-report.py\
+PASS: report decodes WPA3-only / non-open lower auth / missing 32-byte key / NotFound / accepted / transition-mode requests; reads the driver ring from ioreg XML (with unescaping) and from the text fallback; summarises each join attempt and refusal, shows relative times and the MAC-address section, flags a wrapped ring, honours line limits; never prints the network name or more than the last two MAC bytes\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-private-mac.py\
+PASS: PRIVATE_MAC Off/Fixed/Rotating, 28-byte ABI, LAA unicast normalization, workloop apply queue, overflow guard, bounded GET logs\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-ba-recovery.py\
+PASS: ADDBA recovery policy (1,2,5,10,30,60 s backoff; stable agreement restarts it; response timeout 3 s); real driver functions: lost agreement after 40 min is re-negotiated, repeated tear-downs back off without a storm, declined and unanswered and unsendable requests are retried, one request outstanding at a time, stale responses and other-TID/AP-initiated DELBAs ignored, no upkeep unless connected and not mid-handshake, non-HT peers never asked\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % python3 tests/test-roam-scan-policy.py\
+PASS: bounded connected-scan policy and source integration guards\
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-Sequoia-WCL-workbench % \
+}
