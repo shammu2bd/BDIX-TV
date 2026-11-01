@@ -130,3 +130,14 @@ If the report lists one or more unmounted EFI partitions, it will print an exact
 The Stage20 review is a static correlation of the previously collected Stage14–17 target ABI evidence with the Stage18/19 ownership dossier. It records verified sub-facts and keeps the six activation contracts blocked where ownership or teardown is still unresolved.
 
 See [STAGE20-24H32-queue-contract-review.md](./STAGE20-24H32-queue-contract-review.md). This review does not alter driver source, register queues, enable callbacks, start the radio, install/load a kext, or change OpenCore. Do not treat any partial finding as permission to activate the datapath.
+
+
+## Stage21 — native source-to-ABI contract audit
+
+After Stage20, run this read-only audit on the Stage26 source tree. It inventories current WCL source files, extracts the controller/interface start fences, lists registration and queue call sites, inspects the built native bundle dependencies and compares the executable hash with Stage29c-v5. It appends its report to the canonical Development/output.log and verifies the GitHub update. It does not edit source, build, install, load, register queues, enable callbacks, alter SIP/NVRAM, or change OpenCore.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage21-native-source-contract-audit.sh | bash
+```
+
+The result is intentionally REVIEW_REQUIRED pending manual correlation with the exact 24H32 callbacks and ownership contracts.
