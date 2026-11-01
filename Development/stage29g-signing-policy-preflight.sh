@@ -71,21 +71,20 @@ print('BUILD: NOT RUN'); print('SOURCE_FILES_MODIFIED: NONE'); print('INSTALL: N
 PY
 RC=$?
 cat "$STAGE/stage29g-report.txt"
-{ echo; echo '========== STAGE29G SIGNING POLICY PREFLIGHT =========='; echo "STAGE_DIR: $STAGE"; cat "$STAGE/sw-vers.txt"; cat "$STAGE/csrutil-status.txt"; cat "$STAGE/stage29g-report.txt";
-from pathlib import Path
-import re,subprocess,sys
-i=Path(sys.argv[1]).read_text(errors='replace'); pem=Path(sys.argv[2]).read_text(errors='replace')
-blocks=re.findall(r'-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----',pem,re.S); oid=0; parsed=0
-for b in blocks:
- r=subprocess.run(['openssl','x509','-noout','-text'],input=b,text=True,capture_output=True)
- if r.returncode==0:
-  parsed+=1; oid+=('1.2.840.113635.100.6.1.18' in r.stdout)
-m=re.search(r'(\d+) valid identities found',i); count=int(m.group(1)) if m else 0
-dev=sum('Developer ID Application:' in x for x in i.splitlines())
-print('VALID_CODESIGN_IDENTITIES:',count); print('DEVELOPER_ID_APPLICATION_IDENTITIES:',dev)
-print('DEVELOPER_ID_CERTIFICATES_PARSED:',parsed); print('KEXT_SIGNING_OID_CERT_COUNT:',oid)
-PY
-cat "$STAGE/stage29g-report.txt" 2>/dev/null || true; echo "STAGE29G_ANALYSIS_EXIT: $RC"; echo 'INSTALL: NOT RUN'; echo 'LOAD: NOT RUN'; echo 'OPENCORE_CHANGE: NONE'; echo 'QUEUE_REGISTRATION: NOT ENABLED'; echo 'KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED'; } >> "$PROJECT/output.log"
+{
+  echo
+  echo '========== STAGE29G SIGNING POLICY PREFLIGHT =========='
+  echo "STAGE_DIR: $STAGE"
+  cat "$STAGE/sw-vers.txt"
+  cat "$STAGE/csrutil-status.txt"
+  cat "$STAGE/stage29g-report.txt"
+  echo "STAGE29G_ANALYSIS_EXIT: $RC"
+  echo 'INSTALL: NOT RUN'
+  echo 'LOAD: NOT RUN'
+  echo 'OPENCORE_CHANGE: NONE'
+  echo 'QUEUE_REGISTRATION: NOT ENABLED'
+  echo 'KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED'
+} >> "$PROJECT/output.log"
 SHA=$(gh api "$API" --jq '.sha') || exit 2
 python3 - "$PROJECT/output.log" "$SHA" "$STAGE/payload.json" <<'PY'
 import base64,json,pathlib,sys
