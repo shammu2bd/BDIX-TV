@@ -17,14 +17,15 @@ GETTER_AUDIT: IOSkywalkMemorySegment::getMemoryDescriptor expected=0x20 observed
   EVIDENCE: 1004: mov rax, qword ptr [rbx + 0x20]
 GETTER_AUDIT: IOSkywalkMemorySegment::getVirtualAddress expected=0x30 observed=0x30 status=PASS
   EVIDENCE: 100c: mov rax, qword ptr [r12 + 0x30]
-Stage 14 input SHA-256: bf437767bf391461e3e3f2b7fbb67072101519803383fcc2b35ee762171aa015
-Stage 15 input SHA-256: bf437767bf391461e3e3f2b7fbb67072101519803383fcc2b35ee762171aa015
+Stage 14 input SHA-256: c5ee9685faca412714c3c93f347b2ad848c8c3e3f6f22ffffb2231cfbf5a9af4
+Stage 15 input SHA-256: c5ee9685faca412714c3c93f347b2ad848c8c3e3f6f22ffffb2231cfbf5a9af4
 Stage 16 field getters matched: 9/9
 Stage 16 source checks: 11/11
-Stage 16 archive: /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/stage16-tests-ehkggk1u/stage16-out/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
-Stage 16 archive SHA-256: 7254e13acaff7d3ffd3d40c7ac2a3fd63a2eff8a38ed62e6bb93615f8c6ad295
-PASS: Stage 16 full synthetic audit (archive linkage, sizes, getters, source invariants)
-Stage 16 status: REVIEW_REQUIRED
+Stage 16 packet header layout: PASS
+Stage 16 archive: /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/stage16-tests-akd7fz55/stage16-out/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
+Stage 16 archive SHA-256: dcd2ae527d267b89316efacfbae17c31f32d72d25b59c8e7e3b6209902f9f208
+PASS: Stage 16 full synthetic audit (archive linkage, 0x70 packet boundary, header, sizes, getters, source invariants)
+Stage 16 status: PASS
 GETTER_AUDIT: IOSkywalkPacket::getPacketBufferPool expected=0x40 observed=0x40 status=PASS
   EVIDENCE: ffffff800297e3ca: mov      rax, qword ptr [rdi + 0x40]
 GETTER_AUDIT: IOSkywalkPacket::getPacketBufferCount expected=0x64 observed=0x64 status=PASS
@@ -48,6 +49,7 @@ Stage 14 input SHA-256: 0c86675b0a9e3dd3d5e41aa626c2fe1f4b9915450f5af7bbc808e8e9
 Stage 15 input SHA-256: 0c86675b0a9e3dd3d5e41aa626c2fe1f4b9915450f5af7bbc808e8e9e595ba3a
 Stage 16 field getters matched: 9/9
 Stage 16 source checks: 11/11
+Stage 16 packet header layout: PASS
 Stage 16 archive: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage16/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
-Stage 16 archive SHA-256: e13590d3b758e132b93552cfb169aa0429b10119c29041c5d18095a5edf277c7
+Stage 16 archive SHA-256: 183e1f6568f7e7f1eaad0e407833c1c5f8334c16ecf6bdeeecb016bf2268cc3d
 UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
