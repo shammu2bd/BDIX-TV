@@ -95,9 +95,12 @@ for name in names:
     if "return static_cast<IOReturn>(0);" not in block:
         raise SystemExit("ERROR: zero-count return missing in " + name)
 
-zero_count_sites = source.count("return static_cast<IOReturn>(0);")
+zero_count_sites = 0
+for name in names:
+    _, _, block = extract(name, source)
+    zero_count_sites += block.count("return static_cast<IOReturn>(0);")
 if zero_count_sites != 7:
-    raise SystemExit(f"ERROR: expected 7 zero-count returns, found {zero_count_sites}")
+    raise SystemExit(f"ERROR: expected 7 zero-count returns in the four callbacks, found {zero_count_sites}")
 
 src_path.write_text(source)
 patch_path.write_text("".join(difflib.unified_diff(
