@@ -8256,3 +8256,85 @@ OPENCORE_CHANGE: NONE
 QUEUE_REGISTRATION: NOT ENABLED
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
 NEXT_GATE: Stage29f read-only audit of bundle ownership, code-signature metadata/verification, xattrs and repeated kmutil diagnostics. No chown, signing, install or load in Stage29f.
+
+========== STAGE29F PACKAGE AUTH AUDIT ==========
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29f-package-auth-audit-20261102-035435
+501:20 drwxr-xr-x /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext
+501:20 drwxr-xr-x /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents
+501:20 drwxr-xr-x /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS
+501:20 -rwxr-xr-x /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative
+501:20 -rw-r--r-- /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/Info.plist
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext: code object is not signed at all
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext: code object is not signed at all
+In architecture: x86_64
+No variant specified, falling back to release
+Diagnosing /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext...
+Error: 
+	Filesystem error: Invalid ownership (501:20) should be (0:0) on /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext
+	Filesystem error: Invalid ownership (501:20) should be (0:0) on /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents
+	Filesystem error: Invalid ownership (501:20) should be (0:0) on /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS
+	Filesystem error: Invalid ownership (501:20) should be (0:0) on /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative
+	Filesystem error: Invalid ownership (501:20) should be (0:0) on /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/Info.plist
+	Authenticating extension failed: Bad code signature
+Resolving dependencies for /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext...
+	com.apple.kpi.bsd in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kpi.unsupported in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kpi.iokit in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.iokit.CoreAnalyticsFamily in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.security.AppleImage4 in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.iokit.IOSkywalkFamily in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.driver.AppleMobileFileIntegrity in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.driver.corecapture in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kpi.private in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kpi.libkern in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.iokit.IONetworkingFamily in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.iokit.IOPCIFamily in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kext.CoreTrust in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kpi.mach in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kpi.dsep in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.driver.mDNSOffloadUserClient in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.iokit.IO80211Family in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+	com.apple.kec.corecrypto in boot kernel collection at /System/Library/KernelCollections/BootKernelExtensions.kc
+	Error: 
+	Authenticating extension failed: Bad code signature
+STAGE29F_ANALYSIS_EXIT: 1
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+QUEUE_REGISTRATION: NOT ENABLED
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
