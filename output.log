@@ -3458,3 +3458,28 @@ INSTALL: NOT RUN
 LOAD: NOT RUN
 QUEUE_REGISTRATION: STILL DISABLED
 DATAPATH_ACTIVATION: BLOCKED_PENDING_NEW_TREE_COMPILE_AND_DEPENDENCY_ABI_REVIEW
+
+STAGE26 RESUME RUNNER — CORRECTED AND VERIFIED
+File: stage26-resume-fresh-source-build.sh
+Blob SHA: 1ddb168d1c06a46795c872d16c7afd8f3546ca3d
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage26-resume-fresh-source-build.sh
+RUN:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage26-resume-fresh-source-build.sh | /bin/bash
+
+It verifies there is one existing Stage25 cleanupStatus guard in free(), adds the start(fail) and stop() guards, then checks the correct total of three. It operates only on ~/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source. It creates a source manifest and a ZIP archive, preserves the latest remote output.log before appending the report, and attempts GitHub uploads. It does not use the old Stage14 project for any further operation.
+
+STAGE27 — NEW-TREE COMPILE-ONLY RUNNER PREPARED
+File: stage27-new-tree-compile-only.sh
+Blob SHA: 298a434bd82874266d2bc706567329653a4d112b
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage27-new-tree-compile-only.sh
+RUN ONLY AFTER STAGE26 ZIP CREATION IS REPORTED SUCCESSFUL:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage27-new-tree-compile-only.sh | /bin/bash
+Stage27 preflights the Stage26 cleanup guards, PCI rollback/fence, callback return contract and disabled publication fence; confirms the Makefile dry-run includes controller, PCI backend and Skywalk queue translation units; then builds only inside the new project. It does not install or load.
+
+STAGE26 RESUME: NOT YET RUN
+STAGE26 ZIP: NOT YET CREATED
+STAGE27 BUILD: NOT RUN
+KNOWN-GOOD OLD rtl88wifi.kext: KEEP RUNNING; NOT TOUCHED
+OLD STAGE14 DIRECTORY: NOT USED FOR FURTHER BUILDS
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE26_RESUME_AND_STAGE27_COMPILE_PLUS_DEPENDENCY_ABI_REVIEW
