@@ -3518,3 +3518,34 @@ RULE: All future RTL88WiFi development logs, scripts, source archives, audit rec
 RULE: All future stage runners must upload to Development/output.log and place new source packages/scripts in Development/.
 UNRELATED_REPOSITORY_CONTENT: playlist.m3u remains at the repository root.
 KNOWN_GOOD_DRIVER: The user's older working rtl88wifi.kext remains the fallback and must not be unloaded, removed, overwritten or replaced during this development work.
+
+STAGE27 — NEW-TREE MAKE DRY-RUN FAILED (2026-11-02)
+USER-RUN RESULT: STAGE27_PREFLIGHT: FAILED — make dry-run exit 2.
+The Makefile emitted commands for the RTW88 firmware/driver C objects, compatibility objects and WCL bridge/work-queue objects, then stopped with:
+make: *** No rule to make target '.../driver/RTL88WiFi/RTL88WiFi.kext/Contents/Info.plist', needed by '.../driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi'. Stop.
+This is a missing source build-input/Makefile prerequisite, not a reported C/C++ compiler diagnostic. No compilation was run by Stage27 because the make dry-run failed. No install/load was attempted.
+
+LIKELY ROOT CAUSE:
+The Stage26 source-copy rsync used a broad --exclude='*.kext', and its ZIP step also excluded '*.kext/*'. This omitted the source template directory RTL88WiFi.kext/Contents/Info.plist from the fresh project. Generated output kext bundles under build/ should be excluded; the source Info.plist directory must be retained.
+
+STAGE27a REPAIR RUNNER PREPARED
+File: stage27a-restore-source-plist-preflight.sh
+Commit: 17fca60672d130dff83f313e63d1f397bcd480a8
+Blob SHA: f64d7674fdd9a13e81242f2aa43c34b37d61a0e2
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/Development/stage27a-restore-source-plist-preflight.sh
+RUN:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage27a-restore-source-plist-preflight.sh | /bin/bash
+
+The runner copies only the source Info.plist from the previous source snapshot into the Stage26 project if missing. The previous tree is read-only metadata reference only; no build is run there. It validates the plist, regenerates the manifest and complete source ZIP without a global *.kext exclusion, confirms that the ZIP contains the Info.plist, and repeats the Makefile dry-run. The runner logs to and uploads Development/output.log and places the ZIP under Development/.
+
+NEXT: only after Stage27a reports a successful dry-run, run:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage27-new-tree-compile-only.sh | /bin/bash
+Stage27 then builds only inside the new Stage26 project.
+
+KNOWN-GOOD OLD rtl88wifi.kext: KEEP RUNNING; NOT TOUCHED
+OLD STAGE14 PROJECT: READ-ONLY SOURCE METADATA REFERENCE ONLY FOR THIS ONE MISSING Info.plist; NO BUILD THERE
+STAGE27 BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE27a_INFO_PLIST_REPAIR_AND_SUCCESSFUL_DRYRUN
