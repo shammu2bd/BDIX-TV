@@ -1,43 +1,235 @@
-IOSkywalkPacketQueue: 2 exact method symbols (method list)
-IOSkywalkPacketBufferPool: 2 exact method symbols (method list)
-IOSkywalkQueueSet: 2 exact method symbols (method list)
-IOSkywalkLogicalLink: 2 exact method symbols (method list)
-IOSkywalkMemorySegment: 2 exact method symbols (method list)
-IOSkywalkPacketBuffer: 2 exact method symbols (method list)
-IOSkywalkPacket: 2 exact method symbols (method list)
-IOSkywalkNetworkPacket: 2 exact method symbols (method list)
-PASS: four generic queue/pool and four segment/packet class method lists are required
-PASS: exact Itanium symbols are preserved and de-duplicated
-PASS: Stage 8-10 registration seed symbols remain included
-IOSkywalkPacketQueue: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkPacketBufferPool: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkQueueSet: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkLogicalLink: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkMemorySegment: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkPacketBuffer: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkPacket: 2 exact method symbols (kcabi INDEX.txt fallback)
-IOSkywalkNetworkPacket: 2 exact method symbols (kcabi INDEX.txt fallback)
-PASS: exact class-member symbols can be recovered from INDEX.txt
-PASS: missing class symbols fail closed with class-by-class diagnostics
-Target: macOS 15.8.1 (24H32), x86_64
-Kernel collection: /System/Library/KernelCollections/BootKernelExtensions.kc
-kcabi: /Users/shohel/src/kcabi
-llvm-objdump: /opt/local/libexec/llvm-20/bin/llvm-objdump
-Prepared 14 exact 24H32 registration symbols; merged 14 reference symbols.
+=== MemorySegment files ===
 
-Pass 1/2: collect 24H32 method lists and baseline registration bodies.
-wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
-usage: prepare-kcabi-ref-24H32-stage14.py [-h] --methods-root METHODS_ROOT
-                                          --out OUT [--reference REFERENCE]
-prepare-kcabi-ref-24H32-stage14.py: error: Stage 14 ABI extraction incomplete:
-IOSkywalkMemorySegment: expected exactly one method list under /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32; found 0
-IOSkywalkPacketQueue: 61 exact method symbols (method list)
-IOSkywalkPacketBufferPool: 65 exact method symbols (method list)
-IOSkywalkQueueSet: 23 exact method symbols (method list)
-IOSkywalkLogicalLink: 19 exact method symbols (method list)
-IOSkywalkPacketBuffer: 41 exact method symbols (method list)
-IOSkywalkPacket: 50 exact method symbols (method list)
-IOSkywalkNetworkPacket: 60 exact method symbols (method list)
+=== All MemorySegment references ===
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBuffer.vtable.txt:42:40	0x140	__ZN21IOSkywalkPacketBuffer24prepareWithMemorySegmentEP22IOSkywalkMemorySegmentyj
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBuffer.vtable.txt:43:41	0x148	__ZN21IOSkywalkPacketBuffer25completeWithMemorySegmentEP22IOSkywalkMemorySegmentyj
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBuffer.methods.txt:31:0xffffff800297ec34	__ZN21IOSkywalkPacketBuffer24prepareWithMemorySegmentEP22IOSkywalkMemorySegmentyj
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBuffer.methods.txt:32:0xffffff800297ec48	__ZN21IOSkywalkPacketBuffer25completeWithMemorySegmentEP22IOSkywalkMemorySegmentyj
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.methods.txt:39:0xffffff800297d7b4	__ZN25IOSkywalkPacketBufferPool16newMemorySegmentEP32IOSkywalkMemorySegmentDescriptorPP22IOSkywalkMemorySegment
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.methods.txt:56:0xffffff80029a1b1c	__ZN25IOSkywalkPacketBufferPool20createSegmentBuffersEP22IOSkywalkMemorySegmentjb
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.methods.txt:57:0xffffff80029a1cb2	__ZN25IOSkywalkPacketBufferPool21destroySegmentBuffersEP22IOSkywalkMemorySegment
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.methods.txt:58:0xffffff80029a1cda	__ZN25IOSkywalkPacketBufferPool20prepareMemorySegmentEP22IOSkywalkMemorySegmentP24IOBufferMemoryDescriptory
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANPCIeSkywalkPacketPool.vtable.txt:54:52	0x1a0	__ZN33AppleBCMWLANPCIeSkywalkPacketPool16newMemorySegmentEP32IOSkywalkMemorySegmentDescriptorPP22IOSkywalkMemorySegment
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.vtable.txt:54:52	0x1a0	__ZN25IOSkywalkPacketBufferPool16newMemorySegmentEP32IOSkywalkMemorySegmentDescriptorPP22IOSkywalkMemorySegment
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/sizes.txt:243:IOSkywalkMemorySegment	0x78	com.apple.iokit.IOSkywalkFamily
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANPCIeSkywalkPacketPool.methods.txt:9:0xffffff80014d7954	__ZN33AppleBCMWLANPCIeSkywalkPacketPool16newMemorySegmentEP32IOSkywalkMemorySegmentDescriptorPP22IOSkywalkMemorySegment
 
-Stage 14 failed; diagnostic pass data retained at:
-/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.T0bgUO
+=== Relevant method and vtable files ===
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANCore.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANCore.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANInfraProtocol.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANInfraProtocol.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANPCIeSkywalk.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANPCIeSkywalk.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANPCIeSkywalkPacketPool.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANPCIeSkywalkPacketPool.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANSkywalkInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/AppleBCMWLANSkywalkInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCDataPipe.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCDataPipe.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCDataStream.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCDataStream.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCFaultReporter.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCFaultReporter.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCLogPipe.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCLogPipe.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCLogStream.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCLogStream.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCPipe.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCPipe.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCStream.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/CCStream.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211BSSBeacon.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211BSSBeacon.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211CommandGate.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211CommandGate.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211Controller.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211Controller.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211ControllerMonitor.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211ControllerMonitor.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211FaultReporter.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211FaultReporter.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211Glue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211Glue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211InfraInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211InfraInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211InfraProtocol.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211InfraProtocol.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211MacAddressAgent.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211MacAddressAgent.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211NetworkPacket.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211NetworkPacket.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211Peer.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211Peer.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211PeerManager.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211PeerManager.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211PostOffice.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211PostOffice.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211ScanManager.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211ScanManager.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211SkywalkInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211SkywalkInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211TimerSource.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211TimerSource.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211VirtualInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211VirtualInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211WorkQueue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IO80211WorkQueue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkBSDClient.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkBSDClient.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkEthernetInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkEthernetInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkLegacyEthernet.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkLegacyEthernet.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkLegacyEthernetInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkLegacyEthernetInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkLogicalLink.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkLogicalLink.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkNetworkBSDClient.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkNetworkBSDClient.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkNetworkInterface.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkNetworkInterface.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkNetworkPacket.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkNetworkPacket.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacket.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacket.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBuffer.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBuffer.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketBufferPool.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketQueue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkPacketQueue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkQueueSet.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkQueueSet.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkRxCompletionQueue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkRxCompletionQueue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkRxSubmissionQueue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkRxSubmissionQueue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkTxCompletionQueue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkTxCompletionQueue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkTxSubmissionQueue.methods.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/IOSkywalkTxSubmissionQueue.vtable.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN10CCDataPipe9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN10CCDataPipe9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN11CCLogStream9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN11CCLogStream9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN11IO80211Glue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN11IO80211Glue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN11IO80211Peer9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN11IO80211Peer9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN12CCDataStream9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN12CCDataStream9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager10assocTimerEP18IO80211TimerSource.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager13freeResourcesEv.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager14protectIpTimerEP18IO80211TimerSource.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager9MetaClassD0Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManager9MetaClassD1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManagerC1EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN13WCLNetManagerC2EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManager11timeoutJoinEP18IO80211TimerSource.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManager12freeResourceEv.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManager9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManager9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManager9MetaClassD0Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManager9MetaClassD1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManagerC1EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN14WCLJoinManagerC2EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN15CCFaultReporter9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN15CCFaultReporter9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN15IOSkywalkPacket9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN15IOSkywalkPacket9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN16AppleBCMWLANCore9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN16AppleBCMWLANCore9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN16IO80211BSSBeacon9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN16IO80211BSSBeacon9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN16IO80211WorkQueue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN16IO80211WorkQueue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17IO80211Controller9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17IO80211Controller9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17IO80211PostOffice9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17IO80211PostOffice9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17IOSkywalkQueueSet9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17IOSkywalkQueueSet9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17WCLScanCacheStore9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17WCLScanCacheStore9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17WCLScanCacheStore9MetaClassD0Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17WCLScanCacheStore9MetaClassD1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17WCLScanCacheStoreC1EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN17WCLScanCacheStoreC2EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211CommandGate9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211CommandGate9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211PeerManager9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211PeerManager9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211ScanManager9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211ScanManager9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211TimerSource9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IO80211TimerSource9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IOSkywalkBSDClient9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IOSkywalkBSDClient9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IOSkywalkInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN18IOSkywalkInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IO80211FaultReporter9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IO80211FaultReporter9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IO80211InfraProtocol9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IO80211InfraProtocol9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IO80211NetworkPacket9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IO80211NetworkPacket9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IOSkywalkLogicalLink9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IOSkywalkLogicalLink9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IOSkywalkPacketQueue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN20IOSkywalkPacketQueue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN21IO80211InfraInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN21IO80211InfraInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN21IOSkywalkPacketBuffer9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN21IOSkywalkPacketBuffer9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN22IO80211MacAddressAgent9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN22IO80211MacAddressAgent9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN22IOSkywalkNetworkPacket9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN22IOSkywalkNetworkPacket9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23AppleBCMWLANPCIeSkywalk9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23AppleBCMWLANPCIeSkywalk9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IO80211SkywalkInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IO80211SkywalkInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IO80211VirtualInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IO80211VirtualInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IOSkywalkLegacyEthernet9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IOSkywalkLegacyEthernet9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IOSkywalkLegacyEthernet9MetaClassD0Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IOSkywalkLegacyEthernet9MetaClassD1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IOSkywalkLegacyEthernetC1EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN23IOSkywalkLegacyEthernetC2EPK11OSMetaClass.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN24IO80211ControllerMonitor9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN24IO80211ControllerMonitor9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25AppleBCMWLANInfraProtocol9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25AppleBCMWLANInfraProtocol9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25IOSkywalkNetworkBSDClient9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25IOSkywalkNetworkBSDClient9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25IOSkywalkNetworkInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25IOSkywalkNetworkInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25IOSkywalkPacketBufferPool9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN25IOSkywalkPacketBufferPool9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkEthernetInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkEthernetInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkRxCompletionQueue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkRxCompletionQueue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkRxSubmissionQueue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkRxSubmissionQueue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkTxCompletionQueue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkTxCompletionQueue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkTxSubmissionQueue9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN26IOSkywalkTxSubmissionQueue9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN28AppleBCMWLANSkywalkInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN28AppleBCMWLANSkywalkInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN32IOSkywalkLegacyEthernetInterface9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN32IOSkywalkLegacyEthernetInterface9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN6CCPipe9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN6CCPipe9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN8CCStream9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN8CCStream9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN9CCLogPipe9MetaClassC1Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/asm/ZN9CCLogPipe9MetaClassC2Ev.asm.txt
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32/source.json
