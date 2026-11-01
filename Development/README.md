@@ -51,3 +51,18 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 Stage29e uses `kmutil libraries` against the Boot/System Kernel Collections plus `kmutil print-diagnostics`. It does not use `kmutil load`, `--do-staging`, or make any install/OpenCore/source changes. It verifies the binary hash before inspecting it and appends to the canonical `output.log`.
+
+
+## Stage29e / Stage29f — dependency and packaging status (2026-11-02)
+
+Stage29e established that `kmutil libraries` successfully resolves the native binary's undefined imports to providers in the Sequoia Boot Kernel Collection. However, `kmutil print-diagnostics` emitted content-level errors despite returning exit code 0: the local build bundle is owned by uid:gid 501:20 rather than root:wheel (0:0), and authentication reports a bad code signature. Therefore Stage29e overall status is **REVIEW_REQUIRED**, not PASS. The Stage29e runner has been corrected to inspect diagnostics text as well as exit status.
+
+Stage29f performs read-only ownership, code-signature, xattr and kmutil checks against the exact Stage29d/29e binary. It does not change ownership, sign, install, load, build, or edit OpenCore.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage29f-package-auth-audit.sh | bash
+```
+
+Do not proceed to installation until ownership and signing validation are resolved. Preserve the existing working legacy kext and OpenCore configuration.
