@@ -23,8 +23,6 @@ from pathlib import Path
 import hashlib,re,sys
 project,driver,out=map(Path,sys.argv[1:])
 all_files=sorted(p for p in driver.rglob("*") if p.is_file() and p.suffix.lower() in {".cpp",".hpp",".h",".c",".cc"})
-# Restrict the detailed review to driver-owned implementation files likely to
-# contain RTW88 callback, PCI, DMA, queue and teardown contracts.
 key=re.compile(r"rtw88|rtl88|wcl|skywalk|pci|dma|txcompletion|rxadapter",re.I)
 files=[p for p in all_files if key.search(str(p.relative_to(driver)))][:120]
 patterns=[
@@ -55,7 +53,6 @@ for label,pattern in patterns:
   found=[i for i,line in enumerate(lines) if rx.search(line) and not line.lstrip().startswith(("//","*"))]
   if not found: continue
   report.append("FILE: {} MATCHES: {}".format(p.relative_to(project),len(found)))
-  # Keep contexts compact and avoid flooding on generic helper call sites.
   selected=found[:5]
   for i in selected:
    lo=max(0,i-4); hi=min(len(lines),i+5)
@@ -83,9 +80,10 @@ print("DRIVER_SOURCE_FILES: "+str(len(all_files)))
 print("TARGETED_SOURCE_FILES: "+str(len(files)))
 print("REPORT_BYTES: "+str(out.stat().st_size))
 PY
+
 [[ -s "$REPORT" ]] || { echo 'Stage24 report missing.'; exit 2; }
 BYTES=$(wc -c < "$REPORT" | tr -d ' ')
-(( BYTES <= 900000 )) || { echo "Targeted report still exceeds 900KB upload cap: $BYTES"; exit 2; }
+(( BYTES <= 900000 )) || { echo "Targeted report exceeds 900KB upload cap: $BYTES"; exit 2; }
 
 upload_file() {
  local path="$1" api="$2" message="$3" payload="$4" response="$5"
@@ -95,7 +93,7 @@ upload_file() {
 import base64,json,pathlib,sys
 path,sha,message,payload=sys.argv[1:]
 d={"message":message,"content":base64.b64encode(pathlib.Path(path).read_bytes()).decode()}
-if sha:d["sha"]=sha
+if sha: d["sha"]=sha
 pathlib.Path(payload).write_text(json.dumps(d))
 PY
  gh api --method PUT "$api" --input "$payload" > "$response"
@@ -109,3 +107,33 @@ PY
  [[ "$put" == "$read" && -n "$put" ]] || { echo "Read-back SHA mismatch: $api"; return 1; }
  echo "$read"
 }
+
+SHA="$(upload_file "$REPORT" "repos/$REPO/contents/Development/stage24-rtw88-callback-dma-audit.txt" "Add Stage24 RTW88 callback and DMA audit" "$STAGE/report-payload.json" "$STAGE/report-response.json")"
+echo "STAGE24_REPORT_UPLOAD: SUCCESS"
+echo "GITHUB_REPORT: Development/stage24-rtw88-callback-dma-audit.txt"
+echo "GITHUB_REPORT_BLOB_SHA: $SHA"
+
+LOG="$PROJECT/output.log"
+API="repos/$REPO/contents/Development/output.log"
+gh api "$API" > "$STAGE/remote-log.json"
+python3 - "$STAGE/remote-log.json" "$LOG" "$SHA" "$BYTES" <<'PY'
+import base64,json,pathlib,sys
+d=json.loads(pathlib.Path(sys.argv[1]).read_text())
+old=base64.b64decode(d.get("content","")).decode("utf-8",errors="replace")
+marker="========== STAGE24 RTW88 CALLBACK / DMA AUDIT =========="
+if marker in old:
+ old=old[:old.index(marker)].rstrip()+"\n"
+entry=("\n"+marker+"\n"
+ "STAGE24_REPORT: Development/stage24-rtw88-callback-dma-audit.txt\n"
+ "STAGE24_REPORT_BLOB_SHA: "+sys.argv[3]+"\n"
+ "STAGE24_REPORT_BYTES: "+sys.argv[4]+"\n"
+ "STAGE24_STATUS: REVIEW_REQUIRED\nACTIVATION_GATE: BLOCKED\n"
+ "SOURCE_CHANGES: NONE | BUILD: NOT RUN | INSTALL: NOT RUN | LOAD: NOT RUN | OPENCORE_CHANGE: NONE\n"
+ "KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED\n")
+pathlib.Path(sys.argv[2]).write_text(old+entry,encoding="utf-8")
+PY
+LOGSHA="$(upload_file "$LOG" "$API" "Record Stage24 RTW88 callback and DMA audit" "$STAGE/log-payload.json" "$STAGE/log-response.json")"
+echo "CANONICAL_OUTPUT_LOG_UPLOAD: SUCCESS"
+echo "CANONICAL_OUTPUT_LOG_BLOB_SHA: $LOGSHA"
+echo "STAGE24_STATUS: REVIEW_REQUIRED"
+echo "ACTIVATION_GATE: BLOCKED"
