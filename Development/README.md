@@ -93,3 +93,20 @@ Stage29g completed on the target Intel Hackintosh:
 Therefore, the candidate remains unsigned and is not load-ready under the current security state. Apple’s kext signing guidance requires a special Developer ID Application identity enabled for kext signing; an ordinary app-signing identity is not sufficient. See [Apple TN2206](https://developer.apple.com/library/archive/technotes/tn2206/) and [Apple Platform Security: Securely extending the kernel](https://support.apple.com/guide/security/securely-extending-the-kernel-sec8e454101b/web).
 
 Next decision: establish whether the developer team has Apple Developer Program membership and Account Holder access to request the kext-signing identity. Do not disable SIP or change OpenCore automatically. No signing, ownership, installation or loading has been performed.
+
+
+## Internal testing route accepted — Stage29h
+
+The user has selected the free internal-testing route. No Developer ID certificate is available on this machine; SIP is currently enabled. The candidate is unsigned.
+
+Apple documents unsigned kext builds for internal testing on test systems with SIP disabled. This route is temporary and lowers system security; SIP should be restored after testing. The obsolete `kext-dev-mode=1` boot argument must not be used.
+
+Stage29h is a read-only Intel Hackintosh boot-policy/test-isolation audit. It inspects current SIP/NVRAM state, mounted OpenCore `config.plist` values for `csr-active-config` and `boot-args`, current matching bundle load state, and the legacy/native bundle-identifier relationship. It does not change NVRAM, SIP, OpenCore, bundle ownership, installation or loading.
+
+Run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage29h-boot-policy-and-test-isolation-audit.sh | bash
+```
+
+Stage29h must be reviewed before any SIP change. After that, prepare an explicitly separate test EFI/configuration while preserving the known-good everyday EFI and legacy RTL88WiFi kext. The native bundle currently shares the legacy bundle identifier; therefore the two candidates are mutually exclusive and must never be installed side by side. Installation and loading remain blocked until a test-only rollback plan and queue/teardown ABI review are complete.
