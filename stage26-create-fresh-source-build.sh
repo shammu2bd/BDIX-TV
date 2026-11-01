@@ -8,7 +8,7 @@ REPO="shammu2bd/BDIX-TV"
 SOURCE_PROJECT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi"
 NEW_NAME="RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 NEW_PROJECT="$HOME/Downloads/$NEW_NAME"
-ARCHIVE="$HOME/Downloads/$NEW_NAME.tar.gz"
+ARCHIVE="$HOME/Downloads/$NEW_NAME.zip"
 STAMP="$(date '+%Y%m%d-%H%M%S')"
 STAGE_DIR="$NEW_PROJECT/build/stage26-fresh-source-$STAMP"
 OUT="$NEW_PROJECT/output.log"
@@ -29,6 +29,10 @@ if [ ! -f "$SOURCE_PROJECT/driver/RTL88WiFi/Makefile" ]; then
 fi
 if ! command -v rsync >/dev/null 2>&1; then
     echo "ERROR: rsync is required (normally available on macOS)" >&2
+    exit 5
+fi
+if ! command -v zip >/dev/null 2>&1; then
+    echo "ERROR: zip utility is required (normally available on macOS)" >&2
     exit 5
 fi
 
@@ -220,15 +224,16 @@ for p in sorted(root.rglob("*")):
 print("SOURCE_FILES_IN_MANIFEST: " + str(len(manifest)))
 PY
 
-# The archive includes complete source, headers, Makefiles, scripts, SDK ABI
-# headers bundled with the project, documentation and manifest. Generated
-# build output and .kext bundles are intentionally omitted.
-COPYFILE_DISABLE=1 tar -czf "$ARCHIVE" \
-    --exclude="$NEW_NAME/build" \
-    --exclude="$NEW_NAME/driver/RTL88WiFi/build" \
-    --exclude='*.kext' \
-    --exclude='*.dSYM' \
-    -C "$HOME/Downloads" "$NEW_NAME"
+# The ZIP includes complete source, headers, Makefiles, scripts, bundled
+# SDK ABI headers, documentation and manifest. Generated build output and
+# kext bundles are intentionally omitted.
+(
+    cd "$HOME/Downloads"
+    COPYFILE_DISABLE=1 zip -qr "$ARCHIVE" "$NEW_NAME" \
+        -x "$NEW_NAME/build/*" \
+           "$NEW_NAME/driver/RTL88WiFi/build/*" \
+           "*.kext/*" "*.dSYM/*" "*/.DS_Store"
+)
 
 ARCHIVE_SHA="$(shasum -a 256 "$ARCHIVE" | awk '{print $1}')"
 ARCHIVE_SIZE="$(stat -f '%z' "$ARCHIVE" 2>/dev/null || wc -c < "$ARCHIVE" | tr -d ' ')"
@@ -250,7 +255,7 @@ ARCHIVE_SIZE="$(stat -f '%z' "$ARCHIVE" 2>/dev/null || wc -c < "$ARCHIVE" | tr -
     echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/$(basename "$ARCHIVE")"
     echo "ARCHIVE_SIZE_BYTES: $ARCHIVE_SIZE"
     echo "ARCHIVE_SHA256: $ARCHIVE_SHA"
-    echo "ARCHIVE_FORMAT: gzip-compressed tar (.tar.gz)"
+    echo "ARCHIVE_FORMAT: ZIP"
     echo "GENERATED_BUILD_OUTPUT: EXCLUDED"
     echo "INSTALLED_WORKING_OLD_RTL88WIFI_KEXT: NOT TOUCHED"
     echo "OLD_STAGE14_DIRECTORY: SOURCE SNAPSHOT ONLY; DO NOT USE FOR FURTHER BUILDS"
