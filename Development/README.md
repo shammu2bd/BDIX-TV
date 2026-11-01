@@ -110,3 +110,16 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 Stage29h must be reviewed before any SIP change. After that, prepare an explicitly separate test EFI/configuration while preserving the known-good everyday EFI and legacy RTL88WiFi kext. The native bundle currently shares the legacy bundle identifier; therefore the two candidates are mutually exclusive and must never be installed side by side. Installation and loading remain blocked until a test-only rollback plan and queue/teardown ABI review are complete.
+
+
+## Stage29i — read-only EFI partition discovery
+
+Stage29h completed, but no mounted `EFI/OC/config.plist` was found. Stage29i inventories EFI System Partition candidates with `diskutil list -plist`, reports their device identifiers and mount state, and inspects OpenCore settings only if a config is already present on a mounted EFI volume. It does **not** mount an EFI partition or write to it.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage29i-efi-partition-discovery.sh | bash
+```
+
+If the report lists one or more unmounted EFI partitions, it will print an exact `sudo diskutil mount diskXs1` command for each. Do not guess which EFI to mount: identify the partition used to start OpenCore before mounting. After the correct EFI is mounted, rerun Stage29i so its `config.plist` can be audited. No replacement config is generated until the existing OpenCore config and test-boot strategy are reviewed.
