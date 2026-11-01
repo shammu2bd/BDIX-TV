@@ -33,7 +33,7 @@ sw_vers > "$STAGE/sw-vers.txt" 2>&1
 csrutil status > "$STAGE/csrutil-status.txt" 2>&1; CSR_RC=$?
 security find-identity -v -p codesigning > "$STAGE/signing-identities.txt" 2>&1; ID_RC=$?
 security find-certificate -a -c 'Developer ID Application' -p > "$STAGE/developer-id-certs.pem" 2> "$STAGE/find-certificates.err"; CERT_RC=$?
-python3 - "$STAGE" "$ACTUAL" "$EXPECTED" "$CSR_RC" "$ID_RC" "$CERT_RC" <<'PY'
+python3 - "$STAGE" "$ACTUAL" "$EXPECTED" "$CSR_RC" "$ID_RC" "$CERT_RC" > "$STAGE/stage29g-report.txt" 2>&1 <<'PY'
 from pathlib import Path
 import re, subprocess, sys
 p=Path(sys.argv[1]); actual,expected=sys.argv[2:4]; csr_rc,id_rc,cert_rc=map(int,sys.argv[4:7])
@@ -51,8 +51,8 @@ valid_count_match=re.search(r'(\d+) valid identities found',identities)
 valid_count=int(valid_count_match.group(1)) if valid_count_match else 0
 dev_identities=[line for line in identities.splitlines() if 'Developer ID Application:' in line]
 dev_id_count=len(dev_identities)
-sip_disabled='System Integrity Protection status: disabled' in csr.lower()
-sip_enabled='System Integrity Protection status: enabled' in csr.lower()
+sip_disabled='system integrity protection status: disabled' in csr.lower()
+sip_enabled='system integrity protection status: enabled' in csr.lower()
 print('RTL88WiFi Stage29g — read-only signing-policy preflight')
 print('BINARY_HASH_MATCH:', 'PASS' if actual==expected else 'FAIL')
 print('CSRUTIL_EXIT:',csr_rc); print('SIP_STATUS:', 'DISABLED' if sip_disabled else ('ENABLED' if sip_enabled else 'UNKNOWN'))
@@ -70,7 +70,8 @@ print('STAGE29G_SIGNING_POLICY_PREFLIGHT: COMPLETE — NO SIGNING OR OWNERSHIP C
 print('BUILD: NOT RUN'); print('SOURCE_FILES_MODIFIED: NONE'); print('INSTALL: NOT RUN'); print('LOAD: NOT RUN'); print('OPENCORE_CHANGE: NONE'); print('QUEUE_REGISTRATION: NOT ENABLED'); print('KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED')
 PY
 RC=$?
-{ echo; echo '========== STAGE29G SIGNING POLICY PREFLIGHT =========='; echo "STAGE_DIR: $STAGE"; cat "$STAGE/sw-vers.txt"; cat "$STAGE/csrutil-status.txt"; python3 - "$STAGE/signing-identities.txt" "$STAGE/developer-id-certs.pem" <<'PY'
+cat "$STAGE/stage29g-report.txt"
+{ echo; echo '========== STAGE29G SIGNING POLICY PREFLIGHT =========='; echo "STAGE_DIR: $STAGE"; cat "$STAGE/sw-vers.txt"; cat "$STAGE/csrutil-status.txt"; cat "$STAGE/stage29g-report.txt";
 from pathlib import Path
 import re,subprocess,sys
 i=Path(sys.argv[1]).read_text(errors='replace'); pem=Path(sys.argv[2]).read_text(errors='replace')
