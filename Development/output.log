@@ -3791,3 +3791,336 @@ INSTALL: NOT RUN
 LOAD: NOT RUN
 KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
 QUEUE_REGISTRATION: STILL DISABLED
+
+RTL88WiFi Stage27e — read-only Makefile source/object integration inventory
+DATE: 2026-11-02 02:44:58 +06
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+DRIVER: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage27e-makefile-source-audit-20261102-024457
+PURPOSE: locate the Makefile object-list omission diagnosed by Stage27d.
+SCOPE: read-only inventory and dry-run log parsing; no source changes, compilation, install or load.
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+
+STAGE27E_MAKEFILE_SOURCE_AUDIT:
+MAKEFILE_INVENTORY:
+
+===== Makefile (486 lines) =====
+...
+1: # Makefile for RTL88WiFi (derived from the upstream rtw88-macos build)
+2: .DEFAULT_GOAL := rtl88wifi
+3: #
+4: # Prerequisites:
+5: #   Xcode Command Line Tools
+...
+29: FIRMWARE_DIR := $(PROJ_ROOT)/firmware
+30: CTL_DIR      := $(PROJ_ROOT)/ctl
+31: 
+32: BUILD_DIR    := $(PROJ_ROOT)/build
+33: OUT_DIR      := $(BUILD_DIR)/out
+34: 
+35: # Source bundle: Info.plist + Resources skeleton (tracked in git)
+36: KEXT_SKEL    := $(PROJ_ROOT)/rtw88.kext
+37: 
+38: # Output bundle: fully assembled kext ready for OpenCore / kextutil
+...
+51: 
+52: CC           := xcrun clang
+53: CXX          := xcrun clang++
+54: LD           := xcrun clang++
+55: 
+56: KEXT_FLAGS   := -fno-exceptions -fno-rtti \
+57:                 -fno-stack-protector -mkernel \
+58:                 -MMD -MP \
+59:                 $(ARCH) $(MINOS) \
+60:                 -ffile-prefix-map=$(PROJ_ROOT)=driver/RTL88WiFi \
+61:                 -fdebug-prefix-map=$(PROJ_ROOT)=driver/RTL88WiFi \
+62:                 -isysroot $(SDK) \
+63:                 -I$(MKSDK)/Headers \
+64:                 -I$(SDK)/System/Library/Frameworks/Kernel.framework/Headers
+...
+106: # ------------------------------------------------------------------ #
+107: 
+108: # Linux driver core C files (PCIe-only transport; compiled with compat headers)
+109: DRIVER_SRCS := \
+110:     $(LINUX_SRC)/main.c \
+111:     $(LINUX_SRC)/mac.c \
+112:     $(LINUX_SRC)/phy.c \
+...
+125:     $(LINUX_SRC)/mac80211.c
+126: 
+127: # Chip-specific C files (PCIe chip cores + PCIe frontends only)
+128: CHIP_SRCS := \
+129:     $(LINUX_SRC)/rtw8822b.c \
+130:     $(LINUX_SRC)/rtw8822b_table.c \
+131:     $(LINUX_SRC)/rtw8822be.c \
+...
+137:     $(LINUX_SRC)/rtw8821ce.c
+138: 
+139: # Compat C implementation
+140: COMPAT_SRCS := \
+141:     $(COMPAT_DIR)/rtw88_thread_call.c \
+142:     $(COMPAT_DIR)/rtw88_compat.c
+143: 
+144: # Firmware loader — compiled with system headers only (no Linux compat headers)
+145: # fw_blobs.c is auto-generated from firmware/*.bin before compilation
+146: FIRMWARE_SRCS := \
+147:     $(COMPAT_DIR)/rtw88_firmware.c \
+148:     $(COMPAT_DIR)/fw_blobs.c
+149: 
+150: FW_BLOBS_C := $(COMPAT_DIR)/fw_blobs.c
+151: 
+152: # kmod_info.c — defines _kmod_info (required by kmutil/kextutil)
+153: KMOD_SRCS := \
+154:     $(KEXT_SRC)/kmod_info.c
+155: 
+156: # IOKit C++ wrapper
+157: # PCIe-only project: USB/SDIO device wrappers and transport backends are intentionally excluded
+158: KEXT_SRCS := \
+159:     $(KEXT_SRC)/RTW88Kext.cpp \
+160:     $(KEXT_SRC)/RTW88PCIDevice.cpp \
+161:     $(KEXT_SRC)/RTW88UserClient.cpp \
+...
+165: # Object files                                                         #
+166: # ------------------------------------------------------------------ #
+167: 
+168: DRIVER_OBJS   := $(patsubst $(LINUX_SRC)/%.c,  $(BUILD_DIR)/driver/%.o, $(DRIVER_SRCS))
+169: CHIP_OBJS     := $(patsubst $(LINUX_SRC)/%.c,  $(BUILD_DIR)/driver/%.o, $(CHIP_SRCS))
+170: COMPAT_OBJS   := $(patsubst $(COMPAT_DIR)/%.c, $(BUILD_DIR)/compat/%.o, $(COMPAT_SRCS))
+171: FIRMWARE_OBJS := $(patsubst $(COMPAT_DIR)/%.c, $(BUILD_DIR)/compat/%.o, $(FIRMWARE_SRCS))
+172: KMOD_OBJS   := $(patsubst $(KEXT_SRC)/%.c,   $(BUILD_DIR)/kext/%.o,   $(KMOD_SRCS))
+173: KEXT_OBJS   := $(patsubst $(KEXT_SRC)/%.cpp, $(BUILD_DIR)/kext/%.o,   $(KEXT_SRCS))
+174: 
+175: ALL_OBJS    := $(DRIVER_OBJS) $(CHIP_OBJS) $(COMPAT_OBJS) $(FIRMWARE_OBJS) $(KMOD_OBJS) $(KEXT_OBJS)
+176: 
+177: # ------------------------------------------------------------------ #
+178: # Linker flags                                                         #
+179: # ------------------------------------------------------------------ #
+180: 
+181: KEXT_LDFLAGS := \
+182:     $(ARCH) \
+183:     -static \
+184:     -nostdlib \
+...
+198: kext: $(OUT_KEXT_BIN)
+199: 
+200: # Link, then assemble the full kext bundle in build/out/
+201: $(OUT_KEXT_BIN): $(ALL_OBJS) | $(OUT_KEXT)/Contents/MacOS
+202: 	@echo "  LD   $(notdir $@)"
+203: 	$(LD) $(KEXT_LDFLAGS) -o $@ $(ALL_OBJS)
+204: 	@echo "  SYNC $(OUT_KEXT)"
+205: 	rsync -a --exclude='MacOS' $(KEXT_SKEL)/ $(OUT_KEXT)/
+206: 	@echo "  NOTE  run 'sudo chown -R root:wheel $(OUT_KEXT)' for kextutil"
+...
+322: #   The kext loads via OpenCore injection before the OS, so it works
+323: #   in BaseSystem automatically.  rtw88ctl is a standalone binary;
+324: #   copy it to the USB installer's /usr/local/bin or run from a path.
+325: # RTL88WiFi native IO80211 target. Its controller and interface sources
+326: # live in src/kext/:
+327: #   RTL88WiFi.hpp  RTL88WiFi.cpp
+328: #   RTL88WiFiInterface.hpp  RTL88WiFiInterface.cpp
+329: 
+330: AIRPORT_KEXT_SKEL := $(PROJ_ROOT)/RTL88WiFi.kext
+331: AIRPORT_OUT_KEXT  := $(OUT_DIR)/RTL88WiFi.kext
+332: AIRPORT_OUT_BIN   := $(AIRPORT_OUT_KEXT)/Contents/MacOS/RTL88WiFi
+333: 
+334: AIRPORT_KEXT_SRCS := \
+335:     $(KEXT_SRC)/RTW88IEEE80211.cpp \
+336:     $(KEXT_SRC)/RTW88HwOps.cpp \
+337:     $(KEXT_SRC)/RTL88WiFi.cpp \
+338:     $(KEXT_SRC)/RTL88WiFiAWDL.cpp \
+339:     $(KEXT_SRC)/RTW88AWDLManager.cpp \
+340:     $(KEXT_SRC)/RTL88WiFiInterface.cpp \
+341:     $(KEXT_SRC)/RTW88WCLRadioBridge.cpp \
+342:     $(KEXT_SRC)/RTW88WCLWorkQueue.cpp
+343: 
+344: AIRPORT_KEXT_OBJS := $(patsubst $(KEXT_SRC)/%.cpp, $(BUILD_DIR)/airport/%.o, $(AIRPORT_KEXT_SRCS))
+345: 
+346: # Compile-only Sequoia 24H32 controller ABI slice. This object is deliberately
+347: # NOT linked into the legacy/bridge Kext: its IO80211Controller declaration has
+348: # a different vtable ABI from the legacy header used by the active target.
+349: WCL24H32_CONTROLLER_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLController.cpp
+350: WCL24H32_CONTROLLER_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLController.o
+351: WCL24H32_INFRA_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLInfraInterface.cpp
+352: WCL24H32_INFRA_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLInfraInterface.o
+353: WCL24H32_PCI_BACKEND_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLPCIBackend.cpp
+354: WCL24H32_PCI_BACKEND_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLPCIBackend.o
+355: WCL24H32_SKYWALK_QUEUES_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkQueues.cpp
+356: WCL24H32_SKYWALK_QUEUES_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLSkywalkQueues.o
+357: WCL24H32_TX_ADAPTER_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkTxAdapter.cpp
+358: WCL24H32_TX_ADAPTER_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLSkywalkTxAdapter.o
+359: WCL24H32_RX_ADAPTER_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkRxAdapter.cpp
+360: WCL24H32_RX_ADAPTER_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLSkywalkRxAdapter.o
+361: WCL24H32_CXXFLAGS := $(KEXT_CXXFLAGS) -D__IO80211_TARGET=__MAC_15_2 -I$(KEXT_SRC)/wcl24h32
+362: 
+363: AIRPORT_KMOD_OBJ := $(BUILD_DIR)/airport/kmod_info.o
+364: 
+365: AIRPORT_ALL_OBJS := $(DRIVER_OBJS) $(CHIP_OBJS) $(COMPAT_OBJS) $(FIRMWARE_OBJS) $(AIRPORT_KMOD_OBJ) $(AIRPORT_KEXT_OBJS)
+366: 
+367: AIRPORT_LDFLAGS := \
+368:     $(ARCH) -static -nostdlib -Xlinker -kext \
+369:     $(MKSDK)/Library/x86_64/libkmod.a \
+370:     -Xlinker -undefined -Xlinker dynamic_lookup
+371: 
+372: .PHONY: rtl88wifi rtl88wifi-wcl-controller-abi-check wcl-abi-audit-24h32
+373: rtl88wifi: $(AIRPORT_OUT_BIN) rtl88wifi-wcl-controller-abi-check
+374: 
+375: # Emit complete 24H32 registration/deregistration function bodies and their
+376: # Apple call paths directly to stdout. The user can append this report to the
+377: # one project-root output.log after the normal build for focused ABI review.
+378: ABI_ARCHIVE ?= $(HOME)/Downloads/RTL88WiFi-Sequoia-24H32-kcabi.tar.gz
+379: wcl-abi-audit-24h32:
+380: 	@test -r "$(ABI_ARCHIVE)" || { echo "ERROR: ABI archive not readable: $(ABI_ARCHIVE)"; exit 2; }
+381: 	@echo "  WCL-ABI AUDIT  Sequoia 24H32 registration and call paths"
+382: 	python3 $(PROJ_ROOT)/../../tools/audit-skywalk-registration-24H32.py "$(ABI_ARCHIVE)" --full-registration-asm --stdout
+383: 
+384: # Compile the native Sequoia 24H32 controller/interface and ABI-neutral PCI
+385: # owner independently. All objects stay out of AIRPORT_ALL_OBJS: the active
+386: # Kext still includes the legacy IO80211Controller declaration and must not
+387: # mix the incompatible ABI. The controller now owns the PCI backend and RTW88
+388: # state-machine object in a staged, fail-closed lifecycle.
+389: rtl88wifi-wcl-controller-abi-check: $(WCL24H32_CONTROLLER_OBJ) $(WCL24H32_INFRA_OBJ) $(WCL24H32_PCI_BACKEND_OBJ) $(WCL24H32_SKYWALK_QUEUES_OBJ) $(WCL24H32_TX_ADAPTER_OBJ) $(WCL24H32_RX_ADAPTER_OBJ)
+390: 
+391: $(WCL24H32_CONTROLLER_OBJ): $(WCL24H32_CONTROLLER_SRC) \
+392:     $(KEXT_SRC)/wcl24h32/RTW88WCLController.hpp \
+393:     $(KEXT_SRC)/wcl24h32/RTW88WCL24H32InterfaceABI.hpp \
+394:     $(KEXT_SRC)/wcl24h32/RTW88WCLPCIBackend.hpp \
+395:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkQueues.hpp \
+396:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkRxAdapter.hpp \
+397:     $(KEXT_SRC)/wcl24h32/RTW88WCLMbufRing.hpp \
+398:     $(KEXT_SRC)/wcl24h32/RTW88WCL24H32ABI.hpp \
+399:     $(KEXT_SRC)/RTW88IEEE80211.hpp \
+400:     | $(BUILD_DIR)/wcl24h32
+401: 	@echo "  WCL-ABI CXX  RTW88WCLController.cpp (24H32, bounded RX packet owner; compile-only)"
+402: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+403: 
+404: $(WCL24H32_INFRA_OBJ): $(WCL24H32_INFRA_SRC) \
+405:     $(KEXT_SRC)/wcl24h32/RTW88WCLInfraInterface.hpp \
+406:     $(KEXT_SRC)/wcl24h32/RTW88WCLRegistrationInfo.hpp \
+407:     $(KEXT_SRC)/wcl24h32/RTW88WCLRequestDecoder.hpp \
+408:     $(KEXT_SRC)/wcl24h32/RTW88WCL24H32InterfaceABI.hpp \
+409:     $(KEXT_SRC)/wcl24h32/RTW88WCLController.hpp \
+410:     $(KEXT_SRC)/RTW88WCLRadioBridge.hpp \
+411:     $(KEXT_SRC)/RTW88WCLWorkQueue.hpp \
+412:     | $(BUILD_DIR)/wcl24h32
+413: 	@echo "  WCL-ABI CXX  RTW88WCLInfraInterface.cpp (24H32, compile-only)"
+414: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+415: 
+416: $(WCL24H32_PCI_BACKEND_OBJ): $(WCL24H32_PCI_BACKEND_SRC) \
+417:     $(KEXT_SRC)/wcl24h32/RTW88WCLPCIBackend.hpp \
+418:     $(KEXT_SRC)/RTW88IEEE80211.hpp \
+419:     $(KEXT_SRC)/../compat/rtw88_compat.h \
+420:     | $(BUILD_DIR)/wcl24h32
+421: 	@echo "  WCL-ABI CXX  RTW88WCLPCIBackend.cpp (ABI-neutral, compile-only)"
+422: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+423: 
+424: $(WCL24H32_SKYWALK_QUEUES_OBJ): $(WCL24H32_SKYWALK_QUEUES_SRC) \
+425:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkQueues.hpp \
+426:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketView.hpp \
+427:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketSpanValidation.hpp \
+428:     $(MKSDK)/Headers/IOKit/skywalk/IOSkywalkFamily.h \
+429:     | $(BUILD_DIR)/wcl24h32
+430: 	@echo "  WCL-ABI CXX  RTW88WCLSkywalkQueues.cpp (24H32, unregistered queues)"
+431: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+432: 
+433: $(WCL24H32_TX_ADAPTER_OBJ): $(WCL24H32_TX_ADAPTER_SRC) \
+434:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkTxAdapter.hpp \
+435:     $(KEXT_SRC)/wcl24h32/RTW88WCLTxCompletionSlots.hpp \
+436:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketView.hpp \
+437:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketSpanValidation.hpp \
+438:     $(KEXT_SRC)/RTW88IEEE80211.hpp \
+439:     | $(BUILD_DIR)/wcl24h32
+440: 	@echo "  WCL-ABI CXX  RTW88WCLSkywalkTxAdapter.cpp (24H32, mbuf copy + deferred completion; compile-only)"
+441: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+442: 
+443: 
+444: $(WCL24H32_RX_ADAPTER_OBJ): $(WCL24H32_RX_ADAPTER_SRC) \
+445:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkRxAdapter.hpp \
+446:     $(KEXT_SRC)/wcl24h32/RTW88WCLMbufRing.hpp \
+447:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketSpanValidation.hpp \
+448:     $(MKSDK)/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h \
+449:     $(MKSDK)/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h \
+450:     | $(BUILD_DIR)/wcl24h32
+451: 	@echo "  WCL-ABI CXX  RTW88WCLSkywalkRxAdapter.cpp (24H32, pool-backed RX conversion; compile-only)"
+452: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+453: 
+454: $(BUILD_DIR)/wcl24h32:
+455: 	mkdir -p $@
+456: 
+457: $(AIRPORT_OUT_BIN): $(AIRPORT_ALL_OBJS) $(AIRPORT_KEXT_SKEL)/Contents/Info.plist | $(AIRPORT_OUT_KEXT)/Contents/MacOS
+458: 	@echo "  LD   $(notdir $@)"
+459: 	$(LD) $(AIRPORT_LDFLAGS) -o $@ $(AIRPORT_ALL_OBJS)
+460: 	@echo "  SYNC $(AIRPORT_OUT_KEXT)"
+461: 	rsync -a --exclude='MacOS' $(AIRPORT_KEXT_SKEL)/ $(AIRPORT_OUT_KEXT)/
+462: 	@echo "  OK   build/out/RTL88WiFi.kext"
+463: 
+464: $(BUILD_DIR)/airport/%.o: $(KEXT_SRC)/%.cpp | $(BUILD_DIR)/airport
+465: 	@echo "  CXX  $(notdir $<)"
+...
+475: $(AIRPORT_OUT_KEXT)/Contents/MacOS:
+476: 	mkdir -p $@
+477: 
+478: # Rebuild objects when one of their headers changes.
+479: DEPFILES = $(ALL_OBJS:.o=.d) $(AIRPORT_KEXT_OBJS:.o=.d) $(AIRPORT_KMOD_OBJ:.o=.d) \
+480:            $(WCL24H32_CONTROLLER_OBJ:.o=.d) $(WCL24H32_INFRA_OBJ:.o=.d) \
+481:            $(WCL24H32_PCI_BACKEND_OBJ:.o=.d) $(WCL24H32_SKYWALK_QUEUES_OBJ:.o=.d) \
+482:            $(WCL24H32_TX_ADAPTER_OBJ:.o=.d) $(WCL24H32_RX_ADAPTER_OBJ:.o=.d)
+483: -include $(DEPFILES)
+484: 
+485: # Compiler flags and ABI macros in this file affect every object.
+486: $(ALL_OBJS) $(AIRPORT_ALL_OBJS): Makefile
+COMPILE_TO_LINK_MAP:
+DRYRUN_SOURCE: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage27d-link-integration-audit-20261102-024227/make-forced-dry-run.txt
+SOURCE_TO_OBJECT_COMPILE_RULES:
+  RTW88WCLController.cpp -> /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLController.o (line 90)
+  RTW88WCLPCIBackend.cpp -> /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLPCIBackend.o (line 94)
+  RTW88WCLSkywalkQueues.cpp -> /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkQueues.o (line 96)
+FINAL_KEXT_LINK:
+  line 84: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi
+  NOT LINKED: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLController.o
+  NOT LINKED: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLPCIBackend.o
+  NOT LINKED: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkQueues.o
+  OBJECT_INPUTS:
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/main.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/mac.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/phy.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/fw.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/tx.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rx.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/sec.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/efuse.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/coex.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/ps.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/regd.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/bf.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/sar.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/util.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/pci.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/mac80211.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822b.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822b_table.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822be.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822c.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822c_table.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822ce.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8821c.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8821c_table.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8821ce.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/rtw88_thread_call.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/rtw88_compat.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/rtw88_firmware.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/fw_blobs.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/kmod_info.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88IEEE80211.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88HwOps.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTL88WiFi.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTL88WiFiAWDL.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88AWDLManager.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTL88WiFiInterface.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88WCLRadioBridge.o
+    /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88WCLWorkQueue.o
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+SOURCE_FILES_MODIFIED: NONE
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+QUEUE_REGISTRATION: STILL DISABLED
