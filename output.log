@@ -12,7 +12,7 @@ The Stage21 output's BLOCKED status was a runner classification bug: it searched
 
 STAGE 22 — PATCH RUNNER PREPARED, NOT YET EXECUTED
 File: stage22-callback-count-contract-patch.sh
-Commit: 53c52ed420b5aa6ccb81d3fc5d4d34fbd241b093
+Commit: db66e8367071531ea1519a168ba3aea3aa4cd4f4 (latest Stage22 runner update)
 URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage22-callback-count-contract-patch.sh
 Command:
 curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage22-callback-count-contract-patch.sh | /bin/bash
