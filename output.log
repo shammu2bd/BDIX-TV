@@ -1,17 +1,13 @@
-Stage 19 SDK callback-contract investigation
-SDKROOT=/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk
-SDK_HEADER_NOT_FOUND: IOSkywalkTxSubmissionQueue.h
-SDK_HEADER_NOT_FOUND: IOSkywalkTxCompletionQueue.h
-SDK_HEADER_NOT_FOUND: IOSkywalkRxSubmissionQueue.h
-SDK_HEADER_NOT_FOUND: IOSkywalkRxCompletionQueue.h
-SDK_HEADER_NOT_FOUND: IOSkywalkPacketQueue.h
-SDK_HEADER_NOT_FOUND: IOSkywalkPacketBufferPool.h
-SDK_HEADER_NOT_FOUND: IOSkywalkPacket.h
-SOURCE_FOUND: RTW88WCLSkywalkQueues.cpp
-SOURCE_CALLBACK_RETURN_TYPE: IOReturn (all four callbacks)
-SOURCE_CALLBACK_ARGUMENTS: currently declared as five arguments (all four callbacks)
-SOURCE_TX_SUBMISSION_FAIL_CLOSED: kIOReturnBadArgument / kIOReturnNotReady
-SOURCE_OTHER_CALLBACKS_FAIL_CLOSED: kIOReturnNotReady
-QUEUE_REGISTRATION: not performed
-STAGE19_STATUS: BLOCKED — locate private Skywalk callback declarations before changing prototypes
-NEXT_ACTION: search project, kcabi, Kernel.framework headers, and installed KDKs for IOSkywalk declarations
+RTL88WiFi Stage 20 — Private Skywalk callback ABI discovery
+STATUS: IMPLEMENTED_NOT_YET_RUN
+SCRIPT: stage20-private-skywalk-abi-discovery.sh
+SCRIPT_COMMIT: d8c42eeb574763f25d8fae816aa0205542c48bfe
+SCRIPT_URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage20-private-skywalk-abi-discovery.sh
+PURPOSE: Search installed KDKs, Kernel.framework locations, macOS SDK framework paths, project headers, and ~/src/kcabi for private IOSkywalk callback typedefs and queue factory declarations.
+OUTPUT: project root output.log
+UPLOAD: script uses authenticated GitHub CLI (gh) to update this repository output.log when available; otherwise leaves output.log for the existing uploader.
+RUN:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage20-private-skywalk-abi-discovery.sh | /bin/bash
+PRIOR_STAGE19_FINDING: Xcode 16.4 macOS 15.5 SDK lookup did not locate the seven requested IOSkywalk headers.
+SAFETY: no source files or callback prototypes modified; no queues registered; datapath remains blocked pending exact ABI declaration and lifecycle verification.
+NEXT: run Stage 20 on the Hackintosh and inspect the resulting GitHub output.log.
