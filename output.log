@@ -1,93 +1,14 @@
-Stage 17 method inventory:
-  IOSkywalkPacketQueue: 1 exact method symbols
-  IOSkywalkPacketBufferPool: 1 exact method symbols
-  IOSkywalkMemorySegment: 1 exact method symbols
-  IOSkywalkPacketBuffer: 1 exact method symbols
-  IOSkywalkPacket: 1 exact method symbols
-  IOSkywalkNetworkPacket: 1 exact method symbols
-  IOSkywalkRxSubmissionQueue: 1 exact method symbols
-  IOSkywalkRxCompletionQueue: 1 exact method symbols
-  IOSkywalkTxSubmissionQueue: 1 exact method symbols
-  IOSkywalkTxCompletionQueue: 1 exact method symbols
-  IOSkywalkInterface: 1 exact method symbols
-  IOSkywalkNetworkInterface: 1 exact method symbols
-  IOSkywalkEthernetInterface: 1 exact method symbols
-Stage 17 target method symbols: 13
-Stage 17 combined reference symbols: 14
-Stage 14 kernel collection SHA-256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-Stage 17 status: PASS
-STAGE17_METHODS: IOSkywalkPacketQueue 1/2 disassembled
-STAGE17_METHODS: IOSkywalkPacketBufferPool 1/2 disassembled
-STAGE17_METHODS: IOSkywalkMemorySegment 1/2 disassembled
-STAGE17_METHODS: IOSkywalkPacketBuffer 1/2 disassembled
-STAGE17_METHODS: IOSkywalkPacket 1/2 disassembled
-STAGE17_METHODS: IOSkywalkNetworkPacket 1/2 disassembled
-STAGE17_METHODS: IOSkywalkRxSubmissionQueue 1/2 disassembled
-STAGE17_METHODS: IOSkywalkRxCompletionQueue 1/2 disassembled
-STAGE17_METHODS: IOSkywalkTxSubmissionQueue 1/2 disassembled
-STAGE17_METHODS: IOSkywalkTxCompletionQueue 1/2 disassembled
-STAGE17_METHODS: IOSkywalkInterface 1/2 disassembled
-STAGE17_METHODS: IOSkywalkNetworkInterface 1/2 disassembled
-STAGE17_METHODS: IOSkywalkEthernetInterface 1/2 disassembled
-Stage 17 source ownership checks: 19/19
-Stage 17 executable method bodies: 13/13
-Stage 17 non-code class symbols excluded from body coverage: 13
-DATAPATH_ACTIVATION: BLOCKED
-PASS: Stage 17 synthetic method manifest (13 classes)
-PASS: Stage 17 source ownership fences (19/19)
-PASS: Stage 17 archive SHA linkage and full report builder
-PASS: Stage 17 kcabi class-list and executable-method patch is idempotent
-PASS: Stage 17 separates executable methods from non-code class symbols
-PASS: Stage 17 target manifest excludes upstream AppleBCMWLAN classes
-Target: macOS 15.8.1 (24H32), x86_64
-Kernel collection: /System/Library/KernelCollections/BootKernelExtensions.kc
-Stage 14 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage14/RTL88WiFi-Sequoia-24H32-stage14-generic-skywalk-segment-packet-kcabi.tar.gz
-Stage 15 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage15/RTL88WiFi-Sequoia-24H32-stage15-packet-accessor-audit.tar.gz
-Stage 16 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage16/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
-Stage 17 method inventory:
-  IOSkywalkPacketQueue: 61 exact method symbols
-  IOSkywalkPacketBufferPool: 65 exact method symbols
-  IOSkywalkMemorySegment: 22 exact method symbols
-  IOSkywalkPacketBuffer: 41 exact method symbols
-  IOSkywalkPacket: 50 exact method symbols
-  IOSkywalkNetworkPacket: 60 exact method symbols
-  IOSkywalkRxSubmissionQueue: 44 exact method symbols
-  IOSkywalkRxCompletionQueue: 43 exact method symbols
-  IOSkywalkTxSubmissionQueue: 55 exact method symbols
-  IOSkywalkTxCompletionQueue: 39 exact method symbols
-  IOSkywalkInterface: 32 exact method symbols
-  IOSkywalkNetworkInterface: 103 exact method symbols
-  IOSkywalkEthernetInterface: 61 exact method symbols
-Stage 17 target method symbols: 676
-Stage 17 combined reference symbols: 1054
-Stage 14 kernel collection SHA-256: cd013c14a7f21dbb8181fb06c44e079de8646b6a674abe21f6e47f42e8979af3
-Stage 17 kcabi patch: updated temporary dump.py
-Verified classes: IOSkywalkPacketQueue, IOSkywalkPacketBufferPool, IOSkywalkMemorySegment, IOSkywalkPacketBuffer, IOSkywalkPacket, IOSkywalkNetworkPacket, IOSkywalkRxSubmissionQueue, IOSkywalkRxCompletionQueue, IOSkywalkTxSubmissionQueue, IOSkywalkTxCompletionQueue, IOSkywalkInterface, IOSkywalkNetworkInterface, IOSkywalkEthernetInterface
-Verified: Stage 17 executable-method manifest contains only the 13 target classes
-WTLKcAbi checkout: /Users/shohel/src/kcabi (cea28a5297633118177cee6a75e86d8bc57f1960)
-
-Collecting 24H32 packet, buffer, memory-segment, RX/TX queue and interface lifecycle bodies.
-wrote /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-211531/24H32: 49 vtables, 325 sizes, 1080 functions, 0 missing
-Stage 17 status: PASS
-STAGE17_METHODS: IOSkywalkPacketQueue 64/67 disassembled
-STAGE17_METHODS: IOSkywalkPacketBufferPool 71/74 disassembled
-STAGE17_METHODS: IOSkywalkMemorySegment 28/31 disassembled
-STAGE17_METHODS: IOSkywalkPacketBuffer 47/50 disassembled
-STAGE17_METHODS: IOSkywalkPacket 56/59 disassembled
-STAGE17_METHODS: IOSkywalkNetworkPacket 66/69 disassembled
-STAGE17_METHODS: IOSkywalkRxSubmissionQueue 50/53 disassembled
-STAGE17_METHODS: IOSkywalkRxCompletionQueue 49/52 disassembled
-STAGE17_METHODS: IOSkywalkTxSubmissionQueue 61/64 disassembled
-STAGE17_METHODS: IOSkywalkTxCompletionQueue 45/48 disassembled
-STAGE17_METHODS: IOSkywalkInterface 35/38 disassembled
-STAGE17_METHODS: IOSkywalkNetworkInterface 106/109 disassembled
-STAGE17_METHODS: IOSkywalkEthernetInterface 65/68 disassembled
-Stage 17 source ownership checks: 19/19
-Stage 17 executable method bodies: 743/743
-Stage 17 non-code class symbols excluded from body coverage: 39
-DATAPATH_ACTIVATION: BLOCKED
-Stage 17 archive: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-211531/RTL88WiFi-Sequoia-24H32-stage17-rx-queue-ownership-kcabi.tar.gz
-Stage 17 archive SHA-256: 24f5b5869fae1e3ad7e9a23c26f99d53e085ca36bfe9c63644ff293dce281239
-Stage 17 read-only queue/ownership evidence audit: PASS
-DATAPATH_ACTIVATION: BLOCKED pending manual ownership-contract review
-UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage17-rx-queue-ownership-kcabi.tar.gz
+PASS: Stage 18 validates Stage 14–17 archive SHA linkage
+PASS: Stage 18 verifies complete Stage 17 method-body inventory
+PASS: Stage 18 creates six read-only ownership contract dossiers
+PASS: Stage 18 includes exact method bodies and numbered source snippets
+PASS: Stage 18 keeps all ownership contracts unresolved and datapath blocked
+usage: build-stage18-ownership-review.py [-h]
+                                         --stage14-archive STAGE14_ARCHIVE
+                                         --stage15-archive STAGE15_ARCHIVE
+                                         --stage16-archive STAGE16_ARCHIVE
+                                         --stage17-archive STAGE17_ARCHIVE
+                                         [--project-root PROJECT_ROOT]
+                                         --out OUT
+build-stage18-ownership-review.py: error: Stage 17 method body coverage is incomplete
+UPLOAD_STATUS: NO_NEW_ARCHIVE — searched /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build
