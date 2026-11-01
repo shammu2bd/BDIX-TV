@@ -123,3 +123,10 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 If the report lists one or more unmounted EFI partitions, it will print an exact `sudo diskutil mount diskXs1` command for each. Do not guess which EFI to mount: identify the partition used to start OpenCore before mounting. After the correct EFI is mounted, rerun Stage29i so its `config.plist` can be audited. No replacement config is generated until the existing OpenCore config and test-boot strategy are reviewed.
+
+
+## Stage20 — 24H32 queue contract review ledger
+
+The Stage20 review is a static correlation of the previously collected Stage14–17 target ABI evidence with the Stage18/19 ownership dossier. It records verified sub-facts and keeps the six activation contracts blocked where ownership or teardown is still unresolved.
+
+See [STAGE20-24H32-queue-contract-review.md](./STAGE20-24H32-queue-contract-review.md). This review does not alter driver source, register queues, enable callbacks, start the radio, install/load a kext, or change OpenCore. Do not treat any partial finding as permission to activate the datapath.
