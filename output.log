@@ -1,12 +1,41 @@
-RTL88WiFi Stage 23 — compile-only validation
-DATE: 2026-11-02 01:43:18 +06
-HOST: 15.8.1 / 24H32
-ARCH: x86_64
+RTL88WiFi — Stage23 preflight bug diagnosed; corrected runner ready
+DATE: 2026-11-02
+TARGET: macOS Sequoia 15.8.1 (24H32), x86_64
 PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
-DRIVER: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi
-STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage23-compile-only-20261102-014318
 
-PREFLIGHT: FAIL
-PASS: four callbacks found; seven zero-count fail-closed returns; no error-style returns
+STAGE22 — VERIFIED
+Four Skywalk action callbacks retain their SDK-matching IOReturn signatures. Seven fail-closed returns now return zero packet count. Backup and unified patch were saved by the user's Stage22 run.
+
+STAGE23 FIRST ATTEMPT — STOPPED BEFORE BUILD
+The source guard itself printed PASS: four callback bodies; seven zero-count returns; no error-style returns.
+The runner's shell condition was inverted: it entered the preflight failure branch when the Python source check exited successfully. As a result:
 BUILD: NOT RUN
-KEXT_INSTALL_OR_LOAD: NOT ATTEMPTED
+DRY_RUN: NOT RUN
+INSTALL_OR_LOAD: NOT ATTEMPTED
+This is a runner defect, not a C++ compiler failure. No build failure is indicated.
+
+CORRECTED STAGE23 RUNNER — READY
+File: stage23-compile-only-validation-fixed.sh
+Commit: 4a2b4170955dfc9898439e7c4e71f6304e485427
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage23-compile-only-validation-fixed.sh
+Command:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage23-compile-only-validation-fixed.sh | /bin/bash
+
+The corrected runner uses the negated source-check condition correctly. It will:
+1. Re-check four callback bodies and exactly seven zero-count returns.
+2. Run make -B -n -j1 rtl88wifi.
+3. Refuse to compile if that build target does not include RTW88WCLSkywalkQueues.cpp.
+4. If the source is included, compile with make -j<logical CPU count> rtl88wifi.
+5. Save the full build log under project/build/stage23-compile-only-fixed-* and update this output.log.
+6. Never install or load the kext.
+
+RUNNER STATIC CHECKS
+{"correctedNegatedGuard":true,"failsafeMakeDryRun":true,"buildOnlyAfterSourceIncluded":true,"compileTarget":true,"noInstall":true,"noLoad":true,"reportUpload":true}
+
+SAFETY
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_LIFECYCLE_AND_TEARDOWN_REVIEW
+INSTALL_OR_LOAD: NOT ATTEMPTED
+BUILD: PENDING CORRECTED STAGE23 RUN
+
+Next: run the corrected command, then inspect output.log. If compile succeeds, perform binary inspection and complete teardown/lifecycle audit before any OpenCore test.
