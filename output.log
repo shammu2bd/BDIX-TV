@@ -58,3 +58,24 @@ INSTALL: NOT RUN.
 LOAD: NOT RUN.
 QUEUE_REGISTRATION: STILL DISABLED.
 DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE25_PATCH_AND_COMPILE_PLUS_REMAINING_ABI/DEPENDENCY_REVIEW.
+
+STAGE25 — FIRST RUN ABORTED SAFELY
+USER-RUN RESULT: ERROR: PCI enable failure block shape mismatch
+The Stage25 Python transform checks all expected source shapes before writing any modified C++ source. This guard failed before the three source write_text() calls, so Stage25 source changes were NOT applied. The runner may have created a timestamped backup directory, but did not reach its output.log writer or GitHub upload block.
+Cause: the actual PCI-enable failure branch did not contain exactly one literal "return kIOReturnNotReady;" as assumed by the runner. No source modification will be made by weakening this guard.
+
+STAGE25 DIAGNOSTIC RUNNER
+File: stage25-pci-enable-source-diagnostic.sh
+Commit: 7b5690e61bfadb4a54cc9d5e32a9d4a51a629a9b
+Blob SHA: 5068dc2707d001c3d04689f77e20f09bebf4af36
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage25-pci-enable-source-diagnostic.sh
+Run:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage25-pci-enable-source-diagnostic.sh | /bin/bash
+
+This diagnostic captures the actual RTW88WCLPCIBackend::setRadioRunning() method and exact PCI-enable failure branch, including line numbers and source SHA-256, into this output.log. It does not edit source, build, install, load, or enable queue registration.
+NEXT: inspect the captured actual branch, then prepare a source-shape-corrected Stage25 patch.
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED
