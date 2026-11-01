@@ -1,18 +1,17 @@
-PASS: Stage 18 validates Stage 14–17 archive SHA linkage
-PASS: Stage 18 accepts 13 executable bodies plus 1 explicitly excluded non-code symbol
-PASS: Stage 18 rejects incomplete per-class executable method accounting
-PASS: Stage 18 creates six read-only ownership contract dossiers
-PASS: Stage 18 includes exact method bodies and numbered source snippets
-PASS: Stage 18 keeps all ownership contracts unresolved and datapath blocked
-Stage 18 status: READY_FOR_MANUAL_REVIEW
-STAGE18_CONTRACT: rx_completion_enqueue candidates=255 status=MANUAL_REVIEW_REQUIRED
-STAGE18_CONTRACT: rx_submission_replenish candidates=283 status=MANUAL_REVIEW_REQUIRED
-STAGE18_CONTRACT: tx_completion_acceptance candidates=275 status=MANUAL_REVIEW_REQUIRED
-STAGE18_CONTRACT: pool_buffer_segment_prepare_complete candidates=202 status=MANUAL_REVIEW_REQUIRED
-STAGE18_CONTRACT: ethernet_registration_lifecycle candidates=206 status=MANUAL_REVIEW_REQUIRED
-STAGE18_CONTRACT: queue_enable_synchronize_teardown candidates=306 status=MANUAL_REVIEW_REQUIRED
-Stage 18 evidence method bodies: 743
-DATAPATH_ACTIVATION: BLOCKED pending manual contract sign-off
-a839712e1bc7595b5e502c9ab38e3a3a23fd7080f0f487cd11abe2978ba96139  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/RTL88WiFi-Sequoia-24H32-stage18-ownership-contract-review.tar.gz
-Stage 18 evidence dossier created. Manual contract sign-off remains required.
-UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage18-ownership-contract-review.tar.gz
+Stage 19 SDK callback-contract investigation
+SDKROOT=/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk
+SDK_HEADER_NOT_FOUND: IOSkywalkTxSubmissionQueue.h
+SDK_HEADER_NOT_FOUND: IOSkywalkTxCompletionQueue.h
+SDK_HEADER_NOT_FOUND: IOSkywalkRxSubmissionQueue.h
+SDK_HEADER_NOT_FOUND: IOSkywalkRxCompletionQueue.h
+SDK_HEADER_NOT_FOUND: IOSkywalkPacketQueue.h
+SDK_HEADER_NOT_FOUND: IOSkywalkPacketBufferPool.h
+SDK_HEADER_NOT_FOUND: IOSkywalkPacket.h
+SOURCE_FOUND: RTW88WCLSkywalkQueues.cpp
+SOURCE_CALLBACK_RETURN_TYPE: IOReturn (all four callbacks)
+SOURCE_CALLBACK_ARGUMENTS: currently declared as five arguments (all four callbacks)
+SOURCE_TX_SUBMISSION_FAIL_CLOSED: kIOReturnBadArgument / kIOReturnNotReady
+SOURCE_OTHER_CALLBACKS_FAIL_CLOSED: kIOReturnNotReady
+QUEUE_REGISTRATION: not performed
+STAGE19_STATUS: BLOCKED — locate private Skywalk callback declarations before changing prototypes
+NEXT_ACTION: search project, kcabi, Kernel.framework headers, and installed KDKs for IOSkywalk declarations
