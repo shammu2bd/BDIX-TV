@@ -115,11 +115,10 @@ echo "GITHUB_REPORT_BLOB_SHA: $SHA"
 
 LOG="$PROJECT/output.log"
 API="repos/$REPO/contents/Development/output.log"
-gh api "$API" > "$STAGE/remote-log.json"
-python3 - "$STAGE/remote-log.json" "$LOG" "$SHA" "$BYTES" <<'PY'
-import base64,json,pathlib,sys
-d=json.loads(pathlib.Path(sys.argv[1]).read_text())
-old=base64.b64decode(d.get("content","")).decode("utf-8",errors="replace")
+curl -fsSL "https://raw.githubusercontent.com/$REPO/main/Development/output.log" -o "$STAGE/remote-output.log"
+python3 - "$STAGE/remote-output.log" "$LOG" "$SHA" "$BYTES" <<'PY'
+import pathlib,sys
+old=pathlib.Path(sys.argv[1]).read_text(encoding="utf-8",errors="replace")
 marker="========== STAGE24 RTW88 CALLBACK / DMA AUDIT =========="
 if marker in old:
  old=old[:old.index(marker)].rstrip()+"\n"
