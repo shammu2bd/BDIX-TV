@@ -28,7 +28,7 @@ Run:
 curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage23-compile-only-validation.sh | /bin/bash
 
 Stage23 actions:
-- Re-checks the seven zero-count returns and unchanged fail-closed callbacks.
+- Re-checks all four callback bodies for seven zero-count fail-closed returns and rejects remaining error-style returns. Stage22 separately verified the callback signatures were unchanged.
 - Queries the user's selected Xcode developer directory, clang, and macOS SDK.
 - Runs make -B -n rtl88wifi first and refuses to compile unless that target includes RTW88WCLSkywalkQueues.cpp.
 - If the source is in the target, runs make -j<CPU_COUNT> rtl88wifi.
