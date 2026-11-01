@@ -8,7 +8,7 @@ PROJECT_NAME="RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 fail() { echo "ERROR: $*" >&2; exit 2; }
 
 find_project() {
-    local candidate="\${PROJECT_DIR:-}"
+    local candidate="${PROJECT_DIR:-}"
     local found=""
 
     if [[ -n "$candidate" ]]; then
@@ -192,14 +192,27 @@ VERIFY_RC=0
     echo "KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED"
 } >> "$LOG" 2>&1
 
-# Upload using the form-field method already used successfully by Stage29a.
+# Upload a JSON payload from disk. Never pass the full base64 log as one
+# shell argument: large reports exceed macOS ARG_MAX.
 REMOTE_SHA="$(gh api "$API_PATH" --jq '.sha')"
-B64="$(base64 < "$LOG" | tr -d '\n')"
-[[ -n "$B64" ]] || fail "Encoded output.log is empty."
-gh api --method PUT "$API_PATH" \
-    -f message="Stage29c-v4 native target actual compile and link result" \
-    -f content="$B64" \
-    -f sha="$REMOTE_SHA" > "$UPLOAD_JSON"
+python3 - "$LOG" "$REMOTE_SHA" "$UPLOAD_JSON" <<'PY'
+import base64
+import json
+import pathlib
+import sys
+log_path, sha, payload_path = sys.argv[1:4]
+data = pathlib.Path(log_path).read_bytes()
+if len(data) < 100000:
+    raise SystemExit("Refusing to upload unexpectedly small output.log.")
+payload = {
+    "message": "Stage29c-v4 native target actual compile and link result",
+    "content": base64.b64encode(data).decode("ascii"),
+    "sha": sha,
+}
+pathlib.Path(payload_path).write_text(json.dumps(payload), encoding="utf-8")
+PY
+gh api --method PUT "$API_PATH" --input "$UPLOAD_JSON" > "$STAGE_DIR/github-upload-response.json"
+cp "$STAGE_DIR/github-upload-response.json" "$UPLOAD_JSON"
 
 PUT_SHA="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["content"]["sha"])' "$UPLOAD_JSON")"
 COMMIT_SHA="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["commit"]["sha"])' "$UPLOAD_JSON")"
