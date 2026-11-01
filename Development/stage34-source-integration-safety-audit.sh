@@ -21,12 +21,12 @@ root=Path(sys.argv[1]); out=Path(sys.argv[2])
 ext={".c",".cc",".cpp",".cxx",".h",".hpp",".hh"}
 skip={".git","build","DerivedData","SDK","Frameworks","Headers","PrivateHeaders","Pods","node_modules"}
 patterns={
-"OPS_TABLE":r"struct\\s+ieee80211_ops|const\\s+struct\\s+ieee80211_ops|ieee80211_ops",
-"TX_CALL_GRAPH":r"\\brtw_tx\\s*\\(|\\brtw_pci_tx_write_data\\s*\\(|txDataFrame\\s*\\(|outputPacketWithCompletion|txSubmissionAction",
+"OPS_TABLE":r"struct\s+ieee80211_ops|const\s+struct\s+ieee80211_ops|ieee80211_ops",
+"TX_CALL_GRAPH":r"\brtw_tx\s*\(|\brtw_pci_tx_write_data\s*\(|txDataFrame\s*\(|outputPacketWithCompletion|txSubmissionAction",
 "TX_TERMINAL":r"ieee80211_(tx_status|free_txskb)|dev_kfree_skb|kfree_skb|consume_skb|skb_queue_(purge|tail|head)|backendCompletion|completeTicket",
-"DMA_GLOBALS":r"rtw88_dma_ops|struct\\s+rtw88_dma_alloc_ops|_dma_ops",
+"DMA_GLOBALS":r"rtw88_dma_ops|struct\s+rtw88_dma_alloc_ops|_dma_ops",
 "DMA_IMPL":r"compat_dma_(alloc|free|map|unmap|sync)|syncBounceFor|dma_mapping_error|dma_set_mask_and_coherent",
-"DMA_ORDER":r"dma_sync_single_for_(cpu|device)|dma_wmb|wmb\\s*\\(|write_txbd|fill_tx|txbd|tx_desc|doorbell",
+"DMA_ORDER":r"dma_sync_single_for_(cpu|device)|dma_wmb|wmb\s*\(|write_txbd|fill_tx|txbd|tx_desc|doorbell",
 "IRQ":r"request_irq|request_threaded_irq|devm_request_threaded_irq|IOInterruptEventSource|g_irq_handler|g_irq_thread_fn|handleInterrupt",
 "IRQ_DRAIN":r"free_irq|devm_free_irq|synchronize_irq|disable_irq|cancel_work_sync|flush_work|tasklet_kill|napi_disable|napi_synchronize|removeEventSource",
 "SKYWALK_REGISTER":r"registerEthernetInterface|RegistrationInfo|set.*Queue|register.*queue|IOSkywalk.*Queue|txSubmissionAction",
