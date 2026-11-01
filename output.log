@@ -3248,3 +3248,183 @@ if ((command & 0x0006U) != 0x0006U)
 
 DIAGNOSTIC ONLY: no source files modified; no build/install/load performed.
 STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage25-pci-enable-diagnostic-20261102-020425
+
+
+RTL88WiFi Stage 25 — corrected shutdown fence and quarantine patch
+DATE: 2026-11-02 02:05:08 +06
+HOST: 15.8.1 / 24H32
+ARCH: x86_64
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage25-shutdown-fence-fixed-20261102-020508
+
+PASS: releaseNativeResources now returns IOReturn status
+PASS: quiesce, RX recycle, PCI fence, and backend close failures are propagated
+PASS: PCI bus-master fence moved after RTW88 radio stop and before RX adapter / Skywalk queue release
+PASS: controller free quarantines rather than releasing workloop/super when cleanup fails
+PASS: unbraced PCI enable failure is now explicitly braced and performs bus-master rollback/readback
+PASS: backend free verifies PCI bus-master bit before closeResources and DMA reclamation
+LIMIT: compile, kext load, registration and hardware testing not performed
+
+========== RTW88WCLController.cpp.patch ==========
+--- a/RTW88WCLController.cpp
++++ b/RTW88WCLController.cpp
+@@ -177,13 +177,13 @@
+     }
+ }
+ 
+-void RTW88WCLController::releaseNativeResources()
++IOReturn RTW88WCLController::releaseNativeResources()
+ {
+     const IOReturn packetPathStatus = quiescePacketPath();
+     if (packetPathStatus != kIOReturnSuccess) {
+         IOLog("rtl88wifi-wcl: packet path quiesce deferred: 0x%08x\n",
+               packetPathStatus);
+-        return; // Keep the radio, interface and PCI callbacks alive.
++        return packetPathStatus; // Keep the radio, interface and PCI callbacks alive.
+     }
+ 
+     /* Stop the RTW88 RX/TX producer before removing its deferred consumers or
+@@ -193,6 +193,15 @@
+     if (_radio && _radioStarted) {
+         _radio->stop();
+         _radioStarted = false;
++    }
++
++    if (_pciBackend && _pciBackend->isRadioRunning()) {
++        const IOReturn fenceStatus = _pciBackend->setRadioRunning(false);
++        if (fenceStatus != kIOReturnSuccess) {
++            IOLog("rtl88wifi-wcl: PCI interrupt/bus-master fence failed: 0x%08x\n",
++                  fenceStatus);
++            return fenceStatus; // Keep callbacks, mappings and DMA owner alive on failure.
++        }
+     }
+ 
+     /* Remove the RX workloop source only after the RTW88 producer is stopped.
+@@ -211,7 +220,7 @@
+     if (recycleStatus != kIOReturnSuccess) {
+         IOLog("rtl88wifi-wcl: staged RX packet recycle deferred: 0x%08x\n",
+               recycleStatus);
+-        return;
++        return recycleStatus;
+     }
+ 
+     /* Skywalk packet pools/queues are released only after both the mbuf staging
+@@ -222,14 +231,7 @@
+         _skywalkQueues = nullptr;
+     }
+ 
+-    if (_pciBackend && _pciBackend->isRadioRunning()) {
+-        const IOReturn fenceStatus = _pciBackend->setRadioRunning(false);
+-        if (fenceStatus != kIOReturnSuccess) {
+-            IOLog("rtl88wifi-wcl: PCI interrupt/bus-master fence failed: 0x%08x\n",
+-                  fenceStatus);
+-            return; // Keep callbacks, mappings and DMA owner alive on failure.
+-        }
+-    }
++    
+ 
+     /* RTW88IEEE80211 owns the compat callback context; destroy it before
+      * rtw88_compat_exit() and before relinquishing the global hardware lease. */
+@@ -240,18 +242,25 @@
+         if (closeStatus != kIOReturnSuccess) {
+             IOLog("rtl88wifi-wcl: PCI backend close deferred: 0x%08x\n",
+                   closeStatus);
+-            return;
++            return closeStatus;
+         }
+         _pciBackend->release();
+         _pciBackend = nullptr;
+     }
++    return kIOReturnSuccess;
+ }
+ 
+ void RTW88WCLController::free()
+ {
+-    releaseNativeResources();
+-    if (_pciBackend)
+-        IOLog("rtl88wifi-wcl: PCI backend retained because shutdown fence did not complete\n");
++    const IOReturn cleanupStatus = releaseNativeResources();
++    if (cleanupStatus != kIOReturnSuccess) {
++        IOLog("rtl88wifi-wcl: controller shutdown incomplete (0x%08x); quarantining controller and retaining workloop/resources\n",
++              cleanupStatus);
++        /* Do not release the workloop or call super::free() while any child,
++         * packet pool, or PCI/DMA resource may still reference this controller.
++         * This deliberately leaks the object rather than risking a UAF/DMA UAF. */
++        return;
++    }
+     if (_workLoop) {
+         _workLoop->release();
+         _workLoop = nullptr;
+========== RTW88WCLController.hpp.patch ==========
+--- a/RTW88WCLController.hpp
++++ b/RTW88WCLController.hpp
+@@ -84,7 +84,7 @@
+     void setLinkStatus(UInt32 status) override;
+ 
+ private:
+-    void releaseNativeResources();
++    IOReturn releaseNativeResources();
+     IOReturn recycleStagedRxPackets();
+     static bool stagedRxFrame(IOSkywalkPacket *preparedPacket, void *context);
+ 
+========== RTW88WCLPCIBackend.cpp.patch ==========
+--- a/RTW88WCLPCIBackend.cpp
++++ b/RTW88WCLPCIBackend.cpp
+@@ -145,8 +145,22 @@
+         _pciDev->setMemoryEnable(true);
+         _pciDev->setBusMasterEnable(true);
+         const UInt16 command = _pciDev->configRead16(kIOPCIConfigCommand);
+-        if ((command & 0x0006U) != 0x0006U)
++        if ((command & 0x0006U) != 0x0006U) {
++            _interruptSource->disable();
++            _pciDev->setBusMasterEnable(false);
++            const UInt16 rollbackCommand = _pciDev->configRead16(kIOPCIConfigCommand);
++            if (rollbackCommand & 0x0004U) {
++                /* Bus mastering may still be active. Keep the backend marked
++                 * running so close/free cannot reclaim DMA mappings. */
++                _radioRunning = true;
++                IOLog("rtl88wifi-wcl: partial PCI enable rollback failed (command=0x%04x); DMA resources quarantined\n",
++                      rollbackCommand);
++            } else {
++                _radioRunning = false;
++                _pciDev->setMemoryEnable(false);
++            }
+             return kIOReturnNotReady;
++        }
+         _radioRunning = true;
+         _interruptSource->enable();
+         return kIOReturnSuccess;
+@@ -251,14 +265,20 @@
+ 
+ void RTW88WCLPCIBackend::free()
+ {
+-    if (_radioRunning) {
+-        IOLog("rtl88wifi-wcl: backend freed while radio marked running; fencing PCI as a last resort\n");
++    if (_pciDev) {
+         if (_interruptSource)
+             _interruptSource->disable();
+-        if (_pciDev)
+-            _pciDev->setBusMasterEnable(false);
+-        _radioRunning = false;
+-    }
++        _pciDev->setBusMasterEnable(false);
++        const UInt16 command = _pciDev->configRead16(kIOPCIConfigCommand);
++        if (command & 0x0004U) {
++            IOLog("rtl88wifi-wcl: PCI bus-master bit remains set (command=0x%04x); refusing to free DMA resources; backend quarantined\n",
++                  command);
++            /* Keep this object, DMA descriptors, MMIO map, locks, and PCI
++             * reference alive until hardware bus mastering is demonstrably off. */
++            return;
++        }
++    }
++    _radioRunning = false;
+     closeResources();
+     super::free();
+ }
+
+KNOWN_GOOD_DRIVER: existing working rtl88wifi.kext left untouched and remains the fallback
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE25_COMPILE_AND_REMAINING_ABI_DEPENDENCY_REVIEW
