@@ -114,6 +114,13 @@ KCABI="$HOME/src/kcabi"
         echo "NO_CALLBACK_TYPEDEF_OR_FACTORY_SIGNATURE_MATCHES_FOUND"
     fi
     echo
+    echo "========== VERIFIED 24H32 KERNEL CALLBACK CALL-SITE SHAPES =========="
+    echo "TX_SUBMISSION: 3 arguments — owner (RDI), queue (RSI), pointer to a 32-bit stack value (RDX); callback EAX is consumed as a packet-count result."
+    echo "TX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), packet-ring pointer (RDX), count limit (RCX), callback context (R8); callback EAX is consumed as a completion count."
+    echo "RX_SUBMISSION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX advances the RX ring."
+    echo "RX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX is consumed as an enqueue count."
+    echo "NOTE: these are call-site register shapes from the supplied 24H32 disassembly, not substitutes for the SDK typedef declarations."
+    echo
 
     echo "========== KCABI SOURCE / HEADER SEARCH =========="
     if [ -d "$KCABI" ]; then
