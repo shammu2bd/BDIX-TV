@@ -50,7 +50,7 @@ def brace_end(text, opening):
             if ch == "*" and nxt == "/":
                 state = "normal"; i += 2; continue
         elif state in ("string", "char"):
-            if ch == "\\\\": i += 2; continue
+            if ch == chr(92): i += 2; continue
             if (state == "string" and ch == '"') or (state == "char" and ch == "'"):
                 state = "normal"
         i += 1
