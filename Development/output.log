@@ -8391,3 +8391,49 @@ INTERPRETATION: With SIP enabled, do not attempt to load this unsigned candidate
 SAFETY: No signing, chown, SIP, NVRAM, OpenCore, install, or load changes were made.
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED.
 NEXT_DECISION: Confirm whether the developer team has an Apple Developer Program membership and Account Holder access to request the special kext-signing identity. If not, stop before signing/install work and decide separately whether a temporary internal-test security configuration is acceptable. Do not disable SIP automatically.
+
+========== STAGE29H BOOT POLICY / TEST ISOLATION AUDIT ==========
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29h-boot-policy-audit-20261102-040753
+RTL88WiFi Stage29h — read-only boot-policy and test-isolation audit
+HOST: macOS 15.8.1 / 24H32 / x86_64 / MacBookPro16,3
+CSRUTIL_STATUS: System Integrity Protection status: enabled.
+CSRUTIL_EXIT: 0
+NVRAM_CSR_ACTIVE_CONFIG: csr-active-config	%00%00%00%00
+NVRAM_CSR_QUERY_EXIT: 0
+NVRAM_BOOT_ARGS: boot-args	keepsyms=1 -igfxblt -igfxblr alcid=14 -vi2c-force-polling revpatch=sbvmm -btlfxboardid npci=0x2000 -amfipassbeta
+NVRAM_BOOT_ARGS_QUERY_EXIT: 0
+KERNEL_BOOT_ARGS: keepsyms=1 -igfxblt -igfxblr alcid=14 -vi2c-force-polling revpatch=sbvmm -btlfxboardid npci=0x2000 -amfipassbeta
+KERNEL_BOOT_ARGS_QUERY_EXIT: 0
+CURRENT_TARGET_BUNDLE_LOAD_QUERY_EXIT: 0
+CURRENT_TARGET_BUNDLE_LOAD_QUERY:
+  No variant specified, falling back to release
+  Index Refs Address            Size       Wired      Name (Version) UUID <Linked Against>
+     94    0 0xffffff800491c000 0x19d000   0x19d000   io.github.x1ren41l.RTL88WiFi (1.0.11) DD4BF700-8E54-3859-A74B-551DC81EB3C7 <93 55 53 18 9 7 6 3 1>
+
+=== INSTALLED-TREE CANDIDATES ===
+OPENCORE_CONFIG_COUNT: 0
+No mounted EFI/OC/config.plist found; no OpenCore file was read.
+
+=== LEGACY / NATIVE BUNDLE IDENTITY ===
+LEGACY_BUNDLE_ID: io.github.x1ren41l.RTL88WiFi
+NATIVE_BUNDLE_ID: io.github.x1ren41l.RTL88WiFi
+BUNDLE_IDENTIFIER_COLLISION: YES — mutually exclusive test install required
+LEGACY_BUNDLE_PRESENT_IN_SOURCE_TREE: YES
+NATIVE_BUNDLE_PRESENT: YES
+
+=== INTERPRETATION ===
+SIP currently ENABLED. The approved internal-testing route has not yet been activated.
+kext-dev-mode=1 is obsolete and must not be added.
+No OpenCore configuration, NVRAM variable, SIP setting, filesystem ownership, bundle, or installed kext was changed.
+STAGE29H: READ_ONLY_AUDIT_COMPLETE
+NEXT: Build a separate test boot entry/config only after reviewing the detected OpenCore state. Preserve the daily EFI config and working legacy kext.
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+STAGE29H_ANALYSIS_EXIT: 0
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
