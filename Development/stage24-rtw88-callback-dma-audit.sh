@@ -1,5 +1,6 @@
 #!/bin/bash
-set -euo pipefail
+set -Eeuo pipefail
+trap 'rc=$?; echo "STAGE24_ERROR: exit=$rc line=$LINENO command=$BASH_COMMAND" >&2; exit "$rc"' ERR
 REPO='shammu2bd/BDIX-TV'
 NAME='RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source'
 PROJECT=''
@@ -87,7 +88,8 @@ BYTES=$(wc -c < "$REPORT" | tr -d ' ')
 
 upload_file() {
  local path="$1" api="$2" message="$3" payload="$4" response="$5"
- local oldsha
+ local oldsha putsha readsha
+ echo "GITHUB_UPLOAD_BEGIN: $api"
  oldsha="$(gh api "$api" --jq '.sha' 2>/dev/null || true)"
  python3 - "$path" "$oldsha" "$message" "$payload" <<'PY'
 import base64,json,pathlib,sys
@@ -95,20 +97,34 @@ path,sha,message,payload=sys.argv[1:]
 d={"message":message,"content":base64.b64encode(pathlib.Path(path).read_bytes()).decode()}
 if sha: d["sha"]=sha
 pathlib.Path(payload).write_text(json.dumps(d))
+print("UPLOAD_PAYLOAD_BYTES:",pathlib.Path(payload).stat().st_size)
 PY
- gh api --method PUT "$api" --input "$payload" > "$response"
- local put read
- put="$(python3 - "$response" <<'PY'
+ if ! gh api --method PUT "$api" --input "$payload" > "$response"; then
+   echo "GITHUB_UPLOAD_FAILED: PUT $api" >&2
+   cat "$response" >&2 2>/dev/null || true
+   return 1
+ fi
+ putsha="$(python3 - "$response" <<'PY'
 import json,sys
-print(json.load(open(sys.argv[1]))["content"]["sha"])
+d=json.load(open(sys.argv[1]))
+print(d.get("content",{}).get("sha",""))
 PY
 )"
- read="$(gh api "$api" --jq '.sha')"
- [[ "$put" == "$read" && -n "$put" ]] || { echo "Read-back SHA mismatch: $api"; return 1; }
- echo "$read"
+ if [[ -z "$putsha" ]]; then
+   echo "GITHUB_UPLOAD_FAILED: GitHub response contains no content SHA" >&2
+   cat "$response" >&2
+   return 1
+ fi
+ readsha="$(gh api "$api" --jq '.sha')"
+ if [[ "$putsha" != "$readsha" ]]; then
+   echo "GITHUB_UPLOAD_FAILED: read-back SHA mismatch put=$putsha read=$readsha" >&2
+   return 1
+ fi
+ echo "GITHUB_UPLOAD_VERIFIED: $api $readsha"
+ UPLOAD_RESULT_SHA="$readsha"
 }
-
-SHA="$(upload_file "$REPORT" "repos/$REPO/contents/Development/stage24-rtw88-callback-dma-audit.txt" "Add Stage24 RTW88 callback and DMA audit" "$STAGE/report-payload.json" "$STAGE/report-response.json")"
+upload_file "$REPORT" "repos/$REPO/contents/Development/stage24-rtw88-callback-dma-audit.txt" "Add Stage24 RTW88 callback and DMA audit" "$STAGE/report-payload.json" "$STAGE/report-response.json"
+SHA="$UPLOAD_RESULT_SHA"
 echo "STAGE24_REPORT_UPLOAD: SUCCESS"
 echo "GITHUB_REPORT: Development/stage24-rtw88-callback-dma-audit.txt"
 echo "GITHUB_REPORT_BLOB_SHA: $SHA"
@@ -131,7 +147,8 @@ entry=("\n"+marker+"\n"
  "KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED\n")
 pathlib.Path(sys.argv[2]).write_text(old+entry,encoding="utf-8")
 PY
-LOGSHA="$(upload_file "$LOG" "$API" "Record Stage24 RTW88 callback and DMA audit" "$STAGE/log-payload.json" "$STAGE/log-response.json")"
+upload_file "$LOG" "$API" "Record Stage24 RTW88 callback and DMA audit" "$STAGE/log-payload.json" "$STAGE/log-response.json"
+LOGSHA="$UPLOAD_RESULT_SHA"
 echo "CANONICAL_OUTPUT_LOG_UPLOAD: SUCCESS"
 echo "CANONICAL_OUTPUT_LOG_BLOB_SHA: $LOGSHA"
 echo "STAGE24_STATUS: REVIEW_REQUIRED"
