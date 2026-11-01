@@ -1,49 +1,16 @@
-Stage 15 status: PASS
-Stage 14 input SHA-256: 710b1294483050125ab6d17cdab5721f9519e70236e87e895540e2379315176a
-Accessor methods with disassembly: 18/18
-IOSkywalkPacket::getPacketType: PASS
-IOSkywalkPacket::getPacketBufferPool: PASS
-IOSkywalkPacket::getPacketBufferCount: PASS
-IOSkywalkPacket::getPacketBuffers: PASS
-IOSkywalkPacket::getDataOffset: PASS
-IOSkywalkPacket::getDataLength: PASS
-IOSkywalkPacket::setDataOffsetAndLength: PASS
-IOSkywalkPacketBufferPool::allocatePacket: PASS
-IOSkywalkPacketBufferPool::deallocatePacket: PASS
-IOSkywalkPacketBuffer::getPacketBufferPool: PASS
-IOSkywalkPacketBuffer::getMemorySegment: PASS
-IOSkywalkPacketBuffer::getMemorySegmentOffset: PASS
-IOSkywalkPacketBuffer::getBufferSize: PASS
-IOSkywalkPacketBuffer::getDataOffset: PASS
-IOSkywalkPacketBuffer::getDataLength: PASS
-IOSkywalkMemorySegment::getMemoryDescriptor: PASS
-IOSkywalkMemorySegment::getVirtualAddress: PASS
-IOSkywalkNetworkPacket::setCompletionStatus: PASS
-Stage 15 report: /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-stage15-test-n8qysg0f/out/stage15-work/STAGE15-ABI-ACCESSOR-AUDIT.md
-Created Stage 15 archive: /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-stage15-test-n8qysg0f/out/RTL88WiFi-Sequoia-24H32-stage15-packet-accessor-audit.tar.gz
-Stage 15 archive SHA-256: 98baff3d733079904dc1d516ef3459fa27817add5760cdcef7ef393a2d2c1d41
-PASS: Stage 15 packet-access ABI audit tests
-Stage 15 status: PASS
+Stage 16 status: PASS
+Stage 14 input SHA-256: 9ce99ef9700aac9292d9067b02a68518e0a92dc93308ffb9a0eb2a7c4af52cf3
+Stage 15 input SHA-256: 9ce99ef9700aac9292d9067b02a68518e0a92dc93308ffb9a0eb2a7c4af52cf3
+Stage 16 field getters matched: 8/8
+Stage 16 source checks: 11/11
+Stage 16 archive: /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/stage16-tests-6eio57nh/stage16-out/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
+Stage 16 archive SHA-256: 2433c4bb5928d6bd2313b54e55eba356e3d025d52d843e8e4b0603be7654f8fc
+PASS: Stage 16 full synthetic audit (archive linkage, sizes, getters, source invariants)
+Stage 16 status: REVIEW_REQUIRED
 Stage 14 input SHA-256: 0c86675b0a9e3dd3d5e41aa626c2fe1f4b9915450f5af7bbc808e8e9e595ba3a
-Accessor methods with disassembly: 18/18
-IOSkywalkPacket::getPacketType: PASS
-IOSkywalkPacket::getPacketBufferPool: PASS
-IOSkywalkPacket::getPacketBufferCount: PASS
-IOSkywalkPacket::getPacketBuffers: PASS
-IOSkywalkPacket::getDataOffset: PASS
-IOSkywalkPacket::getDataLength: PASS
-IOSkywalkPacket::setDataOffsetAndLength: PASS
-IOSkywalkPacketBufferPool::allocatePacket: PASS
-IOSkywalkPacketBufferPool::deallocatePacket: PASS
-IOSkywalkPacketBuffer::getPacketBufferPool: PASS
-IOSkywalkPacketBuffer::getMemorySegment: PASS
-IOSkywalkPacketBuffer::getMemorySegmentOffset: PASS
-IOSkywalkPacketBuffer::getBufferSize: PASS
-IOSkywalkPacketBuffer::getDataOffset: PASS
-IOSkywalkPacketBuffer::getDataLength: PASS
-IOSkywalkMemorySegment::getMemoryDescriptor: PASS
-IOSkywalkMemorySegment::getVirtualAddress: PASS
-IOSkywalkNetworkPacket::setCompletionStatus: PASS
-Stage 15 report: build/sequoia-abi-24H32-stage15/stage15-work/STAGE15-ABI-ACCESSOR-AUDIT.md
-Created Stage 15 archive: build/sequoia-abi-24H32-stage15/RTL88WiFi-Sequoia-24H32-stage15-packet-accessor-audit.tar.gz
-Stage 15 archive SHA-256: e132214d113fac85f0911d98de017a531a6df8406b535a1b7e9dad48d72f8e38
+Stage 15 input SHA-256: 0c86675b0a9e3dd3d5e41aa626c2fe1f4b9915450f5af7bbc808e8e9e595ba3a
+Stage 16 field getters matched: 7/8
+Stage 16 source checks: 11/11
+Stage 16 archive: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage16/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
+Stage 16 archive SHA-256: 5510c92bad48d137c9d95309d69288aed855a786795706898639bb32d08e657f
+UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
