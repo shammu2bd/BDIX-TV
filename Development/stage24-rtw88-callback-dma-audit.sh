@@ -22,22 +22,28 @@ python3 - "$PROJECT" "$DRIVER" "$REPORT" <<'PY'
 from pathlib import Path
 import hashlib,re,sys
 project,driver,out=map(Path,sys.argv[1:])
-files=sorted(p for p in driver.rglob("*") if p.is_file() and p.suffix.lower() in {".cpp",".hpp",".h",".c",".cc"})
+all_files=sorted(p for p in driver.rglob("*") if p.is_file() and p.suffix.lower() in {".cpp",".hpp",".h",".c",".cc"})
+# Restrict the detailed review to driver-owned implementation files likely to
+# contain RTW88 callback, PCI, DMA, queue and teardown contracts.
+key=re.compile(r"rtw88|rtl88|wcl|skywalk|pci|dma|txcompletion|rxadapter",re.I)
+files=[p for p in all_files if key.search(str(p.relative_to(driver)))]
 patterns=[
  ("OUTPUT_PACKET_WITH_COMPLETION",r"outputPacketWithCompletion|backendCompletion|CompletionCallback|completionCallback"),
- ("TX_SUBMIT_AND_COMPLETION",r"submitPacket|drainCompletions|claimCompleted|TicketPool::|complete\s*\(|finishTicket|transmitted"),
- ("DMA_ALLOC_FREE_MAP",r"allocCoherent|freeCoherent|dma_map|dma_unmap|map.*DMA|unmap.*DMA|prepare\s*\(|complete\s*\(|freeDMAList|releaseDMAEntries"),
- ("RADIO_STOP_AND_QUIESCE",r"RTW88IEEE80211::stop|\bstop\s*\(|synchronize|cancel_work|flush_work|disable.*interrupt|bus.master|BusMaster"),
+ ("TX_SUBMIT_AND_COMPLETION",r"submitPacket|drainCompletions|claimCompleted|TicketPool::|finishTicket|transmitted"),
+ ("DMA_ALLOC_FREE_MAP",r"allocCoherent|freeCoherent|dma_map|dma_unmap|map.*DMA|unmap.*DMA|freeDMAList|releaseDMAEntries"),
+ ("RADIO_STOP_AND_QUIESCE",r"RTW88IEEE80211::stop|cancel_work|flush_work|synchronize.*(irq|interrupt)|disable.*interrupt|bus.master|BusMaster|stopDMA|stopTx|stopRx"),
  ("SKYWALK_QUEUE_HANDOFF",r"enqueuePackets|dequeuePackets|completePackets|requestDequeue|requestEnqueue|rxCompletionAction|txCompletionAction|rxSubmissionAction|txSubmissionAction"),
 ]
 report=[
  "RTL88WiFi Stage24 — RTW88 callback, DMA and teardown contract audit",
- "PURPOSE: inspect code outside wcl24h32 adapters, especially the actual outputPacketWithCompletion implementation and RTW88 core callback/stop paths.",
+ "PURPOSE: targeted driver-owned source review, including RTW88 core callback implementations and PCI/DMA lifecycle.",
+ "SCOPE: all driver source files counted; detailed contexts restricted to RTW88/RTL88/WCL/Skywalk/PCI/DMA-related paths.",
  "SOURCE_CHANGES: NONE","BUILD: NOT RUN","INSTALL: NOT RUN","LOAD: NOT RUN",
  "OPENCORE_CHANGE: NONE","QUEUE_REGISTRATION: NOT CALLED","QUEUE_ENABLE: NOT CALLED",
  "RADIO_START: NOT RUN","KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED",""
 ]
-report += ["=== DRIVER SOURCE INVENTORY / SHA-256 ===","SOURCE_FILE_COUNT: "+str(len(files))]
+report += ["=== SOURCE INVENTORY ===","TOTAL_DRIVER_SOURCE_FILES: "+str(len(all_files)),
+ "TARGETED_SOURCE_FILES: "+str(len(files))]
 for p in files:
  report.append("SOURCE: {} SHA256={}".format(p.relative_to(project),hashlib.sha256(p.read_bytes()).hexdigest()))
 for label,pattern in patterns:
@@ -49,32 +55,36 @@ for label,pattern in patterns:
   found=[i for i,line in enumerate(lines) if rx.search(line) and not line.lstrip().startswith(("//","*"))]
   if not found: continue
   report.append("FILE: {} MATCHES: {}".format(p.relative_to(project),len(found)))
-  for i in found:
-   lo=max(0,i-14); hi=min(len(lines),i+15)
+  # Keep contexts compact and avoid flooding on generic helper call sites.
+  selected=found[:18]
+  for i in selected:
+   lo=max(0,i-7); hi=min(len(lines),i+8)
    report.append("CONTEXT: {}:{}-{}".format(p.relative_to(project),lo+1,hi))
    report.extend("  {:05d}: {}".format(n+1,lines[n]) for n in range(lo,hi))
    hits += 1
- report.append("TOTAL_MATCHES: "+str(hits))
+  if len(found)>len(selected):
+   report.append("OMITTED_MATCHES_IN_FILE: "+str(len(found)-len(selected)))
+ report.append("DISPLAYED_CONTEXTS: "+str(hits))
 report += [
  "","=== REQUIRED CONTRACT QUESTIONS ===",
- "1. Locate the exact implementation of outputPacketWithCompletion and prove mbuf ownership for every return path.",
- "2. Prove whether completion can occur synchronously before submit returns, asynchronously, more than once, or not at all on cancellation/reset/stop.",
- "3. Prove ticket publication ordering and prevent completion from racing ticket initialization or ticket reuse.",
- "4. Trace all RTW88 TX completion producers and every call into the supplied callback, including errors and teardown.",
- "5. Trace every coherent DMA allocation/free and descriptor prepare/complete pairing through device reset, failed start and stop.",
- "6. Prove RTW88 stop synchronizes all workqueues, NAPI-like workers, interrupt callbacks and DMA before backend bus-master disable and resource release.",
- "7. Match all Skywalk queue callback return-count semantics and packet ownership transfer to the Sequoia 24H32 ABI dossier.",
- "","STAGE24_STATUS: REVIEW_REQUIRED — search contexts require manual call-graph and branch analysis.",
+ "1. Locate exact outputPacketWithCompletion implementation and prove mbuf ownership for every return path.",
+ "2. Prove synchronous/asynchronous callback timing, exactly-once behavior, and cancellation/reset/stop completion.",
+ "3. Prove ticket publication ordering and prevent completion racing initialization or ticket reuse.",
+ "4. Trace all RTW88 TX completion producers and supplied callback invocations, including errors and teardown.",
+ "5. Trace coherent DMA allocation/free and descriptor prepare/complete pairing through reset, failed start and stop.",
+ "6. Prove stop synchronizes workqueues, interrupt callbacks and DMA before bus-master disable/resource release.",
+ "7. Match Skywalk queue callback return-count semantics and packet ownership transfer to the 24H32 ABI.",
+ "","STAGE24_STATUS: REVIEW_REQUIRED — targeted contexts require call-graph and branch analysis.",
  "ACTIVATION_GATE: BLOCKED — no queue registration/enable, packet handoff, BSD publication, radio start, build/install/load or OpenCore changes."
 ]
 out.write_text("\n".join(report)+"\n",encoding="utf-8")
 print("STAGE24_REPORT_PATH: "+str(out))
-print("DRIVER_SOURCE_FILES: "+str(len(files)))
+print("DRIVER_SOURCE_FILES: "+str(len(all_files)))
+print("TARGETED_SOURCE_FILES: "+str(len(files)))
 print("REPORT_BYTES: "+str(out.stat().st_size))
-PY
-[[ -s "$REPORT" ]] || { echo 'Stage24 report missing.'; exit 2; }
+PY[[ -s "$REPORT" ]] || { echo 'Stage24 report missing.'; exit 2; }
 BYTES=$(wc -c < "$REPORT" | tr -d ' ')
-(( BYTES <= 900000 )) || { echo "Report exceeds 900KB upload cap: $BYTES"; exit 2; }
+(( BYTES <= 900000 )) || { echo "Targeted report still exceeds 900KB upload cap: $BYTES"; exit 2; }
 
 upload_file() {
  local path="$1" api="$2" message="$3" payload="$4" response="$5"
