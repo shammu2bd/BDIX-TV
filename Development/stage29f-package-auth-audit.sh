@@ -1,7 +1,7 @@
 #!/bin/bash
 set -u
 REPO='shammu2bd/BDIX-TV'
-API='repos/$REPO/contents/Development/output.log'
+API="repos/$REPO/contents/Development/output.log"
 NAME='RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source'
 PROJECT=''
 if [[ -f "$PWD/driver/RTL88WiFi/Makefile" ]]; then PROJECT="$PWD"; fi
@@ -48,6 +48,7 @@ print('--- verify ---'); print(verify)
 print('--- kmutil ---'); print(diagnostic)
 overall=actual==expected and root and present and verified and km==0 and not has_owner_error and not has_sig_error
 print('STAGE29F_PACKAGE_AUTH_AUDIT:', 'PASS' if overall else 'REVIEW_REQUIRED')
+raise SystemExit(0 if overall else 1)
 print('BUILD: NOT RUN'); print('SOURCE_FILES_MODIFIED: NONE'); print('INSTALL: NOT RUN'); print('LOAD: NOT RUN'); print('OPENCORE_CHANGE: NONE'); print('QUEUE_REGISTRATION: NOT ENABLED'); print('KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED')
 PY
 RC=$?
@@ -59,5 +60,8 @@ data=pathlib.Path(sys.argv[1]).read_bytes()
 pathlib.Path(sys.argv[3]).write_text(json.dumps({'message':'Stage29f read-only package ownership and signature audit','content':base64.b64encode(data).decode(),'sha':sys.argv[2]}))
 PY
 gh api --method PUT "$API" --input "$STAGE/payload.json" > "$STAGE/response.json" || exit 2
-echo 'GITHUB_UPLOAD_STATUS: SUCCESS'
+PUT_SHA=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["content"]["sha"])' "$STAGE/response.json")
+READ_SHA=$(gh api "$API" --jq '.sha') || exit 2
+[[ -n "$PUT_SHA" && "$PUT_SHA" == "$READ_SHA" ]] || { echo 'GitHub read-back SHA mismatch'; exit 2; }
+echo 'GITHUB_UPLOAD_STATUS: SUCCESS — verified Development/output.log'
 exit "$RC"
