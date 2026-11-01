@@ -1,26 +1,30 @@
-Last login: Sun Nov  1 07:54:52 on ttys000
-shohel@Mahfujuls-MacBook-Pro ~ % cd /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage13-apple-skywalk-pool-abi
-shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-WCL-stage13-apple-skywalk-pool-abi % python3 tests/test-wcl-pcie-pool-ref-stage13.py
+Last login: Sun Nov  1 17:21:11 on ttys000
+shohel@DESKTOP-65R32QP ~ % cd /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+shohel@DESKTOP-65R32QP RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi % python3 tests/test-wcl-generic-skywalk-segment-ref-stage14.py
 
-bash -n tools/collect-sequoia-abi-24H32-stage13.sh
+bash -n tools/collect-sequoia-abi-24H32-stage14.sh
 
-tools/collect-sequoia-abi-24H32-stage13.sh \
-  build/sequoia-abi-24H32-stage13 2>&1 | tee output.log
+tools/collect-sequoia-abi-24H32-stage14.sh \
+  build/sequoia-abi-24H32-stage14 2>&1 | tee output.log
 IOSkywalkPacketQueue: 2 exact method symbols (method list)
 IOSkywalkPacketBufferPool: 2 exact method symbols (method list)
 IOSkywalkQueueSet: 2 exact method symbols (method list)
 IOSkywalkLogicalLink: 2 exact method symbols (method list)
-AppleBCMWLANPCIeSkywalk: 2 exact method symbols (method list)
-AppleBCMWLANPCIeSkywalkPacketPool: 2 exact method symbols (method list)
-PASS: four generic queue/pool and two Apple PCIe Skywalk class method lists are required
+IOSkywalkMemorySegment: 2 exact method symbols (method list)
+IOSkywalkPacketBuffer: 2 exact method symbols (method list)
+IOSkywalkPacket: 2 exact method symbols (method list)
+IOSkywalkNetworkPacket: 2 exact method symbols (method list)
+PASS: four generic queue/pool and four segment/packet class method lists are required
 PASS: exact Itanium symbols are preserved and de-duplicated
 PASS: Stage 8-10 registration seed symbols remain included
 IOSkywalkPacketQueue: 2 exact method symbols (kcabi INDEX.txt fallback)
 IOSkywalkPacketBufferPool: 2 exact method symbols (kcabi INDEX.txt fallback)
 IOSkywalkQueueSet: 2 exact method symbols (kcabi INDEX.txt fallback)
 IOSkywalkLogicalLink: 2 exact method symbols (kcabi INDEX.txt fallback)
-AppleBCMWLANPCIeSkywalk: 2 exact method symbols (kcabi INDEX.txt fallback)
-AppleBCMWLANPCIeSkywalkPacketPool: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkMemorySegment: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkPacketBuffer: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkPacket: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkNetworkPacket: 2 exact method symbols (kcabi INDEX.txt fallback)
 PASS: exact class-member symbols can be recovered from INDEX.txt
 PASS: missing class symbols fail closed with class-by-class diagnostics
 Target: macOS 15.8.1 (24H32), x86_64
@@ -29,29 +33,20 @@ kcabi: /Users/shohel/src/kcabi
 llvm-objdump: /opt/local/libexec/llvm-20/bin/llvm-objdump
 Prepared 14 exact 24H32 registration symbols; merged 14 reference symbols.
 
-Pass 1/2: collect 24H32 class method lists and baseline registration bodies.
-wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage13.xmvKd9/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
-
-Expand exact queue/pool and Apple PCIe Skywalk class methods.
+Pass 1/2: collect 24H32 method lists and baseline registration bodies.
+wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.9R1KZU/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
+usage: prepare-kcabi-ref-24H32-stage14.py [-h] --methods-root METHODS_ROOT
+                                          --out OUT [--reference REFERENCE]
+prepare-kcabi-ref-24H32-stage14.py: error: Stage 14 ABI extraction incomplete:
+IOSkywalkMemorySegment: expected exactly one method list under /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.9R1KZU/pass1/24H32; found 0
 IOSkywalkPacketQueue: 61 exact method symbols (method list)
 IOSkywalkPacketBufferPool: 65 exact method symbols (method list)
 IOSkywalkQueueSet: 23 exact method symbols (method list)
 IOSkywalkLogicalLink: 19 exact method symbols (method list)
-AppleBCMWLANPCIeSkywalk: 62 exact method symbols (method list)
-AppleBCMWLANPCIeSkywalkPacketPool: 21 exact method symbols (method list)
-IOSkywalkPacketQueue: 61 exact method symbols
-IOSkywalkPacketBufferPool: 65 exact method symbols
-IOSkywalkQueueSet: 23 exact method symbols
-IOSkywalkLogicalLink: 19 exact method symbols
-AppleBCMWLANPCIeSkywalk: 62 exact method symbols
-AppleBCMWLANPCIeSkywalkPacketPool: 21 exact method symbols
-Stage 13 Skywalk/PCIe pool method symbols: 251
+IOSkywalkPacketBuffer: 41 exact method symbols (method list)
+IOSkywalkPacket: 50 exact method symbols (method list)
+IOSkywalkNetworkPacket: 60 exact method symbols (method list)
 
-Pass 2/2: disassemble selected queue/pool and Apple PCIe Skywalk methods.
-wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage13.xmvKd9/pass2/24H32: 48 vtables, 325 sizes, 615 functions, 0 missing
-7a7c4d887baf75ede55d0932f4860fa393d50f393c65e76900d51856b9d5be29  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage13-apple-skywalk-pool-abi/build/sequoia-abi-24H32-stage13/RTL88WiFi-Sequoia-24H32-stage13-apple-skywalk-pool-kcabi.tar.gz
-
-Created Stage 13 ABI archive:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage13-apple-skywalk-pool-abi/build/sequoia-abi-24H32-stage13/RTL88WiFi-Sequoia-24H32-stage13-apple-skywalk-pool-kcabi.tar.gz
-Upload this archive to GitHub for review; keep using the single project-root output.log for the run log.
-shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-WCL-stage13-apple-skywalk-pool-abi % 
+Stage 14 failed; diagnostic pass data retained at:
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.9R1KZU
+shohel@DESKTOP-65R32QP RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi % 
