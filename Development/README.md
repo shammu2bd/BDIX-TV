@@ -141,3 +141,16 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 The result is intentionally REVIEW_REQUIRED pending manual correlation with the exact 24H32 callbacks and ownership contracts.
+
+
+## Stage22 — deep source lifecycle and ownership audit
+
+Stage22 is a read-only evidence-collection pass over the Stage26 native WCL source. It records SHA-256 hashes and numbered source contexts for controller/interface start-stop, registration and deregistration, RX/TX callback paths, packet-ticket references, packet-pool and DMA prepare/complete, and queue teardown. The excerpts support manual correlation with the saved Sequoia 15.8.1 (24H32) ABI dossier; they do not by themselves prove ownership or close the activation gate.
+
+Run on the target Mac from the Stage26 project root (or set `PROJECT_DIR`):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage22-deep-source-lifecycle-audit.sh | bash
+```
+
+The runner fetches the canonical `Development/output.log`, verifies Stage21 and prior prerequisites, appends the Stage22 report, uploads it to GitHub and checks the remote blob SHA. It does not modify source, build, install, load, register/enable queues, change OpenCore/SIP/NVRAM, or touch the known-good legacy kext. Stage22 remains REVIEW_REQUIRED and the activation gate remains BLOCKED pending manual closure of all six ownership/lifecycle contracts.
