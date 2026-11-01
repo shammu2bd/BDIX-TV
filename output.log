@@ -1,11 +1,3 @@
-Last login: Sun Nov  1 17:21:11 on ttys000
-shohel@DESKTOP-65R32QP ~ % cd /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
-shohel@DESKTOP-65R32QP RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi % python3 tests/test-wcl-generic-skywalk-segment-ref-stage14.py
-
-bash -n tools/collect-sequoia-abi-24H32-stage14.sh
-
-tools/collect-sequoia-abi-24H32-stage14.sh \
-  build/sequoia-abi-24H32-stage14 2>&1 | tee output.log
 IOSkywalkPacketQueue: 2 exact method symbols (method list)
 IOSkywalkPacketBufferPool: 2 exact method symbols (method list)
 IOSkywalkQueueSet: 2 exact method symbols (method list)
@@ -34,11 +26,11 @@ llvm-objdump: /opt/local/libexec/llvm-20/bin/llvm-objdump
 Prepared 14 exact 24H32 registration symbols; merged 14 reference symbols.
 
 Pass 1/2: collect 24H32 method lists and baseline registration bodies.
-wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.9R1KZU/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
+wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
 usage: prepare-kcabi-ref-24H32-stage14.py [-h] --methods-root METHODS_ROOT
                                           --out OUT [--reference REFERENCE]
 prepare-kcabi-ref-24H32-stage14.py: error: Stage 14 ABI extraction incomplete:
-IOSkywalkMemorySegment: expected exactly one method list under /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.9R1KZU/pass1/24H32; found 0
+IOSkywalkMemorySegment: expected exactly one method list under /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage14.T0bgUO/pass1/24H32; found 0
 IOSkywalkPacketQueue: 61 exact method symbols (method list)
 IOSkywalkPacketBufferPool: 65 exact method symbols (method list)
 IOSkywalkQueueSet: 23 exact method symbols (method list)
@@ -48,5 +40,4 @@ IOSkywalkPacket: 50 exact method symbols (method list)
 IOSkywalkNetworkPacket: 60 exact method symbols (method list)
 
 Stage 14 failed; diagnostic pass data retained at:
-/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.9R1KZU
-shohel@DESKTOP-65R32QP RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi % 
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage14.T0bgUO
