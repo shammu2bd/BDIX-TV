@@ -195,7 +195,8 @@ VERIFY_RC=0
 # Upload a JSON payload from disk. Never pass the full base64 log as one
 # shell argument: large reports exceed macOS ARG_MAX.
 REMOTE_SHA="$(gh api "$API_PATH" --jq '.sha')"
-python3 - "$LOG" "$REMOTE_SHA" "$UPLOAD_JSON" <<'PY'
+PAYLOAD="$STAGE_DIR/github-output-log-payload.json"
+python3 - "$LOG" "$REMOTE_SHA" "$PAYLOAD" <<'PY'
 import base64
 import json
 import pathlib
@@ -211,8 +212,7 @@ payload = {
 }
 pathlib.Path(payload_path).write_text(json.dumps(payload), encoding="utf-8")
 PY
-gh api --method PUT "$API_PATH" --input "$UPLOAD_JSON" > "$STAGE_DIR/github-upload-response.json"
-cp "$STAGE_DIR/github-upload-response.json" "$UPLOAD_JSON"
+gh api --method PUT "$API_PATH" --input "$PAYLOAD" > "$UPLOAD_JSON"
 
 PUT_SHA="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["content"]["sha"])' "$UPLOAD_JSON")"
 COMMIT_SHA="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["commit"]["sha"])' "$UPLOAD_JSON")"
