@@ -13,6 +13,7 @@ OUT="$PROJECT/output.log"
 DRYRUN="$STAGE_DIR/make-dry-run.txt"
 STATUS="$STAGE_DIR/status.txt"
 FINAL_RC=0
+ARCHIVE_VERIFIED=0
 
 if [ ! -f "$PROJECT/BUILD_NAME.txt" ] || [ ! -f "$DRIVER/Makefile" ]; then
     echo "ERROR: Stage26 project/Makefile missing: $PROJECT" >&2
@@ -117,6 +118,7 @@ PY
     set -e
 
     if [ "$ZIP_RC" -eq 0 ]; then
+        ARCHIVE_VERIFIED=1
         mv "$TMP_ARCHIVE" "$ARCHIVE"
         ARCHIVE_SHA="$(shasum -a 256 "$ARCHIVE" | awk '{print $1}')"
         ARCHIVE_SIZE="$(stat -f '%z' "$ARCHIVE" 2>/dev/null || wc -c < "$ARCHIVE" | tr -d ' ')"
@@ -189,6 +191,17 @@ PY
     fi
 fi
 
+if [ "$FINAL_RC" -eq 3 ] || [ "$FINAL_RC" -eq 4 ]; then
+    {
+        echo
+        echo "STAGE27B_PACKAGE_STATUS: FAILED"
+        cat "$STATUS"
+        echo "BUILD: NOT RUN"
+        echo "INSTALL: NOT RUN"
+        echo "LOAD: NOT RUN"
+    } >> "$OUT"
+fi
+
 upload_file() {
     local local_file="$1" repo_path="$2" message="$3"
     local api_path="repos/$REPO/contents/$repo_path" sha payload
@@ -206,7 +219,7 @@ PY
 }
 
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    if [ -f "$ARCHIVE" ] && [ "$FINAL_RC" -ne 5 ]; then
+    if [ "$ARCHIVE_VERIFIED" -eq 1 ] && [ -f "$ARCHIVE" ]; then
         upload_file "$ARCHIVE" "Development/$(basename "$ARCHIVE")" "Stage27b repack source ZIP and verify Info.plist"
     fi
     upload_file "$OUT" "Development/output.log" "Stage27b Python ZIP packaging and Makefile dry-run result"
