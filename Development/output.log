@@ -12681,3 +12681,62 @@ INSTALL: NOT RUN
 LOAD: NOT RUN
 KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
 QUEUE_REGISTRATION: NOT ENABLED
+RTL88WiFi Stage29b — separate native target definition
+DATE: 2026-11-02 03:14:06 +0600
+HOST: macOS 15.8.1 / 24H32 / x86_64
+DRIVER_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi
+PROJECT_ROOT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29b-native-target-setup-20261102-031406
+SCOPE: add independent Makefile target and native bundle metadata; dry-run only.
+LEGACY_TARGET_MODIFICATION: NO
+SOURCE_FRONTEND_MODIFICATION: NO
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NOT RUN
+MAKEFILE_BACKUP: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29b-native-target-setup-20261102-031406/Makefile.before-stage29b
+NATIVE_PLIST: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/RTL88WiFiNative.kext/Contents/Info.plist
+NATIVE_CFBundleIdentifier: io.github.x1ren41l.RTL88WiFi
+NATIVE_CFBundleExecutable: RTL88WiFiNative
+NATIVE_DEPENDENCY: com.apple.iokit.IO80211Family 1200.13.1 (/System/Library/Extensions/IO80211Family.kext/Contents/Info.plist)
+NATIVE_DEPENDENCY: com.apple.iokit.IOSkywalkFamily 1.0 (/System/Library/Extensions/IOSkywalkFamily.kext/Contents/Info.plist)
+NATIVE_DEPENDENCY: com.apple.iokit.IOPCIFamily 2.9 (/System/Library/Extensions/IOPCIFamily.kext/Contents/Info.plist)
+NATIVE_IO80211FamilyLegacy: ABSENT
+NATIVE_PERSONALITY: IOClass=RTW88WCLController; PCI=0xC82110EC 0xB82110EC
+MAKEFILE_PATCH: ADDED rtl88wifi-native; original rtl88wifi recipe not rewritten
+
+========== NATIVE TARGET DRY-RUN ==========
+NATIVE_MAKE_DRY_RUN_EXIT: 0
+NATIVE_MAKE_DRY_RUN_LINES: 93
+NATIVE_LINK_COMMAND: xcrun clang++ -arch x86_64 -static -nostdlib -Xlinker -kext /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/MacKernelSDK/Library/x86_64/libkmod.a -Xlinker -undefined -Xlinker dynamic_lookup -o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/main.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/mac.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/phy.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/fw.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/tx.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rx.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/sec.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/efuse.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/coex.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/ps.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/regd.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/bf.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/sar.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/util.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/pci.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/mac80211.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822b.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822b_table.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822be.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822c.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822c_table.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8822ce.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8821c.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8821c_table.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/driver/rtw8821ce.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/rtw88_thread_call.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/rtw88_compat.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/rtw88_firmware.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/compat/fw_blobs.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/kmod_info.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/native/RTW88IEEE80211.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/native/RTW88HwOps.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/native/RTW88WCLRadioBridge.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/native/RTW88WCLWorkQueue.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLController.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLInfraInterface.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLPCIBackend.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkQueues.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkTxAdapter.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkRxAdapter.o
+NATIVE_LINK_OBJECT_CLOSURE: PASS
+LEGACY_FRONTEND_OBJECTS_IN_NATIVE_LINK: NONE
+
+========== LEGACY TARGET PRESERVATION DRY-RUN ==========
+LEGACY_MAKE_DRY_RUN_EXIT: 0
+LEGACY_LINK_OBJECT_BOUNDARY: PASS
+NATIVE_WCL_OBJECTS_IN_LEGACY_LINK: NONE
+
+========== STAGE29B RESULT ==========
+SEPARATE_NATIVE_TARGET: ADDED
+NATIVE_TARGET: rtl88wifi-native
+NATIVE_OUTPUT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext
+NATIVE_BUNDLE_IDENTIFIER: same as existing RTL88WiFi (mutually exclusive install only)
+NATIVE_BUNDLE_EXECUTABLE: RTL88WiFiNative
+NATIVE_IOCLASS: RTW88WCLController
+NATIVE_IO80211FamilyLegacy_DEPENDENCY: ABSENT
+NATIVE_APPLE_IO80211Family_DEPENDENCY: PRESENT
+NATIVE_APPLE_IOSkywalkFamily_DEPENDENCY: PRESENT
+LEGACY_TARGET: PRESERVED
+LEGACY_TARGET_DRY_RUN: PASS
+NATIVE_TARGET_DRY_RUN: PASS
+ACTUAL_BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+MAKEFILE_BACKUP: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29b-native-target-setup-20261102-031406/Makefile.before-stage29b
+DRY_RUN_FILES: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29b-native-target-setup-20261102-031406/native-target-dry-run.txt ; /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29b-native-target-setup-20261102-031406/legacy-target-dry-run.txt
+LOG_FILE: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/output.log
+
+NEXT_GATE: review this output.log. If both dry-runs pass, the next stage is an actual native link build only; it will still not install or load the kext.
