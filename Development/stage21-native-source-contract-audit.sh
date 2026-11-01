@@ -93,7 +93,7 @@ def extract_context(path: Path, pattern: str, before: int = 2, after: int = 16):
     for i, line in enumerate(lines):
         if rx.search(line):
             lo, hi = max(0, i-before), min(len(lines), i+after+1)
-            out.append((i+1, lines[lo:hi]))
+            out.append((lo+1, lines[lo:hi]))
     return out
 
 report.append("")
@@ -112,7 +112,7 @@ for filename, pattern in start_checks:
             found = True
             for line_no, block in contexts[:2]:
                 report.append("FUNCTION_CONTEXT: {}:{}-{}".format(p.relative_to(project), line_no, line_no+len(block)-1))
-                report.extend("  {:04d}: {}".format(line_no-len(block)//2+i, row) for i, row in enumerate(block))
+                report.extend("  {:04d}: {}".format(line_no+i, row) for i, row in enumerate(block))
                 joined = "\n".join(block)
                 report.append("  CONTAINS_RETURN_FALSE: " + ("YES" if re.search(r"\breturn\s+false\s*;", joined) else "NO"))
                 report.append("  CONTAINS_GOTO_FAIL: " + ("YES" if re.search(r"\bgoto\s+fail\s*;", joined) else "NO"))
