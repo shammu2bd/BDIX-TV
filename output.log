@@ -16,26 +16,28 @@ Stage 17 target method symbols: 13
 Stage 17 combined reference symbols: 14
 Stage 14 kernel collection SHA-256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 Stage 17 status: PASS
-STAGE17_METHODS: IOSkywalkPacketQueue 1/1 disassembled
-STAGE17_METHODS: IOSkywalkPacketBufferPool 1/1 disassembled
-STAGE17_METHODS: IOSkywalkMemorySegment 1/1 disassembled
-STAGE17_METHODS: IOSkywalkPacketBuffer 1/1 disassembled
-STAGE17_METHODS: IOSkywalkPacket 1/1 disassembled
-STAGE17_METHODS: IOSkywalkNetworkPacket 1/1 disassembled
-STAGE17_METHODS: IOSkywalkRxSubmissionQueue 1/1 disassembled
-STAGE17_METHODS: IOSkywalkRxCompletionQueue 1/1 disassembled
-STAGE17_METHODS: IOSkywalkTxSubmissionQueue 1/1 disassembled
-STAGE17_METHODS: IOSkywalkTxCompletionQueue 1/1 disassembled
-STAGE17_METHODS: IOSkywalkInterface 1/1 disassembled
-STAGE17_METHODS: IOSkywalkNetworkInterface 1/1 disassembled
-STAGE17_METHODS: IOSkywalkEthernetInterface 1/1 disassembled
+STAGE17_METHODS: IOSkywalkPacketQueue 1/2 disassembled
+STAGE17_METHODS: IOSkywalkPacketBufferPool 1/2 disassembled
+STAGE17_METHODS: IOSkywalkMemorySegment 1/2 disassembled
+STAGE17_METHODS: IOSkywalkPacketBuffer 1/2 disassembled
+STAGE17_METHODS: IOSkywalkPacket 1/2 disassembled
+STAGE17_METHODS: IOSkywalkNetworkPacket 1/2 disassembled
+STAGE17_METHODS: IOSkywalkRxSubmissionQueue 1/2 disassembled
+STAGE17_METHODS: IOSkywalkRxCompletionQueue 1/2 disassembled
+STAGE17_METHODS: IOSkywalkTxSubmissionQueue 1/2 disassembled
+STAGE17_METHODS: IOSkywalkTxCompletionQueue 1/2 disassembled
+STAGE17_METHODS: IOSkywalkInterface 1/2 disassembled
+STAGE17_METHODS: IOSkywalkNetworkInterface 1/2 disassembled
+STAGE17_METHODS: IOSkywalkEthernetInterface 1/2 disassembled
 Stage 17 source ownership checks: 19/19
-Stage 17 target method bodies: 13/13
+Stage 17 executable method bodies: 13/13
+Stage 17 non-code class symbols excluded from body coverage: 13
 DATAPATH_ACTIVATION: BLOCKED
 PASS: Stage 17 synthetic method manifest (13 classes)
 PASS: Stage 17 source ownership fences (19/19)
 PASS: Stage 17 archive SHA linkage and full report builder
-PASS: Stage 17 kcabi class-list patch is idempotent
+PASS: Stage 17 kcabi class-list and executable-method patch is idempotent
+PASS: Stage 17 separates executable methods from non-code class symbols
 Target: macOS 15.8.1 (24H32), x86_64
 Kernel collection: /System/Library/KernelCollections/BootKernelExtensions.kc
 Stage 14 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage14/RTL88WiFi-Sequoia-24H32-stage14-generic-skywalk-segment-packet-kcabi.tar.gz
@@ -58,33 +60,25 @@ Stage 17 method inventory:
 Stage 17 target method symbols: 676
 Stage 17 combined reference symbols: 1054
 Stage 14 kernel collection SHA-256: cd013c14a7f21dbb8181fb06c44e079de8646b6a674abe21f6e47f42e8979af3
-Stage 17 kcabi class list: patched temporary copy
+Stage 17 kcabi patch: updated temporary dump.py
 Verified classes: IOSkywalkPacketQueue, IOSkywalkPacketBufferPool, IOSkywalkMemorySegment, IOSkywalkPacketBuffer, IOSkywalkPacket, IOSkywalkNetworkPacket, IOSkywalkRxSubmissionQueue, IOSkywalkRxCompletionQueue, IOSkywalkTxSubmissionQueue, IOSkywalkTxCompletionQueue, IOSkywalkInterface, IOSkywalkNetworkInterface, IOSkywalkEthernetInterface
+Verified: every executable method in each class enters the disassembly set
 WTLKcAbi checkout: /Users/shohel/src/kcabi (cea28a5297633118177cee6a75e86d8bc57f1960)
 
 Collecting 24H32 packet, buffer, memory-segment, RX/TX queue and interface lifecycle bodies.
-wrote /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-204309/24H32: 49 vtables, 325 sizes, 364 functions, 0 missing
-Stage 17 status: REVIEW_REQUIRED
-STAGE17_METHODS: IOSkywalkPacketQueue 2/67 disassembled
-STAGE17_METHODS: IOSkywalkPacketBufferPool 2/74 disassembled
-STAGE17_METHODS: IOSkywalkMemorySegment 2/31 disassembled
-STAGE17_METHODS: IOSkywalkPacketBuffer 2/50 disassembled
-STAGE17_METHODS: IOSkywalkPacket 2/59 disassembled
-STAGE17_METHODS: IOSkywalkNetworkPacket 2/69 disassembled
-STAGE17_METHODS: IOSkywalkRxSubmissionQueue 2/53 disassembled
-STAGE17_METHODS: IOSkywalkRxCompletionQueue 2/52 disassembled
-STAGE17_METHODS: IOSkywalkTxSubmissionQueue 2/64 disassembled
-STAGE17_METHODS: IOSkywalkTxCompletionQueue 2/48 disassembled
-STAGE17_METHODS: IOSkywalkInterface 2/38 disassembled
-STAGE17_METHODS: IOSkywalkNetworkInterface 2/109 disassembled
-STAGE17_METHODS: IOSkywalkEthernetInterface 3/68 disassembled
-Stage 17 source ownership checks: 19/19
-Stage 17 target method bodies: 27/782
-DATAPATH_ACTIVATION: BLOCKED
-Stage 17 archive: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-204309/RTL88WiFi-Sequoia-24H32-stage17-rx-queue-ownership-kcabi.tar.gz
-Stage 17 archive SHA-256: aa751093ef83a70c33f803c3e1998b7cec92b9c4e55d303f96375be1310b9cd1
-Stage 17 requires review. The diagnostic archive was still created for upload.
+wrote /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-210048/24H32: 49 vtables, 325 sizes, 5248 functions, 0 missing
+usage: audit-skywalk-queue-ownership-stage17.py [-h]
+                                                --stage14-archive STAGE14_ARCHIVE
+                                                --stage15-archive STAGE15_ARCHIVE
+                                                --stage16-archive STAGE16_ARCHIVE
+                                                --stage17-root STAGE17_ROOT
+                                                --manifest MANIFEST
+                                                [--project-root PROJECT_ROOT]
+                                                --out OUT
+audit-skywalk-queue-ownership-stage17.py: error: Unexpected class in executable-method inventory: AppleBCMWLANCore
+tar: stage17-work: Cannot stat: No such file or directory
+tar: Error exit delayed from previous errors.
 
 Stage 17 collector failed; diagnostic data retained at:
-/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage17.oWs2aY
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage17.cBgTbF
 UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage17-rx-queue-ownership-kcabi.tar.gz
