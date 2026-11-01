@@ -62,7 +62,17 @@ STAMP="$(/bin/date '+%Y%m%d-%H%M%S')"
 STAGE_DIR="$PROJECT_ROOT/build/stage29b-native-target-setup-$STAMP"
 mkdir -p "$STAGE_DIR"
 LOG="$PROJECT_ROOT/output.log"
-touch "$LOG"
+API_PATH="repos/shammu2bd/BDIX-TV/contents/Development/output.log"
+
+# Keep one canonical log: download the existing GitHub Development/output.log
+# before appending this run, then push the updated file back automatically.
+command -v gh >/dev/null 2>&1 || fail "GitHub CLI (gh) is required for automatic Development/output.log sync."
+gh auth status >/dev/null 2>&1 || fail "GitHub CLI is not authenticated. Run gh auth login once, then rerun."
+REMOTE_LOG="$STAGE_DIR/output.log.github-before"
+gh api "$API_PATH" --jq '.content' | \
+    python3 -c 'import sys,base64; sys.stdout.buffer.write(base64.b64decode(sys.stdin.read()))' > "$REMOTE_LOG"
+[[ -s "$REMOTE_LOG" ]] || fail "Could not download the canonical GitHub Development/output.log."
+cp "$REMOTE_LOG" "$LOG"
 exec > >(tee -a "$LOG") 2>&1
 
 echo "RTL88WiFi Stage29b — separate native target definition"
@@ -387,3 +397,20 @@ echo "DRY_RUN_FILES: $NATIVE_DRYRUN ; $LEGACY_DRYRUN"
 echo "LOG_FILE: $LOG"
 echo
 echo "NEXT_GATE: review this output.log. If both dry-runs pass, the next stage is an actual native link build only; it will still not install or load the kext."
+
+# Push the canonical log to GitHub Development/ automatically; no manual upload.
+REMOTE_SHA="$(gh api "$API_PATH" --jq '.sha')"
+PAYLOAD="$STAGE_DIR/github-output-log.json"
+python3 - "$LOG" "$REMOTE_SHA" "$PAYLOAD" <<'PY'
+import base64, json, pathlib, sys
+log_path, sha, payload_path = sys.argv[1:4]
+data = {
+    "message": "Stage29b separate native target definition and dry-run audit",
+    "content": base64.b64encode(pathlib.Path(log_path).read_bytes()).decode("ascii"),
+    "sha": sha,
+}
+pathlib.Path(payload_path).write_text(json.dumps(data), encoding="utf-8")
+PY
+UPLOAD_RESPONSE="$(gh api --method PUT "$API_PATH" --input "$PAYLOAD")"
+UPLOAD_COMMIT="$(printf '%s' "$UPLOAD_RESPONSE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["commit"]["sha"])')"
+echo "GITHUB_UPLOAD_STATUS: SUCCESS — Development/output.log updated (commit $UPLOAD_COMMIT)"
