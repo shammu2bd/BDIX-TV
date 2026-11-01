@@ -1,152 +1,33 @@
-RTL88WiFi Stage 23 — corrected compile-only validation
-DATE: 2026-11-02 01:45:20 +06
-HOST: 15.8.1 / 24H32
-ARCH: x86_64
+RTL88WiFi — Stage 23 build succeeded; Stage 24 audit runner ready
+DATE: 2026-11-02
+TARGET: macOS Sequoia 15.8.1 (24H32), x86_64
 PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
-STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage23-compile-only-fixed-20261102-014515
-SOURCE_CHECK: PASS
-PASS: four callback bodies; seven zero-count fail-closed returns; no error-style returns
-XCODE_SELECT: /Applications/Xcode_16.4.app/Contents/Developer
-CLANG: /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
-MACOS_SDK: /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk
-CPU_JOBS: 8
-DRY_RUN: PASS — rtl88wifi target includes RTW88WCLSkywalkQueues.cpp
-BUILD_COMMAND: make -j8 rtl88wifi
-INSTALL: NOT RUN
-LOAD: NOT RUN
-BUILD_RESULT: SUCCEEDED
-BUILD_EXIT_CODE: 0
-KEXT_BINARY: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi
-FILE_INFO: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi: Mach-O 64-bit kext bundle x86_64
-SHA256: 5132fc77a16ef6afb20293115575f8cadcc418c606765a5e7c0255ee256aec79
-INSTALL: NOT RUN
-LOAD: NOT RUN
+
+STAGE 22 — PATCH VERIFIED
+Seven fail-closed error returns across the four Skywalk action callbacks now return zero packet count. SDK-matching signatures remain unchanged.
+
+STAGE 23 — BUILD SUCCEEDED
+Corrected preflight passed. The Makefile dry-run explicitly included RTW88WCLSkywalkQueues.cpp and the actual command make -j8 rtl88wifi completed with exit code 0.
+Compiler reported 0 errors and 1,209 warnings (warning count is from the complete build log; warnings were not treated as build failures).
+Built output:
+driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi
+Architecture: Mach-O 64-bit kext bundle, x86_64
+SHA-256: 5132fc77a16ef6afb20293115575f8cadcc418c606765a5e7c0255ee256aec79
+No install or load was attempted.
+
+STAGE 24 — READ-ONLY BINARY AND LIFECYCLE AUDIT READY
+File: stage24-binary-lifecycle-audit.sh
+Commit: ace4c3225c38d90916107185d6e86ce952011fbd
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage24-binary-lifecycle-audit.sh
+Run:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage24-binary-lifecycle-audit.sh | /bin/bash
+
+The runner will inspect the built Mach-O architecture/header, linked libraries, undefined symbols referencing Skywalk/IO80211, Info.plist OSBundleLibraries, kextlibs unresolved-symbol requirements where available, and codesign metadata. It will also collect source excerpts for releaseNativeResources, destroyQueues, setRadioRunning, queue registration/unregistration, disable/synchronize/drain/fence, and free/stop methods. It is read-only and writes its report to this output.log plus detailed raw evidence under build/stage24-binary-lifecycle-audit-*.
+
+Static runner checks: {"usesBuiltBinary":false,"architectureAndLibraries":true,"unresolvedSymbols":true,"plistDependencies":true,"kextlibs":true,"signingMetadata":true,"lifecycleSearch":true,"noInstallLoad":true,"outputLogUpload":true}
+
+SAFETY STATUS
 QUEUE_REGISTRATION: STILL DISABLED
 DATAPATH_ACTIVATION: BLOCKED_PENDING_LIFECYCLE_AND_TEARDOWN_REVIEW
-========== MAKE DRY-RUN SOURCE MATCH ==========
-95:echo "  WCL-ABI CXX  RTW88WCLSkywalkQueues.cpp (24H32, unregistered queues)"
-96:xcrun clang++ -fno-exceptions -fno-rtti -fno-stack-protector -mkernel -MMD -MP -arch x86_64 -mmacosx-version-min=13.0 -ffile-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -fdebug-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers -I/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers -fapple-kext -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat/linux -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext -std=c++17 -DKERNEL -Wno-deprecated-declarations -Wno-nullability-completeness -D__IO80211_TARGET=__MAC_15_2 -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32 -c /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp -o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkQueues.o
-========== BUILD COUNTS ==========
-WARNING_COUNT: 1209
-ERROR_COUNT: 0
-========== BUILD LOG LAST 120 LINES ==========
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1531:39: warning: implicit conversion changes signedness: 'const uint32_t' (aka 'const unsigned int') to 'int' [-Wsign-conversion]
- 1531 |     SInt32 r = apple80211Request(cmd, reqType, interface, payload);
-      |                ~~~~~~~~~~~~~~~~~      ^~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1433:38: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
- 1433 |         SInt32 r = apple80211Request(cmd, reqType, interface, nullptr);
-      |                    ~~~~~~~~~~~~~~~~~ ^~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1447:43: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
- 1447 |         return handlePrivateMACBSDRequest(cmd, req, "legacy-ioctl");
-      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1458:44: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
- 1458 |         const SInt32 r = apple80211Request(cmd, reqType, interface, out);
-      |                          ~~~~~~~~~~~~~~~~~ ^~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1473:44: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
- 1473 |         const SInt32 r = apple80211Request(cmd, reqType, interface, out);
-      |                          ~~~~~~~~~~~~~~~~~ ^~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1490:38: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
- 1490 |         SInt32 r = apple80211Request(cmd, reqType, interface, &result);
-      |                    ~~~~~~~~~~~~~~~~~ ^~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:1531:34: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
- 1531 |     SInt32 r = apple80211Request(cmd, reqType, interface, payload);
-      |                ~~~~~~~~~~~~~~~~~ ^~~
-4 warnings generated.
-  WCL-ABI CXX  RTW88WCLSkywalkQueues.cpp (24H32, unregistered queues)
-xcrun clang++ -fno-exceptions -fno-rtti -fno-stack-protector -mkernel -MMD -MP -arch x86_64 -mmacosx-version-min=13.0 -ffile-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -fdebug-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers -I/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers -fapple-kext -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat/linux -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext -std=c++17 -DKERNEL -Wno-deprecated-declarations -Wno-nullability-completeness -D__IO80211_TARGET=__MAC_15_2 -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32 -c /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp -o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkQueues.o
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTW88IEEE80211.cpp:4397:38: warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
- 4397 |     uint16_t fc = (uint16_t)frame[0] | ((uint16_t)frame[1] << 8);
-      |              ~~   ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  WCL-ABI CXX  RTW88WCLSkywalkTxAdapter.cpp (24H32, mbuf copy + deferred completion; compile-only)
-xcrun clang++ -fno-exceptions -fno-rtti -fno-stack-protector -mkernel -MMD -MP -arch x86_64 -mmacosx-version-min=13.0 -ffile-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -fdebug-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers -I/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers -fapple-kext -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat/linux -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext -std=c++17 -DKERNEL -Wno-deprecated-declarations -Wno-nullability-completeness -D__IO80211_TARGET=__MAC_15_2 -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32 -c /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkTxAdapter.cpp -o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkTxAdapter.o
-  WCL-ABI CXX  RTW88WCLSkywalkRxAdapter.cpp (24H32, pool-backed RX conversion; compile-only)
-xcrun clang++ -fno-exceptions -fno-rtti -fno-stack-protector -mkernel -MMD -MP -arch x86_64 -mmacosx-version-min=13.0 -ffile-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -fdebug-prefix-map=/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi=driver/RTL88WiFi -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers -I/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers -fapple-kext -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/compat/linux -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext -std=c++17 -DKERNEL -Wno-deprecated-declarations -Wno-nullability-completeness -D__IO80211_TARGET=__MAC_15_2 -I/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32 -c /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkRxAdapter.cpp -o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkRxAdapter.o
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:3170:22: warning: declaration shadows a variable in the global namespace [-Wshadow]
- 3170 |     RTW88StateResult current = {};
-      |                      ^
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/../compat/linux/kernel.h:136:17: note: expanded from macro 'current'
-  136 | #define current __rtw88_current_task
-      |                 ^
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/../compat/linux/kernel.h:135:28: note: previous declaration is here
-  135 | extern struct task_struct *__rtw88_current_task;
-      |                            ^
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:3550:70: warning: implicit conversion changes signedness: 'int' to 'u_int32_t' (aka 'unsigned int') [-Wsign-conversion]
- 3550 |     _scanResult.asr_channel.flags = (_scanResult.asr_channel.flags & ~APPLE80211_C_FLAG_20MHZ) | width;
-      |                                                                    ~ ^~~~~~~~~~~~~~~~~~~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/RTL88WiFi.cpp:3563:14: warning: declaration shadows a variable in the global namespace [-Wshadow]
- 3563 |     RTW88BSS current = {};
-      |              ^
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/../compat/linux/kernel.h:136:17: note: expanded from macro 'current'
-  136 | #define current __rtw88_current_task
-      |                 ^
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/../compat/linux/kernel.h:135:28: note: previous declaration is here
-  135 | extern struct task_struct *__rtw88_current_task;
-      |                            ^
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLController.cpp:5:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCL24H32InterfaceABI.hpp:453:15: warning: offset of on non-standard-layout type 'IOSkywalkEthernetInterface' [-Winvalid-offsetof]
-  453 | static_assert(__offsetof(IOSkywalkEthernetInterface, mExpansionData2) == 0x108, "24H32 Ethernet expansion offset");
-      |               ^                                      ~~~~~~~~~~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/sys/_types.h:82:33: note: expanded from macro '__offsetof'
-   82 | #define __offsetof(type, field) __builtin_offsetof(type, field)
-      |                                 ^                        ~~~~~
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLPCIBackend.cpp:12:
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/rtw88_compat.h:35:
-22 warnings generated.
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/bitops.h:53:12: warning: implicit conversion changes signedness: 'int' to 'unsigned long' [-Wsign-conversion]
-   53 |     return __builtin_ctzl(x);
-      |     ~~~~~~ ^~~~~~~~~~~~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/bitops.h:58:34: warning: implicit conversion changes signedness: 'int' to 'unsigned long' [-Wsign-conversion]
-   58 |     return (BITS_PER_LONG - 1) - __builtin_clzl(x);
-      |                                ~ ^~~~~~~~~~~~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/bitops.h:71:12: warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-   71 |     return __builtin_popcount(x);
-      |     ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/bitops.h:76:12: warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-   76 |     return __builtin_popcountl(x);
-      |     ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLPCIBackend.cpp:12:
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/rtw88_compat.h:52:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/skbuff.h:244:20: warning: implicit conversion changes signedness: 'u32' (aka 'unsigned int') to 'int' [-Wsign-conversion]
-  244 |     skb_reserve(n, skb_headroom(skb));
-      |     ~~~~~~~~~~~    ^~~~~~~~~~~~~~~~~
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLInfraInterface.cpp:9:
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLInfraInterface.hpp:9:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCL24H32InterfaceABI.hpp:453:15: warning: offset of on non-standard-layout type 'IOSkywalkEthernetInterface' [-Winvalid-offsetof]
-  453 | static_assert(__offsetof(IOSkywalkEthernetInterface, mExpansionData2) == 0x108, "24H32 Ethernet expansion offset");
-      |               ^                                      ~~~~~~~~~~~~~~~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/sys/_types.h:82:33: note: expanded from macro '__offsetof'
-   82 | #define __offsetof(type, field) __builtin_offsetof(type, field)
-      |                                 ^                        ~~~~~
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLPCIBackend.cpp:12:
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/rtw88_compat.h:58:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/usb.h:144:36: warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-  144 |     return (USB_ENDPOINT_XFER_BULK << 30) | (ep & 0xf);
-      |             ~~~~~~~~~~~~~~~~~~~~~~~^~~~~  ~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/usb.h:148:31: warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-  148 |     return (USB_DIR_IN << 24) | (USB_ENDPOINT_XFER_BULK << 30) | (ep & 0xf);
-      |            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/usb.h:156:31: warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-  156 |     return (USB_DIR_IN << 24) | (USB_ENDPOINT_XFER_CONTROL << 30) | (ep & 0xf);
-      |            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLPCIBackend.cpp:12:
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/rtw88_compat.h:59:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/module.h:36:9: warning: 'module_usb_driver' macro redefined [-Wmacro-redefined]
-   36 | #define module_usb_driver(__usb_driver) \
-      |         ^
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/linux/usb.h:311:9: note: previous definition is here
-  311 | #define module_usb_driver(__usb_driver) \
-      |         ^
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLPCIBackend.cpp:12:
-In file included from /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/rtw88_compat.h:63:
-/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/../../compat/net/mac80211.h:96:9: warning: struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
-   96 |         struct {
-      |         ^
-45 warnings generated.
-  LD   RTL88WiFi
-xcrun clang++ -arch x86_64 -static -nostdlib -Xlinker -kext /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Library/x86_64/libkmod.a -Xlinker -undefined -Xlinker dynamic_lookup -o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/main.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/mac.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/phy.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/fw.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/tx.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rx.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/sec.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/efuse.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/coex.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/ps.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/regd.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/bf.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/sar.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/util.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/pci.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/mac80211.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8822b.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8822b_table.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8822be.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8822c.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8822c_table.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8822ce.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8821c.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8821c_table.o   /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/driver/rtw8821ce.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/compat/rtw88_thread_call.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/compat/rtw88_compat.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/compat/rtw88_firmware.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/compat/fw_blobs.o /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/kmod_info.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTW88IEEE80211.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTW88HwOps.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTL88WiFi.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTL88WiFiAWDL.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTW88AWDLManager.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTL88WiFiInterface.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTW88WCLRadioBridge.o  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/airport/RTW88WCLWorkQueue.o
-1 warning generated.
-10 warnings generated.
-1 warning generated.
-  SYNC /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/out/RTL88WiFi.kext
-rsync -a --exclude='MacOS' /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/RTL88WiFi.kext/ /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/build/out/RTL88WiFi.kext/
-  OK   build/out/RTL88WiFi.kext
+INSTALL_OR_LOAD: NOT ATTEMPTED
+NEXT: inspect Stage24 output.log; only then decide whether lifecycle issues are resolved enough to prepare a non-loaded OpenCore test bundle.
