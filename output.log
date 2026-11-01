@@ -3428,3 +3428,33 @@ INSTALL: NOT RUN
 LOAD: NOT RUN
 QUEUE_REGISTRATION: STILL DISABLED
 DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE25_COMPILE_AND_REMAINING_ABI_DEPENDENCY_REVIEW
+
+STAGE26 INITIAL GENERATOR — SAFE PREFLIGHT ABORT
+USER-RUN RESULT: ERROR: expected guarded cleanup result in start(fail) and stop()
+Diagnosis: Stage25 had already introduced one "const IOReturn cleanupStatus = releaseNativeResources();" in RTW88WCLController::free(). Stage26 adds the same declaration in start(fail) and stop(), so the correct post-patch count is 3, not 2.
+The Stage26 script performed the one-time source copy into:
+~/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+It created BUILD_NAME.txt, then failed its Python guard BEFORE ctrl_path.write_text(). Therefore no C++ source was changed by the failed attempt. The source tree and Makefile now exist; the ZIP/manifest were not created and no build was run.
+
+STAGE26 RESUME RUNNER
+File: stage26-resume-fresh-source-build.sh
+Commit: fc97fd66215618ecc928d1dfbeb66aa0e7b70ee0
+Blob SHA: 1ddb168d1c06a46795c872d16c7afd8f3546ca3d
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage26-resume-fresh-source-build.sh
+Run:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage26-resume-fresh-source-build.sh | /bin/bash
+
+The resume runner acts ONLY on the new Stage26 directory. It does not read or modify the old Stage14 directory. It checks the one existing Stage25 free() guard, adds guards in start(fail) and stop(), verifies the total count is 3, creates a fresh source manifest and ZIP, and attempts to upload the ZIP and updated output.log to GitHub. It never builds, installs or loads the kext.
+
+BUILD NAME: RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+NEW PROJECT: ~/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+FULL SOURCE ZIP: ~/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source.zip
+
+KNOWN-GOOD DRIVER: User confirms an older rtl88wifi.kext is already running and working. Preserve it as fallback; do not unload, remove, overwrite, or replace it during development.
+OLD STAGE14 DIRECTORY: no longer used for builds; source snapshot only.
+STAGE26 RESUME: PREPARED, NOT YET RUN
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_NEW_TREE_COMPILE_AND_DEPENDENCY_ABI_REVIEW
