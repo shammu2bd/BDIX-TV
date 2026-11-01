@@ -1,13 +1,32 @@
 RTL88WiFi Stage 20 — Private Skywalk callback ABI discovery
 STATUS: IMPLEMENTED_NOT_YET_RUN
 SCRIPT: stage20-private-skywalk-abi-discovery.sh
-SCRIPT_COMMIT: d8c42eeb574763f25d8fae816aa0205542c48bfe
+SCRIPT_LATEST_COMMIT: 3dfb1b24efa564c6be0ed8274685cab9bb44ed2c
 SCRIPT_URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage20-private-skywalk-abi-discovery.sh
 PURPOSE: Search installed KDKs, Kernel.framework locations, macOS SDK framework paths, project headers, and ~/src/kcabi for private IOSkywalk callback typedefs and queue factory declarations.
 OUTPUT: project root output.log
 UPLOAD: script uses authenticated GitHub CLI (gh) to update this repository output.log when available; otherwise leaves output.log for the existing uploader.
 RUN:
 curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage20-private-skywalk-abi-discovery.sh | /bin/bash
-PRIOR_STAGE19_FINDING: Xcode 16.4 macOS 15.5 SDK lookup did not locate the seven requested IOSkywalk headers.
-SAFETY: no source files or callback prototypes modified; no queues registered; datapath remains blocked pending exact ABI declaration and lifecycle verification.
+
+PRIOR STAGE 19 FINDING
+Xcode 16.4 macOS 15.5 SDK lookup did not locate the seven requested IOSkywalk headers.
+
+VERIFIED 24H32 KERNEL CALLBACK CALL-SITE SHAPES
+TX_SUBMISSION: 3 arguments — owner (RDI), queue (RSI), pointer to a 32-bit stack value (RDX); callback EAX is consumed as a packet-count result.
+TX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), packet-ring pointer (RDX), count limit (RCX), callback context (R8); callback EAX is consumed as a completion count.
+RX_SUBMISSION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX advances the RX ring.
+RX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX is consumed as an enqueue count.
+NOTE: these are call-site register shapes from supplied 24H32 kernel disassembly, not substitutes for SDK typedef declarations.
+
+CURRENT SOURCE OBSERVATION
+All four callback declarations/definitions still return IOReturn.
+TX submission currently declares a five-argument packet-array callback, but its kernel call site supplies three arguments and RDX points to a 32-bit stack value.
+The remaining three queue callbacks are invoked with five argument registers at their examined call sites; exact pointer typedef compatibility still requires header confirmation.
+
+SAFETY
+SOURCE_MODIFIED: NO
+QUEUE_REGISTRATION: STILL_DISABLED
+DATAPATH_ACTIVATION: BLOCKED
+Do not change callback prototypes from call-site shapes alone. Confirm actual private callback typedefs, then patch declarations and definitions together and compile.
 NEXT: run Stage 20 on the Hackintosh and inspect the resulting GitHub output.log.
