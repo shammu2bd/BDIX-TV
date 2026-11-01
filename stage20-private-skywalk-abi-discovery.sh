@@ -115,11 +115,34 @@ KCABI="$HOME/src/kcabi"
     fi
     echo
     echo "========== VERIFIED 24H32 KERNEL CALLBACK CALL-SITE SHAPES =========="
-    echo "TX_SUBMISSION: 3 arguments — owner (RDI), queue (RSI), pointer to a 32-bit stack value (RDX); callback EAX is consumed as a packet-count result."
-    echo "TX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), packet-ring pointer (RDX), count limit (RCX), callback context (R8); callback EAX is consumed as a completion count."
-    echo "RX_SUBMISSION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX advances the RX ring."
-    echo "RX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX is consumed as an enqueue count."
-    echo "NOTE: these are call-site register shapes from the supplied 24H32 disassembly, not substitutes for the SDK typedef declarations."
+    echo "TX_SUBMISSION_ACTION: 5 arguments — exact typedef IOSkywalkTxSubmissionQueueAction in bundled MacKernelSDK; matches current project declaration/definition."
+    echo "TX_QUERY_FREE_SPACE_HANDLER: separate 3-argument typedef IOSkywalkQueryFreeSpaceHandler (owner, queue, UInt32 *outSpace); the 3-register call in packetSubmission is this handler, NOT the queue action."
+    echo "TX_COMPLETION_ACTION: 5 arguments — exact typedef IOSkywalkTxCompletionQueueAction; matches current project declaration/definition."
+    echo "RX_SUBMISSION_ACTION: 5 arguments — exact typedef IOSkywalkRxSubmissionQueueAction; matches current project declaration/definition."
+    echo "RX_COMPLETION_ACTION: 5 arguments — exact typedef IOSkywalkRxCompletionQueueAction; matches current project declaration/definition."
+    echo "All four action typedefs return IOReturn in the bundled MacKernelSDK. The supplied 24H32 call sites show RX submission, RX completion and TX completion consuming EAX as packet/ring counts; TX submission action result semantics still need its own action-call-site check."
+    echo "NOTE: distinguish the TX query-free-space helper from TX submission action; the previous Stage20 preliminary three-argument TX action label was incorrect."
+    echo
+
+    echo
+    echo "========== EXACT BUNDLED SDK QUEUE ACTION TYPEDEFS =========="
+    HDR="$PROJECT/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk"
+    for pair in \
+        "IOSkywalkTxSubmissionQueue.h:IOSkywalkQueryFreeSpaceHandler|IOSkywalkTxSubmissionQueueAction" \
+        "IOSkywalkTxCompletionQueue.h:IOSkywalkTxCompletionQueueAction" \
+        "IOSkywalkRxSubmissionQueue.h:IOSkywalkRxSubmissionQueueAction" \
+        "IOSkywalkRxCompletionQueue.h:IOSkywalkRxCompletionQueueAction"
+    do
+        name="${pair%%:*}"
+        pattern="${pair#*:}"
+        file="$HDR/$name"
+        echo "--- $name ---"
+        if [ -f "$file" ]; then
+            grep -nE "$pattern" "$file" || true
+        else
+            echo "MISSING: $file"
+        fi
+    done
     echo
 
     echo "========== KCABI SOURCE / HEADER SEARCH =========="
