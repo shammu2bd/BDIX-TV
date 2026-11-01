@@ -1,47 +1,25 @@
-RTL88WiFi Stage 20 — private Skywalk callback ABI review
-STATUS: COMPLETE — callback typedefs located; semantic return review remains open
-HOST: Intel Hackintosh, macOS 15.8.1 build 24H32, x86_64
-SDKROOT: Xcode 16.4 macOS 15.5 SDK
-KDK: /Library/Developer/KDKs not present
-DISCOVERY: 35 Skywalk header/source candidates; exact queue headers were found in the project-bundled MacKernelSDK:
-driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/
+RTL88WiFi Stage 21 — TX submission action call-site audit
+STATUS: IMPLEMENTED_NOT_YET_RUN
+RUNNER: stage21-tx-submission-action-audit.sh
+RUNNER_COMMIT: c78274465b4cba718be8dca500ff2085bb834bc0
+RUNNER_URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage21-tx-submission-action-audit.sh
+RUN:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage21-tx-submission-action-audit.sh | /bin/bash
 
-EXACT BUNDLED SDK CALLBACK TYPEDEFS
-TX SUBMISSION ACTION:
-IOReturn (*)(OSObject *, IOSkywalkTxSubmissionQueue *, const IOSkywalkPacket **, UInt32, void *)
-TX QUERY FREE SPACE HANDLER (SEPARATE CALLBACK):
-IOReturn (*)(OSObject *, IOSkywalkTxSubmissionQueue *, UInt32 *outSpace)
-TX COMPLETION ACTION:
-IOReturn (*)(OSObject *, IOSkywalkTxCompletionQueue *, IOSkywalkPacket **, UInt32, void *)
-RX SUBMISSION ACTION:
-IOReturn (*)(OSObject *, IOSkywalkRxSubmissionQueue *, const IOSkywalkPacket **, UInt32, void *)
-RX COMPLETION ACTION:
-IOReturn (*)(OSObject *, IOSkywalkRxCompletionQueue *, IOSkywalkPacket **, UInt32, void *)
+PURPOSE
+Collect exact bundled SDK action typedefs and 24H32 TX-submission method bodies:
+legacyDequeue, listDequeue, checkForWork, packetSubmission, requestDequeue.
+Output includes current project callback declarations and definitions for cross-check.
 
-SOURCE COMPARISON
-All four current RTW88WCLSkywalkQueues.hpp declarations and RTW88WCLSkywalkQueues.cpp definitions match their corresponding bundled SDK action typedefs in return type, argument count, order, and pointer constness.
-CALLBACK_PROTOTYPE_MISMATCH: NONE FOUND
-No callback prototype patch is required on the evidence inspected.
+STAGE 20 BASELINE
+All four action function pointer typedefs in the bundled MacKernelSDK use IOReturn and five arguments. Current RTW88WCLSkywalkQueues.hpp/.cpp callback prototypes match the typedefs inspected.
+The separate IOSkywalkQueryFreeSpaceHandler has three arguments (owner, queue, UInt32 *outSpace); this is NOT the TX submission action.
+RX submission, RX completion and TX completion call sites examined so far consume callback EAX as ring/packet counts. TX submission action result semantics remain to be proven from its own action invocation path.
 
-IMPORTANT CORRECTION TO PRELIMINARY STAGE20 INTERPRETATION
-The three-argument call seen in IOSkywalkTxSubmissionQueue::packetSubmission is IOSkywalkQueryFreeSpaceHandler, not IOSkywalkTxSubmissionQueueAction. The TX submission action is five arguments as declared by the SDK and used by this project. The previous Stage20 note that labelled the action as three arguments was incorrect and has been corrected in stage20-private-skywalk-abi-discovery.sh.
-
-RETURN SEMANTICS FROM SUPPLIED 24H32 DISASSEMBLY
-RX submission action: callback EAX is added to the RX ring index; treat as a bounded ring-entry count.
-RX completion action: callback EAX is consumed by enqueuePacketsForNetworking/enqueuePacketsForKPipe; treat as a bounded enqueue count.
-TX completion action: callback EAX is passed to completePackets; treat as a bounded completion count.
-TX submission action: its action call-site and return-value semantics are not yet independently proven in this review. Do not confuse it with the query-free-space handler, whose available-space output is written through UInt32 *outSpace.
-
-CURRENT FAIL-CLOSED SOURCE RETURNS
-TX submission action currently returns kIOReturnBadArgument for validation failures and kIOReturnNotReady when no handoff is implemented.
-TX completion, RX submission, and RX completion actions currently return kIOReturnNotReady.
-Those error constants must not be returned from callbacks whose EAX result is interpreted as a packet/ring count. The exact no-progress return and bounds must be implemented only after completing the TX submission action audit; the safe no-progress behavior for count-consuming call sites is zero.
+STAGE 21 SAFETY
 SOURCE_MODIFIED: NO
 QUEUE_REGISTRATION: STILL_DISABLED
 DATAPATH_ACTIVATION: BLOCKED
-
-NEXT STAGE
-Audit IOSkywalkTxSubmissionQueue's action invocation and callback count limits using its 24H32 methods; then implement bounded fail-closed callback results, compile, and upload build/test results to this same output.log.
-DISCOVERY_SCRIPT:
-https://github.com/shammu2bd/BDIX-TV/blob/main/stage20-private-skywalk-abi-discovery.sh
-LATEST_DISCOVERY_SCRIPT_COMMIT: 19a3fd336f1b4de89d6b0065e80dd97182882894
+Do not patch callback return values until the TX-submission action call site and count bounds are confirmed.
+The exact SDK callback return typedef remains IOReturn for compatibility; any zero/no-progress behavior must retain that function type.
+NEXT: run Stage 21 on the Hackintosh and inspect this same GitHub output.log.
