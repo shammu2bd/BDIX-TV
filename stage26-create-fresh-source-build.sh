@@ -175,7 +175,7 @@ PY
 python3 - "$NEW_PROJECT" "$(basename "$SOURCE_PROJECT")" "$NEW_NAME" <<'PY'
 from pathlib import Path
 import sys
-root, old_name, new_name = map(Path, sys.argv)
+root, old_name, new_name = map(Path, sys.argv[1:])
 count = 0
 for p in root.rglob("*"):
     if not p.is_file() or p.suffix not in {".sh", ".md", ".txt", ".py"}:
