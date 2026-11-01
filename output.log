@@ -1,5 +1,24 @@
-=== KCABI INDEX FILES ===
+Last login: Sun Nov  1 18:24:28 on ttys000
+shohel@DESKTOP-65R32QP ~ % PROJECT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi"
 
-=== MEMORY SEGMENT SYMBOLS IN INDEX ===
+unzip -o "$HOME/Downloads/RTL88WiFi-Stage14-fix-overlay.zip" \
+  -d "$PROJECT"
 
-=== ALL MEMORY SEGMENT SYMBOL REFERENCES ===
+cd "$PROJECT" || exit 1
+
+runlog bash -lc '
+cd "$HOME/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi" || exit 1
+
+python3 tests/test-wcl-generic-skywalk-segment-ref-stage14.py &&
+bash -n tools/collect-sequoia-abi-24H32-stage14.sh &&
+tools/collect-sequoia-abi-24H32-stage14.sh build/sequoia-abi-24H32-stage14
+'
+Archive:  /Users/shohel/Downloads/RTL88WiFi-Stage14-fix-overlay.zip
+  inflating: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/tools/collect-sequoia-abi-24H32-stage14.sh  
+  inflating: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/tools/patch-kcabi-class-list-stage14.py  
+  inflating: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/tests/test-wcl-generic-skywalk-segment-ref-stage14.py  
+  inflating: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/docs/24H32-SKYWALK-GENERIC-SEGMENT-PACKET-ABI-STAGE14.md  
+  inflating: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/docs/STAGE14-STATUS.md  
+  inflating: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/STAGE14-FIX-APPLY.md  
+ERROR: GitHub CLI is not installed.
+shohel@DESKTOP-65R32QP RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi % 
