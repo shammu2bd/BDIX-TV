@@ -4,7 +4,7 @@ trap 'rc=$?; echo "STAGE25_ERROR: exit=$rc line=$LINENO command=$BASH_COMMAND" >
 REPO='shammu2bd/BDIX-TV'
 NAME='RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source'
 PROJECT=''
-if [[ -n "\${PROJECT_DIR:-}" && -f "$PROJECT_DIR/driver/RTL88WiFi/Makefile" ]]; then
+if [[ -n "${PROJECT_DIR:-}" && -f "$PROJECT_DIR/driver/RTL88WiFi/Makefile" ]]; then
  PROJECT="$(cd "$PROJECT_DIR" && pwd -P)"
 elif [[ -f "$PWD/driver/RTL88WiFi/Makefile" ]]; then
  PROJECT="$(pwd -P)"
