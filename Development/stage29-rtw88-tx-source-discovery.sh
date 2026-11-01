@@ -65,7 +65,7 @@ PY
 test -s "$REPORT"
 BYTES=$(wc -c < "$REPORT" | tr -d ' ')
 (( BYTES <= 5000000 )) || { echo "Report exceeds 5MB upload cap: $BYTES"; exit 2; }
-upload() {
+upload_text() {
  local file="$1" path="$2" msg="$3" payload="$4" response="$5" old put got
  old="$(gh api "repos/$REPO/contents/$path" --jq .sha 2>/dev/null || true)"
  python3 - "$file" "$old" "$msg" "$payload" <<'PY2'
@@ -82,20 +82,39 @@ PY2
 )"
  got="$(gh api "repos/$REPO/contents/$path" --jq .sha)"
  [[ "$put" == "$got" ]] || { echo "Readback SHA mismatch: $path"; return 1; }
- echo "UPLOAD_VERIFIED $path $got"; UPLOAD_SHA="$got"
+ echo "UPLOAD_VERIFIED $path $got"
+ UPLOAD_SHA="$got"
 }
-upload "$REPORT" Development/stage29-rtw88-tx-source-discovery.txt "Add Stage29 RTW88 TX source discovery report" "$STAGE/report.json" "$STAGE/report-response.json"
-RPTSHA="$UPLOAD_SHA"
+# GitHub Contents API payloads are Base64-expanded. Keep each source chunk <=350 KB.
+CHUNK_DIR="$STAGE/report-parts"
+mkdir -p "$CHUNK_DIR"
+split -b 350000 -d -a 3 "$REPORT" "$CHUNK_DIR/part-"
+MANIFEST="$STAGE/stage29-report-manifest.txt"
+: > "$MANIFEST"
+PART_COUNT=0
+for PART in "$CHUNK_DIR"/part-*; do
+ [[ -f "$PART" ]] || continue
+ PART_NAME="$(basename "$PART").txt"
+ PART_PATH="Development/stage29-rtw88-tx-source-discovery-$PART_NAME"
+ upload_text "$PART" "$PART_PATH" "Add Stage29 TX source report chunk $PART_NAME" "$STAGE/part.json" "$STAGE/part-response.json"
+ printf '%s %s %s\n' "$PART_PATH" "$UPLOAD_SHA" "$(wc -c < "$PART" | tr -d ' ')" >> "$MANIFEST"
+ PART_COUNT=$((PART_COUNT+1))
+done
+[[ "$PART_COUNT" -gt 0 ]] || { echo "No report chunks were produced"; exit 2; }
+printf 'STAGE29_REPORT_PARTS: %s\nSTAGE29_REPORT_BYTES: %s\n' "$PART_COUNT" "$BYTES" >> "$MANIFEST"
+upload_text "$MANIFEST" Development/stage29-rtw88-tx-source-discovery-manifest.txt "Add Stage29 TX source report manifest" "$STAGE/manifest.json" "$STAGE/manifest-response.json"
+MANIFEST_SHA="$UPLOAD_SHA"
 curl -fsSL "https://raw.githubusercontent.com/$REPO/main/Development/output.log" -o "$STAGE/old.log"
-python3 - "$STAGE/old.log" "$PROJECT/output.log" "$RPTSHA" "$BYTES" <<'PY2'
+python3 - "$STAGE/old.log" "$PROJECT/output.log" "$MANIFEST_SHA" "$BYTES" "$PART_COUNT" <<'PY2'
 import pathlib,sys
 old=pathlib.Path(sys.argv[1]).read_text(errors="replace")
 mark="========== STAGE29 RTW88 TX SOURCE DISCOVERY =========="
 if mark in old: old=old[:old.index(mark)].rstrip()+"\n"
-old+="\n"+mark+"\nSTAGE29_REPORT: Development/stage29-rtw88-tx-source-discovery.txt\nSTAGE29_REPORT_BLOB_SHA: "+sys.argv[3]+"\nSTAGE29_REPORT_BYTES: "+sys.argv[4]+"\nSTAGE29_STATUS: REVIEW_REQUIRED\nACTIVATION_GATE: BLOCKED\nSOURCE_CHANGES: NONE | BUILD: NOT RUN | INSTALL: NOT RUN | LOAD: NOT RUN | OPENCORE_CHANGE: NONE\nKNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED\n"
+old+="\n"+mark+"\nSTAGE29_REPORT_MANIFEST: Development/stage29-rtw88-tx-source-discovery-manifest.txt\nSTAGE29_MANIFEST_BLOB_SHA: "+sys.argv[3]+"\nSTAGE29_REPORT_BYTES: "+sys.argv[4]+"\nSTAGE29_REPORT_PARTS: "+sys.argv[5]+"\nSTAGE29_STATUS: REVIEW_REQUIRED\nACTIVATION_GATE: BLOCKED\nSOURCE_CHANGES: NONE | BUILD: NOT RUN | INSTALL: NOT RUN | LOAD: NOT RUN | OPENCORE_CHANGE: NONE\nKNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED\n"
 pathlib.Path(sys.argv[2]).write_text(old)
 PY2
-upload "$PROJECT/output.log" Development/output.log "Record Stage29 RTW88 TX source discovery" "$STAGE/log.json" "$STAGE/log-response.json"
+upload_text "$PROJECT/output.log" Development/output.log "Record Stage29 RTW88 TX source discovery" "$STAGE/log.json" "$STAGE/log-response.json"
 echo "CANONICAL_OUTPUT_LOG_UPLOAD: SUCCESS"
+echo "STAGE29_REPORT_PARTS: $PART_COUNT"
 echo "STAGE29_STATUS: REVIEW_REQUIRED"
 echo "ACTIVATION_GATE: BLOCKED"
