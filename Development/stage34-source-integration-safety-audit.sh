@@ -21,7 +21,7 @@ root=Path(sys.argv[1]); out=Path(sys.argv[2])
 ext={".c",".cc",".cpp",".cxx",".h",".hpp",".hh",".pbxproj",".mk",".xcconfig"}
 skip={".git","build","DerivedData","SDK","Frameworks","Headers","PrivateHeaders","Pods","node_modules"}
 patterns={
-"BUILD_SOURCES":r"RTW88HwOps\\.cpp|RTW88PCIDevice\\.cpp|RTW88WCLPCIBackend\\.cpp|RTW88WCLSkywalkQueues\\.cpp|RTW88IEEE80211\\.cpp|SOURCES|PRODUCT_BUNDLE_IDENTIFIER|PBXSourcesBuildPhase",
+"BUILD_SOURCES":r"RTW88HwOps\.cpp|RTW88PCIDevice\.cpp|RTW88WCLPCIBackend\.cpp|RTW88WCLSkywalkQueues\.cpp|RTW88IEEE80211\.cpp|SOURCES|PRODUCT_BUNDLE_IDENTIFIER|PBXSourcesBuildPhase",
 "OPS_TABLE":r"struct\s+ieee80211_ops|const\s+struct\s+ieee80211_ops|ieee80211_ops",
 "TX_CALL_GRAPH":r"\brtw_tx\s*\(|\brtw_pci_tx_write_data\s*\(|txDataFrame\s*\(|outputPacketWithCompletion|txSubmissionAction",
 "TX_TERMINAL":r"ieee80211_(tx_status|free_txskb)|dev_kfree_skb|kfree_skb|consume_skb|skb_queue_(purge|tail|head)|backendCompletion|completeTicket",
