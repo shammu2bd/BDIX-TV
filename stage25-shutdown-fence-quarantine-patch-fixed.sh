@@ -64,7 +64,7 @@ def brace_end(text: str, opening: int) -> int:
             if ch == "*" and nxt == "/":
                 state = "normal"; i += 2; continue
         elif state in ("string", "char"):
-            if ch == "\\\\": i += 2; continue
+            if ch == chr(92): i += 2; continue
             if (state == "string" and ch == '"') or (state == "char" and ch == "'"):
                 state = "normal"
         i += 1
@@ -257,13 +257,13 @@ for path, before, after in (
     (stage_dir / (path.name + ".patch")).write_text("".join(patch))
 
 (stage_dir / "verification.txt").write_text(
-    "PASS: releaseNativeResources now returns IOReturn status\\n"
-    "PASS: quiesce, RX recycle, PCI fence, and backend close failures are propagated\\n"
-    "PASS: PCI bus-master fence moved after RTW88 radio stop and before RX adapter / Skywalk queue release\\n"
-    "PASS: controller free quarantines rather than releasing workloop/super when cleanup fails\\n"
-    "PASS: unbraced PCI enable failure is now explicitly braced and performs bus-master rollback/readback\\n"
-    "PASS: backend free verifies PCI bus-master bit before closeResources and DMA reclamation\\n"
-    "LIMIT: compile, kext load, registration and hardware testing not performed\\n"
+    "PASS: releaseNativeResources now returns IOReturn status\n"
+    "PASS: quiesce, RX recycle, PCI fence, and backend close failures are propagated\n"
+    "PASS: PCI bus-master fence moved after RTW88 radio stop and before RX adapter / Skywalk queue release\n"
+    "PASS: controller free quarantines rather than releasing workloop/super when cleanup fails\n"
+    "PASS: unbraced PCI enable failure is now explicitly braced and performs bus-master rollback/readback\n"
+    "PASS: backend free verifies PCI bus-master bit before closeResources and DMA reclamation\n"
+    "LIMIT: compile, kext load, registration and hardware testing not performed\n"
 )
 print("PATCH_STATUS: APPLIED")
 print("FILES_PATCHED: 3")
