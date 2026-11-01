@@ -3183,37 +3183,68 @@ if ((command & 0x0006U) != 0x0006U)
 DIAGNOSTIC ONLY: no source files modified; no build/install/load performed.
 STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage25-pci-enable-diagnostic-20261102-015845
 
-STAGE25 DIAGNOSTIC REVIEW — ROOT CAUSE CONFIRMED
-The Stage25 diagnostic was uploaded successfully. The actual PCI method is:
-- setRadioRunning(true) enables memory + bus mastering, reads PCI command register, then uses an UNBRACED one-line conditional:
-  if ((command & 0x0006U) != 0x0006U)
-      return kIOReturnNotReady;
-- The original Stage25 runner's if_block helper searched for the next opening brace after that condition. Because the conditional has no braces, it captured a later enclosing/later branch, then failed its "exactly one return" count.
-- This is a runner source-pattern bug, not a compiler failure and not evidence of damage to the current installed driver.
-- The diagnostic's "EXACT PCI ENABLE FAILURE BRANCH" extraction is too broad because it also assumed a brace after the unbraced condition. The complete setRadioRunning() method immediately above it is the reliable evidence.
+RTL88WiFi Stage25 PCI-enable source diagnostic
+DATE: 2026-11-02T02:04:25+06:00
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+PCI_SOURCE: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLPCIBackend.cpp
+PCI_SOURCE_SHA256: 42d80aeee3866d54e05177833e1fb8c42ee5f134ee02acea646458824c240efd
+FUNCTION_START_LINE: 137
+TARGET_BRANCH_START_LINE: 148
+TARGET_BRANCH_MATCHES: 1
 
-STAGE25 CORRECTED RUNNER PREPARED
-File: stage25-shutdown-fence-quarantine-patch-fixed.sh
-Commit: a8fa21221ec2a401cce09fa0475c2ddac223498c (latest file update commit: 2efd718e1452db5200b7a632af3665ea60594f35)
-Blob SHA: 0e282492b3fb5a2452cca520cc844df829c1cd22
-URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage25-shutdown-fence-quarantine-patch-fixed.sh
-Run:
-curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage25-shutdown-fence-quarantine-patch-fixed.sh | /bin/bash
+===== ACTUAL setRadioRunning() DEFINITION =====
+IOReturn RTW88WCLPCIBackend::setRadioRunning(bool running)
+{
+    if (!_opened || !_pciDev || !_interruptSource)
+        return kIOReturnNotReady;
+    if (_radioRunning == running)
+        return kIOReturnSuccess;
 
-Corrections:
-- Replaces the exact unbraced two-line PCI enable failure statement and wraps it in a guarded block.
-- On partial enable, disables interrupt delivery, requests bus-master rollback, reads PCI command register, and keeps backend quarantined if bus mastering remains active.
-- Preserves the original cleanup status propagation, reorders the PCI fence before RX adapter/queue/pool release, quarantines controller free on cleanup failure, and adds PCI backend final-free readback.
-- Retains the previous output.log content when writing the new stage report.
-- Adds source-shape, status propagation, fence ordering, and final-free guards. It edits only the WCL source files under the project plus output.log; it does NOT touch the installed kext bundle or OpenCore configuration.
+    if (running) {
+        _pciDev->setMemoryEnable(true);
+        _pciDev->setBusMasterEnable(true);
+        const UInt16 command = _pciDev->configRead16(kIOPCIConfigCommand);
+        if ((command & 0x0006U) != 0x0006U)
+            return kIOReturnNotReady;
+        _radioRunning = true;
+        _interruptSource->enable();
+        return kIOReturnSuccess;
+    }
 
-IMPORTANT KNOWN-GOOD DRIVER STATE (USER CONFIRMED 2026-11-02)
-The user already has an older rtl88wifi.kext running and working on the device. Preserve it as the known-good fallback. Do not unload, remove, overwrite, or replace that installed kext during this development sequence. The WCL project build is a separate experimental candidate and must not be installed until its dependencies, signing, registration, packet lifecycle, shutdown and runtime behavior have been validated.
+    /* Caller contract: RTW88IEEE80211::stop() must already have synchronized
+     * its interrupt/NAPI workers and stopped device DMA before this call. */
+    _interruptSource->disable();
+    _pciDev->setBusMasterEnable(false);
+    const UInt16 command = _pciDev->configRead16(kIOPCIConfigCommand);
+    if (command & 0x0004U) {
+        IOLog("rtl88wifi-wcl: PCI bus-master fence did not stick (command=0x%04x)\n",
+              command);
+        return kIOReturnNotReady;
+    }
+    _radioRunning = false;
+    if (preemption_enabled())
+        drainPendingFree();
+    return kIOReturnSuccess;
+}
 
-STAGE25 FIXED RUNNER: PREPARED, NOT YET RUN
-BUILD: NOT RUN
-INSTALL: NOT RUN
-LOAD: NOT RUN
-KNOWN_GOOD_OLD_DRIVER: KEEP RUNNING; UNTOUCHED
-QUEUE_REGISTRATION: STILL DISABLED
-DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE25_PATCH_REVIEW_AND_COMPILE_PLUS_DEPENDENCY_AND_ABI_REVIEW
+===== EXACT PCI ENABLE FAILURE BRANCH =====
+if ((command & 0x0006U) != 0x0006U)
+            return kIOReturnNotReady;
+        _radioRunning = true;
+        _interruptSource->enable();
+        return kIOReturnSuccess;
+    }
+
+    /* Caller contract: RTW88IEEE80211::stop() must already have synchronized
+     * its interrupt/NAPI workers and stopped device DMA before this call. */
+    _interruptSource->disable();
+    _pciDev->setBusMasterEnable(false);
+    const UInt16 command = _pciDev->configRead16(kIOPCIConfigCommand);
+    if (command & 0x0004U) {
+        IOLog("rtl88wifi-wcl: PCI bus-master fence did not stick (command=0x%04x)\n",
+              command);
+        return kIOReturnNotReady;
+    }
+
+DIAGNOSTIC ONLY: no source files modified; no build/install/load performed.
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage25-pci-enable-diagnostic-20261102-020425
