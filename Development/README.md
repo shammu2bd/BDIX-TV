@@ -82,3 +82,14 @@ Run:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage29g-signing-policy-preflight.sh | bash
 ```
+
+
+Stage29g completed on the target Intel Hackintosh:
+- SIP is enabled.
+- No valid code-signing identity is present in the local keychain.
+- No Developer ID Application identity or certificate with kext-signing OID `1.2.840.113635.100.6.1.18` was found.
+- The audited binary hash still matches Stage29d.
+
+Therefore, the candidate remains unsigned and is not load-ready under the current security state. Apple’s kext signing guidance requires a special Developer ID Application identity enabled for kext signing; an ordinary app-signing identity is not sufficient. See [Apple TN2206](https://developer.apple.com/library/archive/technotes/tn2206/) and [Apple Platform Security: Securely extending the kernel](https://support.apple.com/guide/security/securely-extending-the-kernel-sec8e454101b/web).
+
+Next decision: establish whether the developer team has Apple Developer Program membership and Account Holder access to request the kext-signing identity. Do not disable SIP or change OpenCore automatically. No signing, ownership, installation or loading has been performed.
