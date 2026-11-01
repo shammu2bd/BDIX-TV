@@ -8375,3 +8375,19 @@ LOAD: NOT RUN
 OPENCORE_CHANGE: NONE
 QUEUE_REGISTRATION: NOT ENABLED
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+
+
+========== STAGE29G REVIEW / SIGNING POLICY GATE ==========
+STAGE29G_PREFLIGHT: COMPLETE.
+HOST: macOS Sequoia 15.8.1 / 24H32 / x86_64 Intel Hackintosh.
+AUDITED_BINARY_SHA256_MATCH: PASS — matches the Stage29d/29e native executable.
+SIP_STATUS: ENABLED.
+LOCAL_VALID_CODE_SIGNING_IDENTITIES: 0.
+LOCAL_DEVELOPER_ID_APPLICATION_IDENTITIES: 0.
+DEVELOPER_ID_CERTIFICATES_FOUND_BY_QUERY: 0.
+KEXT_SIGNING_CERTIFICATE_OID_1.2.840.113635.100.6.1.18_FOUND: 0.
+SIGNING_READINESS: BLOCKED — no local signing identity/certificate is available, and the candidate is unsigned. The audit did not inspect or disclose private identity material.
+INTERPRETATION: With SIP enabled, do not attempt to load this unsigned candidate. Apple's kext-signing guidance identifies a special Developer ID Application signing identity enabled for kext signing; an ordinary app-signing identity is not sufficient. Whether an appropriate identity can be requested depends on the developer team's eligibility and Apple approval.
+SAFETY: No signing, chown, SIP, NVRAM, OpenCore, install, or load changes were made.
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED.
+NEXT_DECISION: Confirm whether the developer team has an Apple Developer Program membership and Account Holder access to request the special kext-signing identity. If not, stop before signing/install work and decide separately whether a temporary internal-test security configuration is acceptable. Do not disable SIP automatically.
