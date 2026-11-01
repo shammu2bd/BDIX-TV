@@ -49,6 +49,15 @@ fi
 
 mkdir -p "$STAGE_DIR"
 
+cat > "$NEW_PROJECT/BUILD_NAME.txt" <<EOF
+BUILD_NAME=$NEW_NAME
+TARGET=macOS Sequoia 15.8.1 (24H32), x86_64
+SOURCE_LINEAGE=Stage14 packet/segment ABI source with locally verified Stage25 shutdown patch
+STAGE26=cleanly rebased source tree with guarded start/stop cleanup callers
+STATUS=experimental; queue registration disabled; do not install or load
+KNOWN_GOOD_DRIVER=preserve the user's already-working older rtl88wifi.kext
+EOF
+
 # Carry Stage25 forward, then close its two remaining error-propagation gaps:
 # start(fail) and stop() must not proceed with the superclass stop if native
 # resource teardown could not complete.
@@ -238,6 +247,7 @@ ARCHIVE_SIZE="$(stat -f '%z' "$ARCHIVE" 2>/dev/null || wc -c < "$ARCHIVE" | tr -
     echo "SOURCE_PACKAGE_MANIFEST: $NEW_PROJECT/SOURCE_PACKAGE_MANIFEST.txt"
     echo "SOURCE_FILES_IN_MANIFEST: $(wc -l < "$NEW_PROJECT/SOURCE_PACKAGE_MANIFEST.txt" | tr -d ' ')"
     echo "FULL_SOURCE_ARCHIVE: $ARCHIVE"
+    echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/$(basename "$ARCHIVE")"
     echo "ARCHIVE_SIZE_BYTES: $ARCHIVE_SIZE"
     echo "ARCHIVE_SHA256: $ARCHIVE_SHA"
     echo "ARCHIVE_FORMAT: gzip-compressed tar (.tar.gz)"
