@@ -64,7 +64,7 @@ print("REPORT_BYTES:",out.stat().st_size)
 PY
 test -s "$REPORT"
 BYTES=$(wc -c < "$REPORT" | tr -d ' ')
-(( BYTES <= 900000 )) || { echo "Report exceeds 900KB upload cap: $BYTES"; exit 2; }
+(( BYTES <= 5000000 )) || { echo "Report exceeds 5MB upload cap: $BYTES"; exit 2; }
 upload() {
  local file="$1" path="$2" msg="$3" payload="$4" response="$5" old put got
  old="$(gh api "repos/$REPO/contents/$path" --jq .sha 2>/dev/null || true)"
