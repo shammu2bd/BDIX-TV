@@ -3483,3 +3483,29 @@ KNOWN-GOOD OLD rtl88wifi.kext: KEEP RUNNING; NOT TOUCHED
 OLD STAGE14 DIRECTORY: NOT USED FOR FURTHER BUILDS
 QUEUE_REGISTRATION: STILL DISABLED
 DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE26_RESUME_AND_STAGE27_COMPILE_PLUS_DEPENDENCY_ABI_REVIEW
+
+STAGE26 INITIAL RUN — SAFE PREFLIGHT ABORT
+The initial Stage26 generator copied the source into the new project and created BUILD_NAME.txt, then aborted before any C++ write because it expected two cleanupStatus declarations.
+Correct expected count: three (the existing Stage25 free() guard plus the new start(fail) and stop() guards).
+The failed attempt did not write C++ sources, create the manifest, create the ZIP, or run a build.
+The resume runner below acts only on the new project directory and does not use the old Stage14 path.
+
+RTL88WiFi Stage26 — resumed fresh source preparation
+DATE: 2026-11-02 02:19:16 +06
+NEW_PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+BUILD_NAME: RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage26-resume-20261102-021914
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+PASS: Stage25 source preflight passed in the new project tree\nPASS: start(fail) propagates releaseNativeResources() failure by retaining native resources\nPASS: stop() defers superclass stop when cleanup fails\nPASS: free() Stage25 quarantine guard retained\nPASS: exact cleanup guard count is 3 (start, stop, free)\nPASS: PCI rollback, bus-master readback and cleanup status propagation retained\nLIMIT: compile, install, load, queue registration and hardware test not performed\nSOURCE_PACKAGE_MANIFEST: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/SOURCE_PACKAGE_MANIFEST.txt
+SOURCE_FILES_IN_MANIFEST: 1521
+OLD_STAGE14_DIRECTORY: NOT USED BY THIS RESUME RUNNER
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+FULL_SOURCE_ZIP: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source.zip
+ARCHIVE_SIZE_BYTES: 6015518
+ARCHIVE_SHA256: 4d910dd112be0809f08c4268769f43cde6a465cf0d2a4d6a9ac51d81482daa1a
+ARCHIVE_FORMAT: ZIP
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_NEW_TREE_COMPILE_AND_ABI_DEPENDENCY_REVIEW
