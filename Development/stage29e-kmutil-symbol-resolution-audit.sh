@@ -123,7 +123,12 @@ diagnostics_rc = int(diagnostics_rc)
 hash_ok = actual_sha == expected_sha
 # kmutil libraries documents exit status 0 as no undefined or multiply-defined symbols.
 symbol_resolution_ok = libraries_rc == 0
-diagnostics_ok = diagnostics_rc == 0
+diagnostic_findings = []
+if "Filesystem error: Invalid ownership" in diagnostics:
+    diagnostic_findings.append("BUNDLE_OR_FILE_OWNERSHIP_NOT_ROOT_WHEEL")
+if "Authenticating extension failed" in diagnostics or "Bad code signature" in diagnostics:
+    diagnostic_findings.append("CODE_SIGNATURE_AUTHENTICATION_FAILED")
+diagnostics_ok = diagnostics_rc == 0 and len(diagnostic_findings) == 0
 overall = hash_ok and symbol_resolution_ok and diagnostics_ok
 
 out = []
@@ -153,6 +158,7 @@ out.append("")
 out.append("=== KMUTIL PRINT-DIAGNOSTICS ===")
 out.append("KMUTIL_PRINT_DIAGNOSTICS_EXIT: {}".format(diagnostics_rc))
 out.append("KMUTIL_DEPENDENCY_DIAGNOSTICS: {}".format("PASS" if diagnostics_ok else "REVIEW_REQUIRED"))
+out.append("KMUTIL_DIAGNOSTIC_FINDINGS: {}".format(", ".join(diagnostic_findings) if diagnostic_findings else "NONE"))
 out.extend("  " + line for line in diagnostics.splitlines()[:900])
 if not diagnostics:
     out.append("  NO OUTPUT")
