@@ -1,12 +1,28 @@
-Last login: Sun Nov  1 07:37:50 on ttys000
-shohel@Mahfujuls-MacBook-Pro ~ % cd /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage12-queue-pool-abi-audit
-shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-WCL-stage12-queue-pool-abi-audit % python3 tests/test-wcl-queue-pool-ref-stage12.py
+Last login: Sun Nov  1 07:47:48 on ttys000
+shohel@Mahfujuls-MacBook-Pro ~ % cd /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage12-1-queue-pool-abi-collector-fix
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-WCL-stage12-1-queue-pool-abi-collector-fix % python3 tests/test-wcl-queue-pool-ref-stage12.py
+
 bash -n tools/collect-sequoia-abi-24H32-stage12.sh
 
-tools/collect-sequoia-abi-24H32-stage12.sh build/sequoia-abi-24H32-stage12 2>&1 | tee output.log
+tools/collect-sequoia-abi-24H32-stage12.sh \
+  build/sequoia-abi-24H32-stage12-1 2>&1 | tee output.log
+IOSkywalkPacketQueue: 2 exact method symbols (method list)
+IOSkywalkPacketBufferPool: 2 exact method symbols (method list)
+IOSkywalkQueueSet: 2 exact method symbols (method list)
+IOSkywalkLogicalLink: 2 exact method symbols (method list)
 PASS: all four queue/pool class method lists are required
 PASS: exact mangled method symbols are preserved and de-duplicated
 PASS: Stage 8-10 seed ABI targets remain included
+IOSkywalkPacketQueue: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkPacketBufferPool: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkQueueSet: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkLogicalLink: 2 exact method symbols (kcabi INDEX.txt fallback)
+IOSkywalkPacketQueue: 1 exact method symbols (method list)
+IOSkywalkPacketBufferPool: 1 exact method symbols (method list)
+IOSkywalkQueueSet: 1 exact method symbols (method list)
+IOSkywalkLogicalLink: 1 exact method symbols (method list)
+PASS: embedded mangled symbols and INDEX.txt fallback are supported
+PASS: missing class symbols fail closed with previews for all classes
 Target: macOS 15.8.1 (24H32), x86_64
 Kernel collection: /System/Library/KernelCollections/BootKernelExtensions.kc
 kcabi: /Users/shohel/src/kcabi
@@ -14,10 +30,24 @@ llvm-objdump: /opt/local/libexec/llvm-20/bin/llvm-objdump
 Prepared 14 exact 24H32 registration symbols; merged 14 reference symbols.
 
 Pass 1/2: collect 24H32 method lists and baseline registration bodies.
-wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage12.N906Te/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
+wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage12.z2EAFk/pass1/24H32: 48 vtables, 325 sizes, 374 functions, 0 missing
 
 Expand exact class methods for queue/pool lifecycle review.
-usage: prepare-kcabi-ref-24H32-stage12.py [-h] --methods-root METHODS_ROOT
-                                          --out OUT [--reference REFERENCE]
-prepare-kcabi-ref-24H32-stage12.py: error: no exact Itanium method symbols found in /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/rtl88wifi-kcabi-stage12.N906Te/pass1/24H32/IOSkywalkPacketQueue.methods.txt
-shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-WCL-stage12-queue-pool-abi-audit % 
+IOSkywalkPacketQueue: 61 exact method symbols (method list)
+IOSkywalkPacketBufferPool: 65 exact method symbols (method list)
+IOSkywalkQueueSet: 23 exact method symbols (method list)
+IOSkywalkLogicalLink: 19 exact method symbols (method list)
+IOSkywalkPacketQueue: 61 exact method symbols
+IOSkywalkPacketBufferPool: 65 exact method symbols
+IOSkywalkQueueSet: 23 exact method symbols
+IOSkywalkLogicalLink: 19 exact method symbols
+Stage 12 queue/pool method symbols: 168
+
+Pass 2/2: disassemble selected queue/pool class methods.
+wrote /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage12.z2EAFk/pass2/24H32: 48 vtables, 325 sizes, 534 functions, 0 missing
+2440913561fb88c3782b9cc2707495229885c47d8fe0f557b7202a5e5858c90c  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage12-1-queue-pool-abi-collector-fix/build/sequoia-abi-24H32-stage12-1/RTL88WiFi-Sequoia-24H32-stage12-queue-pool-kcabi.tar.gz
+
+Created Stage 12 ABI archive:
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage12-1-queue-pool-abi-collector-fix/build/sequoia-abi-24H32-stage12-1/RTL88WiFi-Sequoia-24H32-stage12-queue-pool-kcabi.tar.gz
+Upload this archive only if requested; upload the project-root output.log for review.
+shohel@Mahfujuls-MacBook-Pro RTL88WiFi-1.0.11-WCL-stage12-1-queue-pool-abi-collector-fix % 
