@@ -3182,3 +3182,38 @@ if ((command & 0x0006U) != 0x0006U)
 
 DIAGNOSTIC ONLY: no source files modified; no build/install/load performed.
 STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage25-pci-enable-diagnostic-20261102-015845
+
+STAGE25 DIAGNOSTIC REVIEW — ROOT CAUSE CONFIRMED
+The Stage25 diagnostic was uploaded successfully. The actual PCI method is:
+- setRadioRunning(true) enables memory + bus mastering, reads PCI command register, then uses an UNBRACED one-line conditional:
+  if ((command & 0x0006U) != 0x0006U)
+      return kIOReturnNotReady;
+- The original Stage25 runner's if_block helper searched for the next opening brace after that condition. Because the conditional has no braces, it captured a later enclosing/later branch, then failed its "exactly one return" count.
+- This is a runner source-pattern bug, not a compiler failure and not evidence of damage to the current installed driver.
+- The diagnostic's "EXACT PCI ENABLE FAILURE BRANCH" extraction is too broad because it also assumed a brace after the unbraced condition. The complete setRadioRunning() method immediately above it is the reliable evidence.
+
+STAGE25 CORRECTED RUNNER PREPARED
+File: stage25-shutdown-fence-quarantine-patch-fixed.sh
+Commit: a8fa21221ec2a401cce09fa0475c2ddac223498c (latest file update commit: 2efd718e1452db5200b7a632af3665ea60594f35)
+Blob SHA: 0e282492b3fb5a2452cca520cc844df829c1cd22
+URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage25-shutdown-fence-quarantine-patch-fixed.sh
+Run:
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage25-shutdown-fence-quarantine-patch-fixed.sh | /bin/bash
+
+Corrections:
+- Replaces the exact unbraced two-line PCI enable failure statement and wraps it in a guarded block.
+- On partial enable, disables interrupt delivery, requests bus-master rollback, reads PCI command register, and keeps backend quarantined if bus mastering remains active.
+- Preserves the original cleanup status propagation, reorders the PCI fence before RX adapter/queue/pool release, quarantines controller free on cleanup failure, and adds PCI backend final-free readback.
+- Retains the previous output.log content when writing the new stage report.
+- Adds source-shape, status propagation, fence ordering, and final-free guards. It edits only the WCL source files under the project plus output.log; it does NOT touch the installed kext bundle or OpenCore configuration.
+
+IMPORTANT KNOWN-GOOD DRIVER STATE (USER CONFIRMED 2026-11-02)
+The user already has an older rtl88wifi.kext running and working on the device. Preserve it as the known-good fallback. Do not unload, remove, overwrite, or replace that installed kext during this development sequence. The WCL project build is a separate experimental candidate and must not be installed until its dependencies, signing, registration, packet lifecycle, shutdown and runtime behavior have been validated.
+
+STAGE25 FIXED RUNNER: PREPARED, NOT YET RUN
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+KNOWN_GOOD_OLD_DRIVER: KEEP RUNNING; UNTOUCHED
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_STAGE25_PATCH_REVIEW_AND_COMPILE_PLUS_DEPENDENCY_AND_ABI_REVIEW
