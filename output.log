@@ -1,32 +1,736 @@
 RTL88WiFi Stage 20 — Private Skywalk callback ABI discovery
-STATUS: IMPLEMENTED_NOT_YET_RUN
-SCRIPT: stage20-private-skywalk-abi-discovery.sh
-SCRIPT_LATEST_COMMIT: 3dfb1b24efa564c6be0ed8274685cab9bb44ed2c
-SCRIPT_URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage20-private-skywalk-abi-discovery.sh
-PURPOSE: Search installed KDKs, Kernel.framework locations, macOS SDK framework paths, project headers, and ~/src/kcabi for private IOSkywalk callback typedefs and queue factory declarations.
-OUTPUT: project root output.log
-UPLOAD: script uses authenticated GitHub CLI (gh) to update this repository output.log when available; otherwise leaves output.log for the existing uploader.
-RUN:
-curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage20-private-skywalk-abi-discovery.sh | /bin/bash
+DATE: 2026-11-02 01:26:04 +06
+HOST: 15.8.1 / 24H32
+ARCH: x86_64
+DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+SDKROOT: /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+KCABI: /Users/shohel/src/kcabi
 
-PRIOR STAGE 19 FINDING
-Xcode 16.4 macOS 15.5 SDK lookup did not locate the seven requested IOSkywalk headers.
+========== KDK INVENTORY ==========
+KDK_ROOT_NOT_FOUND: /Library/Developer/KDKs
 
-VERIFIED 24H32 KERNEL CALLBACK CALL-SITE SHAPES
+========== KERNEL FRAMEWORK LOCATIONS ==========
+FOUND: /System/Library/Frameworks/Kernel.framework
+NOT_FOUND: /System/Library/PrivateFrameworks/Kernel.framework
+NOT_FOUND: /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/Kernel.framework
+FOUND: /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/System/Library/Frameworks/Kernel.framework
+NOT_FOUND: /System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/Kernel.framework
+
+========== SEARCH ROOTS ==========
+/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks
+/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs
+/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/System/Library/Frameworks/Kernel.framework
+/System/Library/Frameworks/Kernel.framework
+/System/Library/PrivateFrameworks
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+/Users/shohel/src/kcabi
+
+========== SKYWalk HEADER / SOURCE FILE DISCOVERY ==========
+CANDIDATE_FILE_COUNT: 35
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/80211/IO80211SkywalkInterface.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/80211/IOSkywalkEthernetInterface.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/network/IOSkywalkEthernetInterface.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkController.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkFamily.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkInterface.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkController.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTypes.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/os_skywalk.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/os_skywalk_private.h
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.hpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkRxAdapter.cpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkRxAdapter.hpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkTxAdapter.cpp
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkTxAdapter.hpp
+
+========== CALLBACK TYPE / FACTORY DECLARATION MATCHES ==========
+DECLARATION_MATCH_LINE_COUNT: 588
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:35:IOReturn RTW88WCLSkywalkQueues::createQueues()
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:38:        return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:41:        return kIOReturnBusy;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:70:    _txSubmission = IOSkywalkTxSubmissionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:76:    _txCompletion = IOSkywalkTxCompletionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:82:    _rxSubmission = IOSkywalkRxSubmissionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:88:    _rxCompletion = IOSkywalkRxCompletionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:96:    return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:100:    return kIOReturnNoMemory;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:140:IOReturn RTW88WCLSkywalkQueues::txSubmissionAction(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:141:    OSObject *owner, IOSkywalkTxSubmissionQueue *queue,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:142:    const IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:147:        return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:153:    for (UInt32 i = 0; i < packetCount; ++i) {
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:155:            return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:159:            return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:162:    return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:165:IOReturn RTW88WCLSkywalkQueues::txCompletionAction(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:166:    OSObject *owner, IOSkywalkTxCompletionQueue *queue,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:167:    IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:170:    return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:173:IOReturn RTW88WCLSkywalkQueues::rxSubmissionAction(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:174:    OSObject *owner, IOSkywalkRxSubmissionQueue *queue,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:175:    const IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:179:    return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:182:IOReturn RTW88WCLSkywalkQueues::rxCompletionAction(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:183:    OSObject *owner, IOSkywalkRxCompletionQueue *queue,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:184:    IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkQueues.cpp:187:    return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:37:    const IOReturn status = workLoop->addEventSource(this);
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:38:    if (status != kIOReturnSuccess) {
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:78:    if (pool->allocatePacket(1, &packet, 1) != kIOReturnSuccess || !packet)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:112:            static_cast<uint32_t>(packetLength)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:120:                0, static_cast<UInt32>(packetLength)) != kIOReturnSuccess)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:132:        if (networkPacket->setCompletionStatus(0) != kIOReturnSuccess)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:144:IOReturn RTW88WCLSkywalkRxAdapter::enqueueFrame(mbuf_t packet)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:147:        return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:153:        return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:159:        return kIOReturnNoResources;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:162:    uint32_t expected = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:166:    return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:174:    uint32_t drained = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:203:        uint32_t expected = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:243:uint32_t RTW88WCLSkywalkRxAdapter::droppedFrames() const
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:248:uint32_t RTW88WCLSkywalkRxAdapter::preparedFrames() const
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkRxAdapter.cpp:253:uint32_t RTW88WCLSkywalkRxAdapter::queuedFrames() const
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:25:IOReturn RTW88WCLSkywalkTxAdapter::bind(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:29:        return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:31:        return kIOReturnBusy;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:37:    return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:40:IOReturn RTW88WCLSkywalkTxAdapter::unbind()
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:43:        return kIOReturnBusy;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:53:    return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:57:    const uint8_t *bytes, uint32_t length)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:76:IOReturn RTW88WCLSkywalkTxAdapter::submitPacket(IOSkywalkPacket *packet)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:79:        return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:81:        return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:85:        return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:89:        return kIOReturnNoMemory;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:96:        return kIOReturnBusy;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:102:    const UInt32 backendResult = _radio->outputPacketWithCompletion(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:110:    return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:126:uint32_t RTW88WCLSkywalkTxAdapter::drainCompletions(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:135:    uint32_t drained = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage18-20261101-220515/stage18-work/evidence/source/RTW88WCLSkywalkTxAdapter.cpp:164:uint32_t RTW88WCLSkywalkTxAdapter::outstandingCompletionCount() const
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:44:    static IOSkywalkPacket * withPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketDescriptor * desc, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:45:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketDescriptor * desc, IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:49:    IOReturn packetCloneWithBaseAndLimit( int64_t base, size_t limit, IOSkywalkCloneableNetworkPacket ** packet );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:50:    IOReturn setPacketBufferBaseAndLimit( int64_t base, size_t limit );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:51:    IOReturn getPacketBufferBaseAddr( uint8_t ** baseAddr );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:52:    IOReturn getPacketBufferObjectBaseAddr( uint8_t ** baseAddr );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:53:    IOReturn getPacketBufferObjectIOBusBaseAddr( uint8_t ** baseAddr );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:55:    virtual UInt32 getPacketBuffers( IOSkywalkPacketBuffer ** buffers, UInt32 count ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:56:    virtual UInt32 getPacketBufferCount() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:58:    virtual IOReturn setDataLength( UInt32 length ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:59:    virtual UInt32 getDataLength() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:60:    virtual IOReturn setDataOffset( UInt16 offset ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:62:    virtual IOReturn setDataOffsetAndLength( UInt16 offset, UInt32 length ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:64:    virtual IOReturn prepareWithQueue( IOSkywalkPacketQueue * queue, IOSkywalkPacketDirection direction = kIOSkywalkPacketDirectionNone, IOOptionBits options = 0 ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:65:    virtual IOReturn completeWithQueue( IOSkywalkPacketQueue * queue, IOSkywalkPacketDirection direction = kIOSkywalkPacketDirectionNone, IOOptionBits options = 0 ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkCloneableNetworkPacket.h:67:    virtual UInt32 getPacketType() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkController.h:51:    IOReturn attachInterface( IOSkywalkInterface * interface, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkController.h:52:    IOReturn detachInterface( IOSkywalkInterface * interface, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:51:    IOReturn registerEthernetInterface( const RegistrationInfo * info, IOSkywalkPacketQueue ** queues, IOOptionBits queueOptions, IOSkywalkPacketBufferPool * pool1, IOSkywalkPacketBufferPool * pool2, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:52:    IOReturn deregisterEthernetInterface( IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:54:    virtual IOReturn initBSDInterfaceParameters( struct ifnet_init_eparams * params, sockaddr_dl ** ll ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:55:    virtual IOReturn prepareBSDInterface( ifnet_t interface, IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:56:    virtual errno_t processBSDCommand( ifnet_t interface, UInt32 cmd, void * data ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:61:    virtual IOReturn getPacketTapInfo(UInt32 *, UInt32 *) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:62:    virtual UInt32 getMaxTransferUnit() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:63:    virtual UInt32 getMinPacketSize() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:64:    virtual UInt32 getHardwareAssists() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:66:    virtual IOReturn configureMulticastFilter( UInt32, const ether_addr * addresses, uint32_t count );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:67:    virtual IOReturn setPromiscuousModeEnable( bool enable, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkEthernetInterface.h:88:        UInt32             eNumMulticastAddresses;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkFamily.h:45:#include <IOKit/skywalk/IOSkywalkRxSubmissionQueue.h>
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkFamily.h:46:#include <IOKit/skywalk/IOSkywalkRxCompletionQueue.h>
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkFamily.h:47:#include <IOKit/skywalk/IOSkywalkTxSubmissionQueue.h>
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkFamily.h:48:#include <IOKit/skywalk/IOSkywalkTxCompletionQueue.h>
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkInterface.h:53:    virtual IOReturn enable( IOOptionBits options ) = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkInterface.h:54:    virtual IOReturn disable( IOOptionBits options ) = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkInterface.h:55:    virtual IOReturn clientConnectWithTask( task_t task, IOService * forClient, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkInterface.h:58:    IOReturn registerInterfaceWithQueues( IOSkywalkPacketQueue ** queue, UInt32 count, IOSkywalkPacketBufferPool * pool1, IOSkywalkPacketBufferPool * pool2, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkInterface.h:59:    IOReturn deregisterInterfaceWithQueues();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:42:    UInt32 packetBufferCount;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:51:        UInt32 alignment;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:61:    static IOSkywalkMemorySegment * withPool( IOSkywalkPacketBufferPool * pool, IOSkywalkMemorySegmentDescriptor * desc, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:62:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, IOSkywalkMemorySegmentDescriptor * desc, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:66:    virtual IOReturn setDMACommand( IODMACommand * dmaCommand, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:69:    virtual IOReturn prepare( IODirection forDirection = kIODirectionNone );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:70:    virtual IOReturn complete( IODirection forDirection = kIODirectionNone );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:72:    virtual IOReturn setBufferMemoryDescriptor( IOBufferMemoryDescriptor * md );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkMemorySegment.h:74:    virtual IOReturn setMemoryDescriptor( IOMemoryDescriptor * md, UInt64 address );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:55:    IOReturn registerNetworkInterface( const RegistrationInfo * info, IOSkywalkPacketQueue ** queues, IOOptionBits queueOptions, IOSkywalkPacketBufferPool * pool1, IOSkywalkPacketBufferPool * pool2, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:56:    IOReturn deregisterNetworkInterface( IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:59:    IOReturn reportEventType( UInt32 type, void * argument, vm_size_t argSize = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:60:    IOReturn reportLinkStatus( IOSkywalkNetworkLinkStatus linkStatus, IOSkywalkNetworkMediaType activeMediaType );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:61:    IOReturn reportLinkQuality( IOSkywalkNetworkLinkQuality linkQuality );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:62:    IOReturn reportDataBandwidths( uint64_t maxInputBandwidth, uint64_t maxOutputBandwidth, uint64_t effectiveInputBandwidth, uint64_t effectiveOutputBandwidth );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:63:    IOReturn reportInterfaceAdvisory( const struct ifnet_interface_advisory * advisory );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:65:    virtual IOReturn setAggressiveness( unsigned long type, unsigned long newLevel ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:69:    virtual IOReturn initBSDInterfaceParameters( struct ifnet_init_eparams * params, struct sockaddr_dl ** ll ) = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:70:    virtual IOReturn prepareBSDInterface( ifnet_t interface, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:76:    virtual errno_t processBSDCommand( ifnet_t interface, UInt32 cmd, void * data );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:77:    errno_t ioctl_gifmedia( ifnet_t interface, UInt32 sockioc, void * data );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:86:    virtual IOReturn handleChosenMedia( UInt32 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:87:    virtual IOReturn getSupportedMediaArray( UInt32 *, UInt32 * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:89:    virtual IOReturn getPacketTapInfo( UInt32 *, UInt32 * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:90:    virtual IOReturn getUnsentDataByteCount( UInt32 *, UInt32 *, UInt32 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:91:    virtual IOReturn getSupportedWakeFlags( UInt32 * flags );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:92:    virtual IOReturn enableNetworkWake( UInt32 flags );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:94:    virtual IOReturn calculateRingSizeForQueue( const IOSkywalkPacketQueue * queue, UInt32 * size );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:95:    IOReturn getServiceClassIndex( kern_packet_svc_class_t serviceClass, UInt32 * index );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:96:    virtual UInt32 getMaxTransferUnit();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:97:    virtual UInt32 getMinPacketSize();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:98:    virtual IOReturn getMTU( UInt32 * mtu );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:99:    virtual void setMTU( UInt32 mtu );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:101:    virtual UInt32 getHardwareAssists();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:102:    virtual void setHardwareAssists( UInt32 hardwareAssists );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:103:    IOReturn setKDPPoller( IOSkywalkNetworkKDPPoller * poller );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:105:    virtual void captureInterfaceState( UInt32 state );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:106:    virtual void restoreInterfaceState( UInt32 state );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:107:    virtual IOReturn handleDoorbellForQueue( IOSkywalkPacketQueue * queue, UInt32 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:133:        UInt32                      eLinkStatusMessageType;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:135:        UInt32                      eChosenMedia;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkInterface.h:139:        UInt32                      eMTU;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:44:    static IOSkywalkNetworkPacket * withPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketDescriptor * desc, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:45:    virtual UInt32 getPacketType() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:47:    IOReturn setHeadroom( uint8_t headroom );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:49:    IOReturn setLinkHeaderLength( uint8_t length );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:51:    IOReturn setLinkHeaderOffset( uint32_t offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:52:    IOReturn getLinkHeaderOffset( uint32_t * offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:53:    IOReturn setNetworkHeaderOffset( uint32_t offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:54:    IOReturn getNetworkHeaderOffset( uint32_t * offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:55:    IOReturn setDataContainsFCS( bool contain );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:59:    IOReturn setTimestamp( AbsoluteTime timestamp );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:60:    IOReturn getTimestamp( AbsoluteTime * timestamp );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:61:    IOReturn clearTimestamp();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:63:    IOReturn setCompletionStatus( int status );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:64:    IOReturn getExpiryTime( AbsoluteTime * time );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:66:    IOReturn getTokenData( void * data, uint16_t * size );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:67:    IOReturn getPacketID( packet_id_t * packetID );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:74:    IOReturn setIsLinkBroadcast( bool broadcast );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkNetworkPacket.h:76:    IOReturn setIsLinkMulticast( bool multicast );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:40:typedef uint32_t IOSkywalkPacketDirection;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:66:    static IOSkywalkPacket * withPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketDescriptor * desc, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:67:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketDescriptor * desc, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:71:    UInt32 getBufferSize();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:72:    virtual UInt32 getPacketBuffers( IOSkywalkPacketBuffer ** buffers, UInt32 maxBuffers );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:73:    virtual UInt32 getPacketBufferCount();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:75:    virtual IOReturn setDataLength( UInt32 length );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:76:    virtual UInt32 getDataLength();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:77:    virtual IOReturn setDataOffset( UInt16 offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:79:    virtual IOReturn setDataOffsetAndLength( UInt16 offset, UInt32 length );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:82:    virtual IOReturn prepareWithQueue( IOSkywalkPacketQueue * queue, IOSkywalkPacketDirection direction = kIOSkywalkPacketDirectionNone, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:83:    virtual IOReturn prepare( IOSkywalkPacketQueue * queue, UInt64 offset, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:84:    virtual IOReturn completeWithQueue( IOSkywalkPacketQueue * queue, IOSkywalkPacketDirection direction = kIOSkywalkPacketDirectionNone, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:85:    virtual IOReturn complete( IOSkywalkPacketQueue * queue, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:91:    virtual UInt32 getPacketType();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:93:    void cancelCompletionCallback();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:105:    UInt32                   mPacketState;       // 88 (0x58) - state access observed in 24H32
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:106:    UInt32                   _unknownFlags;      // 92 (0x5c) - observed bit use; semantic name not confirmed
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:107:    UInt32                   mMaxNumBuffers;     // 96 (0x60) - initialized from pool descriptor
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacket.h:108:    UInt32                   mActualNumBuffers;  // 100 (0x64) - read by both 24H32 count methods
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:58:    static IOSkywalkPacketBuffer * withPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketBufferDescriptor * desc, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:59:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, IOSkywalkPacketBufferDescriptor * desc, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:63:    UInt32 getBufferSize();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:65:    UInt32 getDataLength();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:66:    IOReturn setDataLength( UInt32 length );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:68:    IOReturn setDataOffset( UInt16 offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:69:    IOReturn setDataOffsetAndLength( UInt16 offset, UInt32 length );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:74:    virtual IOReturn prepare( IODirection forDirection = kIODirectionNone );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:75:    virtual IOReturn complete( IODirection forDirection = kIODirectionNone );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:79:    virtual IOReturn prepareWithMemorySegment( IOSkywalkMemorySegment * segment, UInt64 offset, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:80:    virtual IOReturn completeWithMemorySegment( IOSkywalkMemorySegment * segment, UInt64 offset, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:83:    virtual IOReturn prepareWithQueue( IOSkywalkPacketQueue * queue, IODirection direction = kIODirectionNone, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:84:    virtual IOReturn completeWithQueue( IOSkywalkPacketQueue * queue, IODirection direction = kIODirectionNone, IOOptionBits options = 0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:94:    void cancelCompletionCallback();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:109:    UInt32 mBufferState;         // 120
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBuffer.h:110:    UInt32 mDataLength;          // 124
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:48:    UInt32 prepareMaxRetries;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:49:    UInt32 prepareErrorCode;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:77:        uint32_t packetCount;         // 0
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:78:        uint32_t bufferCount;         // 4
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:79:        uint32_t bufferSize;          // 8
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:80:        uint32_t maxBuffersPerPacket; // 12
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:81:        uint32_t memorySegmentSize;   // 16
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:82:        uint32_t poolFlags;           // 20
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:87:    static IOSkywalkPacketBufferPool * withName( const char * name, OSObject * owner, UInt32 packetType, const PoolOptions * options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:88:    virtual bool initWithName( const char * name, void * owner, UInt32 packetType, const PoolOptions * options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:89:    virtual bool initWithName( const char * name, OSObject * owner, UInt32 packetType, const PoolOptions * options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:110:    virtual IOReturn allocatePacket( UInt32 bufCount, IOSkywalkPacket ** outPacket, IOOptionBits options ); // no sleep if (options & 1)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:111:    virtual IOReturn allocatePackets( UInt32 bufCount, UInt32 * numPackets, IOSkywalkPacket ** outPackets, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:112:    virtual IOReturn deallocatePacket( IOSkywalkPacket * packet );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:113:    virtual IOReturn deallocatePackets( IOSkywalkPacket ** packets, uint32_t numPackets );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:114:    virtual IOReturn deallocatePacketChain( kern_packet_t packet );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:116:    virtual IOReturn allocatePacketBuffer( IOSkywalkPacketBuffer ** outBuf, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:117:    virtual IOReturn allocatePacketBuffers( UInt32 * numBufs, IOSkywalkPacketBuffer ** outBufs, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:118:    virtual IOReturn deallocatePacketBuffer( IOSkywalkPacketBuffer * buf );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:119:    virtual IOReturn deallocatePacketBuffers( IOSkywalkPacketBuffer ** bufs, uint32_t numBufs );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:123:    bool createSegmentBuffers( IOSkywalkMemorySegment * segment, UInt32 numBuffers, bool subDesc );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:125:    IOReturn prepareMemorySegment( IOSkywalkMemorySegment * segment, IOBufferMemoryDescriptor * buffer, UInt64 offset );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:127:    virtual IOReturn newPacket( IOSkywalkPacketDescriptor * desc, IOSkywalkPacket ** outPacket );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:131:    virtual IOReturn newPacketBuffer( IOSkywalkPacketBufferDescriptor * desc, IOSkywalkPacketBuffer ** outBuffer );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:133:    IOSkywalkPacketBuffer * getPacketBufferWithSegmentInfo( kern_segment_t segment, UInt32 bufIndex );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:135:    virtual IOReturn newMemorySegment( IOSkywalkMemorySegmentDescriptor * desc, IOSkywalkMemorySegment ** outSegment );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:143:    UInt32 mPacketCount;       // 40
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:144:    UInt32 mBufferCount;       // 44
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:145:    UInt32 mBufferSize;        // 48
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:146:    UInt32 mMaxFragments;      // 52
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:147:    UInt32 mSegmentCount;      // 56
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:148:    UInt32 mPacketType;        // 60
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:149:    UInt32 mSegmentSize;       // 64
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:150:    UInt32 mBuffersPerSegment; // 68
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketBufferPool.h:151:    UInt32 mPoolFlags;         // 72
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:42:typedef void (*IOSkywalkPacketQueueNotifyAction)(IOSkywalkPacketQueue * owner, void * arg);
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:49:    virtual IOReturn initialize( void * refCon );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:51:    virtual IOReturn synchronize( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:52:    virtual IOReturn syncPackets( kern_packet_t * packetArray, UInt32 * packetCount, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:53:    virtual IOReturn sendNotification( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:54:    virtual IOReturn handleDoorbell( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:58:    virtual IOReturn setPacketBufferPool( IOSkywalkPacketBufferPool * pool );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:66:    UInt32 getQueueId();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:67:    UInt32 getCapacity();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:68:    UInt32 getBufferSize();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:69:    virtual UInt32 getPacketCount() = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:70:    virtual UInt32 getPacketBufferCount();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:71:    virtual UInt32 getFreeSpace();
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:72:    virtual IOReturn getDataByteCount( UInt32 * count );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:74:    virtual IOReturn setPacketPoller( IOSkywalkPacketPoller * poller );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:75:    virtual IOReturn performCommand( UInt32 command, void * data, size_t dataSize );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:83:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, UInt32 bufferSize, IODirection direction, UInt32 capacity, UInt32 queueId, OSObject * owner, IOEventSource::Action action, void * refCon );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:108:    UInt32 mQueueId; // 152
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:109:    UInt32 mCapacity; // 156
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkPacketQueue.h:110:    UInt32 mBufferSize; // 160
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:34:#ifndef _IOSKYWALKRXCOMPLETIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:35:#define _IOSKYWALKRXCOMPLETIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:39:class IOSkywalkRxCompletionQueue;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:42:typedef IOReturn (*IOSkywalkRxCompletionQueueAction)( OSObject * owner, IOSkywalkRxCompletionQueue *, IOSkywalkPacket **, UInt32, void * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:44:class IOSkywalkRxCompletionQueue : public IOSkywalkPacketQueue
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:46:    OSDeclareDefaultStructors( IOSkywalkRxCompletionQueue )
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:49:    virtual IOReturn initialize( void * refCon ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:54:    IOReturn synchronizeNonChain(  IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:55:    virtual IOReturn synchronize( IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:56:    virtual IOReturn syncPackets( kern_packet_t * packetArray, UInt32 * packetCount, IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:57:    virtual IOReturn sendNotification( IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:59:    virtual IOReturn setPacketPoller( IOSkywalkPacketPoller * poller ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:60:    virtual IOReturn performCommand( UInt32 command, void * data, size_t dataSize ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:61:    IOReturn gatedEnqueue( void * refCon, bool * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:62:    virtual IOReturn requestEnqueue( void * packets, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:63:    virtual IOReturn enqueuePackets( const IOSkywalkPacket ** packets, UInt32 packetCount, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:64:    virtual IOReturn enqueuePackets( const queue_entry * packets, UInt32 packetCount, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:65:    virtual UInt32 getPacketCount() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:66:    UInt32 getEffectiveCapacity( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:69:    static IOSkywalkRxCompletionQueue * withPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, OSObject * owner, IOSkywalkRxCompletionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:70:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, OSObject * owner, IOSkywalkRxCompletionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:76:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:77:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  1 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:78:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  2 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:79:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  3 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:80:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  4 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:81:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  5 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:82:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  6 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:83:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  7 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:84:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  8 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:85:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue,  9 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxCompletionQueue.h:86:    OSMetaClassDeclareReservedUnused( IOSkywalkRxCompletionQueue, 10 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:34:#ifndef _IOSKYWALKRXSUBMISSIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:35:#define _IOSKYWALKRXSUBMISSIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:39:class IOSkywalkRxSubmissionQueue;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:42:typedef IOReturn (*IOSkywalkRxSubmissionQueueAction)( OSObject * owner, IOSkywalkRxSubmissionQueue *, const IOSkywalkPacket **, UInt32, void * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:44:struct IOSkywalkRxSubmissionQueueStats; // 56
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:46:class IOSkywalkRxSubmissionQueue : public IOSkywalkPacketQueue
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:48:    OSDeclareDefaultStructors( IOSkywalkRxSubmissionQueue )
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:51:    virtual IOReturn initialize( void * refCon ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:57:    virtual IOReturn requestDequeue( void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:60:    virtual IOReturn performCommand( UInt32 command, void * data, size_t dataSize ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:63:    virtual UInt32 getPacketCount() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:64:    UInt32 getEffectiveCapacity( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:67:    static IOSkywalkRxSubmissionQueue * withPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, kern_packet_svc_class_t serviceClass, OSObject * owner, IOSkywalkRxSubmissionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:68:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, kern_packet_svc_class_t serviceClass, OSObject * owner, IOSkywalkRxSubmissionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:74:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:75:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  1 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:76:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  2 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:77:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  3 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:78:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  4 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:79:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  5 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:80:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  6 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:81:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  7 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:82:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  8 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:83:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue,  9 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:84:    OSMetaClassDeclareReservedUnused( IOSkywalkRxSubmissionQueue, 10 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:90:    IOSkywalkRxSubmissionQueueStats * mStats; // 216
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:93:    UInt32 mQueueId; // 240
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:94:    UInt32 _reserved244; // 244
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:95:    UInt32 _reserved248; // 248
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:96:    UInt32 _reserved252; // 252
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:97:    UInt32 _reserved256; // 256
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:98:    UInt32 _reserved260; // 260
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkRxSubmissionQueue.h:99:    UInt32 _reserved264; // 264
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:37:typedef uint32_t        IOSKSize;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:38:typedef uint32_t        IOSKIndex;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:39:typedef uint32_t        IOSKCount;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:40:typedef uint32_t        IOSKOffset;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:42:typedef struct
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:54:typedef struct
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:62:typedef IOMemoryDescriptor *        IOSKMemoryRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:63:typedef IOSKMemoryRef               IOSKMemoryArrayRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:64:typedef IOSKMemoryRef               IOSKMemoryBufferRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:67:typedef IOSKArena *                 IOSKArenaRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:70:typedef IOSKRegion *                IOSKRegionRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:73:typedef IOSKMapper *                IOSKMapperRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:74:typedef IOSKMemoryRef               IOSKMemoryDescriptor;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:77:typedef IOMemoryMap *               IOSKMemoryMapRef;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:88:    uint32_t count );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:104:IOReturn            IOSKMemoryReclaim( IOSKMemoryRef reference );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:105:IOReturn            IOSKMemoryDiscard( IOSKMemoryRef reference );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:107:IOReturn            IOSKMemoryWire( IOSKMemoryRef reference );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:108:IOReturn            IOSKMemoryUnwire( IOSKMemoryRef reference );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:126:IOReturn
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:146:IOReturn
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:196:typedef IOSKMemoryBuffer    IOSKBuffer;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:211:    IOReturn    map( IOSKIndex segIndex, IOSKBuffer * buffer );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:240:    IOReturn map( IOSKIndex regIndex, IOSKIndex segIndex, IOSKBuffer * buffer );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:292:    IOReturn createMapperForTask( task_t task,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:308:    IOReturn map( const IOSKRegion * region,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:347:    IOReturn setSegmentBuffer( IOSKIndex index, IOSKBuffer * buf );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:354:    IOReturn updateMappingsForArena( IOSKArena * arena, bool redirect,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkSupport.h:390:    IOReturn     _setSegmentBuffer( const IOSKIndex index, IOSKMemoryBuffer * buf );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:34:#ifndef _IOSKYWALKTXCOMPLETIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:35:#define _IOSKYWALKTXCOMPLETIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:39:extern void queueNotifyAction( IOSkywalkPacketQueue * target, void * refCon );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:41:class IOSkywalkTxCompletionQueue;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:44:typedef IOReturn (*IOSkywalkTxCompletionQueueAction)( OSObject * owner, IOSkywalkTxCompletionQueue *, IOSkywalkPacket **, UInt32, void * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:46:/*! @struct IOSkywalkTxCompletionQueueStats
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:47:    @abstract A structure containing counters of serveral functions in the IOSkywalkTxCompletionQueue class.
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:53:struct IOSkywalkTxCompletionQueueStats
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:61:class IOSkywalkTxCompletionQueue : public IOSkywalkPacketQueue
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:63:    OSDeclareDefaultStructors( IOSkywalkTxCompletionQueue )
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:66:    virtual IOReturn initialize( void * refCon ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:71:    virtual IOReturn performCommand( UInt32 command, void * data, size_t dataSize ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:72:    virtual IOReturn requestEnqueue( void * packets, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:73:    virtual IOReturn enqueuePackets( const IOSkywalkPacket ** packets, UInt32 packetCount, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:74:    virtual IOReturn enqueuePackets( const queue_entry * packets, UInt32 packetCount, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:76:    IOReturn enqueueAndCompletePackets( void * packets );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:77:    virtual UInt32 getPacketCount() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:78:    UInt32 getEffectiveCapacity( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:81:    static IOSkywalkTxCompletionQueue * withPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, OSObject * owner, IOSkywalkTxCompletionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:82:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, OSObject * owner, IOSkywalkTxCompletionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:88:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:89:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  1 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:90:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  2 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:91:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  3 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:92:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  4 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:93:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  5 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:94:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  6 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:95:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  7 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:96:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  8 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:97:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue,  9 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:98:    OSMetaClassDeclareReservedUnused( IOSkywalkTxCompletionQueue, 10 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:119:    IOSkywalkTxCompletionQueueStats * mStats;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:131:    UInt32 mActionStatus;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:136:    UInt32 mInitCounter;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:141:    UInt32 mWorkCounter;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxCompletionQueue.h:146:    UInt32 mNumCheckedWorks;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:34:#ifndef _IOSKYWALKTXSUBMISSIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:35:#define _IOSKYWALKTXSUBMISSIONQUEUE_H
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:39:class IOSkywalkTxSubmissionQueue;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:43:typedef IOReturn (*IOSkywalkQueryFreeSpaceHandler) ( OSObject * owner, IOSkywalkTxSubmissionQueue * queue, UInt32 * outSpace );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:44:typedef IOReturn (*IOSkywalkTxSubmissionQueueAction)( OSObject * owner, IOSkywalkTxSubmissionQueue * queue, const IOSkywalkPacket **, UInt32, void * );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:46:struct IOSkywalkTxSubmissionQueueStats; // size = 128
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:48:class IOSkywalkTxSubmissionQueue : public IOSkywalkPacketQueue
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:50:    OSDeclareDefaultStructors( IOSkywalkTxSubmissionQueue )
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:53:    virtual IOReturn initialize( void * refCon ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:58:    virtual IOReturn synchronize( IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:62:    virtual IOReturn sendNotification( IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:63:    virtual IOReturn handleDoorbell( IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:66:    virtual IOReturn requestDequeue( void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:69:    virtual IOReturn performCommand( UInt32 command, void * data, size_t dataSize ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:72:    virtual UInt32 getPacketCount() APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:73:    virtual IOReturn getDataByteCount( UInt32 * count ) APPLE_KEXT_OVERRIDE;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:74:    UInt32 getEffectiveCapacity( IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:78:    static UInt32 defaultQueryFreeSpaceHandler( OSObject * owner, IOSkywalkTxSubmissionQueue * queue, UInt32 * outSpace );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:79:    UInt32 defaultQueryFreeSpace( UInt32 * outSpace );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:81:    static IOSkywalkTxSubmissionQueue * withPoolAndServiceClass( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, kern_packet_svc_class_t serviceClass, OSObject * owner, IOSkywalkQueryFreeSpaceHandler handler, IOSkywalkTxSubmissionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:82:    static IOSkywalkTxSubmissionQueue * withPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, OSObject * owner, IOSkywalkQueryFreeSpaceHandler handler, IOSkywalkTxSubmissionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:83:    static IOSkywalkTxSubmissionQueue * withPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, OSObject * owner, IOSkywalkTxSubmissionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:84:    virtual bool initWithPool( IOSkywalkPacketBufferPool * pool, UInt32 capacity, UInt32 queueId, kern_packet_svc_class_t serviceClass, OSObject * owner, IOSkywalkQueryFreeSpaceHandler handler, IOSkywalkTxSubmissionQueueAction action, void * refCon, IOOptionBits options );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:90:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  0 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:91:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  1 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:92:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  2 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:93:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  3 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:94:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  4 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:95:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  5 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:96:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  6 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:97:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  7 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:98:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  8 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:99:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue,  9 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:100:    OSMetaClassDeclareReservedUnused( IOSkywalkTxSubmissionQueue, 10 );
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:108:    IOSkywalkTxSubmissionQueueStats * mStats; // 232
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:110:    UInt32 mPacketCount; // 264
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTxSubmissionQueue.h:111:    UInt32 mNumCompletedPackets; // 268
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTypes.h:34:typedef uint32_t IOSkywalkNetworkLinkStatus;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTypes.h:43:typedef uint32_t IOSkywalkNetworkLinkQuality;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/IOKit/skywalk/IOSkywalkTypes.h:61:typedef uint32_t IOSkywalkNetworkMediaType;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:129:__sk_copy32_8(uint32_t *src, uint32_t *dst)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:178:__sk_copy32_16(uint32_t *src, uint32_t *dst)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:191:__sk_vcopy32_16(uint32_t *src, uint32_t *dst)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:210:	*(uint32_t *)dst = *(uint32_t *)src;    /* [#2*4] */
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:321:__sk_copy32_32(uint32_t *src, uint32_t *dst)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:338:__sk_vcopy32_32(uint32_t *src, uint32_t *dst)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:533:sk_copy64_4x(uint32_t *src, uint32_t *dst, size_t l)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:880:	uint32_t result = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_common.h:962:	uint32_t result = 0;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:113:extern uint32_t sk_debug;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:187:static inline uint32_t
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:188:SLOT_NEXT(uint32_t i, uint32_t lim)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:195:static inline uint32_t
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:196:SLOT_PREV(uint32_t i, uint32_t lim)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:202:static inline uint32_t
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:203:SLOT_INCREMENT(uint32_t i, uint32_t n, uint32_t lim)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:297:extern uint32_t sk_opp_defunct;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:298:extern uint32_t sk_cksum_tx;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:299:extern uint32_t sk_cksum_rx;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:300:extern uint32_t sk_guard;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:301:extern uint32_t sk_headguard_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:302:extern uint32_t sk_tailguard_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:305:extern uint32_t sk_txring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:306:extern uint32_t sk_rxring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:307:extern uint32_t sk_net_txring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:308:extern uint32_t sk_net_rxring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:311:extern uint32_t sk_max_flows;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:312:extern uint32_t sk_fadv_nchunks;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:313:extern uint32_t sk_netif_compat_txmodel;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:314:extern uint32_t sk_netif_native_txmodel;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:317:extern uint32_t sk_netif_compat_aux_cell_tx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:318:extern uint32_t sk_netif_compat_aux_cell_rx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:319:extern uint32_t sk_netif_compat_wap_tx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:320:extern uint32_t sk_netif_compat_wap_rx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:321:extern uint32_t sk_netif_compat_awdl_tx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:322:extern uint32_t sk_netif_compat_awdl_rx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:323:extern uint32_t sk_netif_compat_wif_tx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:324:extern uint32_t sk_netif_compat_wif_rx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:325:extern uint32_t sk_netif_compat_usb_eth_tx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:326:extern uint32_t sk_netif_compat_usb_eth_rx_ring_sz;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:329:extern uint32_t sk_fsw_rx_agg_tcp;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:330:extern uint32_t sk_fsw_tx_agg_tcp;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:332:typedef enum fsw_rx_agg_tcp_host {
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:337:extern uint32_t sk_fsw_rx_agg_tcp_host;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:338:extern uint32_t sk_fsw_max_bufs;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:340:typedef enum netif_mit_cfg {
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:347:extern uint32_t sk_netif_tx_mit;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:348:extern uint32_t sk_netif_rx_mit;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:349:extern uint32_t sk_rx_sync_packets;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:350:extern uint32_t sk_channel_buflet_alloc;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:351:extern uint32_t sk_min_pool_size;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:354:typedef const struct sk_protect *sk_protect_t;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:469:typedef void (*_null_func_t)(void);
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:472:extern uint32_t sk_inject_error_rmask;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/MacKernelSDK/Headers/skywalk/core/skywalk_var.h:508:extern const char *sk_memstatus2str(uint32_t);
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:35:IOReturn RTW88WCLSkywalkQueues::createQueues()
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:38:        return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:41:        return kIOReturnBusy;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:70:    _txSubmission = IOSkywalkTxSubmissionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:76:    _txCompletion = IOSkywalkTxCompletionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:82:    _rxSubmission = IOSkywalkRxSubmissionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:88:    _rxCompletion = IOSkywalkRxCompletionQueue::withPool(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:96:    return kIOReturnSuccess;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:100:    return kIOReturnNoMemory;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:140:IOReturn RTW88WCLSkywalkQueues::txSubmissionAction(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:141:    OSObject *owner, IOSkywalkTxSubmissionQueue *queue,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:142:    const IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:147:        return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:153:    for (UInt32 i = 0; i < packetCount; ++i) {
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:155:            return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:159:            return kIOReturnBadArgument;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:162:    return kIOReturnNotReady;
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:165:IOReturn RTW88WCLSkywalkQueues::txCompletionAction(
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:166:    OSObject *owner, IOSkywalkTxCompletionQueue *queue,
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp:167:    IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+
+========== VERIFIED 24H32 KERNEL CALLBACK CALL-SITE SHAPES ==========
 TX_SUBMISSION: 3 arguments — owner (RDI), queue (RSI), pointer to a 32-bit stack value (RDX); callback EAX is consumed as a packet-count result.
 TX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), packet-ring pointer (RDX), count limit (RCX), callback context (R8); callback EAX is consumed as a completion count.
 RX_SUBMISSION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX advances the RX ring.
 RX_COMPLETION: 5 arguments — owner (RDI), queue (RSI), RX ring-slot pointer (RDX), ring count/bound (RCX), callback context (R8); callback EAX is consumed as an enqueue count.
-NOTE: these are call-site register shapes from supplied 24H32 kernel disassembly, not substitutes for SDK typedef declarations.
+NOTE: these are call-site register shapes from the supplied 24H32 disassembly, not substitutes for the SDK typedef declarations.
 
-CURRENT SOURCE OBSERVATION
-All four callback declarations/definitions still return IOReturn.
-TX submission currently declares a five-argument packet-array callback, but its kernel call site supplies three arguments and RDX points to a 32-bit stack value.
-The remaining three queue callbacks are invoked with five argument registers at their examined call sites; exact pointer typedef compatibility still requires header confirmation.
+========== KCABI SOURCE / HEADER SEARCH ==========
+KCABI_TEXT_FILE_COUNT: 1288
+/Users/shohel/src/kcabi/abi/graphics/20G1443/IOAccelTraceStreamConnection.methods.txt:17:0x1a3c48d0	__ZN28IOAccelTraceStreamConnection16registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/20G1443/IOAccelTraceStream2.methods.txt:13:0x1a3c4b4a	__ZN19IOAccelTraceStream216registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/20G1443/IOAccelFenceMachine.methods.txt:23:0x1a3c2ab4	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOAccelTraceStreamConnection.methods.txt:17:0x14e33e0e	__ZN28IOAccelTraceStreamConnection16registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOAccelTraceStream2.methods.txt:13:0x14e34088	__ZN19IOAccelTraceStream216registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOAccelFenceMachine.methods.txt:26:0x14e31ffc	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOAccelFenceMachine.methods.txt:41:0x14e6ad0c	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2.cold.1
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOAccelFenceMachine.methods.txt:42:0x14e6ad1d	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2.cold.2
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOSurfaceRoot.methods.txt:92:0xffffff8002a09d9a	__ZN13IOSurfaceRoot38add_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/24H32/IOSurfaceRoot.methods.txt:93:0xffffff8002a09df2	__ZN13IOSurfaceRoot41remove_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/22H730/IOAccelTraceStreamConnection.methods.txt:17:0x15364c52	__ZN28IOAccelTraceStreamConnection16registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/22H730/IOAccelTraceStream2.methods.txt:13:0x15364ecc	__ZN19IOAccelTraceStream216registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/22H730/IOAccelFenceMachine.methods.txt:23:0x15362da8	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2
+/Users/shohel/src/kcabi/abi/graphics/22H730/IOSurfaceRoot.methods.txt:85:0xffffff8003033e62	__ZN13IOSurfaceRoot38add_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/22H730/IOSurfaceRoot.methods.txt:86:0xffffff8003033eba	__ZN13IOSurfaceRoot41remove_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/23J631/IOAccelTraceStreamConnection.methods.txt:17:0x147e5d9a	__ZN28IOAccelTraceStreamConnection16registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/23J631/IOAccelTraceStream2.methods.txt:13:0x147e600e	__ZN19IOAccelTraceStream216registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/23J631/IOAccelFenceMachine.methods.txt:26:0x147e3efe	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2
+/Users/shohel/src/kcabi/abi/graphics/23J631/IOSurfaceRoot.methods.txt:91:0xffffff80028e7b24	__ZN13IOSurfaceRoot38add_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/23J631/IOSurfaceRoot.methods.txt:92:0xffffff80028e7b7c	__ZN13IOSurfaceRoot41remove_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOAccelTraceStreamConnection.methods.txt:17:0x14b85bba	__ZN28IOAccelTraceStreamConnection16registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOAccelTraceStream2.methods.txt:11:0x14b85e28	__ZN19IOAccelTraceStream216registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOAccelFenceMachine.methods.txt:26:0x14b83db4	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOSurfaceRoot.methods.txt:25:0xffffff8002b95632	__ZN13IOSurfaceRoot29signal_event_clients_callbackEP8OSObjectP22IOInterruptEventSourcei
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOSurfaceRoot.methods.txt:95:0xffffff8002b99342	__ZN13IOSurfaceRoot38add_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOSurfaceRoot.methods.txt:96:0xffffff8002b9939a	__ZN13IOSurfaceRoot41remove_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/25G241/IOSurfaceSharedEventListener.methods.txt:18:0xffffff8002b80afe	__ZN28IOSurfaceSharedEventListener27event_notification_callbackEP8OSObjectP22IOInterruptEventSourcei
+/Users/shohel/src/kcabi/abi/graphics/21H1320/IOAccelTraceStreamConnection.methods.txt:17:0x185afcf2	__ZN28IOAccelTraceStreamConnection16registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/21H1320/IOAccelTraceStream2.methods.txt:13:0x185aff84	__ZN19IOAccelTraceStream216registerCallbackEv
+/Users/shohel/src/kcabi/abi/graphics/21H1320/IOAccelFenceMachine.methods.txt:23:0x185ade4c	__ZN19IOAccelFenceMachine24cancelBlockFenceCallbackEP17IOAccelSubmitter2
+/Users/shohel/src/kcabi/abi/graphics/21H1320/IOSurfaceRoot.methods.txt:82:0xffffff8002fbdb90	__ZN13IOSurfaceRoot38add_display_footprint_changed_callbackEPFvPvES0_
+/Users/shohel/src/kcabi/abi/graphics/21H1320/IOSurfaceRoot.methods.txt:83:0xffffff8002fbdbe8	__ZN13IOSurfaceRoot41remove_display_footprint_changed_callbackEPFvPvES0_
 
-SAFETY
+========== CURRENT PROJECT CALLBACK DECLARATIONS ==========
+35-private:
+36:    static IOReturn txSubmissionAction(OSObject *owner,
+37-                                      IOSkywalkTxSubmissionQueue *queue,
+38-                                      const IOSkywalkPacket **packets,
+39-                                      UInt32 packetCount, void *refCon);
+40:    static IOReturn txCompletionAction(OSObject *owner,
+41-                                       IOSkywalkTxCompletionQueue *queue,
+42-                                       IOSkywalkPacket **packets,
+43-                                       UInt32 packetCount, void *refCon);
+44:    static IOReturn rxSubmissionAction(OSObject *owner,
+45-                                      IOSkywalkRxSubmissionQueue *queue,
+46-                                      const IOSkywalkPacket **packets,
+47-                                      UInt32 packetCount, void *refCon);
+48:    static IOReturn rxCompletionAction(OSObject *owner,
+49-                                       IOSkywalkRxCompletionQueue *queue,
+50-                                       IOSkywalkPacket **packets,
+51-                                       UInt32 packetCount, void *refCon);
+52-
+53-    IOSkywalkPacketBufferPool *_txPool = nullptr;
+72:        &RTW88WCLSkywalkQueues::txSubmissionAction, this, 0);
+73-    if (!_txSubmission)
+74-        goto no_memory;
+75-
+76-    _txCompletion = IOSkywalkTxCompletionQueue::withPool(
+77-        _txPool, kQueueCapacity, 0, this,
+78:        &RTW88WCLSkywalkQueues::txCompletionAction, this, 0);
+79-    if (!_txCompletion)
+80-        goto no_memory;
+81-
+82-    _rxSubmission = IOSkywalkRxSubmissionQueue::withPool(
+83-        _rxPool, kQueueCapacity, 0, static_cast<kern_packet_svc_class_t>(0),
+84:        this, &RTW88WCLSkywalkQueues::rxSubmissionAction, this, 0);
+85-    if (!_rxSubmission)
+86-        goto no_memory;
+87-
+88-    _rxCompletion = IOSkywalkRxCompletionQueue::withPool(
+89-        _rxPool, kQueueCapacity, 0, this,
+90:        &RTW88WCLSkywalkQueues::rxCompletionAction, this, 0);
+91-    if (!_rxCompletion)
+92-        goto no_memory;
+93-
+94-    _allocated = true;
+95-    IOLog("rtl88wifi-wcl: allocated Skywalk pools and four queue objects (not registered)\n");
+96-    return kIOReturnSuccess;
+97-
+98-no_memory:
+99-    destroyQueues();
+100-    return kIOReturnNoMemory;
+101-}
+102-
+103-void RTW88WCLSkywalkQueues::destroyQueues()
+104-{
+105-    /* Release queues before their pools: queue implementations retain and
+106-     * reference their associated pool for packet and buffer accounting. */
+107-    if (_rxCompletion) {
+108-        _rxCompletion->release();
+109-        _rxCompletion = nullptr;
+110-    }
+111-    if (_rxSubmission) {
+112-        _rxSubmission->release();
+--
+140:IOReturn RTW88WCLSkywalkQueues::txSubmissionAction(
+141-    OSObject *owner, IOSkywalkTxSubmissionQueue *queue,
+142-    const IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+143-{
+144-    (void)refCon;
+145-    auto *self = OSDynamicCast(RTW88WCLSkywalkQueues, owner);
+146-    if (!self || queue != self->_txSubmission || !packets || packetCount == 0)
+147-        return kIOReturnBadArgument;
+148-
+149-    /* Validate every descriptor before a future TX path is allowed to copy
+150-     * bytes or hand ownership to RTW88. The callback remains fail-closed:
+151-     * a validated packet is not yet accepted until its hardware completion
+152-     * cookie is connected to the native completion queue. */
+153-    for (UInt32 i = 0; i < packetCount; ++i) {
+154-        if (!packets[i])
+155-            return kIOReturnBadArgument;
+156-        RTW88WCLPacketView view = {};
+157-        if (!RTW88WCLResolveEthernetTxPacket(
+158-                const_cast<IOSkywalkPacket *>(packets[i]), self->_txPool, &view))
+159-            return kIOReturnBadArgument;
+160-    }
+161-
+162-    return kIOReturnNotReady;
+--
+165:IOReturn RTW88WCLSkywalkQueues::txCompletionAction(
+166-    OSObject *owner, IOSkywalkTxCompletionQueue *queue,
+167-    IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+168-{
+169-    (void)owner; (void)queue; (void)packets; (void)packetCount; (void)refCon;
+170-    return kIOReturnNotReady;
+171-}
+172-
+173:IOReturn RTW88WCLSkywalkQueues::rxSubmissionAction(
+174-    OSObject *owner, IOSkywalkRxSubmissionQueue *queue,
+175-    const IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+176-{
+177-    (void)owner; (void)queue; (void)packets; (void)packetCount; (void)refCon;
+178-    /* RX buffer ownership/refill is intentionally not accepted yet. */
+179-    return kIOReturnNotReady;
+180-}
+181-
+182:IOReturn RTW88WCLSkywalkQueues::rxCompletionAction(
+183-    OSObject *owner, IOSkywalkRxCompletionQueue *queue,
+184-    IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+185-{
+186-    (void)owner; (void)queue; (void)packets; (void)packetCount; (void)refCon;
+187-    return kIOReturnNotReady;
+188-}
+189-
+190-void RTW88WCLSkywalkQueues::free()
+191-{
+192-    destroyQueues();
+193-    super::free();
+194-}
+
+========== STAGE 20 DECISION ==========
+STATUS: REVIEW_DISCOVERED_DECLARATION_MATCHES
+NOTE: textual matches are candidates only; confirm typedef ownership and callback argument mapping before patching.
 SOURCE_MODIFIED: NO
 QUEUE_REGISTRATION: STILL_DISABLED
 DATAPATH_ACTIVATION: BLOCKED
-Do not change callback prototypes from call-site shapes alone. Confirm actual private callback typedefs, then patch declarations and definitions together and compile.
-NEXT: run Stage 20 on the Hackintosh and inspect the resulting GitHub output.log.
+
+SAFETY: do not replace IOReturn with UInt32 or alter argument lists based only on guessed types; correlate declarations and kernel call sites first.
