@@ -8437,3 +8437,99 @@ INSTALL: NOT RUN
 LOAD: NOT RUN
 OPENCORE_CHANGE: NONE
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+
+========== STAGE29I READ-ONLY EFI PARTITION DISCOVERY ==========
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29i-efi-partition-discovery-20261102-041039
+DISKUTIL_LIST_EXIT: 0
+DISKUTIL_LIST_PLIST_EXIT: 0
+ROOT_VOLUME_INFO_EXIT: 0
+BLESS_GETBOOT_EXIT: 1
+BLESS_GETBOOT_OUTPUT_BEGIN
+Can't access "efi-boot-device" NVRAM variable
+BLESS_GETBOOT_OUTPUT_END
+ROOT_VOLUME_INFO_BEGIN
+   Device Identifier:         disk1s4s1
+   Device Node:               /dev/disk1s4s1
+   Part of Whole:             disk1
+   Volume Name:               Macintosh
+   Mount Point:               /
+   Protocol:                  PCI-Express
+   Disk / Partition UUID:     98CFCA18-8047-4141-B9C5-6373F055C9F5
+   APFS Physical Store:       disk0s2
+ROOT_VOLUME_INFO_END
+RTL88WiFi Stage29i — read-only EFI system partition discovery
+PURPOSE: identify EFI partition candidates and inspect already-mounted OpenCore configs only
+MOUNT_ACTION: NONE
+WRITE_TO_EFI: NONE
+OPENCORE_CHANGE: NONE
+EFI_PARTITION_COUNT: 1
+
+EFI_PARTITION: disk0s1
+  PARENT_DISK: disk0
+  SIZE: 209715200
+  VOLUME_NAME: EFI
+  FILESYSTEM: msdos
+  MOUNT_POINT: <not mounted>
+  DEVICE_NODE: /dev/disk0s1
+  MANUAL_MOUNT_COMMAND: sudo diskutil mount disk0s1
+
+=== OPENCORE CONFIG SEARCH (MOUNTED VOLUMES ONLY) ===
+OPENCORE_CONFIG_COUNT: 0
+No EFI/OC/config.plist was readable on mounted volumes.
+NEXT_ACTION: mount the correct EFI partition using the exact MANUAL_MOUNT_COMMAND above, then rerun Stage29i.
+
+=== SAFETY ===
+No EFI partition was mounted by this script.
+No OpenCore plist, NVRAM setting, SIP setting, filesystem ownership, kext, or boot entry was changed.
+The everyday EFI and currently loaded legacy driver remain untouched.
+STAGE29I: READ_ONLY_DISCOVERY_COMPLETE
+DISKUTIL_LIST_BEGIN
+/dev/disk0 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *256.1 GB   disk0
+   1:                        EFI EFI                     209.7 MB   disk0s1
+   2:                 Apple_APFS Container disk1         255.9 GB   disk0s2
+
+/dev/disk1 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +255.9 GB   disk1
+                                 Physical Store disk0s2
+   1:                APFS Volume Macintosh - Data        54.3 GB    disk1s1
+   2:                APFS Volume Preboot                 2.7 GB     disk1s2
+   3:                APFS Volume Recovery                1.3 GB     disk1s3
+   4:                APFS Volume Macintosh               11.3 GB    disk1s4
+   5:              APFS Snapshot com.apple.os.update-... 11.3 GB    disk1s4s1
+   6:                APFS Volume VM                      1.1 GB     disk1s6
+
+/dev/disk2 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *1.0 TB     disk2
+   1:                  Apple_HFS Mac Extra               1.0 TB     disk2s1
+
+/dev/disk3 (disk image):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:                                                   +4.2 MB     disk3
+
+/dev/disk4 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +4.2 MB     disk4
+                                 Physical Store disk3
+   1:                APFS Volume Creedence11M6270.SEC... 692.2 KB   disk4s1
+
+/dev/disk5 (disk image):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:                                                   +6.3 MB     disk5
+
+/dev/disk6 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +6.3 MB     disk6
+                                 Physical Store disk5
+   1:                APFS Volume Creedence11M6692.SEC... 2.4 MB     disk6s1
+
+DISKUTIL_LIST_END
+STAGE29I_ANALYSIS_EXIT: 0
+MOUNT_ACTION: NONE
+OPENCORE_CHANGE: NONE
+INSTALL: NOT RUN
+LOAD: NOT RUN
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
