@@ -68,7 +68,7 @@ if [ ! -f "$SRC" ] || [ ! -f "$DRIVER/Makefile" ]; then
     exit 2
 fi
 
-python3 - "$SRC" <<'PY' > "$STAGE_DIR/source-check.txt"
+if python3 - "$SRC" <<'PY' > "$STAGE_DIR/source-check.txt"
 from pathlib import Path
 import sys
 p = Path(sys.argv[1])
@@ -98,6 +98,17 @@ if total != 7:
     raise SystemExit("FAIL: expected 7 callback zero-count returns, found " + str(total))
 print("PASS: four callbacks found; seven zero-count fail-closed returns; no error-style returns")
 PY
+then
+    {
+        echo "PREFLIGHT: FAIL"
+        cat "$STAGE_DIR/source-check.txt"
+        echo "BUILD: NOT RUN"
+        echo "KEXT_INSTALL_OR_LOAD: NOT ATTEMPTED"
+    } > "$STAGE_DIR/status.txt"
+    write_report
+    upload_report
+    exit 3
+fi
 
 if ! grep -q '^PASS:' "$STAGE_DIR/source-check.txt"; then
     {
