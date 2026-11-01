@@ -8,7 +8,7 @@ DRIVER="$PROJECT/driver/RTL88WiFi"
 KEXT="$DRIVER/build/out/RTL88WiFi.kext"
 BIN="$KEXT/Contents/MacOS/RTL88WiFi"
 INFO="$KEXT/Contents/Info.plist"
-SRCROOT="$DRIVER/src/kext/wcl24h32"
+SRCROOT="$DRIVER/src/kext"
 OUT="$PROJECT/output.log"
 STAMP="$(date '+%Y%m%d-%H%M%S')"
 STAGE_DIR="$PROJECT/build/stage24-binary-lifecycle-audit-$STAMP"
@@ -70,7 +70,7 @@ terms = re.compile(
     r"enable.*(Queue|Interface)",
     re.I,
 )
-files = sorted(p for p in root.rglob("*") if p.suffix in {".cpp", ".hpp", ".h"})
+files = sorted(p for p in root.rglob("*") if p.suffix in {".cpp", ".hpp", ".h"} and ("WCL" in p.name or p.name == "RTL88WiFi.cpp"))
 chunks = []
 for p in files:
     try:
