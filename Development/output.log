@@ -4124,3 +4124,830 @@ LOAD: NOT RUN
 SOURCE_FILES_MODIFIED: NONE
 KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
 QUEUE_REGISTRATION: STILL DISABLED
+
+RTL88WiFi Stage28a — native 24H32 dependency and object-boundary audit
+DATE: 2026-11-02 02:49:44 +06
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+DRIVER: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage28a-native-dependency-audit-20261102-024943
+SCOPE: read-only source/include/symbol/object inventory; no source edits, build, install or load.
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+
+STAGE28A_NATIVE_DEPENDENCY_AUDIT:
+=== 1. Makefile architecture and target declarations ===
+325: # RTL88WiFi native IO80211 target. Its controller and interface sources
+327: #   RTL88WiFi.hpp  RTL88WiFi.cpp
+328: #   RTL88WiFiInterface.hpp  RTL88WiFiInterface.cpp
+330: AIRPORT_KEXT_SKEL := $(PROJ_ROOT)/RTL88WiFi.kext
+331: AIRPORT_OUT_KEXT  := $(OUT_DIR)/RTL88WiFi.kext
+332: AIRPORT_OUT_BIN   := $(AIRPORT_OUT_KEXT)/Contents/MacOS/RTL88WiFi
+334: AIRPORT_KEXT_SRCS := \
+337:     $(KEXT_SRC)/RTL88WiFi.cpp \
+338:     $(KEXT_SRC)/RTL88WiFiAWDL.cpp \
+340:     $(KEXT_SRC)/RTL88WiFiInterface.cpp \
+344: AIRPORT_KEXT_OBJS := $(patsubst $(KEXT_SRC)/%.cpp, $(BUILD_DIR)/airport/%.o, $(AIRPORT_KEXT_SRCS))
+349: WCL24H32_CONTROLLER_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLController.cpp
+350: WCL24H32_CONTROLLER_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLController.o
+351: WCL24H32_INFRA_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLInfraInterface.cpp
+352: WCL24H32_INFRA_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLInfraInterface.o
+353: WCL24H32_PCI_BACKEND_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLPCIBackend.cpp
+354: WCL24H32_PCI_BACKEND_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLPCIBackend.o
+355: WCL24H32_SKYWALK_QUEUES_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkQueues.cpp
+356: WCL24H32_SKYWALK_QUEUES_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLSkywalkQueues.o
+357: WCL24H32_TX_ADAPTER_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkTxAdapter.cpp
+358: WCL24H32_TX_ADAPTER_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLSkywalkTxAdapter.o
+359: WCL24H32_RX_ADAPTER_SRC := $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkRxAdapter.cpp
+360: WCL24H32_RX_ADAPTER_OBJ := $(BUILD_DIR)/wcl24h32/RTW88WCLSkywalkRxAdapter.o
+361: WCL24H32_CXXFLAGS := $(KEXT_CXXFLAGS) -D__IO80211_TARGET=__MAC_15_2 -I$(KEXT_SRC)/wcl24h32
+363: AIRPORT_KMOD_OBJ := $(BUILD_DIR)/airport/kmod_info.o
+365: AIRPORT_ALL_OBJS := $(DRIVER_OBJS) $(CHIP_OBJS) $(COMPAT_OBJS) $(FIRMWARE_OBJS) $(AIRPORT_KMOD_OBJ) $(AIRPORT_KEXT_OBJS)
+367: AIRPORT_LDFLAGS := \
+372: .PHONY: rtl88wifi rtl88wifi-wcl-controller-abi-check wcl-abi-audit-24h32
+373: rtl88wifi: $(AIRPORT_OUT_BIN) rtl88wifi-wcl-controller-abi-check
+378: ABI_ARCHIVE ?= $(HOME)/Downloads/RTL88WiFi-Sequoia-24H32-kcabi.tar.gz
+385: # owner independently. All objects stay out of AIRPORT_ALL_OBJS: the active
+389: rtl88wifi-wcl-controller-abi-check: $(WCL24H32_CONTROLLER_OBJ) $(WCL24H32_INFRA_OBJ) $(WCL24H32_PCI_BACKEND_OBJ) $(WCL24H32_SKYWALK_QUEUES_OBJ) $(WCL24H32_TX_ADAPTER_OBJ) $(WCL24H32_RX_ADAPTER_OBJ)
+391: $(WCL24H32_CONTROLLER_OBJ): $(WCL24H32_CONTROLLER_SRC) \
+392:     $(KEXT_SRC)/wcl24h32/RTW88WCLController.hpp \
+393:     $(KEXT_SRC)/wcl24h32/RTW88WCL24H32InterfaceABI.hpp \
+394:     $(KEXT_SRC)/wcl24h32/RTW88WCLPCIBackend.hpp \
+395:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkQueues.hpp \
+396:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkRxAdapter.hpp \
+397:     $(KEXT_SRC)/wcl24h32/RTW88WCLMbufRing.hpp \
+398:     $(KEXT_SRC)/wcl24h32/RTW88WCL24H32ABI.hpp \
+400:     | $(BUILD_DIR)/wcl24h32
+402: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+404: $(WCL24H32_INFRA_OBJ): $(WCL24H32_INFRA_SRC) \
+405:     $(KEXT_SRC)/wcl24h32/RTW88WCLInfraInterface.hpp \
+406:     $(KEXT_SRC)/wcl24h32/RTW88WCLRegistrationInfo.hpp \
+407:     $(KEXT_SRC)/wcl24h32/RTW88WCLRequestDecoder.hpp \
+408:     $(KEXT_SRC)/wcl24h32/RTW88WCL24H32InterfaceABI.hpp \
+409:     $(KEXT_SRC)/wcl24h32/RTW88WCLController.hpp \
+412:     | $(BUILD_DIR)/wcl24h32
+414: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+416: $(WCL24H32_PCI_BACKEND_OBJ): $(WCL24H32_PCI_BACKEND_SRC) \
+417:     $(KEXT_SRC)/wcl24h32/RTW88WCLPCIBackend.hpp \
+420:     | $(BUILD_DIR)/wcl24h32
+422: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+424: $(WCL24H32_SKYWALK_QUEUES_OBJ): $(WCL24H32_SKYWALK_QUEUES_SRC) \
+425:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkQueues.hpp \
+426:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketView.hpp \
+427:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketSpanValidation.hpp \
+429:     | $(BUILD_DIR)/wcl24h32
+431: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+433: $(WCL24H32_TX_ADAPTER_OBJ): $(WCL24H32_TX_ADAPTER_SRC) \
+434:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkTxAdapter.hpp \
+435:     $(KEXT_SRC)/wcl24h32/RTW88WCLTxCompletionSlots.hpp \
+436:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketView.hpp \
+437:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketSpanValidation.hpp \
+439:     | $(BUILD_DIR)/wcl24h32
+441: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+444: $(WCL24H32_RX_ADAPTER_OBJ): $(WCL24H32_RX_ADAPTER_SRC) \
+445:     $(KEXT_SRC)/wcl24h32/RTW88WCLSkywalkRxAdapter.hpp \
+446:     $(KEXT_SRC)/wcl24h32/RTW88WCLMbufRing.hpp \
+447:     $(KEXT_SRC)/wcl24h32/RTW88WCLPacketSpanValidation.hpp \
+450:     | $(BUILD_DIR)/wcl24h32
+452: 	$(CXX) $(WCL24H32_CXXFLAGS) -c $< -o $@
+454: $(BUILD_DIR)/wcl24h32:
+457: $(AIRPORT_OUT_BIN): $(AIRPORT_ALL_OBJS) $(AIRPORT_KEXT_SKEL)/Contents/Info.plist | $(AIRPORT_OUT_KEXT)/Contents/MacOS
+459: 	$(LD) $(AIRPORT_LDFLAGS) -o $@ $(AIRPORT_ALL_OBJS)
+460: 	@echo "  SYNC $(AIRPORT_OUT_KEXT)"
+461: 	rsync -a --exclude='MacOS' $(AIRPORT_KEXT_SKEL)/ $(AIRPORT_OUT_KEXT)/
+462: 	@echo "  OK   build/out/RTL88WiFi.kext"
+468: $(AIRPORT_KMOD_OBJ): $(KEXT_SRC)/kmod_info.c | $(BUILD_DIR)/airport
+470: 	$(CC) $(KEXT_FLAGS) -DRTW88_AIRPORT_KMOD=1 -c $< -o $@
+475: $(AIRPORT_OUT_KEXT)/Contents/MacOS:
+479: DEPFILES = $(ALL_OBJS:.o=.d) $(AIRPORT_KEXT_OBJS:.o=.d) $(AIRPORT_KMOD_OBJ:.o=.d) \
+480:            $(WCL24H32_CONTROLLER_OBJ:.o=.d) $(WCL24H32_INFRA_OBJ:.o=.d) \
+481:            $(WCL24H32_PCI_BACKEND_OBJ:.o=.d) $(WCL24H32_SKYWALK_QUEUES_OBJ:.o=.d) \
+482:            $(WCL24H32_TX_ADAPTER_OBJ:.o=.d) $(WCL24H32_RX_ADAPTER_OBJ:.o=.d)
+486: $(ALL_OBJS) $(AIRPORT_ALL_OBJS): Makefile
+
+=== 2. Native WCL source includes, classes and selected external API references ===
+
+--- wcl24h32/RTW88WCLController.cpp ---
+INCLUDES:
+  RTW88WCLController.hpp
+  RTW88WCL24H32InterfaceABI.hpp
+  RTW88WCLSkywalkQueues.hpp
+  RTW88WCLSkywalkRxAdapter.hpp
+  ../RTW88IEEE80211.hpp
+  IOKit/pci/IOPCIDevice.h
+  IOKit/IOLib.h
+  IOKit/network/IOOutputQueue.h
+  libkern/c++/OSMetaClass.h
+CLASS_STRUCT_NAMES: pci_dev
+API_TYPE_NAMES: IO80211Controller, IO80211InfraProtocol, IO80211SkywalkInterface, IONetworkController, IOPCIDevice, IOSkywalkPacket, IOSkywalkPacketBufferPool, RTL88WiFi, RTW88IEEE80211, RTW88WCL24H32InterfaceABI, RTW88WCLController, RTW88WCLControllerStage, RTW88WCLPCIBackend, RTW88WCLSkywalkQueues, RTW88WCLSkywalkRxAdapter
+SOURCE_BYTES: 20358
+
+--- wcl24h32/RTW88WCLInfraInterface.cpp ---
+INCLUDES:
+  RTW88WCLController.hpp
+  RTW88WCLInfraInterface.hpp
+  IOKit/IOLib.h
+  libkern/c++/OSMetaClass.h
+  string.h
+CLASS_STRUCT_NAMES: RTW88WCLAssociationEvent, RTW88WCLBeaconMetadata, RTW88WCLConnectionEvent, RTW88WCLConnectionPeer, RTW88WCLLinkStatusEvent, RTW88WCLLqmUpdate
+API_TYPE_NAMES: IO80211Controller, IO80211FamilyLegacy, IO80211InfraInterface, IO80211InfraProtocol, IO80211LinkState, IO80211SkywalkInterface, IOSkywalkEthernetInterface, RTL88WiFi, RTW88IEEE80211, RTW88WCLAssociationEvent, RTW88WCLBeaconMetadata, RTW88WCLConnectionEvent, RTW88WCLConnectionPeer, RTW88WCLController, RTW88WCLInfraInterface, RTW88WCLInfraInterfaceStage, RTW88WCLInfraInterfaceStopped, RTW88WCLLinkStatusEvent, RTW88WCLLqmUpdate, RTW88WCLRadioEvent, RTW88WCLRegistrationInfo24H32, RTW88WCLRequest, RTW88WCLWorkQueue
+SOURCE_BYTES: 28857
+
+--- wcl24h32/RTW88WCLPCIBackend.cpp ---
+INCLUDES:
+  RTW88WCLPCIBackend.hpp
+  IOKit/IOLib.h
+  libkern/c++/OSMetaClass.h
+  kern/thread.h
+  string.h
+  ../../compat/rtw88_compat.h
+CLASS_STRUCT_NAMES: pci_dev
+API_TYPE_NAMES: IOPCIDevice, RTW88HwOps, RTW88IEEE80211, RTW88WCLPCIBackend, RTW88WCLPCIBackendClient
+SOURCE_BYTES: 16613
+
+--- wcl24h32/RTW88WCLSkywalkQueues.cpp ---
+INCLUDES:
+  RTW88WCLSkywalkQueues.hpp
+  RTW88WCLPacketView.hpp
+  IOKit/IOLib.h
+  libkern/c++/OSMetaClass.h
+CLASS_STRUCT_NAMES: RTW88WCLPoolOptionsAccess
+API_TYPE_NAMES: IOSkywalkPacket, IOSkywalkPacketBufferPool, IOSkywalkRxCompletionQueue, IOSkywalkRxSubmissionQueue, IOSkywalkTxCompletionQueue, IOSkywalkTxSubmissionQueue, RTL88WiFi, RTW88WCLPacketView, RTW88WCLPoolOptionsAccess, RTW88WCLResolveEthernetTxPacket, RTW88WCLSkywalkQueues
+SOURCE_BYTES: 6846
+
+--- wcl24h32/RTW88WCLSkywalkTxAdapter.cpp ---
+INCLUDES:
+  RTW88WCLSkywalkTxAdapter.hpp
+  RTW88WCLPacketView.hpp
+  ../RTW88IEEE80211.hpp
+  IOKit/IOLib.h
+  libkern/c++/OSMetaClass.h
+  sys/kpi_mbuf.h
+CLASS_STRUCT_NAMES: (none detected)
+API_TYPE_NAMES: IOSkywalkPacket, IOSkywalkPacketBufferPool, RTW88IEEE80211, RTW88WCLPacketView, RTW88WCLResolveEthernetTxPacket, RTW88WCLSkywalkTxAdapter
+SOURCE_BYTES: 5317
+
+--- wcl24h32/RTW88WCLSkywalkRxAdapter.cpp ---
+INCLUDES:
+  RTW88WCLSkywalkRxAdapter.hpp
+  RTW88WCLPacketSpanValidation.hpp
+  IOKit/IOLib.h
+  IOKit/skywalk/IOSkywalkMemorySegment.h
+  IOKit/skywalk/IOSkywalkNetworkPacket.h
+  IOKit/skywalk/IOSkywalkPacketBuffer.h
+  sys/kpi_mbuf.h
+CLASS_STRUCT_NAMES: (none detected)
+API_TYPE_NAMES: IOSkywalkMemorySegment, IOSkywalkNetworkPacket, IOSkywalkPacket, IOSkywalkPacketBuffer, IOSkywalkPacketBufferPool, RTW88WCLPacketSpan, RTW88WCLPacketSpanValidation, RTW88WCLResolvePacketBufferAddress, RTW88WCLSkywalkRxAdapter
+SOURCE_BYTES: 8199
+
+=== 3. Existing WCL object files ===
+RTW88WCLController.o: PRESENT /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLController.o
+RTW88WCLInfraInterface.o: PRESENT /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLInfraInterface.o
+RTW88WCLPCIBackend.o: PRESENT /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLPCIBackend.o
+RTW88WCLSkywalkQueues.o: PRESENT /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkQueues.o
+RTW88WCLSkywalkTxAdapter.o: PRESENT /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkTxAdapter.o
+RTW88WCLSkywalkRxAdapter.o: PRESENT /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/wcl24h32/RTW88WCLSkywalkRxAdapter.o
+
+NM_TOOL: /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm
+
+=== 4. Built object inventory by build directory ===
+airport: 9 object files
+compat: 4 object files
+driver: 25 object files
+wcl24h32: 6 object files
+
+=== 5. Undefined WCL symbols satisfied by other local objects ===
+
+--- RTW88WCLController.o ---
+UNDEFINED_SYMBOL_COUNT: 491
+LOCAL_OBJECT_PROVIDERS: 14
+  __ZN14RTW88IEEE8021112outputPacketEP6__mbuf <= airport/RTW88IEEE80211.o
+  __ZN14RTW88IEEE8021113createAirportEP15RTW88RxDelegateP7pci_dev <= airport/RTW88IEEE80211.o
+  __ZN14RTW88IEEE802114stopEv <= airport/RTW88IEEE80211.o
+  __ZN18RTW88WCLPCIBackend15setRadioRunningEb <= wcl24h32/RTW88WCLPCIBackend.o
+  __ZN18RTW88WCLPCIBackend4openEP11IOPCIDeviceP10IOWorkLoopP24RTW88WCLPCIBackendClient <= wcl24h32/RTW88WCLPCIBackend.o
+  __ZN18RTW88WCLPCIBackend5closeEv <= wcl24h32/RTW88WCLPCIBackend.o
+  __ZN18RTW88WCLPCIBackendC1Ev <= wcl24h32/RTW88WCLPCIBackend.o
+  __ZN21RTW88WCLSkywalkQueues12createQueuesEv <= wcl24h32/RTW88WCLSkywalkQueues.o
+  __ZN21RTW88WCLSkywalkQueues13destroyQueuesEv <= wcl24h32/RTW88WCLSkywalkQueues.o
+  __ZN21RTW88WCLSkywalkQueuesC1Ev <= wcl24h32/RTW88WCLSkywalkQueues.o
+  __ZN24RTW88WCLSkywalkRxAdapter12enqueueFrameEP6__mbuf <= wcl24h32/RTW88WCLSkywalkRxAdapter.o
+  __ZN24RTW88WCLSkywalkRxAdapter4initEP8OSObjectP10IOWorkLoopP25IOSkywalkPacketBufferPoolPFbP15IOSkywalkPacketPvES8_ <= wcl24h32/RTW88WCLSkywalkRxAdapter.o
+  __ZN24RTW88WCLSkywalkRxAdapter4stopEv <= wcl24h32/RTW88WCLSkywalkRxAdapter.o
+  __ZN24RTW88WCLSkywalkRxAdapterC1Ev <= wcl24h32/RTW88WCLSkywalkRxAdapter.o
+UNRESOLVED_OUTSIDE_BUILT_OBJECTS_COUNT: 477
+  _IOLog
+  __ZN10IOWorkLoop8workLoopEv
+  __ZN11IOPCIDevice9metaClassE
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN15IORegistryEntry11detachAboveEPK15IORegistryPlane
+  __ZN15IORegistryEntry11setLocationEPK8OSSymbolPK15IORegistryPlane
+  __ZN15IORegistryEntry11setLocationEPKcPK15IORegistryPlane
+  __ZN15IORegistryEntry11setPropertyEPK8OSStringP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPK8OSSymbolP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPKcP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPKcPvj
+  __ZN15IORegistryEntry11setPropertyEPKcS1_
+  __ZN15IORegistryEntry11setPropertyEPKcb
+  __ZN15IORegistryEntry11setPropertyEPKcyj
+  __ZN15IORegistryEntry13attachToChildEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry13childFromPathEPKcPK15IORegistryPlanePcPi
+  __ZN15IORegistryEntry13setPropertiesEP8OSObject
+  __ZN15IORegistryEntry14attachToParentEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry14removePropertyEPK8OSString
+  __ZN15IORegistryEntry14removePropertyEPK8OSSymbol
+  __ZN15IORegistryEntry14removePropertyEPKc
+  __ZN15IORegistryEntry15detachFromChildEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry16detachFromParentEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry16setPropertyTableEP12OSDictionary
+  __ZN15IORegistryEntry17runPropertyActionEPFiP8OSObjectPvS2_S2_S2_ES1_S2_S2_S2_S2_
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry0Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry1Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry2Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry3Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry4Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry5Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry6Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry7Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry8Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry9Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry10Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry11Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry12Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry13Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry14Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry15Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry16Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry17Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry18Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry19Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry20Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry21Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry22Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry23Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry24Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry25Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry26Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry27Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry28Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry29Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry30Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry31Ev
+  __ZN15IORegistryEntry7setNameEPK8OSSymbolPK15IORegistryPlane
+  __ZN15IORegistryEntry7setNameEPKcPK15IORegistryPlane
+  __ZN15IORegistryEntry9detachAllEPK15IORegistryPlane
+  __ZN15OSMetaClassBase12safeMetaCastEPKS_PK11OSMetaClass
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN17IO80211Controller10gMetaClassE
+  __ZN17IO80211Controller11getLogPipesEPP6CCPipeS2_S2_
+  __ZN17IO80211Controller12updateReportEP19IOReportChannelListjPvS2_
+  __ZN17IO80211Controller13enableFeatureE18IO80211FeatureCodePv
+  __ZN17IO80211Controller13getPostOfficeEv
+  __ZN17IO80211Controller14debugStateInitEv
+  __ZN17IO80211Controller15attachInterfaceEP8OSObjectP9IOService
+  __ZN17IO80211Controller15bpfOutputPacketEP8OSObjectjP6__mbuf
+  __ZN17IO80211Controller15configureReportEP19IOReportChannelListjPvS2_
+  __ZN17IO80211Controller15createWorkQueueEv
+  __ZN17IO80211Controller15detachInterfaceEP8OSObjectb
+  __ZN17IO80211Controller15errnoFromReturnEi
+  __ZN17IO80211Controller15flowIdSupportedEv
+  __ZN17IO80211Controller15requestPacketTxEPvj
+  __ZN17IO80211Controller16CreatePostOfficeEv
+  __ZN17IO80211Controller16getDriverTextLogEv
+  __ZN17IO80211Controller16releaseFlowQueueEP16IO80211FlowQueue
+  __ZN17IO80211Controller16requestFlowQueueEPK14FlowIdMetadata
+  __ZN17IO80211Controller16setMulticastListEPK10ether_addrj
+  __ZN17IO80211Controller16setMulticastModeEb
+  __ZN17IO80211Controller16stringFromReturnEi
+  __ZN17IO80211Controller17getDataQueueDepthEP8OSObject
+  __ZN17IO80211Controller18getAVCAdvisoryInfoEP27IO80211InterfaceAVCAdvisory
+  __ZN17IO80211Controller18getHardwareAddressEP17IOEthernetAddress
+  __ZN17IO80211Controller18getPLATFORM_CONFIGEP23IO80211SkywalkInterfaceP26apple80211_platform_config
+  [additional undefined symbols omitted]
+
+--- RTW88WCLInfraInterface.o ---
+UNDEFINED_SYMBOL_COUNT: 504
+LOCAL_OBJECT_PROVIDERS: 23
+  __ZN17RTW88WCLWorkQueue4initEP8OSObjectP10IOWorkLoopP25RTW88WCLRadioEventHandler <= airport/RTW88WCLWorkQueue.o
+  __ZN17RTW88WCLWorkQueue4stopEv <= airport/RTW88WCLWorkQueue.o
+  __ZN17RTW88WCLWorkQueueC1Ev <= airport/RTW88WCLWorkQueue.o
+  __ZN18RTW88WCLController17quiescePacketPathEv <= wcl24h32/RTW88WCLController.o
+  __ZN18RTW88WCLController18activatePacketPathEP23IO80211SkywalkInterface <= wcl24h32/RTW88WCLController.o
+  __ZN18RTW88WCLController9metaClassE <= wcl24h32/RTW88WCLController.o
+  __ZN19RTW88WCLRadioBridge11copyScanBSSEjP8RTW88BSS <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge12copyChannelsEP12RTW88ChanneljPj <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge12leaveNetworkEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge13getMACAddressEPh <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge13setMACAddressEPKh <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge14copyCurrentBSSEP8RTW88BSS <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge15connectionReadyEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge6attachEP14RTW88IEEE80211P22RTW88WCLRadioEventSink <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge6detachEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge7getRSSIEPi <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge7powerOnEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge8powerOffEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge9abortJoinEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge9abortScanEv <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge9associateEPKhhS1_S1_S1_tbPj <= airport/RTW88WCLRadioBridge.o
+  __ZN19RTW88WCLRadioBridge9startScanEPKtjPj <= airport/RTW88WCLRadioBridge.o
+  __ZTV19RTW88WCLRadioBridge <= airport/RTW88WCLRadioBridge.o
+UNRESOLVED_OUTSIDE_BUILT_OBJECTS_COUNT: 481
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN15IORegistryEntry11detachAboveEPK15IORegistryPlane
+  __ZN15IORegistryEntry11setLocationEPK8OSSymbolPK15IORegistryPlane
+  __ZN15IORegistryEntry11setLocationEPKcPK15IORegistryPlane
+  __ZN15IORegistryEntry11setPropertyEPK8OSStringP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPK8OSSymbolP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPKcP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPKcPvj
+  __ZN15IORegistryEntry11setPropertyEPKcS1_
+  __ZN15IORegistryEntry11setPropertyEPKcb
+  __ZN15IORegistryEntry11setPropertyEPKcyj
+  __ZN15IORegistryEntry13attachToChildEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry13childFromPathEPKcPK15IORegistryPlanePcPi
+  __ZN15IORegistryEntry13setPropertiesEP8OSObject
+  __ZN15IORegistryEntry14attachToParentEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry14removePropertyEPK8OSString
+  __ZN15IORegistryEntry14removePropertyEPK8OSSymbol
+  __ZN15IORegistryEntry14removePropertyEPKc
+  __ZN15IORegistryEntry15detachFromChildEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry16detachFromParentEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry16setPropertyTableEP12OSDictionary
+  __ZN15IORegistryEntry17runPropertyActionEPFiP8OSObjectPvS2_S2_S2_ES1_S2_S2_S2_S2_
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry0Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry1Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry2Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry3Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry4Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry5Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry6Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry7Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry8Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry9Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry10Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry11Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry12Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry13Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry14Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry15Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry16Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry17Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry18Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry19Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry20Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry21Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry22Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry23Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry24Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry25Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry26Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry27Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry28Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry29Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry30Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry31Ev
+  __ZN15IORegistryEntry7setNameEPK8OSSymbolPK15IORegistryPlane
+  __ZN15IORegistryEntry7setNameEPKcPK15IORegistryPlane
+  __ZN15IORegistryEntry9detachAllEPK15IORegistryPlane
+  __ZN15OSMetaClassBase12safeMetaCastEPKS_PK11OSMetaClass
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN17IO80211Controller11postMessageEP23IO80211SkywalkInterfacejPvmb
+  __ZN18IOSkywalkInterface10handleOpenEP9IOServicejPv
+  __ZN18IOSkywalkInterface11handleCloseEP9IOServicej
+  __ZN18IOSkywalkInterface12didTerminateEP9IOServicejPb
+  __ZN18IOSkywalkInterface13isTerminatingEv
+  __ZN18IOSkywalkInterface13willTerminateEP9IOServicej
+  __ZN18IOSkywalkInterface16clientDisconnectEP9IOServicej
+  __ZN18IOSkywalkInterface21clientConnectWithTaskEP4taskP9IOServicej
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface0Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface1Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface2Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface3Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface4Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface5Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface6Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface7Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface8Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface9Ev
+  __ZN18IOSkywalkInterface29_RESERVEDIOSkywalkInterface10Ev
+  __ZN20IO80211InfraProtocol10gMetaClassE
+  __ZN20IO80211InfraProtocolC2EPK11OSMetaClass
+  __ZN20IO80211InfraProtocolD2Ev
+  __ZN21IO80211InfraInterface10debugFlagsEv
+  __ZN21IO80211InfraInterface10wowEnabledEv
+  __ZN21IO80211InfraInterface11inputPacketEP20IO80211NetworkPacketP15packet_info_tagP12ether_headerPbb
+  __ZN21IO80211InfraInterface11logTxPacketEP20IO80211NetworkPacketP20PacketSkywalkScratch17apple80211_wme_acb
+  __ZN21IO80211InfraInterface11packetSpaceEh
+  __ZN21IO80211InfraInterface11postMessageEjPvmb
+  [additional undefined symbols omitted]
+
+--- RTW88WCLPCIBackend.o ---
+UNDEFINED_SYMBOL_COUNT: 87
+LOCAL_OBJECT_PROVIDERS: 8
+  __dma_ops <= airport/RTW88HwOps.o
+  __pci_io_ops <= airport/RTW88HwOps.o
+  _g_pci_dev_instance <= airport/RTW88HwOps.o
+  _rtw88_compat_exit <= compat/rtw88_compat.o
+  _rtw88_compat_init <= compat/rtw88_compat.o
+  _rtw88_dma_ops <= compat/rtw88_compat.o
+  _rtw88_pci_io_ops <= compat/rtw88_compat.o
+  _rtw88_trigger_interrupt <= compat/rtw88_compat.o
+UNRESOLVED_OUTSIDE_BUILT_OBJECTS_COUNT: 79
+  _IOFree
+  _IOLog
+  _IOMallocZero
+  _IOSimpleLockAlloc
+  _IOSimpleLockFree
+  _IOSimpleLockLock
+  _IOSimpleLockUnlock
+  __ZN11IOPCIDevice19extendedConfigRead8Ey
+  __ZN11IOPCIDevice20extendedConfigRead16Ey
+  __ZN11IOPCIDevice20extendedConfigRead32Ey
+  __ZN11IOPCIDevice20extendedConfigWrite8Eyh
+  __ZN11IOPCIDevice21extendedConfigWrite16Eyt
+  __ZN11IOPCIDevice21extendedConfigWrite32Eyj
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN18IOMemoryDescriptor18getPhysicalAddressEv
+  __ZN22IOInterruptEventSource20interruptEventSourceEP8OSObjectPFvS1_PS_iEP9IOServicei
+  __ZN24IOBufferMemoryDescriptor22inTaskWithPhysicalMaskEP4taskjyy
+  __ZN8OSObject10gMetaClassE
+  __ZN8OSObject18_RESERVEDOSObject0Ev
+  __ZN8OSObject18_RESERVEDOSObject1Ev
+  __ZN8OSObject18_RESERVEDOSObject2Ev
+  __ZN8OSObject18_RESERVEDOSObject3Ev
+  __ZN8OSObject18_RESERVEDOSObject4Ev
+  __ZN8OSObject18_RESERVEDOSObject5Ev
+  __ZN8OSObject18_RESERVEDOSObject6Ev
+  __ZN8OSObject18_RESERVEDOSObject7Ev
+  __ZN8OSObject18_RESERVEDOSObject8Ev
+  __ZN8OSObject18_RESERVEDOSObject9Ev
+  __ZN8OSObject19_RESERVEDOSObject10Ev
+  __ZN8OSObject19_RESERVEDOSObject11Ev
+  __ZN8OSObject19_RESERVEDOSObject12Ev
+  __ZN8OSObject19_RESERVEDOSObject13Ev
+  __ZN8OSObject19_RESERVEDOSObject14Ev
+  __ZN8OSObject19_RESERVEDOSObject15Ev
+  __ZN8OSObject8DispatchE5IORPC
+  __ZN8OSObjectC2EPK11OSMetaClass
+  __ZN8OSObjectD2Ev
+  __ZN8OSObjectdlEPvm
+  __ZN8OSObjectnwEm
+  __ZNK11OSMetaClass12getMetaClassEv
+  __ZNK11OSMetaClass12taggedRetainEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKvi
+  __ZNK11OSMetaClass14getRetainCountEv
+  __ZNK11OSMetaClass19instanceConstructedEv
+  __ZNK11OSMetaClass6retainEv
+  __ZNK11OSMetaClass7releaseEi
+  __ZNK11OSMetaClass7releaseEv
+  __ZNK11OSMetaClass9serializeEP11OSSerialize
+  __ZNK15OSMetaClassBase9isEqualToEPKS_
+  __ZNK8OSObject12taggedRetainEPKv
+  __ZNK8OSObject13taggedReleaseEPKv
+  __ZNK8OSObject13taggedReleaseEPKvi
+  __ZNK8OSObject14getRetainCountEv
+  __ZNK8OSObject6retainEv
+  __ZNK8OSObject7releaseEi
+  __ZNK8OSObject7releaseEv
+  __ZNK8OSObject9serializeEP11OSSerialize
+  __ZTV8OSObject
+  ___cxa_pure_virtual
+  ___memcpy_chk
+  _bzero
+  _kernel_task
+  _memset
+  _preemption_enabled
+
+--- RTW88WCLSkywalkQueues.o ---
+UNDEFINED_SYMBOL_COUNT: 74
+LOCAL_OBJECT_PROVIDERS: 0
+UNRESOLVED_OUTSIDE_BUILT_OBJECTS_COUNT: 74
+  _IOLog
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN15IOSkywalkPacket19getPacketBufferPoolEv
+  __ZN15OSMetaClassBase12safeMetaCastEPKS_PK11OSMetaClass
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN21IOSkywalkPacketBuffer13getBufferSizeEv
+  __ZN21IOSkywalkPacketBuffer13getDataLengthEv
+  __ZN21IOSkywalkPacketBuffer13getDataOffsetEv
+  __ZN21IOSkywalkPacketBuffer16getMemorySegmentEv
+  __ZN21IOSkywalkPacketBuffer19getPacketBufferPoolEv
+  __ZN21IOSkywalkPacketBuffer22getMemorySegmentOffsetEv
+  __ZN22IOSkywalkMemorySegment17getVirtualAddressEv
+  __ZN22IOSkywalkMemorySegment19getMemoryDescriptorEv
+  __ZN25IOSkywalkPacketBufferPool8withNameEPKcP8OSObjectjPKNS_11PoolOptionsE
+  __ZN26IOSkywalkRxCompletionQueue8withPoolEP25IOSkywalkPacketBufferPooljjP8OSObjectPFiS3_PS_PP15IOSkywalkPacketjPvES8_j
+  __ZN26IOSkywalkRxSubmissionQueue8withPoolEP25IOSkywalkPacketBufferPooljj23kern_packet_svc_class_tP8OSObjectPFiS4_PS_PPK15IOSkywalkPacketjPvESA_j
+  __ZN26IOSkywalkTxCompletionQueue8withPoolEP25IOSkywalkPacketBufferPooljjP8OSObjectPFiS3_PS_PP15IOSkywalkPacketjPvES8_j
+  __ZN26IOSkywalkTxSubmissionQueue8withPoolEP25IOSkywalkPacketBufferPooljjP8OSObjectPFiS3_PS_PPK15IOSkywalkPacketjPvES9_j
+  __ZN8OSObject10gMetaClassE
+  __ZN8OSObject18_RESERVEDOSObject0Ev
+  __ZN8OSObject18_RESERVEDOSObject1Ev
+  __ZN8OSObject18_RESERVEDOSObject2Ev
+  __ZN8OSObject18_RESERVEDOSObject3Ev
+  __ZN8OSObject18_RESERVEDOSObject4Ev
+  __ZN8OSObject18_RESERVEDOSObject5Ev
+  __ZN8OSObject18_RESERVEDOSObject6Ev
+  __ZN8OSObject18_RESERVEDOSObject7Ev
+  __ZN8OSObject18_RESERVEDOSObject8Ev
+  __ZN8OSObject18_RESERVEDOSObject9Ev
+  __ZN8OSObject19_RESERVEDOSObject10Ev
+  __ZN8OSObject19_RESERVEDOSObject11Ev
+  __ZN8OSObject19_RESERVEDOSObject12Ev
+  __ZN8OSObject19_RESERVEDOSObject13Ev
+  __ZN8OSObject19_RESERVEDOSObject14Ev
+  __ZN8OSObject19_RESERVEDOSObject15Ev
+  __ZN8OSObject8DispatchE5IORPC
+  __ZN8OSObjectC2EPK11OSMetaClass
+  __ZN8OSObjectD2Ev
+  __ZN8OSObjectdlEPvm
+  __ZN8OSObjectnwEm
+  __ZNK11OSMetaClass12getMetaClassEv
+  __ZNK11OSMetaClass12taggedRetainEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKvi
+  __ZNK11OSMetaClass14getRetainCountEv
+  __ZNK11OSMetaClass19instanceConstructedEv
+  __ZNK11OSMetaClass6retainEv
+  __ZNK11OSMetaClass7releaseEi
+  __ZNK11OSMetaClass7releaseEv
+  __ZNK11OSMetaClass9serializeEP11OSSerialize
+  __ZNK15OSMetaClassBase9isEqualToEPKS_
+  __ZNK8OSObject12taggedRetainEPKv
+  __ZNK8OSObject13taggedReleaseEPKv
+  __ZNK8OSObject13taggedReleaseEPKvi
+  __ZNK8OSObject14getRetainCountEv
+  __ZNK8OSObject6retainEv
+  __ZNK8OSObject7releaseEi
+  __ZNK8OSObject7releaseEv
+  __ZNK8OSObject9serializeEP11OSSerialize
+  __ZTV8OSObject
+  _memset
+
+--- RTW88WCLSkywalkTxAdapter.o ---
+UNDEFINED_SYMBOL_COUNT: 73
+LOCAL_OBJECT_PROVIDERS: 1
+  __ZN14RTW88IEEE8021126outputPacketWithCompletionEP6__mbufPFvPvS2_bES2_S2_ <= airport/RTW88IEEE80211.o
+UNRESOLVED_OUTSIDE_BUILT_OBJECTS_COUNT: 72
+  _IOLog
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN15IOSkywalkPacket19getPacketBufferPoolEv
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN21IOSkywalkPacketBuffer13getBufferSizeEv
+  __ZN21IOSkywalkPacketBuffer13getDataLengthEv
+  __ZN21IOSkywalkPacketBuffer13getDataOffsetEv
+  __ZN21IOSkywalkPacketBuffer16getMemorySegmentEv
+  __ZN21IOSkywalkPacketBuffer19getPacketBufferPoolEv
+  __ZN21IOSkywalkPacketBuffer22getMemorySegmentOffsetEv
+  __ZN22IOSkywalkMemorySegment17getVirtualAddressEv
+  __ZN22IOSkywalkMemorySegment19getMemoryDescriptorEv
+  __ZN8OSObject10gMetaClassE
+  __ZN8OSObject18_RESERVEDOSObject0Ev
+  __ZN8OSObject18_RESERVEDOSObject1Ev
+  __ZN8OSObject18_RESERVEDOSObject2Ev
+  __ZN8OSObject18_RESERVEDOSObject3Ev
+  __ZN8OSObject18_RESERVEDOSObject4Ev
+  __ZN8OSObject18_RESERVEDOSObject5Ev
+  __ZN8OSObject18_RESERVEDOSObject6Ev
+  __ZN8OSObject18_RESERVEDOSObject7Ev
+  __ZN8OSObject18_RESERVEDOSObject8Ev
+  __ZN8OSObject18_RESERVEDOSObject9Ev
+  __ZN8OSObject19_RESERVEDOSObject10Ev
+  __ZN8OSObject19_RESERVEDOSObject11Ev
+  __ZN8OSObject19_RESERVEDOSObject12Ev
+  __ZN8OSObject19_RESERVEDOSObject13Ev
+  __ZN8OSObject19_RESERVEDOSObject14Ev
+  __ZN8OSObject19_RESERVEDOSObject15Ev
+  __ZN8OSObject8DispatchE5IORPC
+  __ZN8OSObjectC2EPK11OSMetaClass
+  __ZN8OSObjectD2Ev
+  __ZN8OSObjectdlEPvm
+  __ZN8OSObjectnwEm
+  __ZNK11OSMetaClass12getMetaClassEv
+  __ZNK11OSMetaClass12taggedRetainEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKvi
+  __ZNK11OSMetaClass14getRetainCountEv
+  __ZNK11OSMetaClass19instanceConstructedEv
+  __ZNK11OSMetaClass6retainEv
+  __ZNK11OSMetaClass7releaseEi
+  __ZNK11OSMetaClass7releaseEv
+  __ZNK11OSMetaClass9serializeEP11OSSerialize
+  __ZNK15OSMetaClassBase9isEqualToEPKS_
+  __ZNK8OSObject12taggedRetainEPKv
+  __ZNK8OSObject13taggedReleaseEPKv
+  __ZNK8OSObject13taggedReleaseEPKvi
+  __ZNK8OSObject14getRetainCountEv
+  __ZNK8OSObject6retainEv
+  __ZNK8OSObject7releaseEi
+  __ZNK8OSObject7releaseEv
+  __ZNK8OSObject9serializeEP11OSSerialize
+  __ZTV8OSObject
+  _mbuf_allocpacket
+  _mbuf_copyback
+  _mbuf_freem
+  _mbuf_pkthdr_setlen
+  _memset
+
+--- RTW88WCLSkywalkRxAdapter.o ---
+UNDEFINED_SYMBOL_COUNT: 94
+LOCAL_OBJECT_PROVIDERS: 0
+UNRESOLVED_OUTSIDE_BUILT_OBJECTS_COUNT: 94
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN13IOEventSource10gMetaClassE
+  __ZN13IOEventSource11setWorkLoopEP10IOWorkLoop
+  __ZN13IOEventSource19signalWorkAvailableEv
+  __ZN13IOEventSource23_RESERVEDIOEventSource0Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource1Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource2Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource3Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource4Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource5Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource6Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource7Ev
+  __ZN13IOEventSource4initEP8OSObjectPFvS1_zE
+  __ZN13IOEventSource6enableEv
+  __ZN13IOEventSource7disableEv
+  __ZN13IOEventSource7setNextEPS_
+  __ZN13IOEventSource9setActionEPFvP8OSObjectzE
+  __ZN13IOEventSourceC2EPK11OSMetaClass
+  __ZN13IOEventSourceD2Ev
+  __ZN15IOSkywalkPacket19getPacketBufferPoolEv
+  __ZN15OSMetaClassBase12safeMetaCastEPKS_PK11OSMetaClass
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN21IOSkywalkPacketBuffer13getBufferSizeEv
+  __ZN21IOSkywalkPacketBuffer13getDataLengthEv
+  __ZN21IOSkywalkPacketBuffer13getDataOffsetEv
+  __ZN21IOSkywalkPacketBuffer16getMemorySegmentEv
+  __ZN21IOSkywalkPacketBuffer19getPacketBufferPoolEv
+  __ZN21IOSkywalkPacketBuffer22getMemorySegmentOffsetEv
+  __ZN22IOSkywalkMemorySegment17getVirtualAddressEv
+  __ZN22IOSkywalkMemorySegment19getMemoryDescriptorEv
+  __ZN22IOSkywalkNetworkPacket19setCompletionStatusEi
+  __ZN22IOSkywalkNetworkPacket9metaClassE
+  __ZN8OSObject18_RESERVEDOSObject0Ev
+  __ZN8OSObject18_RESERVEDOSObject1Ev
+  __ZN8OSObject18_RESERVEDOSObject2Ev
+  __ZN8OSObject18_RESERVEDOSObject3Ev
+  __ZN8OSObject18_RESERVEDOSObject4Ev
+  __ZN8OSObject18_RESERVEDOSObject5Ev
+  __ZN8OSObject18_RESERVEDOSObject6Ev
+  __ZN8OSObject18_RESERVEDOSObject7Ev
+  __ZN8OSObject18_RESERVEDOSObject8Ev
+  __ZN8OSObject18_RESERVEDOSObject9Ev
+  __ZN8OSObject19_RESERVEDOSObject10Ev
+  __ZN8OSObject19_RESERVEDOSObject11Ev
+  __ZN8OSObject19_RESERVEDOSObject12Ev
+  __ZN8OSObject19_RESERVEDOSObject13Ev
+  __ZN8OSObject19_RESERVEDOSObject14Ev
+  __ZN8OSObject19_RESERVEDOSObject15Ev
+  __ZN8OSObject4initEv
+  __ZN8OSObject8DispatchE5IORPC
+  __ZN8OSObjectdlEPvm
+  __ZN8OSObjectnwEm
+  __ZNK11OSMetaClass12getMetaClassEv
+  __ZNK11OSMetaClass12taggedRetainEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKv
+  __ZNK11OSMetaClass13taggedReleaseEPKvi
+  __ZNK11OSMetaClass14getRetainCountEv
+  __ZNK11OSMetaClass19instanceConstructedEv
+  __ZNK11OSMetaClass6retainEv
+  __ZNK11OSMetaClass7releaseEi
+  __ZNK11OSMetaClass7releaseEv
+  __ZNK11OSMetaClass9serializeEP11OSSerialize
+  __ZNK13IOEventSource11getWorkLoopEv
+  __ZNK13IOEventSource7getNextEv
+  __ZNK13IOEventSource8onThreadEv
+  __ZNK13IOEventSource9getActionEv
+  __ZNK13IOEventSource9isEnabledEv
+  __ZNK15OSMetaClassBase9isEqualToEPKS_
+  __ZNK8OSObject12taggedRetainEPKv
+  __ZNK8OSObject13taggedReleaseEPKv
+  __ZNK8OSObject13taggedReleaseEPKvi
+  __ZNK8OSObject14getRetainCountEv
+  __ZNK8OSObject6retainEv
+  __ZNK8OSObject7releaseEi
+  __ZNK8OSObject7releaseEv
+  __ZNK8OSObject9serializeEP11OSSerialize
+  __ZTV13IOEventSource
+  _mbuf_copydata
+  _mbuf_freem
+  _mbuf_pkthdr_len
+  _memset
+
+=== 6. Duplicate externally visible symbols between native WCL objects and legacy AIRPORT objects ===
+RTW88WCLController.o:
+  NO_OBVIOUS_NAMED_COLLISIONS_WITH_AIRPORT_OBJECTS
+RTW88WCLInfraInterface.o:
+  NO_OBVIOUS_NAMED_COLLISIONS_WITH_AIRPORT_OBJECTS
+RTW88WCLPCIBackend.o:
+  NO_OBVIOUS_NAMED_COLLISIONS_WITH_AIRPORT_OBJECTS
+RTW88WCLSkywalkQueues.o:
+  NO_OBVIOUS_NAMED_COLLISIONS_WITH_AIRPORT_OBJECTS
+RTW88WCLSkywalkTxAdapter.o:
+  NO_OBVIOUS_NAMED_COLLISIONS_WITH_AIRPORT_OBJECTS
+RTW88WCLSkywalkRxAdapter.o:
+  NO_OBVIOUS_NAMED_COLLISIONS_WITH_AIRPORT_OBJECTS
+
+=== 7. Existing link composition from most recent Stage27d dry-run ===
+STAGE27D_DRYRUN: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage27d-link-integration-audit-20261102-024227/make-forced-dry-run.txt
+FINAL_LINK_OBJECT_COUNT: 38
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/kmod_info.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88IEEE80211.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88HwOps.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTL88WiFi.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTL88WiFiAWDL.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88AWDLManager.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTL88WiFiInterface.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88WCLRadioBridge.o
+  /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/airport/RTW88WCLWorkQueue.o
+
+=== 8. Audit summary ===
+BUILT_OBJECT_FILE_COUNT: 44
+WCL_OBJECTS_PRESENT: 6/6
+NM_FAILURE_COUNT: 0
+LIMIT: this audit maps source includes and object symbols only; it does not prove runtime ABI correctness or safe queue registration.
+SOURCE_FILES_MODIFIED: NONE
+BUILD: NOT RUN
+INSTALL: NOT RUN
+LOAD: NOT RUN
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+QUEUE_REGISTRATION: STILL DISABLED
