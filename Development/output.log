@@ -8241,3 +8241,18 @@ LOAD: NOT RUN
 OPENCORE_CHANGE: NONE
 QUEUE_REGISTRATION: NOT ENABLED
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+
+
+========== STAGE29E RESULT CORRECTION ==========
+KMUTIL_SYMBOL_RESOLUTION: PASS — kmutil libraries exited 0 and resolved the native binary's undefined imports to providers in the Boot Kernel Collection. The Stage29e output includes mappings to IO80211Family 1200.13.1, IOSkywalkFamily 1.0, IONetworkingFamily 3.4, IOPCIFamily 2.9 and kernel KPI libraries.
+KMUTIL_PRINT_DIAGNOSTICS_EXIT: 0 BUT CONTENT CONTAINS ERRORS.
+BUNDLE_OWNERSHIP: FAIL — the bundle, Contents, executable and Info.plist are owned by uid:gid 501:20; kmutil says it expects 0:0 (root:wheel).
+CODE_SIGNATURE_AUTHENTICATION: FAIL — kmutil prints "Authenticating extension failed: Bad code signature" for the candidate and dependency validation.
+STAGE29E_OVERALL_STATUS: REVIEW_REQUIRED — previous Stage29e script incorrectly considered print-diagnostics successful solely from exit code 0. The content-level errors override the return code.
+INTERPRETATION: Kernel symbol-provider resolution is verified, but the current build bundle is not in an authenticated/installation-ready state. This does not invalidate the native compile/link. It blocks install/load testing until bundle ownership and a supported signing strategy are resolved.
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+QUEUE_REGISTRATION: NOT ENABLED
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+NEXT_GATE: Stage29f read-only audit of bundle ownership, code-signature metadata/verification, xattrs and repeated kmutil diagnostics. No chown, signing, install or load in Stage29f.
