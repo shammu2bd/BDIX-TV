@@ -66,3 +66,19 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 Do not proceed to installation until ownership and signing validation are resolved. Preserve the existing working legacy kext and OpenCore configuration.
+
+
+Stage29f completed on the target Mac and **failed its packaging/authentication gate**:
+- The native bundle, executable and Info.plist are all owned by uid:gid 501:20.
+- `codesign -d` reports `code object is not signed at all`.
+- `codesign --verify` fails.
+- `kmutil print-diagnostics` repeats invalid ownership and bad-signature errors.
+- Stage29f made no changes; the original candidate remains unsigned and user-owned.
+
+Stage29g is a read-only preflight to inspect SIP status, available valid code-signing identities, and whether any Developer ID certificate contains Apple's kext-signing extension OID `1.2.840.113635.100.6.1.18`. It deliberately does not sign, chown, install or load anything.
+
+Run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage29g-signing-policy-preflight.sh | bash
+```
