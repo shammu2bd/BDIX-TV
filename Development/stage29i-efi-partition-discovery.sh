@@ -176,6 +176,12 @@ RC=$?
   echo "DISKUTIL_LIST_PLIST_EXIT: $DISK_PLIST_RC"
   echo "ROOT_VOLUME_INFO_EXIT: $ROOT_INFO_RC"
   echo "BLESS_GETBOOT_EXIT: $BLESS_RC"
+  echo 'BLESS_GETBOOT_OUTPUT_BEGIN'
+  cat "$STAGE/bless-getboot.txt" 2>/dev/null || true
+  echo 'BLESS_GETBOOT_OUTPUT_END'
+  echo 'ROOT_VOLUME_INFO_BEGIN'
+  grep -E 'Device Identifier|Device Node|Part of Whole|Volume Name|Mount Point|APFS Physical Store|Disk / Partition UUID|Protocol' "$STAGE/root-volume-info.txt" 2>/dev/null || true
+  echo 'ROOT_VOLUME_INFO_END'
   cat "$STAGE/stage29i-report.txt" 2>/dev/null || true
   echo 'DISKUTIL_LIST_BEGIN'
   cat "$STAGE/diskutil-list.txt" 2>/dev/null || true
