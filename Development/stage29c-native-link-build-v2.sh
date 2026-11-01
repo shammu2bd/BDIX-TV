@@ -9,18 +9,35 @@ PROJECT_NAME="RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 fail() { echo "ERROR: $*" >&2; exit 2; }
 
 find_project() {
-    if [[ -n "\${PROJECT_DIR:-}" ]]; then
-        if [[ -f "\${PROJECT_DIR}/driver/RTL88WiFi/Makefile" ]]; then
-            (cd "\${PROJECT_DIR}" && pwd -P); return
+    local candidate="${PROJECT_DIR:-}"
+    if [[ -n "$candidate" ]]; then
+        if [[ -f "$candidate/driver/RTL88WiFi/Makefile" ]]; then
+            (cd "$candidate" && pwd -P)
+            return 0
         fi
-        if [[ -f "\${PROJECT_DIR}/Makefile" && -d "\${PROJECT_DIR}/src/kext" ]]; then
-            (cd "\${PROJECT_DIR}/../.." && pwd -P); return
+        if [[ -f "$candidate/Makefile" && -d "$candidate/src/kext" ]]; then
+            (cd "$candidate/../.." && pwd -P)
+            return 0
         fi
-        fail "PROJECT_DIR does not identify the Stage26 project or driver directory."
+        echo "WARNING: Ignoring stale PROJECT_DIR: $candidate" >&2
     fi
+
     local guess="$HOME/Downloads/$PROJECT_NAME"
-    [[ -f "$guess/driver/RTL88WiFi/Makefile" ]] || fail "Stage26 project not found at $guess. Set PROJECT_DIR."
-    (cd "$guess" && pwd -P)
+    if [[ -f "$guess/driver/RTL88WiFi/Makefile" ]]; then
+        (cd "$guess" && pwd -P)
+        return 0
+    fi
+
+    local found=""
+    if [[ -d "$HOME/Downloads" ]]; then
+        found="$(find "$HOME/Downloads" -maxdepth 9 -type f -path '*/driver/RTL88WiFi/Makefile' -print -quit 2>/dev/null || true)"
+    fi
+    if [[ -n "$found" ]]; then
+        (cd "$(dirname "$found")/../.." && pwd -P)
+        return 0
+    fi
+
+    fail "Cannot locate driver/RTL88WiFi/Makefile under ~/Downloads. Set PROJECT_DIR to the Stage26 project root or driver directory."
 }
 
 PROJECT="$(find_project)"
