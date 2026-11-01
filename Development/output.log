@@ -5651,3 +5651,1437 @@ INSTALL: NOT RUN
 LOAD: NOT RUN
 OPENCORE_CHANGE: NONE
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+
+========== STAGE29D RAW TOOL INVENTORY ==========
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29d-native-mach-o-audit-20261102-034735
+--- binary-file ---
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative: Mach-O 64-bit kext bundle x86_64
+--- binary-arch ---
+x86_64
+--- macho-header ---
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative:
+Mach header
+      magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
+MH_MAGIC_64   X86_64        ALL  0x00  KEXTBUNDLE     7       1160   NOUNDEFS DYLDLINK TWOLEVEL
+--- linked-libraries ---
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative:
+--- load-commands ---
+/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative:
+Load command 0
+      cmd LC_SEGMENT_64
+  cmdsize 312
+  segname __TEXT
+   vmaddr 0x0000000000000000
+   vmsize 0x0000000000153000
+  fileoff 0
+ filesize 1388544
+  maxprot 0x00000005
+ initprot 0x00000005
+   nsects 3
+    flags 0x0
+Section
+  sectname __text
+   segname __TEXT
+      addr 0x0000000000000d70
+      size 0x0000000000073302
+    offset 3440
+     align 2^4 (16)
+    reloff 0
+    nreloc 0
+     flags 0x80000400
+ reserved1 0
+ reserved2 0
+Section
+  sectname __cstring
+   segname __TEXT
+      addr 0x0000000000074072
+      size 0x0000000000006992
+    offset 475250
+     align 2^0 (1)
+    reloff 0
+    nreloc 0
+     flags 0x00000002
+ reserved1 0
+ reserved2 0
+Section
+  sectname __const
+   segname __TEXT
+      addr 0x000000000007aa10
+      size 0x00000000000d85e2
+    offset 502288
+     align 2^4 (16)
+    reloff 0
+    nreloc 0
+     flags 0x00000000
+ reserved1 0
+ reserved2 0
+Load command 1
+      cmd LC_SEGMENT_64
+  cmdsize 632
+  segname __DATA
+   vmaddr 0x0000000000153000
+   vmsize 0x000000000000e000
+  fileoff 1388544
+ filesize 24576
+  maxprot 0x00000003
+ initprot 0x00000003
+   nsects 7
+    flags 0x0
+Section
+  sectname __got
+   segname __DATA
+      addr 0x0000000000153000
+      size 0x0000000000000070
+    offset 1388544
+     align 2^3 (8)
+    reloff 0
+    nreloc 0
+     flags 0x00000000
+ reserved1 0
+ reserved2 0
+Section
+  sectname __mod_init_func
+   segname __DATA
+      addr 0x0000000000153070
+      size 0x0000000000000040
+    offset 1388656
+     align 2^3 (8)
+    reloff 0
+    nreloc 0
+     flags 0x00000009
+ reserved1 0
+ reserved2 0
+Section
+  sectname __mod_term_func
+   segname __DATA
+      addr 0x00000000001530b0
+      size 0x0000000000000040
+    offset 1388720
+     align 2^3 (8)
+    reloff 0
+    nreloc 0
+     flags 0x0000000a
+ reserved1 0
+ reserved2 0
+Section
+  sectname __const
+   segname __DATA
+      addr 0x00000000001530f0
+      size 0x00000000000054e8
+    offset 1388784
+     align 2^4 (16)
+    reloff 0
+    nreloc 0
+     flags 0x00000000
+ reserved1 0
+ reserved2 0
+Section
+  sectname __data
+   segname __DATA
+      addr 0x00000000001585e0
+      size 0x0000000000000598
+    offset 1410528
+     align 2^4 (16)
+    reloff 0
+    nreloc 0
+     flags 0x00000000
+ reserved1 0
+ reserved2 0
+Section
+  sectname __common
+   segname __DATA
+      addr 0x0000000000158b78
+      size 0x0000000000000195
+    offset 0
+     align 2^3 (8)
+    reloff 0
+    nreloc 0
+     flags 0x00000001
+ reserved1 0
+ reserved2 0
+Section
+  sectname __bss
+   segname __DATA
+      addr 0x0000000000158d10
+      size 0x00000000000080bc
+    offset 0
+     align 2^4 (16)
+    reloff 0
+    nreloc 0
+     flags 0x00000001
+ reserved1 0
+ reserved2 0
+Load command 2
+      cmd LC_SEGMENT_64
+  cmdsize 72
+  segname __LINKEDIT
+   vmaddr 0x0000000000161000
+   vmsize 0x0000000000034000
+  fileoff 1413120
+ filesize 211640
+  maxprot 0x00000001
+ initprot 0x00000001
+   nsects 0
+    flags 0x0
+Load command 3
+     cmd LC_SYMTAB
+ cmdsize 24
+  symoff 1420632
+   nsyms 3811
+  stroff 1502144
+ strsize 122616
+Load command 4
+            cmd LC_DYSYMTAB
+        cmdsize 80
+      ilocalsym 0
+      nlocalsym 2130
+     iextdefsym 2130
+     nextdefsym 877
+      iundefsym 3007
+      nundefsym 804
+         tocoff 0
+           ntoc 0
+      modtaboff 0
+        nmodtab 0
+   extrefsymoff 0
+    nextrefsyms 0
+ indirectsymoff 0
+  nindirectsyms 0
+      extreloff 1481608
+        nextrel 2567
+      locreloff 1413120
+        nlocrel 939
+Load command 5
+     cmd LC_UUID
+ cmdsize 24
+    uuid CBA08811-A656-3977-915E-EA256FDBD5A8
+Load command 6
+      cmd LC_SOURCE_VERSION
+  cmdsize 16
+  version 0.0
+
+========== STAGE29D SYMBOL / ABI AUDIT REPORT ==========
+RTL88WiFi Stage29d — native Mach-O symbol, meta-class and dependency audit
+STAGE_SCOPE: READ-ONLY INSPECTION OF THE EXACT STAGE29C-V5 BINARY
+HOST: macOS 15.8.1 / 24H32 / x86_64
+BINARY: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFiNative.kext/Contents/MacOS/RTL88WiFiNative
+BINARY_SHA256: 475d2ec90dad4f83aaafdf9ee17a9ffca8c7804951266cf7c41d02e58945cbc9
+STAGE29C_V5_SHA256: 475d2ec90dad4f83aaafdf9ee17a9ffca8c7804951266cf7c41d02e58945cbc9
+BINARY_IDENTITY_MATCH: PASS
+
+=== MACH-O ===
+MACHO_KEXTBUNDLE_64: PASS
+X86_64_ARCHITECTURE: PASS
+HEADER_FLAGS: magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags | MH_MAGIC_64   X86_64        ALL  0x00  KEXTBUNDLE     7       1160   NOUNDEFS DYLDLINK TWOLEVEL
+
+=== BUNDLE METADATA ===
+PLIST_PARSE: PASS
+CFBundleExecutable: RTL88WiFiNative
+CFBundleIdentifier: io.github.x1ren41l.RTL88WiFi
+BUNDLE_IDENTITY: PASS
+IOKitPersonalities_IOClass: RTW88WCLController
+IOKitPersonalities_IOPCIMatch: 0xC82110EC 0xB82110EC
+NATIVE_CONTROLLER_PERSONALITY: PASS
+RTL8821CE_PCI_MATCH: PASS
+OSBundleLibraries:
+  com.apple.iokit.IO80211Family = 1200.13.1
+  com.apple.iokit.IONetworkingFamily = 3.4
+  com.apple.iokit.IOPCIFamily = 2.9
+  com.apple.iokit.IOSkywalkFamily = 1.0
+  com.apple.kpi.bsd = 20.0.0
+  com.apple.kpi.iokit = 20.0.0
+  com.apple.kpi.libkern = 20.0.0
+  com.apple.kpi.mach = 20.0.0
+  com.apple.kpi.unsupported = 20.0.0
+MISSING_REQUIRED_NATIVE_LIBRARIES: NONE
+IO80211FamilyLegacy_DEPENDENCY: ABSENT — PASS
+NATIVE_DEPENDENCY_SET: PASS
+
+=== C++ CLASS / VTABLE SYMBOL INVENTORY ===
+NATIVE_CLASS_SYMBOL RTW88WCLController: 66
+NATIVE_CLASS_SYMBOL RTW88WCLInfraInterface: 242
+NATIVE_CLASS_SYMBOL RTW88WCLPCIBackend: 69
+NATIVE_CLASS_SYMBOL RTW88WCLSkywalkQueues: 29
+NATIVE_CLASS_SYMBOL RTW88WCLSkywalkTxAdapter: 29
+NATIVE_CLASS_SYMBOL RTW88WCLSkywalkRxAdapter: 29
+NATIVE_CLASS_SYMBOLS: PASS
+LEGACY_FRONTEND_SYMBOL RTL88WiFiInterface: 0
+LEGACY_FRONTEND_SYMBOL RTL88WiFiAWDL: 0
+LEGACY_FRONTEND_SYMBOL RTW88AWDLManager: 0
+LEGACY_FRONTEND_SYMBOLS: ABSENT — PASS
+META_CLASS_SYMBOL_LINES: 124
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+                   U __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+                   U __ZN11OSMetaClassC2EPKcPKS_j
+                   U __ZN11OSMetaClassD2Ev
+  0000000000064f50 t __ZN11OSMetaClassdlEPvm
+  00000000000677a0 t __ZN11OSMetaClassdlEPvm
+  0000000000069910 t __ZN11OSMetaClassdlEPvm
+  000000000006ef50 t __ZN11OSMetaClassdlEPvm
+  0000000000070d80 t __ZN11OSMetaClassdlEPvm
+  0000000000071b00 t __ZN11OSMetaClassdlEPvm
+  0000000000072c30 t __ZN11OSMetaClassdlEPvm
+  0000000000074030 t __ZN11OSMetaClassdlEPvm
+                   U __ZN13IOEventSource10gMetaClassE
+                   U __ZN13IOEventSourceC2EPK11OSMetaClass
+  0000000000158bc0 S __ZN14RTW88IEEE8021110gMetaClassE
+  000000000004f790 T __ZN14RTW88IEEE802119MetaClassC1Ev
+  0000000000050190 T __ZN14RTW88IEEE802119MetaClassC2Ev
+  00000000000623e0 t __ZN14RTW88IEEE802119MetaClassD0Ev
+  000000000004f7b0 t __ZN14RTW88IEEE802119MetaClassD1Ev
+  00000000000500c0 T __ZN14RTW88IEEE80211C1EPK11OSMetaClass
+  000000000004f7e0 T __ZN14RTW88IEEE80211C2EPK11OSMetaClass
+                   U __ZN15OSMetaClassBase12safeMetaCastEPKS_PK11OSMetaClass
+                   U __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+                   U __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+                   U __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+                   U __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+                   U __ZN15OSMetaClassBase8DispatchE5IORPC
+  000000000006fab0 t __ZN15OSMetaClassBase9_ptmf2ptfEPKS_MS_FvvEm
+                   U __ZN17IO80211Controller10gMetaClassE
+                   U __ZN17IO80211ControllerC2EPK11OSMetaClass
+  0000000000158bf0 S __ZN17RTW88WCLWorkQueue10gMetaClassE
+  00000000000668b0 T __ZN17RTW88WCLWorkQueue9MetaClassC1Ev
+  0000000000066b20 T __ZN17RTW88WCLWorkQueue9MetaClassC2Ev
+  00000000000676c0 t __ZN17RTW88WCLWorkQueue9MetaClassD0Ev
+  00000000000668d0 t __ZN17RTW88WCLWorkQueue9MetaClassD1Ev
+  0000000000066a00 T __ZN17RTW88WCLWorkQueueC1EPK11OSMetaClass
+  0000000000066900 T __ZN17RTW88WCLWorkQueueC2EPK11OSMetaClass
+  0000000000158c18 S __ZN18RTW88WCLController10gMetaClassE
+  00000000000679a0 T __ZN18RTW88WCLController9MetaClassC1Ev
+  0000000000067db0 T __ZN18RTW88WCLController9MetaClassC2Ev
+  00000000000697b0 t __ZN18RTW88WCLController9MetaClassD0Ev
+  00000000000679c0 t __ZN18RTW88WCLController9MetaClassD1Ev
+  0000000000067bd0 T __ZN18RTW88WCLControllerC1EPK11OSMetaClass
+  00000000000679f0 T __ZN18RTW88WCLControllerC2EPK11OSMetaClass
+  0000000000158c68 S __ZN18RTW88WCLPCIBackend10gMetaClassE
+  000000000006efc0 T __ZN18RTW88WCLPCIBackend9MetaClassC1Ev
+  000000000006f220 T __ZN18RTW88WCLPCIBackend9MetaClassC2Ev
+  0000000000070cf0 t __ZN18RTW88WCLPCIBackend9MetaClassD0Ev
+  000000000006efe0 t __ZN18RTW88WCLPCIBackend9MetaClassD1Ev
+  000000000006f100 T __ZN18RTW88WCLPCIBackendC1EPK11OSMetaClass
+  000000000006f010 T __ZN18RTW88WCLPCIBackendC2EPK11OSMetaClass
+                   U __ZN20IO80211InfraProtocol10gMetaClassE
+                   U __ZN20IO80211InfraProtocolC2EPK11OSMetaClass
+  0000000000158c90 S __ZN21RTW88WCLSkywalkQueues10gMetaClassE
+  0000000000070df0 T __ZN21RTW88WCLSkywalkQueues9MetaClassC1Ev
+  0000000000070f80 T __ZN21RTW88WCLSkywalkQueues9MetaClassC2Ev
+  0000000000071730 t __ZN21RTW88WCLSkywalkQueues9MetaClassD0Ev
+  0000000000070e10 t __ZN21RTW88WCLSkywalkQueues9MetaClassD1Ev
+  0000000000070eb0 T __ZN21RTW88WCLSkywalkQueuesC1EPK11OSMetaClass
+  0000000000070e40 T __ZN21RTW88WCLSkywalkQueuesC2EPK11OSMetaClass
+  0000000000158c40 S __ZN22RTW88WCLInfraInterface10gMetaClassE
+  0000000000069980 T __ZN22RTW88WCLInfraInterface9MetaClassC1Ev
+  0000000000069d10 T __ZN22RTW88WCLInfraInterface9MetaClassC2Ev
+  000000000006c9a0 t __ZN22RTW88WCLInfraInterface9MetaClassD0Ev
+  00000000000699a0 t __ZN22RTW88WCLInfraInterface9MetaClassD1Ev
+  0000000000069bb0 T __ZN22RTW88WCLInfraInterfaceC1EPK11OSMetaClass
+  00000000000699d0 T __ZN22RTW88WCLInfraInterfaceC2EPK11OSMetaClass
+  0000000000158ce0 S __ZN24RTW88WCLSkywalkRxAdapter10gMetaClassE
+  0000000000072ca0 T __ZN24RTW88WCLSkywalkRxAdapter9MetaClassC1Ev
+  0000000000072e90 T __ZN24RTW88WCLSkywalkRxAdapter9MetaClassC2Ev
+  0000000000073ec0 t __ZN24RTW88WCLSkywalkRxAdapter9MetaClassD0Ev
+  0000000000072cc0 t __ZN24RTW88WCLSkywalkRxAdapter9MetaClassD1Ev
+  0000000000072dc0 T __ZN24RTW88WCLSkywalkRxAdapterC1EPK11OSMetaClass
+  0000000000072cf0 T __ZN24RTW88WCLSkywalkRxAdapterC2EPK11OSMetaClass
+VTABLE_SYMBOL_LINES: 30
+  0000000000157e28 s __ZTV10RTW88HwOps
+                   U __ZTV13IOEventSource
+  0000000000154e00 S __ZTV14RTW88IEEE80211
+  0000000000156490 s __ZTV15RTW88RxDelegate
+                   U __ZTV17IO80211Controller
+  00000000001550c0 S __ZTV17RTW88WCLWorkQueue
+  0000000000156460 s __ZTV18RTW88EventDelegate
+  0000000000157ad0 s __ZTV18RTW88EventDelegate
+  00000000001553e8 S __ZTV18RTW88WCLController
+  0000000000157b10 S __ZTV18RTW88WCLPCIBackend
+  0000000000155080 S __ZTV19RTW88WCLRadioBridge
+                   U __ZTV20IO80211InfraProtocol
+                   U __ZTV21IO80211InfraInterface
+  0000000000157ed0 S __ZTV21RTW88WCLSkywalkQueues
+  00000000001564f8 S __ZTV22RTW88WCLInfraInterface
+  00000000001553a8 s __ZTV22RTW88WCLRadioEventSink
+                   U __ZTV23IO80211SkywalkInterface
+  0000000000156430 s __ZTV24RTW88WCLPCIBackendClient
+  0000000000158320 S __ZTV24RTW88WCLSkywalkRxAdapter
+  00000000001580f8 S __ZTV24RTW88WCLSkywalkTxAdapter
+  0000000000157aa0 s __ZTV25RTW88WCLRadioEventHandler
+                   U __ZTV8OSObject
+  0000000000154f30 S __ZTVN14RTW88IEEE802119MetaClassE
+  00000000001552c0 S __ZTVN17RTW88WCLWorkQueue9MetaClassE
+  0000000000156348 S __ZTVN18RTW88WCLController9MetaClassE
+  0000000000157d40 S __ZTVN18RTW88WCLPCIBackend9MetaClassE
+  0000000000158000 S __ZTVN21RTW88WCLSkywalkQueues9MetaClassE
+  00000000001579b8 S __ZTVN22RTW88WCLInfraInterface9MetaClassE
+  00000000001584f0 S __ZTVN24RTW88WCLSkywalkRxAdapter9MetaClassE
+  0000000000158228 S __ZTVN24RTW88WCLSkywalkTxAdapter9MetaClassE
+NATIVE_CLASS_SYMBOL_LINES:
+  0000000000069930 t __GLOBAL__sub_I_RTW88WCLController.cpp
+  000000000006ef70 t __GLOBAL__sub_I_RTW88WCLInfraInterface.cpp
+  0000000000070da0 t __GLOBAL__sub_I_RTW88WCLPCIBackend.cpp
+  0000000000071b20 t __GLOBAL__sub_I_RTW88WCLSkywalkQueues.cpp
+  0000000000074050 t __GLOBAL__sub_I_RTW88WCLSkywalkRxAdapter.cpp
+  0000000000072c50 t __GLOBAL__sub_I_RTW88WCLSkywalkTxAdapter.cpp
+  0000000000158c18 S __ZN18RTW88WCLController10gMetaClassE
+  0000000000069250 T __ZN18RTW88WCLController10rtw88EventE10RTW88EventPv
+  00000000001553e0 S __ZN18RTW88WCLController10superClassE
+  0000000000069180 T __ZN18RTW88WCLController12outputPacketEP6__mbufPv
+  0000000000069720 T __ZN18RTW88WCLController13getRxWorkLoopEv
+  0000000000069360 T __ZN18RTW88WCLController13injectRxFrameEP6__mbuf
+  0000000000069760 T __ZN18RTW88WCLController13setLinkStatusEj
+  0000000000068680 T __ZN18RTW88WCLController13stagedRxFrameEP15IOSkywalkPacketPv
+  00000000000680d0 T __ZN18RTW88WCLController14createWorkLoopEv
+  0000000000068f80 T __ZN18RTW88WCLController15enterPacketPathEv
+  0000000000068e90 T __ZN18RTW88WCLController15getCOUNTRY_CODEEP23IO80211SkywalkInterfaceP28apple80211_country_code_data
+  0000000000069010 T __ZN18RTW88WCLController15leavePacketPathEv
+  0000000000068ee0 T __ZN18RTW88WCLController15setCOUNTRY_CODEEP23IO80211SkywalkInterfaceP28apple80211_country_code_data
+  00000000000685f0 T __ZN18RTW88WCLController16bindRadioBackendEP14RTW88IEEE80211
+  0000000000068cf0 T __ZN18RTW88WCLController17getDRIVER_VERSIONEP23IO80211SkywalkInterfaceP23apple80211_version_data
+  0000000000068940 T __ZN18RTW88WCLController17quiescePacketPathEv
+  0000000000068f10 T __ZN18RTW88WCLController17setGET_DEBUG_INFOEP23IO80211SkywalkInterfaceP24apple80211_debug_command
+  0000000000069050 T __ZN18RTW88WCLController18activatePacketPathEP23IO80211SkywalkInterface
+  0000000000068cc0 T __ZN18RTW88WCLController18handleCardSpecificEP23IO80211SkywalkInterfacemPvb
+  0000000000068bd0 T __ZN18RTW88WCLController18unbindRadioBackendEv
+  00000000000692a0 T __ZN18RTW88WCLController19allocateInputPacketEj
+  0000000000068d70 T __ZN18RTW88WCLController19getHARDWARE_VERSIONEP23IO80211SkywalkInterfaceP23apple80211_version_data
+  0000000000068ca0 T __ZN18RTW88WCLController19isCommandProhibitedEi
+  0000000000068dc0 T __ZN18RTW88WCLController20getCARD_CAPABILITIESEP23IO80211SkywalkInterfaceP26apple80211_capability_data
+  0000000000068ad0 T __ZN18RTW88WCLController22recycleStagedRxPacketsEv
+  00000000000686d0 T __ZN18RTW88WCLController22releaseNativeResourcesEv
+  0000000000069220 T __ZN18RTW88WCLController22rtw88WCLResumeTransmitEv
+  0000000000068f60 T __ZN18RTW88WCLController26getFaultReporterFromDriverEv
+  0000000000068c20 T __ZN18RTW88WCLController4freeEv
+  0000000000067f80 T __ZN18RTW88WCLController4initEP12OSDictionary
+  00000000000688d0 T __ZN18RTW88WCLController4stopEP9IOService
+  0000000000068150 T __ZN18RTW88WCLController5startEP9IOService
+  0000000000068e10 T __ZN18RTW88WCLController8getPOWEREP23IO80211SkywalkInterfaceP21apple80211_power_data
+  0000000000068e60 T __ZN18RTW88WCLController8setPOWEREP23IO80211SkywalkInterfaceP21apple80211_power_data
+  00000000000679a0 T __ZN18RTW88WCLController9MetaClassC1Ev
+  0000000000067db0 T __ZN18RTW88WCLController9MetaClassC2Ev
+  00000000000697b0 t __ZN18RTW88WCLController9MetaClassD0Ev
+  00000000000679c0 t __ZN18RTW88WCLController9MetaClassD1Ev
+  00000000001553d8 S __ZN18RTW88WCLController9metaClassE
+  0000000000067bd0 T __ZN18RTW88WCLControllerC1EPK11OSMetaClass
+  0000000000067e30 T __ZN18RTW88WCLControllerC1Ev
+  00000000000679f0 T __ZN18RTW88WCLControllerC2EPK11OSMetaClass
+  0000000000067e50 T __ZN18RTW88WCLControllerC2Ev
+  0000000000067d00 T __ZN18RTW88WCLControllerD0Ev
+  0000000000067c50 T __ZN18RTW88WCLControllerD1Ev
+  0000000000067c00 T __ZN18RTW88WCLControllerD2Ev
+  0000000000158c68 S __ZN18RTW88WCLPCIBackend10gMetaClassE
+  0000000000157b08 S __ZN18RTW88WCLPCIBackend10superClassE
+  00000000000708c0 T __ZN18RTW88WCLPCIBackend11freeDMAListEP13RTW88DMAEntry
+  00000000000700a0 T __ZN18RTW88WCLPCIBackend11pciReadByteEi
+  0000000000070160 T __ZN18RTW88WCLPCIBackend11pciReadWordEi
+  0000000000070790 T __ZN18RTW88WCLPCIBackend12freeCoherentEmPvy
+  00000000000701f0 T __ZN18RTW88WCLPCIBackend12pciReadDwordEi
+  00000000000702a0 T __ZN18RTW88WCLPCIBackend12pciWriteByteEih
+  0000000000070350 T __ZN18RTW88WCLPCIBackend12pciWriteWordEit
+  0000000000070560 T __ZN18RTW88WCLPCIBackend13allocCoherentEmPy
+  0000000000070410 T __ZN18RTW88WCLPCIBackend13pciWriteDwordEij
+  000000000006f8a0 T __ZN18RTW88WCLPCIBackend14closeResourcesEv
+  000000000006fb50 T __ZN18RTW88WCLPCIBackend15handleInterruptEP22IOInterruptEventSourcei
+  0000000000070ab0 T __ZN18RTW88WCLPCIBackend15setBounceOrigVAEyPv
+  000000000006fbc0 T __ZN18RTW88WCLPCIBackend15setRadioRunningEb
+  000000000006ff00 T __ZN18RTW88WCLPCIBackend16clearCompatLeaseEv
+  000000000006fdc0 T __ZN18RTW88WCLPCIBackend16drainPendingFreeEv
+  0000000000070b70 T __ZN18RTW88WCLPCIBackend16syncBounceForCpuEym
+  00000000000704b0 T __ZN18RTW88WCLPCIBackend17pciFindCapabilityEi
+  000000000006fe60 T __ZN18RTW88WCLPCIBackend17releaseDMAEntriesEv
+  0000000000070ca0 T __ZN18RTW88WCLPCIBackend17resumeTxIfStalledEv
+  0000000000070970 T __ZN18RTW88WCLPCIBackend18freeCoherentByPhysEy
+  000000000006ffa0 T __ZN18RTW88WCLPCIBackend4freeEv
+  000000000006f390 T __ZN18RTW88WCLPCIBackend4initEv
+  000000000006f440 T __ZN18RTW88WCLPCIBackend4openEP11IOPCIDeviceP10IOWorkLoopP24RTW88WCLPCIBackendClient
+  000000000006fe20 T __ZN18RTW88WCLPCIBackend5closeEv
+  000000000006efc0 T __ZN18RTW88WCLPCIBackend9MetaClassC1Ev
+  000000000006f220 T __ZN18RTW88WCLPCIBackend9MetaClassC2Ev
+  0000000000070cf0 t __ZN18RTW88WCLPCIBackend9MetaClassD0Ev
+  000000000006efe0 t __ZN18RTW88WCLPCIBackend9MetaClassD1Ev
+  0000000000157b00 S __ZN18RTW88WCLPCIBackend9metaClassE
+  000000000006f100 T __ZN18RTW88WCLPCIBackendC1EPK11OSMetaClass
+  000000000006f2a0 T __ZN18RTW88WCLPCIBackendC1Ev
+  000000000006f010 T __ZN18RTW88WCLPCIBackendC2EPK11OSMetaClass
+  000000000006f2c0 T __ZN18RTW88WCLPCIBackendC2Ev
+  000000000006f1b0 T __ZN18RTW88WCLPCIBackendD0Ev
+  000000000006f160 T __ZN18RTW88WCLPCIBackendD1Ev
+  000000000006f130 T __ZN18RTW88WCLPCIBackendD2Ev
+  0000000000158c90 S __ZN21RTW88WCLSkywalkQueues10gMetaClassE
+  0000000000157ec8 S __ZN21RTW88WCLSkywalkQueues10superClassE
+  0000000000071120 T __ZN21RTW88WCLSkywalkQueues12createQueuesEv
+  0000000000071510 T __ZN21RTW88WCLSkywalkQueues13destroyQueuesEv
+  00000000000714e0 T __ZN21RTW88WCLSkywalkQueues18rxCompletionActionEP8OSObjectP26IOSkywalkRxCompletionQueuePP15IOSkywalkPacketjPv
+  00000000000714b0 T __ZN21RTW88WCLSkywalkQueues18rxSubmissionActionEP8OSObjectP26IOSkywalkRxSubmissionQueuePPK15IOSkywalkPacketjPv
+  0000000000071480 T __ZN21RTW88WCLSkywalkQueues18txCompletionActionEP8OSObjectP26IOSkywalkTxCompletionQueuePP15IOSkywalkPacketjPv
+  00000000000713a0 T __ZN21RTW88WCLSkywalkQueues18txSubmissionActionEP8OSObjectP26IOSkywalkTxSubmissionQueuePPK15IOSkywalkPacketjPv
+  0000000000071700 T __ZN21RTW88WCLSkywalkQueues4freeEv
+  00000000000710a0 T __ZN21RTW88WCLSkywalkQueues4initEv
+  0000000000070df0 T __ZN21RTW88WCLSkywalkQueues9MetaClassC1Ev
+  0000000000070f80 T __ZN21RTW88WCLSkywalkQueues9MetaClassC2Ev
+  0000000000071730 t __ZN21RTW88WCLSkywalkQueues9MetaClassD0Ev
+  0000000000070e10 t __ZN21RTW88WCLSkywalkQueues9MetaClassD1Ev
+  0000000000157ec0 S __ZN21RTW88WCLSkywalkQueues9metaClassE
+  0000000000070eb0 T __ZN21RTW88WCLSkywalkQueuesC1EPK11OSMetaClass
+  0000000000071000 T __ZN21RTW88WCLSkywalkQueuesC1Ev
+  0000000000070e40 T __ZN21RTW88WCLSkywalkQueuesC2EPK11OSMetaClass
+  0000000000071020 T __ZN21RTW88WCLSkywalkQueuesC2Ev
+  0000000000070f30 T __ZN21RTW88WCLSkywalkQueuesD0Ev
+  0000000000070f00 T __ZN21RTW88WCLSkywalkQueuesD1Ev
+  0000000000070ee0 T __ZN21RTW88WCLSkywalkQueuesD2Ev
+  0000000000158c40 S __ZN22RTW88WCLInfraInterface10gMetaClassE
+  000000000006aae0 T __ZN22RTW88WCLInfraInterface10getCHANNELEP23apple80211_channel_data
+  000000000006d1e0 t __ZN22RTW88WCLInfraInterface10getCUR_PMKEP14apple80211_pmk
+  000000000006d0c0 t __ZN22RTW88WCLInfraInterface10getHW_ADDREP25apple80211_hw_mac_address
+  000000000006cb50 t __ZN22RTW88WCLInfraInterface10getMCS_VHTEP23apple80211_mcs_vht_data
+  000000000006ca60 t __ZN22RTW88WCLInfraInterface10getOP_MODEEP22apple80211_opmode_data
+  000000000006ca00 t __ZN22RTW88WCLInfraInterface10getTXPOWEREP23apple80211_txpower_data
+  000000000006de70 t __ZN22RTW88WCLInfraInterface10set6G_MODEEP18apple80211_6G_mode
+  000000000006d780 t __ZN22RTW88WCLInfraInterface10setAP_MODEEP22apple80211_apmode_data
+  000000000006d690 t __ZN22RTW88WCLInfraInterface10setCHANNELEP23apple80211_channel_data
+  000000000006d8d0 t __ZN22RTW88WCLInfraInterface10setGAS_REQEP22apple80211_gas_query_t
+  000000000006ea70 t __ZN22RTW88WCLInfraInterface10setNDD_REQEP19apple80211_ndd_data
+  000000000006dd80 t __ZN22RTW88WCLInfraInterface10setPM_MODEEP18apple80211_pm_mode
+  000000000006d6f0 t __ZN22RTW88WCLInfraInterface10setTXPOWEREP23apple80211_txpower_data
+  00000000001564f0 S __ZN22RTW88WCLInfraInterface10superClassE
+  000000000006a120 T __ZN22RTW88WCLInfraInterface11attachRadioEP14RTW88IEEE80211
+  000000000006a2d0 T __ZN22RTW88WCLInfraInterface11detachRadioEv
+  000000000006cdc0 t __ZN22RTW88WCLInfraInterface11getTKO_DUMPEP19apple80211_tko_dump
+  000000000006d7e0 t __ZN22RTW88WCLInfraInterface11setWOW_TESTEP24apple80211_wow_test_data
+  000000000006d120 t __ZN22RTW88WCLInfraInterface12getHP2P_CTRLEP20apple80211_hp2p_ctrl
+  000000000006c9d0 t __ZN22RTW88WCLInfraInterface12getPOWERSAVEEP25apple80211_powersave_data
+  000000000006ce80 t __ZN22RTW88WCLInfraInterface12getTRAP_INFOEP25apple80211_trap_info_data
+  000000000006e170 t __ZN22RTW88WCLInfraInterface12setGAS_ABORTEPv
+  000000000006e350 t __ZN22RTW88WCLInfraInterface12setHEARTBEATEPv
+  000000000006dcc0 t __ZN22RTW88WCLInfraInterface12setHP2P_CTRLEP20apple80211_hp2p_ctrl
+  000000000006d750 t __ZN22RTW88WCLInfraInterface12setIBSS_MODEEP23apple80211_network_data
+  000000000006aa00 T __ZN22RTW88WCLInfraInterface12setLinkStateE16IO80211LinkStatejbj
+  000000000006d6c0 t __ZN22RTW88WCLInfraInterface12setPOWERSAVEEP25apple80211_powersave_data
+  000000000006aa50 T __ZN22RTW88WCLInfraInterface13getAssocStateEv
+  000000000006d0f0 t __ZN22RTW88WCLInfraInterface13getCHIP_DIAGSEP25appl80211_chip_diags_data
+  000000000006a920 T __ZN22RTW88WCLInfraInterface13getControllerEv
+  000000000006cfd0 t __ZN22RTW88WCLInfraInterface13getLQM_CONFIGEP23apple80211_lqm_config_t
+  000000000006cd90 t __ZN22RTW88WCLInfraInterface13getTKO_PARAMSEP21apple80211_tko_params
+  000000000006af30 T __ZN22RTW88WCLInfraInterface13setCIPHER_KEYEP14apple80211_key
+  000000000006dc30 t __ZN22RTW88WCLInfraInterface13setLQM_CONFIGEP23apple80211_lqm_config_t
+  000000000006a830 T __ZN22RTW88WCLInfraInterface13setMacAddressER10ether_addr
+  000000000006d9f0 t __ZN22RTW88WCLInfraInterface13setRESET_CHIPEP24apple80211_reset_command
+  000000000006ead0 t __ZN22RTW88WCLInfraInterface13setSDB_ENABLEEP21apple80211_sdb_enable
+  000000000006dae0 t __ZN22RTW88WCLInfraInterface13setTKO_PARAMSEP21apple80211_tko_params
+  000000000006d030 t __ZN22RTW88WCLInfraInterface14getBEACON_INFOEP24apple80211_beacon_info_t
+  000000000006d420 t __ZN22RTW88WCLInfraInterface14getHE_COUNTERSEP26apple80211_he_counters_ctl
+  000000000006d270 t __ZN22RTW88WCLInfraInterface14getLQM_SUMMARYEP22apple80211_lqm_summary
+  000000000006d1b0 t __ZN22RTW88WCLInfraInterface14getMIMO_STATUSEP22apple80211_mimo_status
+  000000000006ccd0 t __ZN22RTW88WCLInfraInterface14getPRIVATE_MACEP27apple80211_private_mac_data
+  000000000006b0a0 T __ZN22RTW88WCLInfraInterface14postWCLMessageEjPvm
+  000000000006e410 t __ZN22RTW88WCLInfraInterface14setIPV4_PARAMSEP22apple80211_ipv4_params
+  000000000006e650 t __ZN22RTW88WCLInfraInterface14setIPV6_PARAMSEP22apple80211_ipv6_params
+  000000000006e230 t __ZN22RTW88WCLInfraInterface14setMIMO_CONFIGEP22apple80211_mimo_config
+  000000000006d870 t __ZN22RTW88WCLInfraInterface14setOFFLOAD_ARPEP27apple80211_offload_arp_data
+  000000000006d8a0 t __ZN22RTW88WCLInfraInterface14setOFFLOAD_NDPEP27apple80211_offload_ndp_data
+  000000000006d9c0 t __ZN22RTW88WCLInfraInterface14setPRIVATE_MACEP27apple80211_private_mac_data
+  000000000006dea0 t __ZN22RTW88WCLInfraInterface14setWCL_REASSOCEP18apple80211_reassoc
+  000000000006e440 t __ZN22RTW88WCLInfraInterface14setWCL_WNM_OPSEP27apple80211_wcl_wnm_config_t
+  000000000006cf40 t __ZN22RTW88WCLInfraInterface15getPOWER_BUDGETEP25apple80211_power_budget_t
+  000000000006cfa0 t __ZN22RTW88WCLInfraInterface15getRANGING_CAPSEP33apple80211_ranging_capabilities_t
+  000000000006cbe0 t __ZN22RTW88WCLInfraInterface15getROAM_PROFILEEP33apple80211_roam_profile_all_bands
+  000000000006d300 t __ZN22RTW88WCLInfraInterface15getSENSING_DATAEP25apple80211_sensing_data_t
+  000000000006d390 t __ZN22RTW88WCLInfraInterface15getWCL_BSS_INFOEP21apple80211_beacon_msg
+  000000000006eaa0 t __ZN22RTW88WCLInfraInterface15setDBRG_ENTROPYEP23apple80211_drbg_entropy
+  000000000006e6b0 t __ZN22RTW88WCLInfraInterface15setLMTPC_CONFIGEP23apple80211_lmtpc_config
+  000000000006dbd0 t __ZN22RTW88WCLInfraInterface15setPOWER_BUDGETEP25apple80211_power_budget_t
+  000000000006d930 t __ZN22RTW88WCLInfraInterface15setROAM_PROFILEEP33apple80211_roam_profile_all_bands
+  000000000006dd20 t __ZN22RTW88WCLInfraInterface15setSET_PROPERTYEP41apple80211_set_property_unserialized_data
+  000000000006dfc0 t __ZN22RTW88WCLInfraInterface15setWCL_ARP_MODEEP23apple80211_wcl_arp_mode
+  000000000006b220 T __ZN22RTW88WCLInfraInterface15setWCL_SCAN_REQEP21apple80211ScanRequest
+  000000000006d150 t __ZN22RTW88WCLInfraInterface16getBSS_BLACKLISTEP13bss_blacklist
+  000000000006cb80 t __ZN22RTW88WCLInfraInterface16getCHANNELS_INFOEP24apple80211_channels_info
+  000000000006d210 t __ZN22RTW88WCLInfraInterface16getDYNSAR_DETAILEP24apple80211_dynsar_detail
+
+=== UNDEFINED SYMBOL INVENTORY ===
+NM_UNDEFINED_SYMBOL_LINE_COUNT: 804
+  _IODelay
+  _IOFree
+  _IOLockAlloc
+  _IOLockFree
+  _IOLockLock
+  _IOLockSleep
+  _IOLockUnlock
+  _IOLockWakeup
+  _IOLog
+  _IOMalloc
+  _IOMallocZero
+  _IORecursiveLockAlloc
+  _IORecursiveLockLock
+  _IORecursiveLockUnlock
+  _IOSimpleLockAlloc
+  _IOSimpleLockFree
+  _IOSimpleLockLock
+  _IOSimpleLockUnlock
+  _IOSleep
+  __ZN10IOWorkLoop8workLoopEv
+  __ZN11IOPCIDevice19extendedConfigRead8Ey
+  __ZN11IOPCIDevice20extendedConfigRead16Ey
+  __ZN11IOPCIDevice20extendedConfigRead32Ey
+  __ZN11IOPCIDevice20extendedConfigWrite8Eyh
+  __ZN11IOPCIDevice21extendedConfigWrite16Eyt
+  __ZN11IOPCIDevice21extendedConfigWrite32Eyj
+  __ZN11IOPCIDevice9metaClassE
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass0Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass1Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass2Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass3Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass4Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass5Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass6Ev
+  __ZN11OSMetaClass21_RESERVEDOSMetaClass7Ev
+  __ZN11OSMetaClassC2EPKcPKS_j
+  __ZN11OSMetaClassD2Ev
+  __ZN13IOCommandGate11commandGateEP8OSObjectPFiS1_PvS2_S2_S2_E
+  __ZN13IOEventSource10gMetaClassE
+  __ZN13IOEventSource11setWorkLoopEP10IOWorkLoop
+  __ZN13IOEventSource19signalWorkAvailableEv
+  __ZN13IOEventSource23_RESERVEDIOEventSource0Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource1Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource2Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource3Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource4Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource5Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource6Ev
+  __ZN13IOEventSource23_RESERVEDIOEventSource7Ev
+  __ZN13IOEventSource4initEP8OSObjectPFvS1_zE
+  __ZN13IOEventSource6enableEv
+  __ZN13IOEventSource7disableEv
+  __ZN13IOEventSource7setNextEPS_
+  __ZN13IOEventSource9setActionEPFvP8OSObjectzE
+  __ZN13IOEventSourceC2EPK11OSMetaClass
+  __ZN13IOEventSourceD2Ev
+  __ZN15IORegistryEntry11detachAboveEPK15IORegistryPlane
+  __ZN15IORegistryEntry11setLocationEPK8OSSymbolPK15IORegistryPlane
+  __ZN15IORegistryEntry11setLocationEPKcPK15IORegistryPlane
+  __ZN15IORegistryEntry11setPropertyEPK8OSStringP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPK8OSSymbolP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPKcP8OSObject
+  __ZN15IORegistryEntry11setPropertyEPKcPvj
+  __ZN15IORegistryEntry11setPropertyEPKcS1_
+  __ZN15IORegistryEntry11setPropertyEPKcb
+  __ZN15IORegistryEntry11setPropertyEPKcyj
+  __ZN15IORegistryEntry13attachToChildEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry13childFromPathEPKcPK15IORegistryPlanePcPi
+  __ZN15IORegistryEntry13setPropertiesEP8OSObject
+  __ZN15IORegistryEntry14attachToParentEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry14removePropertyEPK8OSString
+  __ZN15IORegistryEntry14removePropertyEPK8OSSymbol
+  __ZN15IORegistryEntry14removePropertyEPKc
+  __ZN15IORegistryEntry15detachFromChildEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry16detachFromParentEPS_PK15IORegistryPlane
+  __ZN15IORegistryEntry16setPropertyTableEP12OSDictionary
+  __ZN15IORegistryEntry17runPropertyActionEPFiP8OSObjectPvS2_S2_S2_ES1_S2_S2_S2_S2_
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry0Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry1Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry2Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry3Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry4Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry5Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry6Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry7Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry8Ev
+  __ZN15IORegistryEntry25_RESERVEDIORegistryEntry9Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry10Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry11Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry12Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry13Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry14Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry15Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry16Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry17Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry18Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry19Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry20Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry21Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry22Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry23Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry24Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry25Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry26Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry27Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry28Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry29Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry30Ev
+  __ZN15IORegistryEntry26_RESERVEDIORegistryEntry31Ev
+  __ZN15IORegistryEntry7setNameEPK8OSSymbolPK15IORegistryPlane
+  __ZN15IORegistryEntry7setNameEPKcPK15IORegistryPlane
+  __ZN15IORegistryEntry9detachAllEPK15IORegistryPlane
+  __ZN15IOSkywalkPacket19getPacketBufferPoolEv
+  __ZN15OSMetaClassBase12safeMetaCastEPKS_PK11OSMetaClass
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase4Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase5Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase6Ev
+  __ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  __ZN15OSMetaClassBase8DispatchE5IORPC
+  __ZN17IO80211Controller10gMetaClassE
+  __ZN17IO80211Controller11getLogPipesEPP6CCPipeS2_S2_
+  __ZN17IO80211Controller11postMessageEP23IO80211SkywalkInterfacejPvmb
+  __ZN17IO80211Controller12updateReportEP19IOReportChannelListjPvS2_
+  __ZN17IO80211Controller13enableFeatureE18IO80211FeatureCodePv
+  __ZN17IO80211Controller13getPostOfficeEv
+  __ZN17IO80211Controller14debugStateInitEv
+  __ZN17IO80211Controller15attachInterfaceEP8OSObjectP9IOService
+  __ZN17IO80211Controller15bpfOutputPacketEP8OSObjectjP6__mbuf
+  __ZN17IO80211Controller15configureReportEP19IOReportChannelListjPvS2_
+  __ZN17IO80211Controller15createWorkQueueEv
+  __ZN17IO80211Controller15detachInterfaceEP8OSObjectb
+  __ZN17IO80211Controller15errnoFromReturnEi
+  __ZN17IO80211Controller15flowIdSupportedEv
+  __ZN17IO80211Controller15requestPacketTxEPvj
+  __ZN17IO80211Controller16CreatePostOfficeEv
+  __ZN17IO80211Controller16getDriverTextLogEv
+  __ZN17IO80211Controller16releaseFlowQueueEP16IO80211FlowQueue
+  __ZN17IO80211Controller16requestFlowQueueEPK14FlowIdMetadata
+  __ZN17IO80211Controller16setMulticastListEPK10ether_addrj
+  __ZN17IO80211Controller16setMulticastModeEb
+  __ZN17IO80211Controller16stringFromReturnEi
+  __ZN17IO80211Controller17getDataQueueDepthEP8OSObject
+  __ZN17IO80211Controller18getAVCAdvisoryInfoEP27IO80211InterfaceAVCAdvisory
+  __ZN17IO80211Controller18getHardwareAddressEP17IOEthernetAddress
+  __ZN17IO80211Controller18getPLATFORM_CONFIGEP23IO80211SkywalkInterfaceP26apple80211_platform_config
+  __ZN17IO80211Controller18getPacketTSCounterEv
+  __ZN17IO80211Controller18setPromiscuousModeEb
+  __ZN17IO80211Controller21monitorModeSetEnabledEbj
+  __ZN17IO80211Controller21selfDiagnosticsReportEiPKcj
+  __ZN17IO80211Controller22attachVirtualInterfaceEPP23IO80211VirtualInterfaceP10ether_addrjb
+  __ZN17IO80211Controller22createVirtualInterfaceEP10ether_addrj
+  __ZN17IO80211Controller22detachVirtualInterfaceEP23IO80211VirtualInterfaceb
+  __ZN17IO80211Controller22enableVirtualInterfaceEP23IO80211VirtualInterface
+  __ZN17IO80211Controller23disableVirtualInterfaceEP23IO80211VirtualInterface
+  __ZN17IO80211Controller23wasDynSARInFailSafeModeEv
+  __ZN17IO80211Controller24enablePacketTimestampingEv
+  __ZN17IO80211Controller24hardwareOutputQueueDepthEv
+  __ZN17IO80211Controller25allocIO80211RecursiveLockEv
+  __ZN17IO80211Controller25disablePacketTimestampingEv
+  __ZN17IO80211Controller26getActionFramePoolCapacityEv
+  __ZN17IO80211Controller26getPrimarySkywalkInterfaceEv
+  __ZN17IO80211Controller26requestQueueSizeAndTimeoutEPtS0_
+  __ZN17IO80211Controller26updateAdvisoryScoresIfNeedEv
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller0Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller1Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller2Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller3Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller4Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller5Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller6Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller7Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller8Ev
+  __ZN17IO80211Controller27_RESERVEDIO80211Controller9Ev
+  __ZN17IO80211Controller27dataLinkLayerAttachCompleteEv
+  __ZN17IO80211Controller27performCountryCodeOperationE20IO80211CountryCodeOp
+  __ZN17IO80211Controller27requiresExplicitMBufReleaseEv
+  __ZN17IO80211Controller28_RESERVEDIO80211Controller10Ev
+  __ZN17IO80211Controller28_RESERVEDIO80211Controller11Ev
+  __ZN17IO80211Controller28_RESERVEDIO80211Controller12Ev
+  __ZN17IO80211Controller28_RESERVEDIO80211Controller13Ev
+  __ZN17IO80211Controller28_RESERVEDIO80211Controller14Ev
+  __ZN17IO80211Controller28_RESERVEDIO80211Controller15Ev
+  __ZN17IO80211Controller28enableFeatureForLoggingFlagsEy
+  __ZN17IO80211ControllerC2EPK11OSMetaClass
+  __ZN17IO80211ControllerD2Ev
+  __ZN18IOMemoryDescriptor18getPhysicalAddressEv
+  __ZN18IOSkywalkInterface10handleOpenEP9IOServicejPv
+  __ZN18IOSkywalkInterface11handleCloseEP9IOServicej
+  __ZN18IOSkywalkInterface12didTerminateEP9IOServicejPb
+  __ZN18IOSkywalkInterface13isTerminatingEv
+  __ZN18IOSkywalkInterface13willTerminateEP9IOServicej
+  __ZN18IOSkywalkInterface16clientDisconnectEP9IOServicej
+  __ZN18IOSkywalkInterface21clientConnectWithTaskEP4taskP9IOServicej
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface0Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface1Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface2Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface3Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface4Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface5Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface6Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface7Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface8Ev
+  __ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface9Ev
+  __ZN18IOSkywalkInterface29_RESERVEDIOSkywalkInterface10Ev
+  __ZN18IOTimerEventSource16timerEventSourceEP8OSObjectPFvS1_PS_E
+  __ZN19IONetworkController10copyPacketEP6__mbufj
+  __ZN19IONetworkController10freePacketEP6__mbufj
+  __ZN19IONetworkController10handleOpenEP9IOServicejPv
+  __ZN19IONetworkController10sendPacketEPvj
+  __ZN19IONetworkController11handleCloseEP9IOServicej
+  __ZN19IONetworkController12selectMediumEPK15IONetworkMedium
+  __ZN19IONetworkController13receivePacketEPvPjj
+  __ZN19IONetworkController13replacePacketEPP6__mbufj
+  __ZN19IONetworkController13setLinkStatusEjPK15IONetworkMediumyP6OSData
+  __ZN19IONetworkController14allocatePacketEj
+  __ZN19IONetworkController14executeCommandEP8OSObjectPFiPvS2_S2_S2_S2_ES2_S2_S2_S2_S2_
+  __ZN19IONetworkController15attachInterfaceEPP18IONetworkInterfaceb
+  __ZN19IONetworkController15detachInterfaceEP18IONetworkInterfaceb
+  __ZN19IONetworkController15setDebuggerModeEb
+  __ZN19IONetworkController16setMaxPacketSizeEj
+  __ZN19IONetworkController17createOutputQueueEv
+  __ZN19IONetworkController17getChecksumDemandEP6__mbufjPjPvS3_
+  __ZN19IONetworkController17setAggressivenessEmm
+  __ZN19IONetworkController17setChecksumResultEP6__mbufjjjjj
+  __ZN19IONetworkController17setSelectedMediumEPK15IONetworkMedium
+  __ZN19IONetworkController18configureInterfaceEP18IONetworkInterface
+  __ZN19IONetworkController18getChecksumSupportEPjjb
+  __ZN19IONetworkController18releaseFreePacketsEv
+  __ZN19IONetworkController18setHardwareAssistsEjj
+  __ZN19IONetworkController18systemWillShutdownEj
+  __ZN19IONetworkController19replaceOrCopyPacketEPP6__mbufjPb
+  __ZN19IONetworkController20allocatePacketNoWaitEj
+  __ZN19IONetworkController20attachDebuggerClientEPP16IOKernelDebugger
+  __ZN19IONetworkController20detachDebuggerClientEP16IOKernelDebugger
+  __ZN19IONetworkController20selectMediumWithNameEPK8OSSymbol
+  __ZN19IONetworkController21getDebuggerLinkStatusEv
+  __ZN19IONetworkController23publishMediumDictionaryEPK12OSDictionary
+  __ZN19IONetworkController23registerWithPolicyMakerEP9IOService
+  __ZN19IONetworkController29_RESERVEDIONetworkController2Ev
+  __ZN19IONetworkController29_RESERVEDIONetworkController3Ev
+  __ZN19IONetworkController29_RESERVEDIONetworkController4Ev
+  __ZN19IONetworkController29_RESERVEDIONetworkController5Ev
+  __ZN19IONetworkController29_RESERVEDIONetworkController8Ev
+  __ZN19IONetworkController29_RESERVEDIONetworkController9Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController10Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController11Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController12Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController13Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController14Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController15Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController16Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController17Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController18Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController19Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController20Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController21Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController22Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController23Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController24Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController25Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController26Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController27Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController28Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController29Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController30Ev
+  __ZN19IONetworkController30_RESERVEDIONetworkController31Ev
+  __ZN19IONetworkController6enableEP16IOKernelDebugger
+  __ZN19IONetworkController6enableEP18IONetworkInterface
+  __ZN19IONetworkController6enableEP9IOService
+  __ZN19IONetworkController7disableEP16IOKernelDebugger
+  __ZN19IONetworkController7disableEP18IONetworkInterface
+  __ZN19IONetworkController7disableEP9IOService
+  __ZN19IONetworkController7messageEjP9IOServicePv
+  __ZN19IONetworkController7prepareEv
+  __ZN19IONetworkController8doEnableEP9IOService
+  __ZN19IONetworkController9doDisableEP9IOService
+  __ZN20IO80211InfraProtocol10gMetaClassE
+  __ZN20IO80211InfraProtocolC2EPK11OSMetaClass
+  __ZN20IO80211InfraProtocolD2Ev
+  __ZN20IOEthernetController10setVlanTagEP6__mbufj
+  __ZN20IOEthernetController15createInterfaceEv
+  __ZN20IOEthernetController16getVlanTagDemandEP6__mbufPj
+  __ZN20IOEthernetController16setMulticastListEP17IOEthernetAddressj
+  __ZN20IOEthernetController17publishPropertiesEv
+  __ZN20IOEthernetController18enablePacketFilterEPK8OSSymboljjj
+  __ZN20IOEthernetController18getHardwareAddressEPvPj
+  __ZN20IOEthernetController18setHardwareAddressEPK17IOEthernetAddress
+  __ZN20IOEthernetController18setHardwareAddressEPKvj
+  __ZN20IOEthernetController19disablePacketFilterEPK8OSSymboljjj
+  __ZN20IOEthernetController20cleanupTransmitQueueEj
+  __ZN20IOEthernetController20setWakeOnMagicPacketEb
+  __ZN20IOEthernetController21setAVBControllerStateE28IOEthernetControllerAVBState
+  __ZN20IOEthernetController22transmitTimeSyncPacketEPNS_19IOEthernetAVBPacketEy
+  __ZN20IOEthernetController23transmitRealtimePacketsEjPPNS_19IOEthernetAVBPacketEjbPj
+  __ZN20IOEthernetController29getRealtimeReceiveQueueFilterEjPNS_33IOEthernetAVBIngressFilterElementEPj
+  __ZN20IOEthernetController29setRealtimeReceiveQueueFilterEjPNS_33IOEthernetAVBIngressFilterElementEj
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController10Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController11Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController12Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController13Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController14Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController15Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController16Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController17Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController18Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController19Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController20Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController21Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController22Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController23Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController24Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController25Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController26Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController27Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController28Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController29Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController30Ev
+  __ZN20IOEthernetController31_RESERVEDIOEthernetController31Ev
+  __ZN20IOEthernetController36setRealtimeReceiveDestinationMACListEjP17IOEthernetAddressi
+  __ZN20IOEthernetController36setRealtimeReceiveQueuePacketHandlerEjPFvPvPNS_19IOEthernetAVBPacketEES0_
+  __ZN21IO80211InfraInterface10debugFlagsEv
+  __ZN21IO80211InfraInterface10wowEnabledEv
+  __ZN21IO80211InfraInterface11inputPacketEP20IO80211NetworkPacketP15packet_info_tagP12ether_headerPbb
+  __ZN21IO80211InfraInterface11logTxPacketEP20IO80211NetworkPacketP20PacketSkywalkScratch17apple80211_wme_acb
+  __ZN21IO80211InfraInterface11packetSpaceEh
+  __ZN21IO80211InfraInterface11postMessageEjPvmb
+  __ZN21IO80211InfraInterface12updateReportEP19IOReportChannelListjPvS2_
+  __ZN21IO80211InfraInterface13createLQMDataEv
+  __ZN21IO80211InfraInterface13getLQMSummaryEP22apple80211_lqm_summary
+  __ZN21IO80211InfraInterface13setDebugFlagsEyj
+  __ZN21IO80211InfraInterface13setFrameStatsEP22apple80211_stat_reportP25apple80211_frame_counters
+  __ZN21IO80211InfraInterface13setPowerStateEmP9IOService
+  __ZN21IO80211InfraInterface13setWoWEnabledEb
+  __ZN21IO80211InfraInterface14getScanManagerEv
+  __ZN21IO80211InfraInterface14pendingPacketsEh
+  __ZN21IO80211InfraInterface14setInterfaceNFE18apple80211_channelx
+  __ZN21IO80211InfraInterface15configureReportEP19IOReportChannelListjPvS2_
+  __ZN21IO80211InfraInterface15setInterfaceCCAE18apple80211_channeli
+  __ZN21IO80211InfraInterface16getWmeTxCountersEPy
+  __ZN21IO80211InfraInterface16setDataPathStateEb
+  __ZN21IO80211InfraInterface16setScanningStateEjbP20apple80211_scan_datai
+  __ZN21IO80211InfraInterface16updateLinkStatusEv
+  __ZN21IO80211InfraInterface17processBSDCommandEP7__ifnetjPv
+  __ZN21IO80211InfraInterface18setInterfaceEnableEb
+  __ZN21IO80211InfraInterface19prepareBSDInterfaceEP7__ifnetj
+  __ZN21IO80211InfraInterface19recordOutputPacketsEP24TxSubmissionDequeueStatsS1_
+  __ZN21IO80211InfraInterface19setCurrentApAddressEP10ether_addr
+  __ZN21IO80211InfraInterface20getWCL_TX_RX_LATENCYEP28apple80211_wcl_tx_rx_latency
+  __ZN21IO80211InfraInterface20setInterfaceMIBdot11EP22apple80211_stat_reportP50apple80211_ManagementInformationBasedot11_counters
+  __ZN21IO80211InfraInterface20setLinkStateInternalE16IO80211LinkStatejbj
+  __ZN21IO80211InfraInterface20updateLinkParametersEP33apple80211_interface_availability
+  __ZN21IO80211InfraInterface21logTxCompletionPacketEP20IO80211NetworkPacketP20PacketSkywalkScratchPh17apple80211_wme_acijbb
+  __ZN21IO80211InfraInterface21setPeerManagerLogFlagEjjj
+  __ZN21IO80211InfraInterface21setWCL_ADVISORTY_INFOEP28apple80211_wcl_advisory_info
+  __ZN21IO80211InfraInterface21updateLinkStatusGatedEv
+  __ZN21IO80211InfraInterface23recordCompletionPacketsEP24TxCompletionEnqueueStatsS1_
+  __ZN21IO80211InfraInterface23setInterfaceExtendedCCAE18apple80211_channelP21apple80211_cca_report
+  __ZN21IO80211InfraInterface23setInterfaceOFDMDesenseE18apple80211_channelx
+  __ZN21IO80211InfraInterface24createLinkQualityMonitorEP11IO80211PeerP9IOService
+  __ZN21IO80211InfraInterface24setInterfaceChipCountersEP22apple80211_stat_reportP27apple80211_chip_counters_txP33apple80211_chip_error_counters_txP27apple80211_chip_counters_rx
+  __ZN21IO80211InfraInterface25releaseLinkQualityMonitorEP11IO80211Peer
+  __ZN21IO80211InfraInterface26setInfraSpecificFrameStatsEP22apple80211_stat_reportP31apple80211_infra_specific_stats
+  __ZN21IO80211InfraInterface26updateInterfaceCoexRiskPctEy
+  __ZN21IO80211InfraInterface6setLQMEy
+  __ZN21IOSkywalkPacketBuffer13getBufferSizeEv
+  __ZN21IOSkywalkPacketBuffer13getDataLengthEv
+  __ZN21IOSkywalkPacketBuffer13getDataOffsetEv
+  __ZN21IOSkywalkPacketBuffer16getMemorySegmentEv
+  __ZN21IOSkywalkPacketBuffer19getPacketBufferPoolEv
+  __ZN21IOSkywalkPacketBuffer22getMemorySegmentOffsetEv
+  __ZN22IOInterruptEventSource20interruptEventSourceEP8OSObjectPFvS1_PS_iEP9IOServicei
+  __ZN22IOSkywalkMemorySegment17getVirtualAddressEv
+  __ZN22IOSkywalkMemorySegment19getMemoryDescriptorEv
+  __ZN22IOSkywalkNetworkPacket19setCompletionStatusEi
+  __ZN22IOSkywalkNetworkPacket9metaClassE
+  __ZN23IO80211SkywalkInterface10attachPeerEP10ether_addr
+  __ZN23IO80211SkywalkInterface10createPeerEPKhP18IO80211PeerManager
+  __ZN23IO80211SkywalkInterface10detachPeerEP10ether_addr
+  __ZN23IO80211SkywalkInterface12debugHandlerEP24apple80211_debug_command
+  __ZN23IO80211SkywalkInterface12logRxLatencyEjy
+  __ZN23IO80211SkywalkInterface12logTxLatencyEPhjy
+  __ZN23IO80211SkywalkInterface12vlogDebugBPFEyPKcP13__va_list_tag
+  __ZN23IO80211SkywalkInterface13getPacketPoolEP8OSString
+  __ZN23IO80211SkywalkInterface13getTxHeadroomEv
+  __ZN23IO80211SkywalkInterface13getTxSubQueueE17apple80211_wme_ac
+  __ZN23IO80211SkywalkInterface13newUserClientEP4taskPvjP12OSDictionaryPP12IOUserClient
+  __ZN23IO80211SkywalkInterface13printDataPathEP12userPrintCtx
+  __ZN23IO80211SkywalkInterface14enableDatapathEv
+  __ZN23IO80211SkywalkInterface14getNumTxQueuesEv
+  __ZN23IO80211SkywalkInterface14getRxCompQueueEv
+  __ZN23IO80211SkywalkInterface14getSelfMacAddrEv
+  __ZN23IO80211SkywalkInterface14getTxCompQueueEv
+  __ZN23IO80211SkywalkInterface15createEventPipeEP20IO80211APIUserClient
+  __ZN23IO80211SkywalkInterface15disableDatapathEv
+  __ZN23IO80211SkywalkInterface15errnoFromReturnEi
+  __ZN23IO80211SkywalkInterface15getFeatureFlagsEv
+  __ZN23IO80211SkywalkInterface15getRxPacketPoolEv
+  __ZN23IO80211SkywalkInterface15getTxPacketPoolEv
+  __ZN23IO80211SkywalkInterface15getTxQueueDepthEv
+  __ZN23IO80211SkywalkInterface15postMessageIOUCEPKcjPvm
+  __ZN23IO80211SkywalkInterface15setRunningStateEb
+  __ZN23IO80211SkywalkInterface15updateRxCounterEy
+  __ZN23IO80211SkywalkInterface16destroyEventPipeEP20IO80211APIUserClient
+  __ZN23IO80211SkywalkInterface16getEventPipeSizeEv
+  __ZN23IO80211SkywalkInterface16isIOUCPipeOpenedEv
+  __ZN23IO80211SkywalkInterface16notifyQueueStateE17apple80211_wme_act
+  __ZN23IO80211SkywalkInterface16stringFromReturnEi
+  __ZN23IO80211SkywalkInterface17classNameOverrideEv
+  __ZN23IO80211SkywalkInterface17createPeerManagerEv
+  __ZN23IO80211SkywalkInterface17flushPacketQueuesEv
+  __ZN23IO80211SkywalkInterface17getDataQueueDepthEv
+  __ZN23IO80211SkywalkInterface17getMultiCastQueueEv
+  __ZN23IO80211SkywalkInterface17handleChosenMediaEj
+  __ZN23IO80211SkywalkInterface17handleSIOCSIFADDREv
+  __ZN23IO80211SkywalkInterface17removePacketQueueEP20IO80211FlowQueueHash
+  __ZN23IO80211SkywalkInterface17removePacketQueueEPK20IO80211FlowQueueHash
+  __ZN23IO80211SkywalkInterface17setUserBufferInfoEP18IOMemoryDescriptory
+  __ZN23IO80211SkywalkInterface18getLastRxTimeStampERy
+  __ZN23IO80211SkywalkInterface18getLastTxTimeStampERy
+  __ZN23IO80211SkywalkInterface18getRxQueueCapacityEv
+  __ZN23IO80211SkywalkInterface18isInterfaceEnabledEv
+  __ZN23IO80211SkywalkInterface18recordOutputPacketE17apple80211_wme_acii
+  __ZN23IO80211SkywalkInterface19isCommandProhibitedEi
+  __ZN23IO80211SkywalkInterface19powerOnNotificationEv
+  __ZN23IO80211SkywalkInterface19updatePeerDataStatsEP31apple80211_data_path_peer_stats
+  __ZN23IO80211SkywalkInterface20getDataPathPeerStatsEP31apple80211_data_path_peer_stats
+  __ZN23IO80211SkywalkInterface20getNClearTxRxLatencyEP25apple80211_latency_all_acS1_
+  __ZN23IO80211SkywalkInterface20getP2PSkywalkPeerMgrEv
+  __ZN23IO80211SkywalkInterface20powerOffNotificationEv
+  __ZN23IO80211SkywalkInterface20reportDataPathEventsEjPvmb
+  __ZN23IO80211SkywalkInterface21findExistingFlowQueueE20IO80211FlowQueueHash
+  __ZN23IO80211SkywalkInterface21findOrCreateFlowQueueE20IO80211FlowQueueHash
+  __ZN23IO80211SkywalkInterface21getWorkerMatchingDictEP8OSString
+  __ZN23IO80211SkywalkInterface21logSkywalkTxReqPacketEP20IO80211NetworkPacketP20PacketSkywalkScratchPh17apple80211_wme_acb
+  __ZN23IO80211SkywalkInterface21setDebugTrafficReportEb
+  __ZN23IO80211SkywalkInterface22getLastQueuePacketTimeEP10ether_addr
+  __ZN23IO80211SkywalkInterface22getSupportedMediaArrayEPjS0_
+  __ZN23IO80211SkywalkInterface23setNotificationPropertyEPK8OSSymbolPK8OSObject
+  __ZN23IO80211SkywalkInterface24forwardInfraRelayPacketsEP20IO80211NetworkPacketP12ether_header
+  __ZN23IO80211SkywalkInterface24setPromiscuousModeEnableEbj
+  __ZN23IO80211SkywalkInterface24updateInterfaceDataStatsEP36apple80211_data_path_interface_stats
+  __ZN23IO80211SkywalkInterface25getDataPathInterfaceStatsEP36apple80211_data_path_interface_stats
+  __ZN23IO80211SkywalkInterface27maxCapabilityForDomainStateEm
+  __ZN23IO80211SkywalkInterface30findOrCreateFlowQueueWithCacheE20IO80211FlowQueueHashPb
+  __ZN23IO80211SkywalkInterface31initialPowerStateForDomainStateEm
+  __ZN23IO80211SkywalkInterface32getLastRxUnicastLinkActivityTimeEP10ether_addr
+  __ZN23IO80211SkywalkInterface8findPeerER10ether_addr
+  __ZN23IO80211SkywalkInterface9cachePeerEP10ether_addrPj
+  __ZN23IO80211SkywalkInterface9getRingMDEP20IO80211APIUserClienty
+  __ZN23IO80211SkywalkInterface9shouldLogEy
+  __ZN23IO80211SkywalkInterface9statsDumpEv
+  __ZN23IO80211SkywalkInterface9vlogDebugEyPKcP13__va_list_tag
+  __ZN24IOBufferMemoryDescriptor22inTaskWithPhysicalMaskEP4taskjyy
+  __ZN25IOSkywalkNetworkInterface10joinPMtreeEP9IOService
+  __ZN25IOSkywalkNetworkInterface10setBSDNameEPKc
+  __ZN25IOSkywalkNetworkInterface13getTSOOptionsEPNS_19IOSkywalkTSOOptionsE
+  __ZN25IOSkywalkNetworkInterface14deferBSDAttachEb
+  __ZN25IOSkywalkNetworkInterface15getTxDataOffsetEv
+  __ZN25IOSkywalkNetworkInterface16getBSDUnitNumberEv
+  __ZN25IOSkywalkNetworkInterface17setAggressivenessEmm
+  __ZN25IOSkywalkNetworkInterface18setHardwareAssistsEjj
+  __ZN25IOSkywalkNetworkInterface18setMaxTransferUnitEj
+  __ZN25IOSkywalkNetworkInterface20finalizeBSDInterfaceEP7__ifnetj
+  __ZN25IOSkywalkNetworkInterface21captureInterfaceStateEj
+  __ZN25IOSkywalkNetworkInterface21deregisterLogicalLinkEv
+  __ZN25IOSkywalkNetworkInterface21getSupportedWakeFlagsEPj
+  __ZN25IOSkywalkNetworkInterface21restoreInterfaceStateEj
+  __ZN25IOSkywalkNetworkInterface23interfaceAdvisoryEnableEb
+  __ZN25IOSkywalkNetworkInterface23processInterfaceCommandEP5ifdrv
+  __ZN25IOSkywalkNetworkInterface24reportDetailedLinkStatusEPK14if_link_status
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface0Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface1Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface2Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface3Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface4Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface5Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface6Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface7Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface8Ev
+  __ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface9Ev
+  __ZN25IOSkywalkNetworkInterface39registerNetworkInterfaceWithLogicalLinkEPKNS_16RegistrationInfoEP20IOSkywalkLogicalLinkP25IOSkywalkPacketBufferPoolS6_j
+  __ZN25IOSkywalkNetworkInterface6setMTUEj
+  __ZN25IOSkywalkPacketBufferPool17disposeAllPacketsEv
+  __ZN25IOSkywalkPacketBufferPool8withNameEPKcP8OSObjectjPKNS_11PoolOptionsE
+  __ZN26IOSkywalkEthernetInterface15getInitialMediaEv
+  __ZN26IOSkywalkEthernetInterface16getBSDNamePrefixEv
+  __ZN26IOSkywalkEthernetInterface16getMinPacketSizeEv
+  __ZN26IOSkywalkEthernetInterface16getPacketTapInfoEPjS0_
+  __ZN26IOSkywalkEthernetInterface17enableNetworkWakeEj
+  __ZN26IOSkywalkEthernetInterface18getInterfaceFamilyEv
+  __ZN26IOSkywalkEthernetInterface18getMaxTransferUnitEv
+  __ZN26IOSkywalkEthernetInterface19setLinkLayerAddressEP10ether_addr
+  __ZN26IOSkywalkEthernetInterface20initRegistrationInfoEPNS_16RegistrationInfoEjm
+  __ZN26IOSkywalkEthernetInterface20reportNicProxyLimitsE22nicproxy_limits_info_s
+  __ZN26IOSkywalkEthernetInterface21getInterfaceSubFamilyEv
+  __ZN26IOSkywalkEthernetInterface21setMulticastAddressesEPK10ether_addrj
+  __ZN26IOSkywalkEthernetInterface24configureMulticastFilterEjPK10ether_addrj
+  __ZN26IOSkywalkEthernetInterface25setAllMulticastModeEnableEb
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface0Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface1Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface2Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface3Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface4Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface5Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface6Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface7Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface8Ev
+  __ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface9Ev
+  __ZN26IOSkywalkEthernetInterface37_RESERVEDIOSkywalkEthernetInterface10Ev
+  __ZN26IOSkywalkEthernetInterface4initEP12OSDictionary
+  __ZN26IOSkywalkRxCompletionQueue8withPoolEP25IOSkywalkPacketBufferPooljjP8OSObjectPFiS3_PS_PP15IOSkywalkPacketjPvES8_j
+  __ZN26IOSkywalkRxSubmissionQueue8withPoolEP25IOSkywalkPacketBufferPooljj23kern_packet_svc_class_tP8OSObjectPFiS4_PS_PPK15IOSkywalkPacketjPvESA_j
+  __ZN26IOSkywalkTxCompletionQueue8withPoolEP25IOSkywalkPacketBufferPooljjP8OSObjectPFiS3_PS_PP15IOSkywalkPacketjPvES8_j
+  __ZN26IOSkywalkTxSubmissionQueue8withPoolEP25IOSkywalkPacketBufferPooljjP8OSObjectPFiS3_PS_PPK15IOSkywalkPacketjPvES9_j
+  __ZN8OSObject10gMetaClassE
+  __ZN8OSObject18_RESERVEDOSObject0Ev
+  __ZN8OSObject18_RESERVEDOSObject1Ev
+  __ZN8OSObject18_RESERVEDOSObject2Ev
+  __ZN8OSObject18_RESERVEDOSObject3Ev
+  __ZN8OSObject18_RESERVEDOSObject4Ev
+  __ZN8OSObject18_RESERVEDOSObject5Ev
+  __ZN8OSObject18_RESERVEDOSObject6Ev
+  __ZN8OSObject18_RESERVEDOSObject7Ev
+  __ZN8OSObject18_RESERVEDOSObject8Ev
+  __ZN8OSObject18_RESERVEDOSObject9Ev
+  __ZN8OSObject19_RESERVEDOSObject10Ev
+  __ZN8OSObject19_RESERVEDOSObject11Ev
+  __ZN8OSObject19_RESERVEDOSObject12Ev
+  __ZN8OSObject19_RESERVEDOSObject13Ev
+  __ZN8OSObject19_RESERVEDOSObject14Ev
+  __ZN8OSObject19_RESERVEDOSObject15Ev
+  __ZN8OSObject4initEv
+  __ZN8OSObject8DispatchE5IORPC
+  __ZN8OSObjectC2EPK11OSMetaClass
+  __ZN8OSObjectD2Ev
+  __ZN8OSObjectdlEPvm
+  __ZN8OSObjectnwEm
+  __ZN9IOService10adjustBusyEi
+  __ZN9IOService10joinPMtreeEPS_
+  __ZN9IOService12didTerminateEPS_jPb
+  __ZN9IOService12getBusyStateEv
+  __ZN9IOService12getResourcesEv
+  __ZN9IOService12requestProbeEj
+  __ZN9IOService12tellChangeUpEm
+  __ZN9IOService13addPowerChildEPS_
+  __ZN9IOService13askChangeDownEm
+  __ZN9IOService13matchLocationEPS_
+  __ZN9IOService13messageClientEjP8OSObjectPvm
+  __ZN9IOService13newUserClientEP4taskPvjP12OSDictionaryPP12IOUserClient
+  __ZN9IOService13newUserClientEP4taskPvjPP12IOUserClient
+  __ZN9IOService13setPowerStateEmPS_
+  __ZN9IOService13willTerminateEPS_j
+  __ZN9IOService14activityTickleEmm
+  __ZN9IOService14applyToClientsEPFvPS_PvES1_
+  __ZN9IOService14causeInterruptEi
+  __ZN9IOService14messageClientsEjPvm
+  __ZN9IOService14tellChangeDownEm
+  __ZN9IOService15comparePropertyEP12OSDictionaryPK8OSString
+  __ZN9IOService15comparePropertyEP12OSDictionaryPKc
+  __ZN9IOService15enableInterruptEi
+  __ZN9IOService15getDeviceMemoryEv
+  __ZN9IOService15nextIdleTimeoutEyyj
+  __ZN9IOService15powerChangeDoneEm
+  __ZN9IOService15registerServiceEj
+  __ZN9IOService15setDeviceMemoryEP7OSArray
+  __ZN9IOService15terminateClientEPS_j
+  __ZN9IOService16allowPowerChangeEm
+  __ZN9IOService16applyToProvidersEPFvPS_PvES1_
+  __ZN9IOService16disableInterruptEi
+  __ZN9IOService16getInterruptTypeEiPi
+  __ZN9IOService16registerInterestEPK8OSSymbolPFiPvS3_jPS_S3_mES3_S3_
+  __ZN9IOService16removePowerChildEP17IOPowerConnection
+  __ZN9IOService16requestTerminateEPS_j
+  __ZN9IOService16tellNoChangeDownEm
+  __ZN9IOService17addNeededResourceEPKc
+  __ZN9IOService17applyToInterestedEPK8OSSymbolPFvP8OSObjectPvES5_
+  __ZN9IOService17cancelPowerChangeEm
+  __ZN9IOService17comparePropertiesEP12OSDictionaryP12OSCollection
+  __ZN9IOService17getAggressivenessEmPm
+  __ZN9IOService17registerInterruptEiP8OSObjectPFvS1_PvPS_iES2_
+  __ZN9IOService18lockForArbitrationEb
+  __ZN9IOService18matchPropertyTableEP12OSDictionary
+  __ZN9IOService18matchPropertyTableEP12OSDictionaryPi
+  __ZN9IOService18setIdleTimerPeriodEm
+  __ZN9IOService18systemWillShutdownEj
+  __ZN9IOService19_RESERVEDIOService2Ev
+  __ZN9IOService19_RESERVEDIOService3Ev
+  __ZN9IOService19_RESERVEDIOService4Ev
+  __ZN9IOService19_RESERVEDIOService5Ev
+  __ZN9IOService19_RESERVEDIOService6Ev
+  __ZN9IOService19_RESERVEDIOService7Ev
+  __ZN9IOService19_RESERVEDIOService8Ev
+  __ZN9IOService19_RESERVEDIOService9Ev
+  __ZN9IOService19registerPowerDriverEPS_P14IOPMPowerStatem
+  __ZN9IOService19unregisterInterruptEi
+  __ZN9IOService20_RESERVEDIOService10Ev
+  __ZN9IOService20_RESERVEDIOService11Ev
+  __ZN9IOService20_RESERVEDIOService12Ev
+  __ZN9IOService20_RESERVEDIOService13Ev
+  __ZN9IOService20_RESERVEDIOService14Ev
+  ... truncated in output.log; full list is in /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage29d-native-mach-o-audit-20261102-034735/undefined-symbols.txt
+KEXTLIBS_AUDIT:
+  Cache file /System/Library/Caches/com.apple.kext.caches/Directories/Library/Extensions/KextIdentifiers.plist.gz is out of date; not using.
+  Cache file /System/Library/Caches/com.apple.kext.caches/Directories/Library/Apple/System/Library/Extensions/KextIdentifiers.plist.gz is out of date; not using.
+  For all architectures:
+  
+  For x86_64:
+      804 symbols not found in any library kext:
+  	_mach_absolute_time
+  	__ZN23IO80211SkywalkInterface25getDataPathInterfaceStatsEP36apple80211_data_path_interface_stats
+  	__ZN9IOService20_RESERVEDIOService38Ev
+  	__ZN23IO80211SkywalkInterface17getMultiCastQueueEv
+  	__ZN9IOService7messageEjPS_Pv
+  	__ZN9IOService22powerStateWillChangeToEmmPS_
+  	__ZN9IOService5closeEPS_j
+  	__ZN19IONetworkController30_RESERVEDIONetworkController23Ev
+  	__ZN19IONetworkController30_RESERVEDIONetworkController14Ev
+  	__ZN21IO80211InfraInterface25releaseLinkQualityMonitorEP11IO80211Peer
+  	__ZN15OSMetaClassBase25_RESERVEDOSMetaClassBase7Ev
+  	__ZN8OSObjectD2Ev
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController23Ev
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry14Ev
+  	__ZN8OSObject19_RESERVEDOSObject14Ev
+  	__ZN26IOSkywalkEthernetInterface17enableNetworkWakeEj
+  	__ZN21IO80211InfraInterface21setPeerManagerLogFlagEjjj
+  	__ZN23IO80211SkywalkInterface12logTxLatencyEPhjy
+  	__ZN23IO80211SkywalkInterface17getDataQueueDepthEv
+  	__ZN17IO80211Controller28_RESERVEDIO80211Controller11Ev
+  	__ZN9IOService20_RESERVEDIOService16Ev
+  	__ZN20IOEthernetController29getRealtimeReceiveQueueFilterEjPNS_33IOEthernetAVBIngressFilterElementEPj
+  	_thread_deallocate
+  	__ZN9IOService18matchPropertyTableEP12OSDictionary
+  	___memcpy_chk
+  	__ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface1Ev
+  	__ZN19IONetworkController16setMaxPacketSizeEj
+  	__ZN9IOService20_RESERVEDIOService44Ev
+  	__ZN19IONetworkController18configureInterfaceEP18IONetworkInterface
+  	__ZN9IOService16removePowerChildEP17IOPowerConnection
+  	__ZN21IO80211InfraInterface26updateInterfaceCoexRiskPctEy
+  	__ZN26IOSkywalkEthernetInterface21getInterfaceSubFamilyEv
+  	__ZN15IORegistryEntry11detachAboveEPK15IORegistryPlane
+  	__ZNK15IORegistryEntry7getNameEPK15IORegistryPlane
+  	__ZN20IOEthernetController18getHardwareAddressEPvPj
+  	__ZNK11OSMetaClass7releaseEv
+  	__ZN8OSObject8DispatchE5IORPC
+  	__ZNK13IOEventSource9isEnabledEv
+  	_memcmp
+  	__ZN20IO80211InfraProtocol10gMetaClassE
+  	__ZN23IO80211SkywalkInterface16destroyEventPipeEP20IO80211APIUserClient
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry22Ev
+  	__ZN25IOSkywalkNetworkInterface21restoreInterfaceStateEj
+  	__ZN9IOService20_RESERVEDIOService22Ev
+  	__ZNK17IO80211Controller12getWorkQueueEv
+  	__ZN8OSObject4initEv
+  	__ZN23IO80211SkywalkInterface10detachPeerEP10ether_addr
+  	__ZN17IO80211Controller22attachVirtualInterfaceEPP23IO80211VirtualInterfaceP10ether_addrjb
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController18Ev
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry29Ev
+  	__ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface2Ev
+  	__ZN8OSObjectC2EPK11OSMetaClass
+  	__ZN19IONetworkController11handleCloseEP9IOServicej
+  	__ZN15IORegistryEntry11setLocationEPKcPK15IORegistryPlane
+  	__ZTV13IOEventSource
+  	__ZN19IONetworkController17createOutputQueueEv
+  	__ZN15IORegistryEntry25_RESERVEDIORegistryEntry6Ev
+  	__ZN19IONetworkController12selectMediumEPK15IONetworkMedium
+  	__ZN23IO80211SkywalkInterface14getNumTxQueuesEv
+  	_ml_set_interrupts_enabled
+  	__ZN17IO80211Controller22createVirtualInterfaceEP10ether_addrj
+  	__ZN23IO80211SkywalkInterface18getLastRxTimeStampERy
+  	_read_random
+  	__ZN17IO80211Controller16setMulticastModeEb
+  	__ZN13IOEventSource23_RESERVEDIOEventSource0Ev
+  	__ZN23IO80211SkywalkInterface20getNClearTxRxLatencyEP25apple80211_latency_all_acS1_
+  	__ZN8OSObject10gMetaClassE
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry30Ev
+  	__ZN13IOEventSource23_RESERVEDIOEventSource1Ev
+  	__ZN17IO80211Controller27performCountryCodeOperationE20IO80211CountryCodeOp
+  	__ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface4Ev
+  	__ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface5Ev
+  	__ZN21IOSkywalkPacketBuffer13getDataLengthEv
+  	__ZN13IOEventSource23_RESERVEDIOEventSource2Ev
+  	_mbuf_pkthdr_setlen
+  	__ZN9IOService20_RESERVEDIOService19Ev
+  	__ZN9IOService13setPowerStateEmPS_
+  	__ZN13IOEventSource23_RESERVEDIOEventSource3Ev
+  	__ZN9IOService20_RESERVEDIOService47Ev
+  	__ZN17IO80211Controller24hardwareOutputQueueDepthEv
+  	__ZN17IO80211Controller22detachVirtualInterfaceEP23IO80211VirtualInterfaceb
+  	__ZN25IOSkywalkNetworkInterface18setMaxTransferUnitEj
+  	__ZN20IOEthernetController16setMulticastListEP17IOEthernetAddressj
+  	__ZN13IOEventSource23_RESERVEDIOEventSource4Ev
+  	__ZNK15IORegistryEntry12copyPropertyEPK8OSSymbol
+  	__ZN13IOEventSource23_RESERVEDIOEventSource5Ev
+  	__ZN23IO80211SkywalkInterface21logSkywalkTxReqPacketEP20IO80211NetworkPacketP20PacketSkywalkScratchPh17apple80211_wme_acb
+  	__ZN9IOService13willTerminateEPS_j
+  	__ZN19IONetworkController29_RESERVEDIONetworkController3Ev
+  	__ZN21IO80211InfraInterface15setInterfaceCCAE18apple80211_channeli
+  	__ZN9IOService12requestProbeEj
+  	__ZN13IOEventSource23_RESERVEDIOEventSource6Ev
+  	__ZN23IO80211SkywalkInterface17removePacketQueueEPK20IO80211FlowQueueHash
+  	__ZN13IOEventSource23_RESERVEDIOEventSource7Ev
+  	__ZN9IOService20_RESERVEDIOService25Ev
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController29Ev
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController13Ev
+  	_IOSimpleLockLock
+  	__ZN15IORegistryEntry14removePropertyEPK8OSSymbol
+  	__ZN19IONetworkController20selectMediumWithNameEPK8OSSymbol
+  	__ZNK15IORegistryEntry11getPropertyEPKcPK15IORegistryPlanej
+  	__ZN23IO80211SkywalkInterface17handleChosenMediaEj
+  	__ZN9IOService20getDeviceMemoryCountEv
+  	__ZN21IO80211InfraInterface12updateReportEP19IOReportChannelListjPvS2_
+  	__ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface5Ev
+  	__ZN9IOService8finalizeEj
+  	__ZNK15IORegistryEntry12compareNamesEP8OSObjectPP8OSString
+  	__ZNK15IORegistryEntry13getChildEntryEPK15IORegistryPlane
+  	__ZNK19IONetworkController14getCommandGateEv
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry13Ev
+  	__ZN23IO80211SkywalkInterface15createEventPipeEP20IO80211APIUserClient
+  	_clock_interval_to_deadline
+  	__ZN23IO80211SkywalkInterface24updateInterfaceDataStatsEP36apple80211_data_path_interface_stats
+  	__ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface9Ev
+  	__ZN26IOSkywalkEthernetInterface18getInterfaceFamilyEv
+  	__ZN9IOService20_RESERVEDIOService31Ev
+  	__ZN22IOSkywalkNetworkPacket19setCompletionStatusEi
+  	__ZNK15IORegistryEntry7isChildEPS_PK15IORegistryPlaneb
+  	__ZN18IOSkywalkInterface12didTerminateEP9IOServicejPb
+  	__ZN17IO80211Controller13getPostOfficeEv
+  	__ZNK11OSMetaClass14getRetainCountEv
+  	__ZNK9IOService21getOpenClientIteratorEv
+  	__ZN15IORegistryEntry25_RESERVEDIORegistryEntry7Ev
+  	__ZN17IO80211Controller26getPrimarySkywalkInterfaceEv
+  	__ZN9IOService13matchLocationEPS_
+  	__ZN13IOEventSourceC2EPK11OSMetaClass
+  	__ZN21IO80211InfraInterface11inputPacketEP20IO80211NetworkPacketP15packet_info_tagP12ether_headerPbb
+  	__ZTV17IO80211Controller
+  	__ZN9IOService24getDeviceMemoryWithIndexEj
+  	__ZN23IO80211SkywalkInterface18getLastTxTimeStampERy
+  	__ZNK15IORegistryEntry11getPropertyEPK8OSSymbol
+  	__ZN19IONetworkController6enableEP18IONetworkInterface
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry21Ev
+  	__ZN19IONetworkController30_RESERVEDIONetworkController27Ev
+  	__ZN20IOEthernetController22transmitTimeSyncPacketEPNS_19IOEthernetAVBPacketEy
+  	__ZN19IONetworkController30_RESERVEDIONetworkController18Ev
+  	_kernel_task
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController24Ev
+  	__ZN26IOSkywalkEthernetInterface20initRegistrationInfoEPNS_16RegistrationInfoEjm
+  	__ZN9IOService17comparePropertiesEP12OSDictionaryP12OSCollection
+  	__ZN17IO80211Controller27_RESERVEDIO80211Controller1Ev
+  	__ZNK20IOEthernetController16getMaxPacketSizeEPj
+  	__ZN21IO80211InfraInterface6setLQMEy
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry28Ev
+  	__ZN9IOService20_RESERVEDIOService28Ev
+  	__ZN20IOEthernetController15createInterfaceEv
+  	__ZN25IOSkywalkNetworkInterface10joinPMtreeEP9IOService
+  	__ZN19IONetworkController30_RESERVEDIONetworkController31Ev
+  	__ZN19IONetworkController30_RESERVEDIONetworkController22Ev
+  	__ZN19IONetworkController10sendPacketEPvj
+  	__ZN21IO80211InfraInterface14getScanManagerEv
+  	__ZN19IONetworkController30_RESERVEDIONetworkController13Ev
+  	_memset
+  	__ZN23IO80211SkywalkInterface17classNameOverrideEv
+  	__ZN25IOSkywalkNetworkInterface35_RESERVEDIOSkywalkNetworkInterface8Ev
+  	__ZN9IOService20callPlatformFunctionEPKcbPvS2_S2_S2_
+  	__ZN26IOSkywalkEthernetInterface16getBSDNamePrefixEv
+  	__ZN9IOService15setDeviceMemoryEP7OSArray
+  	_mbuf_data
+  	__ZNK25IOSkywalkNetworkInterface10getBSDNameEv
+  	__ZN9IOService13newUserClientEP4taskPvjPP12IOUserClient
+  	__ZN21IOSkywalkPacketBuffer13getDataOffsetEv
+  	__ZN26IOSkywalkEthernetInterface25setAllMulticastModeEnableEb
+  	__ZNK19IONetworkController14getOutputQueueEv
+  	__ZN9IOService23acknowledgeNotificationEPvj
+  	__ZN17IO80211Controller15detachInterfaceEP8OSObjectb
+  	__ZN17IO80211Controller28_RESERVEDIO80211Controller14Ev
+  	__ZN15IORegistryEntry14removePropertyEPK8OSString
+  	__ZN18IOSkywalkInterface28_RESERVEDIOSkywalkInterface5Ev
+  	__ZN9IOService20_RESERVEDIOService34Ev
+  	__ZN9IOService14causeInterruptEi
+  	__ZNK9IOService19serializePropertiesEP11OSSerialize
+  	__ZN19IONetworkController18setHardwareAssistsEjj
+  	__ZN23IO80211SkywalkInterface17handleSIOCSIFADDREv
+  	__ZNK15IORegistryEntry14applyToParentsEPFvPS_PvES1_PK15IORegistryPlane
+  	_absolutetime_to_nanoseconds
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController19Ev
+  	__ZN19IONetworkController29_RESERVEDIONetworkController5Ev
+  	__ZN15IORegistryEntry11setPropertyEPKcPvj
+  	__ZTV21IO80211InfraInterface
+  	__ZN11IOPCIDevice21extendedConfigWrite32Eyj
+  	__ZN21IO80211InfraInterface13getLQMSummaryEP22apple80211_lqm_summary
+  	__ZN9IOService20_RESERVEDIOService12Ev
+  	__ZN20IOEthernetController19disablePacketFilterEPK8OSSymboljjj
+  	__ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface0Ev
+  	__ZNK15IORegistryEntry16getChildIteratorEPK15IORegistryPlane
+  	__ZN9IOService20_RESERVEDIOService40Ev
+  	__ZNK8OSObject6retainEv
+  	__ZN15IORegistryEntry25_RESERVEDIORegistryEntry8Ev
+  	__ZN11OSMetaClassD2Ev
+  	__ZNK15IORegistryEntry11compareNameEP8OSStringPS1_
+  	__ZNK13IOEventSource11getWorkLoopEv
+  	__ZN17IO80211Controller27_RESERVEDIO80211Controller3Ev
+  	__ZNK19IONetworkController20copyMediumDictionaryEv
+  	__ZNK9IOService9getClientEv
+  	__ZN9IOService15comparePropertyEP12OSDictionaryPK8OSString
+  	__ZN26IOSkywalkEthernetInterface21setMulticastAddressesEPK10ether_addrj
+  	__ZN17IO80211Controller28_RESERVEDIO80211Controller10Ev
+  	__ZN9IOService18lockForArbitrationEb
+  	__ZN21IO80211InfraInterface21updateLinkStatusGatedEv
+  	__ZN23IO80211SkywalkInterface20getP2PSkywalkPeerMgrEv
+  	__ZN23IO80211SkywalkInterface20powerOffNotificationEv
+  	__ZN26IOSkywalkEthernetInterface16getPacketTapInfoEPjS0_
+  	__ZNK11OSMetaClass12taggedRetainEPKv
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry12Ev
+  	__ZN15IORegistryEntry7setNameEPKcPK15IORegistryPlane
+  	__ZN23IO80211SkywalkInterface9statsDumpEv
+  	__ZN9IOService6attachEPS_
+  	__ZN23IO80211SkywalkInterface13newUserClientEP4taskPvjP12OSDictionaryPP12IOUserClient
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry19Ev
+  	__ZN15IORegistryEntry11setPropertyEPK8OSSymbolP8OSObject
+  	__ZN9IOService20_RESERVEDIOService37Ev
+  	__ZN11IOPCIDevice20extendedConfigWrite8Eyh
+  	__ZN9IOService6detachEPS_
+  	_IOMallocZero
+  	__ZN17IO80211Controller16requestFlowQueueEPK14FlowIdMetadata
+  	__ZN9IOService4initEP15IORegistryEntryPK15IORegistryPlane
+  	__ZN13IOEventSource9setActionEPFvP8OSObjectzE
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController14Ev
+  	__ZN23IO80211SkywalkInterface9shouldLogEy
+  	__ZN19IONetworkController13replacePacketEPP6__mbufj
+  	__ZN17IO80211Controller16getDriverTextLogEv
+  	_mbuf_pkthdr_len
+  	__ZN8OSObject19_RESERVEDOSObject10Ev
+  	_vsnprintf
+  	__ZN9IOService13messageClientEjP8OSObjectPvm
+  	_mbuf_allocpacket
+  	__ZN26IOSkywalkEthernetInterface36_RESERVEDIOSkywalkEthernetInterface4Ev
+  	_bzero
+  	__ZN26IOSkywalkEthernetInterface19setLinkLayerAddressEP10ether_addr
+  	__ZN19IONetworkController15attachInterfaceEPP18IONetworkInterfaceb
+  	__ZN17IO80211ControllerC2EPK11OSMetaClass
+  	__ZN9IOService20_RESERVEDIOService15Ev
+  	__ZN21IO80211InfraInterface19recordOutputPacketsEP24TxSubmissionDequeueStatsS1_
+  	__ZN15IORegistryEntry26_RESERVEDIORegistryEntry20Ev
+  	__ZN20IOEthernetController31_RESERVEDIOEthernetController30Ev
+  	__ZN17IO80211Controller18getPLATFORM_CONFIGEP23IO80211SkywalkInterfaceP26apple80211_platform_config
+  	__ZN25IOSkywalkNetworkInterface14deferBSDAttachEb
+  	__ZN19IONetworkController14executeCommandEP8OSObjectPFiPvS2_S2_S2_S2_ES2_S2_S2_S2_S2_
+  	__ZNK17IO80211Controller14newModelStringEv
+  	__ZN25IOSkywalkNetworkInterface24reportDetailedLinkStatusEPK14if_link_status
+  	__ZNK20IOEthernetController16getPacketFiltersEPj
+  	__ZN9IOService20_RESERVEDIOService43Ev
+  	__ZN8OSObject19_RESERVEDOSObject13Ev
+
+=== STAGE29D RESULT ===
+MACHO_KEXTBUNDLE_64: PASS
+X86_64_ARCHITECTURE: PASS
+BUNDLE_IDENTITY: PASS
+NATIVE_CONTROLLER_PERSONALITY: PASS
+RTL8821CE_PCI_MATCH: PASS
+NATIVE_DEPENDENCIES: PASS
+NATIVE_CLASS_SYMBOLS: PASS
+LEGACY_FRONTEND_SYMBOLS_ABSENT: PASS
+STAGE29C_BINARY_HASH_MATCH: PASS
+STAGE29D_STATIC_AUDIT: PASS
+NOTE: Symbol presence is a static inventory, not proof of runtime ABI correctness or driver operation.
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+QUEUE_REGISTRATION: NOT ENABLED
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+SOURCE_FILES_MODIFIED: NONE
+
+STAGE29D_PYTHON_ANALYSIS_EXIT: 0
+BUILD: NOT RUN
+SOURCE_FILES_MODIFIED: NONE
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+QUEUE_REGISTRATION: NOT ENABLED
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
