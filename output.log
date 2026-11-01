@@ -17,12 +17,12 @@ No install or load was attempted.
 
 STAGE 24 — READ-ONLY BINARY AND LIFECYCLE AUDIT READY
 File: stage24-binary-lifecycle-audit.sh
-Commit: ace4c3225c38d90916107185d6e86ce952011fbd
+Latest runner commit: b37b8143236de264c7c3c25493652399f467eeb3
 URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage24-binary-lifecycle-audit.sh
 Run:
 curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage24-binary-lifecycle-audit.sh | /bin/bash
 
-The runner will inspect the built Mach-O architecture/header, linked libraries, undefined symbols referencing Skywalk/IO80211, Info.plist OSBundleLibraries, kextlibs unresolved-symbol requirements where available, and codesign metadata. It will also collect source excerpts for releaseNativeResources, destroyQueues, setRadioRunning, queue registration/unregistration, disable/synchronize/drain/fence, and free/stop methods. It is read-only and writes its report to this output.log plus detailed raw evidence under build/stage24-binary-lifecycle-audit-*.
+The runner will inspect the built Mach-O architecture/header, linked libraries, undefined symbols referencing Skywalk/IO80211, Info.plist OSBundleLibraries, kextlibs unresolved-symbol requirements where available, and codesign metadata. It will also collect source excerpts for releaseNativeResources, destroyQueues, setRadioRunning, queue registration/unregistration, disable/synchronize/drain/fence, and free/stop methods. Source scanning covers WCL-related files throughout src/kext, including the controller, interface, queue, adapter and driver bridge components. It is read-only and writes its report to this output.log plus detailed raw evidence under build/stage24-binary-lifecycle-audit-*.
 
 Static runner checks: {"usesBuiltBinary":false,"architectureAndLibraries":true,"unresolvedSymbols":true,"plistDependencies":true,"kextlibs":true,"signingMetadata":true,"lifecycleSearch":true,"noInstallLoad":true,"outputLogUpload":true}
 
