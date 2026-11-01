@@ -1,55 +1,90 @@
-Stage 16 status: PASS
-GETTER_AUDIT: IOSkywalkPacket::getPacketBufferPool expected=0x40 observed=0x40 status=PASS
-  EVIDENCE: 1000: mov rax, qword ptr [rdi + 0x40]
-GETTER_AUDIT: IOSkywalkPacket::getPacketBufferCount expected=0x64 observed=0x64 status=PASS
-  EVIDENCE: 1004: mov rax, qword ptr [rbx + 0x64]
-GETTER_AUDIT: IOSkywalkPacket::getPacketBuffers expected=0x64 observed=0x64 status=PASS
-  EVIDENCE: 100c: mov rax, qword ptr [r12 + 0x64]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getMemorySegment expected=0x58 observed=0x58 status=PASS
-  EVIDENCE: 1000: mov rax, qword ptr [rdi + 0x58]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getMemorySegmentOffset expected=0x70 observed=0x70 status=PASS
-  EVIDENCE: 1004: mov rax, qword ptr [rbx + 0x70]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getDataLength expected=0x7c observed=0x7c status=PASS
-  EVIDENCE: 100c: mov rax, qword ptr [r12 + 0x7c]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getDataOffset expected=0x80 observed=0x80 status=PASS
-  EVIDENCE: 1000: mov rax, qword ptr [rdi + 0x80]
-GETTER_AUDIT: IOSkywalkMemorySegment::getMemoryDescriptor expected=0x20 observed=0x20 status=PASS
-  EVIDENCE: 1004: mov rax, qword ptr [rbx + 0x20]
-GETTER_AUDIT: IOSkywalkMemorySegment::getVirtualAddress expected=0x30 observed=0x30 status=PASS
-  EVIDENCE: 100c: mov rax, qword ptr [r12 + 0x30]
-Stage 14 input SHA-256: c5ee9685faca412714c3c93f347b2ad848c8c3e3f6f22ffffb2231cfbf5a9af4
-Stage 15 input SHA-256: c5ee9685faca412714c3c93f347b2ad848c8c3e3f6f22ffffb2231cfbf5a9af4
-Stage 16 field getters matched: 9/9
-Stage 16 source checks: 11/11
-Stage 16 packet header layout: PASS
-Stage 16 archive: /var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T/stage16-tests-akd7fz55/stage16-out/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
-Stage 16 archive SHA-256: dcd2ae527d267b89316efacfbae17c31f32d72d25b59c8e7e3b6209902f9f208
-PASS: Stage 16 full synthetic audit (archive linkage, 0x70 packet boundary, header, sizes, getters, source invariants)
-Stage 16 status: PASS
-GETTER_AUDIT: IOSkywalkPacket::getPacketBufferPool expected=0x40 observed=0x40 status=PASS
-  EVIDENCE: ffffff800297e3ca: mov      rax, qword ptr [rdi + 0x40]
-GETTER_AUDIT: IOSkywalkPacket::getPacketBufferCount expected=0x64 observed=0x64 status=PASS
-  EVIDENCE: ffffff800297e3e2: mov      eax, dword ptr [rdi + 0x64]
-GETTER_AUDIT: IOSkywalkPacket::getPacketBuffers expected=0x64 observed=0x30,0x64 status=PASS
-  EVIDENCE: ffffff80029a23a3: mov      eax, dword ptr [rdi + 0x64]
-  EVIDENCE: ffffff80029a23b7: mov      r8, qword ptr [rdi + 0x30]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getMemorySegment expected=0x58 observed=0x58 status=PASS
-  EVIDENCE: ffffff800297ebf6: mov      rax, qword ptr [rdi + 0x58]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getMemorySegmentOffset expected=0x70 observed=0x70 status=PASS
-  EVIDENCE: ffffff800297ec00: mov      rax, qword ptr [rdi + 0x70]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getDataLength expected=0x7c observed=0x7c status=PASS
-  EVIDENCE: ffffff800297ebd2: mov      eax, dword ptr [rdi + 0x7c]
-GETTER_AUDIT: IOSkywalkPacketBuffer::getDataOffset expected=0x80 observed=0x80 status=PASS
-  EVIDENCE: ffffff800297ebdc: movzx    eax, word ptr [rdi + 0x80]
-GETTER_AUDIT: IOSkywalkMemorySegment::getMemoryDescriptor expected=0x20 observed=0x20 status=PASS
-  EVIDENCE: ffffff80029872be: mov      rax, qword ptr [rdi + 0x20]
-GETTER_AUDIT: IOSkywalkMemorySegment::getVirtualAddress expected=0x30 observed=0x30 status=PASS
-  EVIDENCE: ffffff8002987332: mov      rax, qword ptr [rdi + 0x30]
-Stage 14 input SHA-256: 0c86675b0a9e3dd3d5e41aa626c2fe1f4b9915450f5af7bbc808e8e9e595ba3a
-Stage 15 input SHA-256: 0c86675b0a9e3dd3d5e41aa626c2fe1f4b9915450f5af7bbc808e8e9e595ba3a
-Stage 16 field getters matched: 9/9
-Stage 16 source checks: 11/11
-Stage 16 packet header layout: PASS
-Stage 16 archive: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage16/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
-Stage 16 archive SHA-256: 183e1f6568f7e7f1eaad0e407833c1c5f8334c16ecf6bdeeecb016bf2268cc3d
-UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
+Stage 17 method inventory:
+  IOSkywalkPacketQueue: 1 exact method symbols
+  IOSkywalkPacketBufferPool: 1 exact method symbols
+  IOSkywalkMemorySegment: 1 exact method symbols
+  IOSkywalkPacketBuffer: 1 exact method symbols
+  IOSkywalkPacket: 1 exact method symbols
+  IOSkywalkNetworkPacket: 1 exact method symbols
+  IOSkywalkRxSubmissionQueue: 1 exact method symbols
+  IOSkywalkRxCompletionQueue: 1 exact method symbols
+  IOSkywalkTxSubmissionQueue: 1 exact method symbols
+  IOSkywalkTxCompletionQueue: 1 exact method symbols
+  IOSkywalkInterface: 1 exact method symbols
+  IOSkywalkNetworkInterface: 1 exact method symbols
+  IOSkywalkEthernetInterface: 1 exact method symbols
+Stage 17 target method symbols: 13
+Stage 17 combined reference symbols: 14
+Stage 14 kernel collection SHA-256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Stage 17 status: PASS
+STAGE17_METHODS: IOSkywalkPacketQueue 1/1 disassembled
+STAGE17_METHODS: IOSkywalkPacketBufferPool 1/1 disassembled
+STAGE17_METHODS: IOSkywalkMemorySegment 1/1 disassembled
+STAGE17_METHODS: IOSkywalkPacketBuffer 1/1 disassembled
+STAGE17_METHODS: IOSkywalkPacket 1/1 disassembled
+STAGE17_METHODS: IOSkywalkNetworkPacket 1/1 disassembled
+STAGE17_METHODS: IOSkywalkRxSubmissionQueue 1/1 disassembled
+STAGE17_METHODS: IOSkywalkRxCompletionQueue 1/1 disassembled
+STAGE17_METHODS: IOSkywalkTxSubmissionQueue 1/1 disassembled
+STAGE17_METHODS: IOSkywalkTxCompletionQueue 1/1 disassembled
+STAGE17_METHODS: IOSkywalkInterface 1/1 disassembled
+STAGE17_METHODS: IOSkywalkNetworkInterface 1/1 disassembled
+STAGE17_METHODS: IOSkywalkEthernetInterface 1/1 disassembled
+Stage 17 source ownership checks: 19/19
+Stage 17 target method bodies: 13/13
+DATAPATH_ACTIVATION: BLOCKED
+PASS: Stage 17 synthetic method manifest (13 classes)
+PASS: Stage 17 source ownership fences (19/19)
+PASS: Stage 17 archive SHA linkage and full report builder
+PASS: Stage 17 kcabi class-list patch is idempotent
+Target: macOS 15.8.1 (24H32), x86_64
+Kernel collection: /System/Library/KernelCollections/BootKernelExtensions.kc
+Stage 14 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage14/RTL88WiFi-Sequoia-24H32-stage14-generic-skywalk-segment-packet-kcabi.tar.gz
+Stage 15 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage15/RTL88WiFi-Sequoia-24H32-stage15-packet-accessor-audit.tar.gz
+Stage 16 input: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage16/RTL88WiFi-Sequoia-24H32-stage16-packet-semantics-audit.tar.gz
+Stage 17 method inventory:
+  IOSkywalkPacketQueue: 61 exact method symbols
+  IOSkywalkPacketBufferPool: 65 exact method symbols
+  IOSkywalkMemorySegment: 22 exact method symbols
+  IOSkywalkPacketBuffer: 41 exact method symbols
+  IOSkywalkPacket: 50 exact method symbols
+  IOSkywalkNetworkPacket: 60 exact method symbols
+  IOSkywalkRxSubmissionQueue: 44 exact method symbols
+  IOSkywalkRxCompletionQueue: 43 exact method symbols
+  IOSkywalkTxSubmissionQueue: 55 exact method symbols
+  IOSkywalkTxCompletionQueue: 39 exact method symbols
+  IOSkywalkInterface: 32 exact method symbols
+  IOSkywalkNetworkInterface: 103 exact method symbols
+  IOSkywalkEthernetInterface: 61 exact method symbols
+Stage 17 target method symbols: 676
+Stage 17 combined reference symbols: 1054
+Stage 14 kernel collection SHA-256: cd013c14a7f21dbb8181fb06c44e079de8646b6a674abe21f6e47f42e8979af3
+Stage 17 kcabi class list: patched temporary copy
+Verified classes: IOSkywalkPacketQueue, IOSkywalkPacketBufferPool, IOSkywalkMemorySegment, IOSkywalkPacketBuffer, IOSkywalkPacket, IOSkywalkNetworkPacket, IOSkywalkRxSubmissionQueue, IOSkywalkRxCompletionQueue, IOSkywalkTxSubmissionQueue, IOSkywalkTxCompletionQueue, IOSkywalkInterface, IOSkywalkNetworkInterface, IOSkywalkEthernetInterface
+WTLKcAbi checkout: /Users/shohel/src/kcabi (cea28a5297633118177cee6a75e86d8bc57f1960)
+
+Collecting 24H32 packet, buffer, memory-segment, RX/TX queue and interface lifecycle bodies.
+wrote /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-204309/24H32: 49 vtables, 325 sizes, 364 functions, 0 missing
+Stage 17 status: REVIEW_REQUIRED
+STAGE17_METHODS: IOSkywalkPacketQueue 2/67 disassembled
+STAGE17_METHODS: IOSkywalkPacketBufferPool 2/74 disassembled
+STAGE17_METHODS: IOSkywalkMemorySegment 2/31 disassembled
+STAGE17_METHODS: IOSkywalkPacketBuffer 2/50 disassembled
+STAGE17_METHODS: IOSkywalkPacket 2/59 disassembled
+STAGE17_METHODS: IOSkywalkNetworkPacket 2/69 disassembled
+STAGE17_METHODS: IOSkywalkRxSubmissionQueue 2/53 disassembled
+STAGE17_METHODS: IOSkywalkRxCompletionQueue 2/52 disassembled
+STAGE17_METHODS: IOSkywalkTxSubmissionQueue 2/64 disassembled
+STAGE17_METHODS: IOSkywalkTxCompletionQueue 2/48 disassembled
+STAGE17_METHODS: IOSkywalkInterface 2/38 disassembled
+STAGE17_METHODS: IOSkywalkNetworkInterface 2/109 disassembled
+STAGE17_METHODS: IOSkywalkEthernetInterface 3/68 disassembled
+Stage 17 source ownership checks: 19/19
+Stage 17 target method bodies: 27/782
+DATAPATH_ACTIVATION: BLOCKED
+Stage 17 archive: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/sequoia-abi-24H32-stage17-20261101-204309/RTL88WiFi-Sequoia-24H32-stage17-rx-queue-ownership-kcabi.tar.gz
+Stage 17 archive SHA-256: aa751093ef83a70c33f803c3e1998b7cec92b9c4e55d303f96375be1310b9cd1
+Stage 17 requires review. The diagnostic archive was still created for upload.
+
+Stage 17 collector failed; diagnostic data retained at:
+/var/folders/xd/spdz2_mj3txdwydhx70xm31m0000gn/T//rtl88wifi-kcabi-stage17.oWs2aY
+UPLOAD_STATUS: SUCCESS — RTL88WiFi-Sequoia-24H32-stage17-rx-queue-ownership-kcabi.tar.gz
