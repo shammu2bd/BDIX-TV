@@ -3580,3 +3580,35 @@ KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
 OLD_STAGE14_TREE: READ-ONLY SOURCE METADATA REFERENCE ONLY
 QUEUE_REGISTRATION: STILL DISABLED
 NEXT: run Stage27 compile-only runner only when DRY_RUN_STATUS is PASS
+
+RTL88WiFi Stage27 — compile-only validation in the new project tree
+DATE: 2026-11-02 02:36:56 +06
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+BUILD_NAME: RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage27-compile-only-20261102-023652
+STAGE27_PREFLIGHT: PASS
+PASS: Stage26 build identity and new project source tree
+PASS: exactly 3 controller cleanup-status guards (start, stop, free)
+PASS: Stage25 PCI rollback, cleanup propagation and bus-master quarantine checks
+PASS: PCI fence ordered before RX adapter and Skywalk queue/pool release
+PASS: native publication fence remains enabled; no queue registration
+PASS: four Skywalk callbacks retain seven fail-closed zero-count returns
+MAKE_DRY_RUN: PASS — controller, PCI backend and Skywalk queues included
+ARCHIVE_SHA256: a381763935b7b8ada545eb4c1f6a4ad8e440a79097d3da57cb4673c08f7319db
+XCODE_SELECT: /Applications/Xcode_16.4.app/Contents/Developer
+CLANG: /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
+MACOS_SDK: /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk
+CPU_JOBS: 8
+BUILD_RESULT: SUCCEEDED
+BUILD_EXIT_CODE: 0
+KEXT_BINARY: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi
+FILE_INFO: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/driver/RTL88WiFi/build/out/RTL88WiFi.kext/Contents/MacOS/RTL88WiFi: Mach-O 64-bit kext bundle x86_64
+SHA256: 5132fc77a16ef6afb20293115575f8cadcc418c606765a5e7c0255ee256aec79
+WARNING_COUNT: 1214
+ERROR_COUNT: 0
+BUILD_LOG: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source/build/stage27-compile-only-20261102-023652/make-build.log
+INSTALL: NOT RUN
+LOAD: NOT RUN
+KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED
+QUEUE_REGISTRATION: STILL DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_BINARY_DEPENDENCY_AND_RUNTIME_ABI_AUDIT
