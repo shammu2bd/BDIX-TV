@@ -1,0 +1,26 @@
+RTL88WiFi — Development log (recreated)
+DATE: 2026-11-02
+PLATFORM: macOS Sequoia 15.8.1 / build 24H32 / x86_64
+HARDWARE TARGET: Realtek RTL8821CE PCIe
+PROJECT: RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source
+
+=== VERIFIED MILESTONES ===
+Stage29a: PASS — audited existing legacy/native object boundary. Native WCL controller, interface, PCI, Skywalk queue, TX and RX objects were not linked into the legacy target.
+Stage29b: PASS — separate rtl88wifi-native target and RTL88WiFiNative.kext metadata were generated. Native dry-run passed; legacy dry-run passed. The native plist used Apple IO80211Family and IOSkywalkFamily versions detected on the target Mac and excluded IO80211FamilyLegacy.
+
+=== STAGE29C STATUS ===
+Stage29c-v4 was attempted on the target Mac. It reached the final GitHub upload command but failed with macOS 'Argument list too long' because the full base64 log was passed as a command-line form argument.
+The actual native build and post-build verification result were not retained in GitHub. Status: UNKNOWN. Do not infer success or failure.
+The user subsequently deleted Development/output.log. This file is the new canonical log; previous history was recoverable from Git history but has not been copied into this fresh log.
+
+=== SAFETY STATE ===
+Known-good legacy RTL88WiFi.kext: NOT TOUCHED by these stages.
+Installation: NOT RUN.
+Kext load: NOT RUN.
+OpenCore configuration: NOT CHANGED.
+Native queue registration / packet I/O: NOT enabled by this log reset.
+
+=== NEXT GATE ===
+Run Stage29c-v5 to rebuild only rtl88wifi-native and append the actual build/link and bundle-validation results here.
+Stage29c-v5 must use a JSON payload file with gh api --input, not -f content=<large-base64>.
+After a verified native link, inspect Mach-O symbols, meta-class registration and link dependencies before any installation or hardware test.
