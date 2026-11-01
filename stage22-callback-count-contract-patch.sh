@@ -2,7 +2,10 @@
 set -euo pipefail
 
 REPO="shammu2bd/BDIX-TV"
-PROJECT="\${RTL88_PROJECT:-$HOME/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi}"
+PROJECT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi"
+if [ -n "$(printenv RTL88_PROJECT 2>/dev/null || true)" ]; then
+    PROJECT="$(printenv RTL88_PROJECT)"
+fi
 SRC="$PROJECT/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp"
 OUT="$PROJECT/output.log"
 STAMP="$(date '+%Y%m%d-%H%M%S')"
