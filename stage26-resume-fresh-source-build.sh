@@ -29,6 +29,19 @@ if ! command -v zip >/dev/null 2>&1; then
 fi
 
 mkdir -p "$STAGE_DIR"
+
+# Start from the latest GitHub report when gh is authenticated, so the new
+# project log does not roll back newer remote audit notes copied after Stage25.
+if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+    if gh api "repos/$REPO/contents/output.log" --jq '.content' 2>/dev/null | \
+        python3 -c 'import sys,base64; sys.stdout.buffer.write(base64.b64decode(sys.stdin.read()))' \
+        > "$STAGE_DIR/output.log.github-before" 2>/dev/null; then
+        if [ -s "$STAGE_DIR/output.log.github-before" ]; then
+            cp "$STAGE_DIR/output.log.github-before" "$OUT"
+        fi
+    fi
+fi
+
 for f in RTW88WCLController.cpp RTW88WCLController.hpp RTW88WCLPCIBackend.cpp; do
     cp -p "$NEW_PROJECT/driver/RTL88WiFi/src/kext/wcl24h32/$f" "$STAGE_DIR/$f.before"
 done
@@ -257,11 +270,18 @@ PY
 
 {
     echo
+    echo "STAGE26 INITIAL RUN — SAFE PREFLIGHT ABORT"
+    echo "The initial Stage26 generator copied the source into the new project and created BUILD_NAME.txt, then aborted before any C++ write because it expected two cleanupStatus declarations."
+    echo "Correct expected count: three (the existing Stage25 free() guard plus the new start(fail) and stop() guards)."
+    echo "The failed attempt did not write C++ sources, create the manifest, create the ZIP, or run a build."
+    echo "The resume runner below acts only on the new project directory and does not use the old Stage14 path."
+    echo
     echo "RTL88WiFi Stage26 — resumed fresh source preparation"
     echo "DATE: $(date '+%Y-%m-%d %H:%M:%S %Z')"
     echo "NEW_PROJECT: $NEW_PROJECT"
     echo "BUILD_NAME: $NEW_NAME"
     echo "STAGE_DIR: $STAGE_DIR"
+    echo "KNOWN_GOOD_OLD_RTL88WIFI_KEXT: NOT TOUCHED"
     cat "$STAGE_DIR/verification.txt"
     echo "SOURCE_PACKAGE_MANIFEST: $NEW_PROJECT/SOURCE_PACKAGE_MANIFEST.txt"
     echo "SOURCE_FILES_IN_MANIFEST: $(wc -l < "$NEW_PROJECT/SOURCE_PACKAGE_MANIFEST.txt" | tr -d ' ')"
