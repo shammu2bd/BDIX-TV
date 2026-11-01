@@ -285,6 +285,7 @@ out.append("KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED")
 out.append("SOURCE_FILES_MODIFIED: NONE")
 (stage / "stage29d-report.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
 print("\n".join(out))
+raise SystemExit(0 if overall else 1)
 PY
 PY_RC=$?
 
