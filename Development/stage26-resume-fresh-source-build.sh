@@ -33,7 +33,7 @@ mkdir -p "$STAGE_DIR"
 # Start from the latest GitHub report when gh is authenticated, so the new
 # project log does not roll back newer remote audit notes copied after Stage25.
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    if gh api "repos/$REPO/contents/output.log" --jq '.content' 2>/dev/null | \
+    if gh api "repos/$REPO/contents/Development/output.log" --jq '.content' 2>/dev/null | \
         python3 -c 'import sys,base64; sys.stdout.buffer.write(base64.b64decode(sys.stdin.read()))' \
         > "$STAGE_DIR/output.log.github-before" 2>/dev/null; then
         if [ -s "$STAGE_DIR/output.log.github-before" ]; then
@@ -330,15 +330,15 @@ PY
 }
 
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    if upload_file "$ARCHIVE" "$(basename "$ARCHIVE")" "Publish Stage 26 fresh full source ZIP"; then
+    if upload_file "$ARCHIVE" "Development/$(basename "$ARCHIVE")" "Publish Stage 26 fresh full source ZIP"; then
         echo "ARCHIVE_GITHUB_UPLOAD: SUCCESS"
-        echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/$(basename "$ARCHIVE")"
+        echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/Development/$(basename "$ARCHIVE")"
     else
         echo "ARCHIVE_GITHUB_UPLOAD: FAILED — local ZIP preserved at $ARCHIVE"
     fi
-    if upload_file "$OUT" "output.log" "Stage 26 fresh source project ZIP prepared"; then
+    if upload_file "$OUT" "Development/output.log" "Stage 26 fresh source project ZIP prepared"; then
         echo "OUTPUT_LOG_GITHUB_UPLOAD: SUCCESS"
-        echo "OUTPUT_LOG_GITHUB_URL: https://github.com/$REPO/blob/main/output.log"
+        echo "OUTPUT_LOG_GITHUB_URL: https://github.com/$REPO/blob/main/Development/output.log"
     else
         echo "OUTPUT_LOG_GITHUB_UPLOAD: FAILED — local output.log preserved"
     fi

@@ -252,7 +252,7 @@ ARCHIVE_SIZE="$(stat -f '%z' "$ARCHIVE" 2>/dev/null || wc -c < "$ARCHIVE" | tr -
     echo "SOURCE_PACKAGE_MANIFEST: $NEW_PROJECT/SOURCE_PACKAGE_MANIFEST.txt"
     echo "SOURCE_FILES_IN_MANIFEST: $(wc -l < "$NEW_PROJECT/SOURCE_PACKAGE_MANIFEST.txt" | tr -d ' ')"
     echo "FULL_SOURCE_ARCHIVE: $ARCHIVE"
-    echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/$(basename "$ARCHIVE")"
+    echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/Development/$(basename "$ARCHIVE")"
     echo "ARCHIVE_SIZE_BYTES: $ARCHIVE_SIZE"
     echo "ARCHIVE_SHA256: $ARCHIVE_SHA"
     echo "ARCHIVE_FORMAT: ZIP"
@@ -289,14 +289,14 @@ PY
 }
 
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    if upload_github_file "$ARCHIVE" "$(basename "$ARCHIVE")" "Publish fresh Stage 26 full source archive"; then
+    if upload_github_file "$ARCHIVE" "Development/$(basename "$ARCHIVE")" "Publish fresh Stage 26 full source archive"; then
         echo "ARCHIVE_GITHUB_UPLOAD: SUCCESS"
-        echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/$(basename "$ARCHIVE")"
+        echo "ARCHIVE_GITHUB_URL: https://github.com/$REPO/blob/main/Development/$(basename "$ARCHIVE")"
     else
         echo "ARCHIVE_GITHUB_UPLOAD: FAILED — archive remains at $ARCHIVE"
     fi
-    if upload_github_file "$OUT" "output.log" "Stage 26 fresh source project and archive"; then
-        echo "OUTPUT_LOG_GITHUB_UPLOAD: SUCCESS — https://github.com/$REPO/blob/main/output.log"
+    if upload_github_file "$OUT" "Development/output.log" "Stage 26 fresh source project and archive"; then
+        echo "OUTPUT_LOG_GITHUB_UPLOAD: SUCCESS — https://github.com/$REPO/blob/main/Development/output.log"
     else
         echo "OUTPUT_LOG_GITHUB_UPLOAD: FAILED — local report remains at $OUT"
     fi

@@ -158,13 +158,13 @@ PY
 echo "Created: $OUT"
 
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    SHA="$(gh api "repos/$REPO/contents/output.log" --jq '.sha' 2>/dev/null || true)"
+    SHA="$(gh api "repos/$REPO/contents/Development/output.log" --jq '.sha' 2>/dev/null || true)"
     B64="$(base64 < "$OUT" | tr -d '\n')"
     if [ -n "$SHA" ]; then
-        gh api --method PUT "repos/$REPO/contents/output.log" \
+        gh api --method PUT "repos/$REPO/contents/Development/output.log" \
             -f message="Stage 22 apply Skywalk callback count contract" \
             -f content="$B64" -f sha="$SHA" >/dev/null
-        echo "UPLOAD_STATUS: SUCCESS — https://github.com/$REPO/blob/main/output.log"
+        echo "UPLOAD_STATUS: SUCCESS — https://github.com/$REPO/blob/main/Development/output.log"
     else
         echo "UPLOAD_STATUS: GH_AUTH_OK_BUT_OUTPUT_LOG_SHA_NOT_RETRIEVED"
     fi
