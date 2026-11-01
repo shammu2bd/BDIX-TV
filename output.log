@@ -1,44 +1,12 @@
-RTL88WiFi Stage 22 — Skywalk action callback count-contract patch
-DATE: 2026-11-02
-TARGET: macOS Sequoia 15.8.1 (24H32), x86_64
+RTL88WiFi Stage 23 — compile-only validation
+DATE: 2026-11-02 01:43:18 +06
+HOST: 15.8.1 / 24H32
+ARCH: x86_64
 PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+DRIVER: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi
+STAGE_DIR: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/build/stage23-compile-only-20261102-014318
 
-STAGE 21 EVIDENCE REVIEW — VERIFIED
-TX submission action pointer is at [queue + 0x20].
-legacyDequeue calls the five-argument action callback, tests EAX, and uses nonzero EAX as the number of packet slots progressed.
-listDequeue calls the same action pointer, adds EAX to its dequeued total, and subtracts EAX from the remaining request count.
-The callback therefore returns a packet count, not an IOReturn error status. kIOReturnNotReady and kIOReturnBadArgument must not be returned from these action callbacks.
-The separate three-argument query-free-space handler at [queue + 0xF0] is not the TX submission action.
-
-STAGE 22 — PATCH APPLIED AND VERIFIED LOCALLY
-The user ran Stage22 on the Hackintosh. The recorded checks passed:
-- Four callback definitions located.
-- TX submission: 3 BadArgument + 1 NotReady returns changed to zero packet count.
-- TX completion, RX submission, RX completion: one NotReady return each changed to zero packet count.
-- All four callback signatures and SDK typedef return types unchanged.
-- Exactly seven zero-count fail-closed return sites verified.
-- Timestamped source backup and unified patch diff saved.
-No compile, kext load, queue registration, or hardware datapath test has yet been performed.
-
-STAGE 23 — COMPILE-ONLY RUNNER PREPARED, NOT YET EXECUTED
-File: stage23-compile-only-validation.sh
-Commit: d6e695d3068d0d182c056be1080a677be79e994f
-URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage23-compile-only-validation.sh
-Run:
-curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage23-compile-only-validation.sh | /bin/bash
-
-Stage23 actions:
-- Re-checks all four callback bodies for seven zero-count fail-closed returns and rejects remaining error-style returns. Stage22 separately verified the callback signatures were unchanged.
-- Queries the user's selected Xcode developer directory, clang, and macOS SDK.
-- Runs make -B -n rtl88wifi first and refuses to compile unless that target includes RTW88WCLSkywalkQueues.cpp.
-- If the source is in the target, runs make -j<CPU_COUNT> rtl88wifi.
-- Captures the full build output under project/build/stage23-compile-only-* and publishes its summary/tail to this output.log.
-- Does not install, sign, load, register queues, or activate datapath.
-
-CURRENT SAFETY STATUS
-QUEUE_REGISTRATION: STILL DISABLED
-DATAPATH_ACTIVATION: BLOCKED_PENDING_LIFECYCLE_AND_TEARDOWN_REVIEW
-INSTALL_OR_LOAD: NOT ATTEMPTED
-BUILD: PENDING STAGE23 RUN
-
-After Stage23 runs, inspect this output.log. If build passes, proceed with binary inspection and the remaining queue lifecycle/teardown audit before considering any OpenCore test.
+PREFLIGHT: FAIL
+PASS: four callbacks found; seven zero-count fail-closed returns; no error-style returns
+BUILD: NOT RUN
+KEXT_INSTALL_OR_LOAD: NOT ATTEMPTED
