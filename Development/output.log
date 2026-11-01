@@ -7085,3 +7085,15 @@ LOAD: NOT RUN
 OPENCORE_CHANGE: NONE
 QUEUE_REGISTRATION: NOT ENABLED
 KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+
+
+========== STAGE29D REVIEW / DEPENDENCY GATE ==========
+STAGE29D_STRUCTURAL_CHECKS: PASS — expected x86_64 KEXTBUNDLE, exact Stage29c-v5 binary hash, valid native bundle identity, RTL8821CE PCI personality, native WCL class symbols present, legacy frontend symbols absent, and no IO80211FamilyLegacy dependency.
+LEGACY_KEXTLIBS_RESULT: REVIEW_REQUIRED — the target Mac's kextlibs output reports "804 symbols not found in any library kext" and says the system extension cache files are out of date and were not used.
+INTERPRETATION: This is not proof that all 804 imports are genuinely absent. kextlibs is a legacy string-matching resolver and can fail across SDK versions. However, Stage29d's STATIC_AUDIT PASS did not include the kextlibs outcome in its pass/fail gate; therefore Stage29d is a structural binary pass only, NOT a final symbol-provider/dependency pass.
+INSTALL: NOT RUN
+LOAD: NOT RUN
+OPENCORE_CHANGE: NONE
+QUEUE_REGISTRATION: NOT ENABLED
+KNOWN_GOOD_LEGACY_KEXT: NOT TOUCHED
+NEXT_GATE: Stage29e uses kmutil libraries (Boot/System Kernel Collection symbol providers) and kmutil print-diagnostics without --do-staging to verify dependency resolution on this exact Sequoia host.
