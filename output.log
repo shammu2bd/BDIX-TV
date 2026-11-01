@@ -1,35 +1,104 @@
-RTL88WiFi — Stage 21 verified / Stage 22 patch runner prepared
-DATE: 2026-11-02
-TARGET: macOS Sequoia 15.8.1 (24H32), x86_64
-PROJECT: RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+RTL88WiFi Stage 22 — Skywalk action callback count-contract patch
+DATE: 2026-11-02 01:38:49 +06
+HOST: 15.8.1 / 24H32
+ARCH: x86_64
+PROJECT: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi
+SOURCE: /Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/driver/RTL88WiFi/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp
 
-STAGE 21 AUDIT — VERIFIED
-The TX-submission action callback is invoked from IOSkywalkTxSubmissionQueue::legacyDequeue and ::listDequeue.
-Both call sites load the action pointer from [queue + 0x20] and call it with the action arguments. legacyDequeue then tests EAX; zero means no packets progressed, while nonzero EAX is accumulated and used to advance ring slots. listDequeue adds EAX to its dequeued count and subtracts EAX from outstanding slots.
-Conclusion: TX-submission action return value is a packet count, NOT an IOReturn error status. A nonzero kIOReturnNotReady/kIOReturnBadArgument value can be misinterpreted as an enormous packet count.
-The separate 3-argument IOSkywalkQueryFreeSpaceHandler at [queue + 0xF0] is not the TX-submission action; Stage20's distinction remains correct.
-The Stage21 output's BLOCKED status was a runner classification bug: it searched the list of file paths for the literal METHOD_FILE marker. The 24H32 assembly files were present and have now been inspected.
+========== STAGE 21 EVIDENCE REVIEW ==========
+TX submission action pointer: [queue + 0x20]
+legacyDequeue passes owner, queue, packet-slot pointer, requested count, and refCon; then calls the action pointer.
+legacyDequeue tests EAX; zero means no progress; nonzero EAX is accumulated and used to advance ring slots.
+listDequeue calls the same five-argument action pointer; EAX is accumulated and subtracted from outstanding slots.
+Therefore TX action return is a packet count, not an IOReturn error status.
+The distinct 3-argument query-free-space handler at [queue + 0xF0] is not the TX submission action.
+Stage21's original BLOCKED label was a runner classification bug: it searched method paths for METHOD_FILE instead of checking the collected assembly files. The disassembly files were present.
 
-STAGE 22 — PATCH RUNNER PREPARED, NOT YET EXECUTED
-File: stage22-callback-count-contract-patch.sh
-Commit: db66e8367071531ea1519a168ba3aea3aa4cd4f4 (latest Stage22 runner update)
-URL: https://github.com/shammu2bd/BDIX-TV/blob/main/stage22-callback-count-contract-patch.sh
-Command:
-curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage22-callback-count-contract-patch.sh | /bin/bash
+========== STAGE 22 PATCH RESULT ==========
+PASS: all four callback definitions located
+PASS: TX submission: 3 BadArgument + 1 NotReady returns changed to zero packet count
+PASS: TX completion, RX submission, RX completion: each NotReady changed to zero packet count
+PASS: all callback signatures and typedef return types remain unchanged
+PASS: exactly 7 fail-closed zero-count return sites verified
+PASS: source backup and unified patch saved in this stage directory
+LIMIT: compile, kext load, queue registration, and hardware datapath were not tested
 
-Planned guarded source change:
-- Keep the four SDK-matching IOReturn callback signatures unchanged.
-- txSubmissionAction: change its 3 BadArgument and 1 NotReady exits to zero packet count.
-- txCompletionAction, rxSubmissionAction, rxCompletionAction: change their NotReady exits to zero packet count.
-- Total: 7 fail-closed zero-count returns across 4 callbacks.
-- Keep descriptor validation in TX submission; it still accepts/transfers no packets, so returns zero.
-- Runner makes a timestamped source backup and unified diff inside project build/stage22-callback-count-contract-*.
-- Runner aborts if source shape/count guards do not match.
+========== PATCH DIFF ==========
+--- a/RTW88WCLSkywalkQueues.cpp
++++ b/RTW88WCLSkywalkQueues.cpp
+@@ -137,6 +137,13 @@
+            _txCompletion && _rxSubmission && _rxCompletion;
+ }
+ 
++/*
++ * Sequoia 24H32 callback contract: although the bundled Skywalk action
++ * typedefs are declared as IOReturn, the audited queue dispatchers
++ * consume these callback return values as packet counts. Zero means
++ * that no packets were accepted or completed. Do not return nonzero
++ * IOReturn error constants from these action callbacks.
++ */
+ IOReturn RTW88WCLSkywalkQueues::txSubmissionAction(
+     OSObject *owner, IOSkywalkTxSubmissionQueue *queue,
+     const IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+@@ -144,7 +151,7 @@
+     (void)refCon;
+     auto *self = OSDynamicCast(RTW88WCLSkywalkQueues, owner);
+     if (!self || queue != self->_txSubmission || !packets || packetCount == 0)
+-        return kIOReturnBadArgument;
++        return static_cast<IOReturn>(0);
+ 
+     /* Validate every descriptor before a future TX path is allowed to copy
+      * bytes or hand ownership to RTW88. The callback remains fail-closed:
+@@ -152,14 +159,14 @@
+      * cookie is connected to the native completion queue. */
+     for (UInt32 i = 0; i < packetCount; ++i) {
+         if (!packets[i])
+-            return kIOReturnBadArgument;
++            return static_cast<IOReturn>(0);
+         RTW88WCLPacketView view = {};
+         if (!RTW88WCLResolveEthernetTxPacket(
+                 const_cast<IOSkywalkPacket *>(packets[i]), self->_txPool, &view))
+-            return kIOReturnBadArgument;
+-    }
+-
+-    return kIOReturnNotReady;
++            return static_cast<IOReturn>(0);
++    }
++
++    return static_cast<IOReturn>(0);
+ }
+ 
+ IOReturn RTW88WCLSkywalkQueues::txCompletionAction(
+@@ -167,7 +174,7 @@
+     IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+ {
+     (void)owner; (void)queue; (void)packets; (void)packetCount; (void)refCon;
+-    return kIOReturnNotReady;
++    return static_cast<IOReturn>(0);
+ }
+ 
+ IOReturn RTW88WCLSkywalkQueues::rxSubmissionAction(
+@@ -176,7 +183,7 @@
+ {
+     (void)owner; (void)queue; (void)packets; (void)packetCount; (void)refCon;
+     /* RX buffer ownership/refill is intentionally not accepted yet. */
+-    return kIOReturnNotReady;
++    return static_cast<IOReturn>(0);
+ }
+ 
+ IOReturn RTW88WCLSkywalkQueues::rxCompletionAction(
+@@ -184,7 +191,7 @@
+     IOSkywalkPacket **packets, UInt32 packetCount, void *refCon)
+ {
+     (void)owner; (void)queue; (void)packets; (void)packetCount; (void)refCon;
+-    return kIOReturnNotReady;
++    return static_cast<IOReturn>(0);
+ }
+ 
+ void RTW88WCLSkywalkQueues::free()
 
-STATUS
-SOURCE_PATCH: NOT YET APPLIED — user must run Stage22 runner locally.
-BUILD: NOT RUN
-KEXT_LOAD: NOT RUN
-QUEUE_REGISTRATION: STILL DISABLED
-DATAPATH_ACTIVATION: BLOCKED pending remaining queue lifecycle and teardown safety review.
-NEXT: run Stage22 runner, inspect the newly uploaded output.log and diff, then build/compile validation. Do not test a loaded/registered Skywalk datapath yet.
+QUEUE_REGISTRATION: STILL_DISABLED
+DATAPATH_ACTIVATION: BLOCKED_PENDING_LIFECYCLE_AND_TEARDOWN_REVIEW
+BUILD_STATUS: NOT_RUN
+KEXT_LOAD_STATUS: NOT_RUN
+HARDWARE_TEST_STATUS: NOT_RUN
