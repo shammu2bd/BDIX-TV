@@ -1,1 +1,8 @@
-/Library/Frameworks/Python.framework/Versions/3.15/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/tests/test-skywalk-packet-access-stage15.py': [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/tests/test-skywalk-packet-access-stage15.py", line 99, in <module>
+    test_demangler_handles_kernel_double_underscore_symbols()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/shohel/Downloads/RTL88WiFi-1.0.11-WCL-stage14-generic-skywalk-segment-abi/tests/test-skywalk-packet-access-stage15.py", line 39, in test_demangler_handles_kernel_double_underscore_symbols
+    assert result[symbol].startswith("IOSkywalkPacket::getDataLength(")
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
