@@ -21,17 +21,13 @@ cp -p "$SRC" "$BACKUP"
 python3 - "$SRC" "$BACKUP" "$PATCH" "$STAGE_DIR" <<'PY'
 from pathlib import Path
 import sys
+import difflib
 
 src_path, backup_path, patch_path, stage_dir = map(Path, sys.argv[1:])
 source = src_path.read_text()
 original = backup_path.read_text()
 
-names = (
-    "txSubmissionAction",
-    "txCompletionAction",
-    "rxSubmissionAction",
-    "rxCompletionAction",
-)
+names = ("txSubmissionAction", "txCompletionAction", "rxSubmissionAction", "rxCompletionAction")
 
 def extract(name: str, text: str):
     signature = "RTW88WCLSkywalkQueues::" + name + "("
@@ -40,18 +36,16 @@ def extract(name: str, text: str):
         raise SystemExit("ERROR: callback definition missing: " + name)
     start = text.rfind("\nIOReturn ", 0, pos)
     if start < 0:
-        start = text.rfind("IOReturn ", 0, pos)
+        raise SystemExit("ERROR: return-type line missing: " + name)
     brace = text.find("{", pos)
-    if brace < 0:
-        raise SystemExit("ERROR: opening brace missing: " + name)
     end = text.find("\n}\n", brace)
-    if end < 0:
-        raise SystemExit("ERROR: function terminator missing: " + name)
+    if brace < 0 or end < 0:
+        raise SystemExit("ERROR: function body boundary missing: " + name)
     return start, end + 2, text[start:end + 2]
 
 expected = {
     "txSubmissionAction": {
-        "return kIOReturnBadArgument;": 2,
+        "return kIOReturnBadArgument;": 3,
         "return kIOReturnNotReady;": 1,
     },
     "txCompletionAction": {"return kIOReturnNotReady;": 1},
@@ -68,15 +62,10 @@ for name in names:
             raise SystemExit(
                 f"ERROR: {name}: expected {count} occurrence(s) of {old!r}, found {actual}; source left unchanged"
             )
-    updated = block.replace(
-        "return kIOReturnBadArgument;",
-        "return static_cast<IOReturn>(0);"
-    ).replace(
-        "return kIOReturnNotReady;",
-        "return static_cast<IOReturn>(0);"
-    )
+    updated = block.replace("return kIOReturnBadArgument;", "return static_cast<IOReturn>(0);")
+    updated = updated.replace("return kIOReturnNotReady;", "return static_cast<IOReturn>(0);")
     if updated == block:
-        raise SystemExit("ERROR: no safe return-value transformation found: " + name)
+        raise SystemExit("ERROR: no return transformation found: " + name)
     replacements.append((start, end, updated))
 
 for start, end, updated in sorted(replacements, reverse=True):
@@ -103,29 +92,29 @@ for name in names:
     if "return static_cast<IOReturn>(0);" not in block:
         raise SystemExit("ERROR: zero-count return missing in " + name)
 
-if source.count("return static_cast<IOReturn>(0);") < 6:
-    raise SystemExit("ERROR: expected six fail-closed zero-count returns")
+zero_count_sites = source.count("return static_cast<IOReturn>(0);")
+if zero_count_sites != 7:
+    raise SystemExit(f"ERROR: expected 7 zero-count returns, found {zero_count_sites}")
 
 src_path.write_text(source)
-patch = __import__("difflib").unified_diff(
+patch_path.write_text("".join(difflib.unified_diff(
     original.splitlines(True),
     source.splitlines(True),
     fromfile="a/RTW88WCLSkywalkQueues.cpp",
     tofile="b/RTW88WCLSkywalkQueues.cpp",
-)
-patch_path.write_text("".join(patch))
+)))
 (stage_dir / "stage22-verification.txt").write_text(
-    "PASS: all four callback definitions located exactly once\n"
-    "PASS: TX submission had two BadArgument and one NotReady returns; all replaced with zero packet count\n"
-    "PASS: TX completion, RX submission, RX completion NotReady returns replaced with zero packet count\n"
-    "PASS: callback signatures were not changed\n"
-    "PASS: all six fail-closed return sites now return static_cast<IOReturn>(0)\n"
+    "PASS: all four callback definitions located\n"
+    "PASS: TX submission: 3 BadArgument + 1 NotReady returns changed to zero packet count\n"
+    "PASS: TX completion, RX submission, RX completion: each NotReady changed to zero packet count\n"
+    "PASS: all callback signatures and typedef return types remain unchanged\n"
+    "PASS: exactly 7 fail-closed zero-count return sites verified\n"
     "PASS: source backup and unified patch saved in this stage directory\n"
-    "LIMIT: no compile, kext load, queue registration, or hardware datapath test was performed\n"
+    "LIMIT: compile, kext load, queue registration, and hardware datapath were not tested\n"
 )
 print("PATCH_STATUS: APPLIED")
 print("CALLBACKS_PATCHED: 4")
-print("ZERO_COUNT_RETURN_SITES: 6")
+print("ZERO_COUNT_RETURN_SITES: 7")
 print("SOURCE_BACKUP: " + str(backup_path))
 print("PATCH_FILE: " + str(patch_path))
 PY
@@ -140,12 +129,12 @@ PY
     echo
     echo "========== STAGE 21 EVIDENCE REVIEW =========="
     echo "TX submission action pointer: [queue + 0x20]"
-    echo "legacyDequeue: loads owner [queue+0x18], queue pointer, packet-slot pointer, requested count in ECX, refCon [queue+0x58], then calls action pointer."
-    echo "legacyDequeue: tests EAX; zero means no progress; nonzero EAX is accumulated and used to advance ring slots."
-    echo "listDequeue: calls the same five-argument action pointer; EAX is added to the dequeued total and subtracted from outstanding slots."
+    echo "legacyDequeue passes owner, queue, packet-slot pointer, requested count, and refCon; then calls the action pointer."
+    echo "legacyDequeue tests EAX; zero means no progress; nonzero EAX is accumulated and used to advance ring slots."
+    echo "listDequeue calls the same five-argument action pointer; EAX is accumulated and subtracted from outstanding slots."
     echo "Therefore TX action return is a packet count, not an IOReturn error status."
-    echo "The distinct 3-argument query-free-space handler at [queue+0xF0] is not the TX submission action."
-    echo "Stage21 runner classification bug: it searched the method-path list for METHOD_FILE rather than checking collected files. The disassembly files were present; this report records the corrected conclusion."
+    echo "The distinct 3-argument query-free-space handler at [queue + 0xF0] is not the TX submission action."
+    echo "Stage21's original BLOCKED label was a runner classification bug: it searched method paths for METHOD_FILE instead of checking the collected assembly files. The disassembly files were present."
     echo
     echo "========== STAGE 22 PATCH RESULT =========="
     cat "$STAGE_DIR/stage22-verification.txt"
