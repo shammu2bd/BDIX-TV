@@ -62,7 +62,7 @@ for name,want in expected.items():
 PY
 
 {
-  echo "========== STAGE 44: 24H32 BSD FINALIZE CLEANUP CALLBACK CONTRACT =========="
+  echo "========== STAGE 45: 24H32 BSD FINALIZE CLEANUP CALLBACK CONTRACT =========="
   echo "script_version=STAGE45_V1_20261102"
   echo "timestamp_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
   echo "product_version=$OSVER"
@@ -74,7 +74,7 @@ PY
   echo "llvm_objdump=$OBJDUMP"
   echo "upstream_toolkit=watchthelight-labs/WTLKcAbi"
   echo "upstream_commit=$UPSTREAM_COMMIT"
-  echo "predecessor=Stage43 run-20261102-040558"
+  echo "predecessor=Stage44 run-20261102-100836-5554bbfd0af8"
   echo "scope=finalizeBSDInterface cleanup virtual call at vtable offset 0x858, all relevant class vtables, and stop/free teardown methods"
   echo "SOURCE_MODIFIED=NO"
   echo "BUILD=NOT_RUN"
@@ -200,7 +200,7 @@ for cls in ["IOSkywalkNetworkInterface","IOSkywalkEthernetInterface","IO80211Sky
             print("VTABLE_MATCH class=%s offset=0x%x index=%d target=0x%x symbol=%s owner=%s"%(cls,idx*8,idx,tgt,name,kc.owner(tgt) or kc.sym_owner.get(tgt) or "UNKNOWN"))
 
 
-print("\\n--- finalizeBSDInterface cleanup callback slot analysis ---")
+print("\n--- finalizeBSDInterface cleanup callback slot analysis ---")
 # IOSkywalkNetworkInterface::finalizeBSDInterface dispatches through its vtable
 # at byte offset 0x858. Resolve that exact slot for every relevant 24H32 class.
 slot_targets={}
@@ -281,7 +281,7 @@ for label,sym,va,owner,end in resolved:
     if not success: print("METHOD_DISASSEMBLY_%s=REVIEW_REQUIRED"%label)
 
 print("\n--- Audit totals ---")
-print("METHODS_REQUESTED=%d"%len(wanted))
+print("METHODS_REQUESTED=%d"%(len(wanted)+len(slot_targets)))
 print("METHODS_RESOLVED=%d"%len(resolved))
 print("KERNEL_COLLECTION_OPEN_MODE=READ_ONLY")
 PY
@@ -307,7 +307,7 @@ PY
   echo "HARDWARE_TEST=NOT_RUN"
   echo "SYSTEM_FILES_MODIFIED=NO"
   echo "LOCAL_RUN_FOLDER=$OUT"
-  echo "========== END STAGE 44 =========="
+  echo "========== END STAGE 45 =========="
 } >> "$REPORT"
 
 split -b 220k "$REPORT" "$OUT/report-"
@@ -464,7 +464,7 @@ remote,out,run,expected=sys.argv[1:]
 obj=json.load(open(remote))
 old=base64.b64decode(obj["content"])
 entry=(
- "\n========== STAGE 44 BSD PREPARE / FINALIZE ABI AUDIT ==========\n"
+ "\n========== STAGE 45 BSD FINALIZE CLEANUP SLOT AUDIT ==========\n"
  f"STAGE45_RUN: {run}\n"
  "STAGE45_SCOPE: inherited IOSkywalkNetworkInterface::finalizeBSDInterface virtual cleanup target at vtable offset 0x858, class-specific ownership and teardown review\n"
  f"STAGE43_SOURCE_BASELINE: {expected}\n"
