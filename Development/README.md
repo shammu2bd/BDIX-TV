@@ -332,3 +332,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output stays under the Stage26 source project's `run log/stage57/<run>/` directory. Grouped and unique root-mirror artifacts are uploaded with Git blob SHA readback verification, followed by a checkpoint in `Development/output.log`. The activation gate remains BLOCKED; this is an ABI/callback audit, not queue activation or hardware-test authorization.
+
+## Stage58 — QueueSet/LogicalLink registration transaction and ownership audit
+
+Stage58 is a read-only audit of the exact Sequoia 15.8.1 (24H32) registration transaction that follows Stage57. It verifies all Stage57 V2 evidence by Git blob SHA and checks the Stage43 source fingerprints. It discovers and disassembles the actual `IO80211InfraInterface`, `IOSkywalkEthernetInterface`, `IOSkywalkNetworkInterface`, `IOSkywalkQueueSet`, and `IOSkywalkLogicalLink` methods involved in registration, queue grouping, logical-link attachment and deregistration. It also records the QueueSet queue-classification virtual dispatch slot at byte offset `0x218`, extracts the local SDK declarations for `QueueSetInfo_s` and `LogicalLinkInfo_s`, and compares Apple's lifecycle with native WCL source methods. Stage58 separately records that Skywalk queue action callbacks return `IOReturn` status; the packet count is a separate argument. This audit does not edit source, build/sign/install/load a kext, or alter OpenCore/SIP/NVRAM.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage58-v1-queueset-logicallink-registration-ownership-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage58/<run>/` directory. Artifacts are uploaded to a timestamped `Development/Logs/stage58/<run>/` folder and as unique root-mirror files; each upload is read back and SHA-verified before a checkpoint is appended to `Development/output.log`. The activation gate remains BLOCKED. This stage is evidence gathering only; it does not authorize queue registration, a kext build, or hardware testing.
+
