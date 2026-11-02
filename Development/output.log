@@ -247,3 +247,11 @@ STAGE64_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — callbacks do not yet complete TX/RX packet ownership and hardware completion handoff
 STAGE64_LOGS: Development/Logs/stage64/run-20261102-163320-6a2d28788a13/
 ==================================================================
+========== STAGE 65 APPLE QUEUE CALLBACK DISPATCH TARGET AUDIT ==========
+STAGE65_RUN: run-20261102-164949-2151a8b9670a
+STAGE65_VERSION: STAGE65_V1_20261102
+STAGE65_SCOPE: Apple TX/RX queue callback dispatch helpers and TxSubmission virtual targets
+STAGE65_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — Apple internal callback helpers are being traced; RTL88WiFi packet ownership handoff remains unimplemented
+STAGE65_LOGS: Development/Logs/stage65/run-20261102-164949-2151a8b9670a/
+==================================================================
