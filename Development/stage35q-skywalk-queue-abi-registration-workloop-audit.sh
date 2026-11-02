@@ -145,8 +145,7 @@ if sdk and sdk.exists():
                          sdk/"System/Library/Frameworks/Kernel.framework/Versions/A"])
 developer=pathlib.Path(os.environ.get("DEVELOPER_DIR",""))
 if developer.exists():
-    search_roots.extend([developer/"Platforms/MacOSX.platform/Developer/SDKs",
-                         developer/"Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework",
+    search_roots.extend([developer/"Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework",
                          developer/"Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework"])
 seen=set()
 for root in search_roots:
