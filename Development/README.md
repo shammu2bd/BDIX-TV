@@ -271,12 +271,12 @@ Temporary files are stored only under the Stage26 source project's `run log/stag
 
 ## Stage53 — IO80211 controller/interface factory and vtable audit
 
-Stage53 is a read-only audit of the exact macOS Sequoia 15.8.1 (24H32) Boot Kernel Collection. It discovers actual methods and vtables for `IO80211Controller`, `IO80211SkywalkInterface`, `IO80211InfraInterface`, `IO80211InfraProtocol` and Apple's `AppleBCMWLANSkywalkInterface`. It resolves and disassembles the primary Skywalk interface getter, infrastructure-interface start/registration methods, Skywalk initialization and Apple's two interface-start overloads where present. It records direct call edges, owner/executable-range checks, the pinned Stage43 source fingerprints and the matching native source contract context. Apple Broadcom code is reference evidence only; its vendor-specific implementation must not be copied blindly.
+Stage53 V2 is a read-only audit of the exact macOS Sequoia 15.8.1 (24H32) Boot Kernel Collection. It discovers actual methods and vtables for `IO80211Controller`, `IO80211SkywalkInterface`, `IO80211InfraInterface`, `IO80211InfraProtocol` and Apple's `AppleBCMWLANSkywalkInterface`. It resolves and disassembles the primary Skywalk interface getter, infrastructure-interface start/registration methods, Skywalk initialization and Apple's two interface-start overloads where present. It records direct call edges, owner/executable-range checks, the pinned Stage43 source fingerprints and the matching native source contract context. Apple Broadcom code is reference evidence only; its vendor-specific implementation must not be copied blindly.
 
 Run on the target Intel Hackintosh:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage53-v1-io80211-interface-factory-vtable-audit.sh" | bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage53-v2-io80211-interface-factory-vtable-audit.sh" | bash
 ```
 
-Temporary files are stored only under the Stage26 source project's `run log/stage53/<run>/` directory. The runner uses the pinned WTLKcAbi parser/disassembler, uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; this audit does not authorize interface registration or hardware testing.
+Temporary files are stored only under the Stage26 source project's `run log/stage53/<run>/` directory. The corrected V2 runner converts the output argument to a pathlib.Path before writing audit artifacts. It uses the pinned WTLKcAbi parser/disassembler, uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; this audit does not authorize interface registration or hardware testing.
