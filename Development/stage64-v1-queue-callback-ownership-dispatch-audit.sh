@@ -111,7 +111,7 @@ for rel,want in fingerprint_items.items():
  match=(got==want); source_ok &= match
  fingerprint_rows += ["FILE="+rel,"EXPECTED_SHA256="+want,"ACTUAL_SHA256="+got,"RESULT="+("MATCH" if match else "MISMATCH")]
 fingerprint_rows.append("STAGE43_SOURCE_CONTINUITY="+("PASS" if source_ok else "REVIEW_REQUIRED"))
-(out/"source-fingerprint.txt").write_text("\\n".join(fingerprint_rows)+"\\n")
+(out/"source-fingerprint.txt").write_text("\n".join(fingerprint_rows)+"\n")
 
 def extract_body(text,brace):
  depth=0; state="code"; quote=""; i=brace
