@@ -64,7 +64,7 @@ BEFORE="$(fingerprint "$MAC" "$PCI" "$TXH" "$ABI")"
   echo "predecessor_artifact=Development/Artifacts/stage35r/RTL88WiFiNative-run-20261102-012552.tar.gz"
   echo "predecessor_artifact_sha256=7c2af9719f60446f78d8bf4e96816ed1bfe3c5d2f67200605c6b5b00c526bc18"
   echo "audit_mode=read-only source and warning-context inspection"
-  echo "retained_stage35r_build_log=\${BUILDLOG:-NOT_FOUND}"
+  echo "retained_stage35r_build_log=${BUILDLOG:-NOT_FOUND}"
   echo
   echo "--- Source fingerprint before audit ---"
   echo "$BEFORE"
