@@ -99,6 +99,20 @@ for p in source_files:
  try: texts[str(p.relative_to(src))]=p.read_text(errors="replace")
  except Exception: pass
 
+fingerprint_items={
+ "src/kext/wcl24h32/RTW88WCLInfraInterface.cpp":"2a6da4ac698635e2bfe904a23004536478d60cad99718ec3d7186e9be68cfc9b",
+ "src/kext/wcl24h32/RTW88WCL24H32InterfaceABI.hpp":"63a6a038ef7513312c686199b00e8cf45a16d251c7792ab03d2f5986f9fd84fb",
+ "src/kext/wcl24h32/RTW88WCLInfraInterface.hpp":"9b1181fd35990cebc128228503bc671a60a680815a698c79121ac9bdcf23cfc4",
+}
+fingerprint_rows=[]; source_ok=True
+for rel,want in fingerprint_items.items():
+ p=src/rel
+ got=hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else "MISSING"
+ match=(got==want); source_ok &= match
+ fingerprint_rows += ["FILE="+rel,"EXPECTED_SHA256="+want,"ACTUAL_SHA256="+got,"RESULT="+("MATCH" if match else "MISMATCH")]
+fingerprint_rows.append("STAGE43_SOURCE_CONTINUITY="+("PASS" if source_ok else "REVIEW_REQUIRED"))
+(out/"source-fingerprint.txt").write_text("\\n".join(fingerprint_rows)+"\\n")
+
 def extract_body(text,brace):
  depth=0; state="code"; quote=""; i=brace
  while i<len(text):
@@ -248,6 +262,7 @@ txc=bodies.get("RTW88WCLSkywalkQueues::txCompletionAction","")
 rxs=bodies.get("RTW88WCLSkywalkQueues::rxSubmissionAction","")
 rxc=bodies.get("RTW88WCLSkywalkQueues::rxCompletionAction","")
 checks={
+ "SOURCE_CONTINUITY":source_ok,
  "ALL_FOUR_CALLBACK_BODIES_FOUND":all(x in bodies for x in [
   "RTW88WCLSkywalkQueues::txSubmissionAction","RTW88WCLSkywalkQueues::txCompletionAction",
   "RTW88WCLSkywalkQueues::rxSubmissionAction","RTW88WCLSkywalkQueues::rxCompletionAction"]),
@@ -271,7 +286,7 @@ callback_matrix=[
 (out/"callback-ownership-findings.txt").write_text("\n".join(callback_matrix)+"\n")
 
 required=[
- "ALL_FOUR_CALLBACK_BODIES_FOUND","ALL_FOUR_SDK_ACTION_TYPEDEFS_FOUND",
+ "SOURCE_CONTINUITY","ALL_FOUR_CALLBACK_BODIES_FOUND","ALL_FOUR_SDK_ACTION_TYPEDEFS_FOUND",
  "TX_SUBMISSION_VALIDATES_NATIVE_PACKET","TX_SUBMISSION_DOES_NOT_CALL_TX_ADAPTER",
  "TX_COMPLETION_HAS_NO_COMPLETION_DRAIN","RX_SUBMISSION_HAS_NO_REFILL_OR_ENQUEUE",
  "RX_COMPLETION_HAS_NO_PACKET_DELIVERY"
@@ -282,7 +297,7 @@ summary=[
  "TARGET=15.8.1/24H32/x86_64",
  "STAGE63_PREDECESSOR=6/6_PINS_PASS",
  "STAGE58_CALLBACK_ABI_EVIDENCE=PIN_PASS",
- "STAGE43_SOURCE_CONTINUITY=PASS",
+ "STAGE43_SOURCE_CONTINUITY="+("PASS" if source_ok else "REVIEW_REQUIRED"),
  "NATIVE_SOURCE_FILES_SCANNED=%d"%len(source_files),
  "REQUIRED_CALLBACK_SOURCE_CHECKS=%d/%d"%(passed,len(required)),
  "SDK_ACTION_TYPEDEFS=%d/4"%len(sdk_found),
