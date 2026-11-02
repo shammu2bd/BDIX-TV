@@ -24,7 +24,7 @@ UPLOAD_ERROR="$OUT/upload-error.txt"
 trap 'rc=$?; trap - ERR; echo "STAGE57_ERROR=exit:$rc line:$LINENO" >&2; [[ ! -f "$UPLOAD_ERROR" ]] || tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
 fail(){ echo "ERROR: $*" >&2; exit 2; }
 
-for t in curl gh python3 shasum split grep awk sw_vers uname xcrun file wc; do
+for t in curl gh python3 shasum split grep awk sw_vers uname xcrun file wc tr; do
   command -v "$t" >/dev/null 2>&1 || fail "required tool missing: $t"
 done
 [[ -f "$SRC/Makefile" ]] || fail "Stage26 source tree not found: $SRC"
