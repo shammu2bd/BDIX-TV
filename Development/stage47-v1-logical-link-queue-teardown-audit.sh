@@ -535,7 +535,7 @@ remote,out,run,expected=sys.argv[1:]
 obj=json.load(open(remote))
 old=base64.b64decode(obj["content"])
 entry=(
- "\n========== STAGE 46 NETWORK DEREGISTRATION / POOL OWNERSHIP AUDIT ==========\n"
+ "\n========== STAGE 47 LOGICAL-LINK / QUEUE-SET / TX-RX TEARDOWN AUDIT ==========\n"
  f"STAGE47_RUN: {run}\n"
  "STAGE47_SCOPE: IOSkywalkNetworkInterface::deleteLogicalLink, IOSkywalkLogicalLink/IOSkywalkQueueSet attach-detach, TX/RX queue teardown and pool-release ordering\n"
  f"STAGE43_SOURCE_BASELINE: {expected}\n"
