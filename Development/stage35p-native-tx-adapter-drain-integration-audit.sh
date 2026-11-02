@@ -213,10 +213,13 @@ callback_refs=emit_refs("backendCompletion references",r"\bbackendCompletion\s*\
 sink_refs=emit_refs("CompletionSink references",r"\bCompletionSink\b",cap=100)
 
 print("\n--- Completion callback scheduler token scan ---")
-scheduler_rx=re.compile(r"IOCommandGate|runAction|thread_call_enter|queue_work|schedule_work|signalWorkAvailable|wakeup|drainCompletions|dispatch_async|enqueue.*work|workLoop",re.I)
-for label,txt in [("BACKEND_COMPLETION_BODY",adapter[adapter.find("void RTW88WCLSkywalkTxAdapter::backendCompletion"):adapter.find("uint32_t RTW88WCLSkywalkTxAdapter::drainCompletions")]),
-                  ("WCL_TREE", "\n".join(t for lab,p,t,raw in files if lab=="KEXT"))]:
-    matches=[(i+1,s.strip()) for i,s in enumerate(txt.splitlines()) if scheduler_rx.search(s)]
+scheduler_rx=re.compile(r"(?:runAction|thread_call_enter|queue_work|schedule_work|signalWorkAvailable|wakeup|dispatch_async|enqueueWork|scheduleCompletionDrain)\\s*\\(",re.I)
+callback_body=adapter[adapter.find("void RTW88WCLSkywalkTxAdapter::backendCompletion"):adapter.find("uint32_t RTW88WCLSkywalkTxAdapter::drainCompletions")]
+callback_code=re.sub(r"/\\*.*?\\*/|//[^\\n]*","",callback_body,flags=re.S|re.M)
+for label,txt in [("BACKEND_COMPLETION_BODY_CODE_ONLY",callback_code),
+                  ("WCL_TREE_CODE_ONLY", "\\n".join(t for lab,p,t,raw in files if lab=="KEXT"))]:
+    code_only=re.sub(r"/\\*.*?\\*/|//[^\\n]*","",txt,flags=re.S|re.M)
+    matches=[(i+1,s.strip()) for i,s in enumerate(code_only.splitlines()) if scheduler_rx.search(s)]
     print("%s_MATCHES=%d"%(label,len(matches)))
     for n,s in matches[:100]: print("%s:%d | %s"%(label,n,s[:320]))
 
