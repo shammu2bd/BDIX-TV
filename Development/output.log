@@ -207,3 +207,11 @@ STAGE59_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — dispatch/registration ABI audit only; no queue activation or hardware-test authorization
 STAGE59_LOGS: Development/Logs/stage59/run-20261102-144540-b7f7850cbe02/ and unique files directly under Development/Logs/
 ==================================================================
+========== STAGE 60 ITANIUM VTABLE ADDRESS-POINT / QUEUESET DISPATCH AUDIT ==========
+STAGE60_RUN: run-20261102-150246-056583bdc528
+STAGE60_VERSION: STAGE60_V1_20261102
+STAGE60_SCOPE: 24H32 _ZTV prefix/address-point correction for QueueSet [vptr+0x218], performCommand ABI and implementation crosswalk
+STAGE60_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — dispatch target resolved; native registration and TX/RX completion handoff remain open
+STAGE60_LOGS: Development/Logs/stage60/run-20261102-150246-056583bdc528/ and unique files directly under Development/Logs/
+==================================================================
