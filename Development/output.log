@@ -263,3 +263,13 @@ STAGE66_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — packet ownership/hardware completion implementation still requires a separate reviewed change
 STAGE66_LOGS: Development/Logs/stage66/run-20261102-170400-52c2a2c1997c/
 ==================================================================
+========== STAGE 67 FAILURE REPORT ==========
+STAGE67_FAILURE_RUN: run-20261102-171001-bbf2feec7f17
+STAGE67_VERSION: STAGE67_V1_20261102
+STAGE67_EXIT_CODE: 2
+STAGE67_FAILURE_CLASS: POST_AUDIT_ARTIFACT_GATE
+STAGE67_AUDIT_SUMMARY: PASS — 19/19 methods; packet vtable 3/3; pool vtable 1/1
+STAGE67_FAILED_COMMAND: missing Stage67 artifact: dispatch-edge-inventory.txt
+STAGE67_FAILURE_REPORT: Development/Logs/stage67/run-20261102-171001-bbf2feec7f17/failure-report.txt
+STAGE67_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+=============================================
