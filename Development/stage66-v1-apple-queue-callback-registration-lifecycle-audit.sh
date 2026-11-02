@@ -171,7 +171,7 @@ for cls,nm,kind,va,owner,end in resolved:
   cls,kind,nm,va,owner,ins,"PASS" if ok else "REVIEW_REQUIRED"))
  if not ok: issues.append("DISASSEMBLY_"+nm)
  disasm_lines += ["\n===== METHOD class=%s kind=%s symbol=%s address=0x%x owner=%s ====="%(
-  cls,nm,va,owner),"OBJDUMP_EXIT=%d INSTRUCTIONS=%d"%(p.returncode,ins),
+  cls,kind,nm,va,owner),"OBJDUMP_EXIT=%d INSTRUCTIONS=%d"%(p.returncode,ins),
   "DISASSEMBLY_BEGIN",p.stdout[:70000].rstrip(),"DISASSEMBLY_END"]
 (out/"method-status.txt").write_text("\n".join(status)+"\n")
 (out/"apple-queue-lifecycle-disassembly.txt").write_text("\n".join(disasm_lines)+"\n")
