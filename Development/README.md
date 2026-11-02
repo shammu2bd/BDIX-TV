@@ -15,6 +15,8 @@ Dedicated GitHub workspace for RTL88WiFi on macOS Sequoia 15.8.1 (24H32), x86_64
    `https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage27-new-tree-compile-only.sh`.
 4. Do not create new RTL88WiFi development files at the repository root.
 5. Preserve the user's existing working older `rtl88wifi.kext`. Experimental WCL candidates must not replace it until build, dependency, signing, ABI, queue lifecycle, teardown and hardware checks are complete.
+6. Preserve every run log as a uniquely named file directly under `Development/Logs/`; never overwrite an earlier run's log. Use the stage and UTC run timestamp in each filename, for example `stage43-run-20261102-040558-report.txt`, `stage43-run-20261102-040558-build.log`, `stage43-run-20261102-040558-source.patch`, and `stage43-run-20261102-040558-manifest.txt`. Timestamped subfolders may also retain the original grouped run artifacts. Keep appending concise stage summaries to `Development/output.log`, but do not use that shared file as the only retained record.
+
 
 The unrelated `playlist.m3u` remains at the repository root.
 
