@@ -232,12 +232,12 @@ V2 corrects the teardown-pattern regular expression that stopped the first runne
 
 ## Stage50 — exact registration call-graph and callback reachability audit
 
-Stage50 is a read-only source inspection that extracts the actual out-of-line method bodies for interface/controller startup, registration-info preparation, queue construction, all four Skywalk queue callbacks, and the TX/RX adapter handoff methods. It masks comments and quoted strings for brace matching, inventories code occurrences of registration and queue APIs, and checks direct body-level edges instead of treating keyword presence as proof. It also verifies the pinned Stage48 24H32 ABI audit artifacts and the Stage43 source fingerprints. A direct-body result is deliberately not presented as proof of transitive runtime reachability.
+Stage50 V2 is a read-only source inspection that extracts the actual out-of-line method bodies for interface/controller startup, registration-info preparation, `RTW88WCLSkywalkQueues::createQueues`, all four Skywalk queue callbacks, and the TX/RX adapter handoff methods. V2 corrects the initial audit's method-name typo (`allocateQueues` versus the actual `createQueues`) so the queue-construction body is captured. It masks comments and quoted strings for brace matching, inventories code occurrences of registration and queue APIs, and checks direct body-level edges instead of treating keyword presence as proof. It also verifies the pinned Stage48 24H32 ABI audit artifacts and the Stage43 source fingerprints. A direct-body result is deliberately not presented as proof of transitive runtime reachability.
 
 Run on the target Intel Hackintosh:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage50-v1-registration-callgraph-reachability-audit.sh" | bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage50-v2-registration-callgraph-reachability-audit.sh" | bash
 ```
 
 Temporary files are stored only under the Stage26 source project's `run log/stage50/<run>/` directory. The runner uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; Stage50 is an audit only and does not authorize queue registration or hardware testing.
