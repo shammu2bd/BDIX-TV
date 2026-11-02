@@ -120,7 +120,7 @@ for i,line in enumerate(lines,1):
         shell.append((i,line.strip()))
 print("MAKEFILE_PARSE_TIME_SHELL_EXPRESSIONS=%d"%len(shell))
 for i,line in shell: print("PARSE_SHELL line=%d %s"%(i,line[:500]))
-danger=re.compile(r"\b(rm|mkdir|rmdir|touch|cp|mv|install|ditto|codesign|xcodebuild|kmutil|kextload|kextunload)\b",re.I)
+danger=re.compile(r"\b(rm|mkdir|rmdir|touch|cp|mv|install|ditto|codesign|xcodebuild|kmutil|kextload|kextunload|open|curl|wget|osascript|launchctl|defaults|security|csrutil|diskutil|spctl|sudo|chmod|chown|ln|dd|truncate|python[0-9.]*|perl|bash|sh)\b",re.I)
 dangerous=[(i,s) for i,s in shell if danger.search(s)]
 recursive=[(i,l) for i,l in enumerate(lines,1) if "$(MAKE)" in l or re.match(r"^\s*\+\s",l)]
 if dangerous:
