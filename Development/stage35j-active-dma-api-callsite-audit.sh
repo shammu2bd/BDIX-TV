@@ -62,7 +62,10 @@ def function_hint(lines,idx):
  return "context unavailable"
 print("--- Source inventory ---")
 for label,root in roots:
- count=sum(1 for _,p in files if p.is_relative_to(root))
+ count=0
+ for _,p in files:
+  try: p.relative_to(root); count+=1
+  except ValueError: pass
  print("%s_ROOT=%s SOURCE_FILES=%d"%(label,root,count))
 print("\n--- DMA API call-site counts (header definitions excluded) ---")
 counts={a:[] for a in api}
