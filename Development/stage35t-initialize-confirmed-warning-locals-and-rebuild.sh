@@ -102,8 +102,8 @@ python3 - "$MAC" "$PCI" <<'PY'
 import pathlib,sys
 macp,pcip=map(pathlib.Path,sys.argv[1:])
 mac=macp.read_text()
-old="\tu32 ltecoex_bckp;\\n"
-new="\tu32 ltecoex_bckp = 0;\\n"
+old="\tu32 ltecoex_bckp;\n"
+new="\tu32 ltecoex_bckp = 0;\n"
 if mac.count(old)!=1:
     raise SystemExit("PATCH_BLOCKED: mac.c declaration is not unique")
 mac=mac.replace(old,new,1)
@@ -117,15 +117,15 @@ if pci.count(a)!=1 or pci.count(b)!=1 or pci.count(c)!=1 or pci.count(d)!=1:
     raise SystemExit("PATCH_BLOCKED: expected PCI function boundaries are not unique")
 left=pci.index(a); right=pci.index(b,left)
 dbi=pci[left:right]
-if dbi.count("\tu8 flag;\\n")!=1:
+if dbi.count("\tu8 flag;\n")!=1:
     raise SystemExit("PATCH_BLOCKED: DBI flag declaration mismatch")
-dbi=dbi.replace("\tu8 flag;\\n","\tu8 flag = 0;\\n",1)
+dbi=dbi.replace("\tu8 flag;\n","\tu8 flag = 0;\n",1)
 pci=pci[:left]+dbi+pci[right:]
 left=pci.index(c); right=pci.index(d,left)
 mdio=pci[left:right]
-if mdio.count("\tu8 wflag;\\n")!=1:
+if mdio.count("\tu8 wflag;\n")!=1:
     raise SystemExit("PATCH_BLOCKED: MDIO wflag declaration mismatch")
-mdio=mdio.replace("\tu8 wflag;\\n","\tu8 wflag = 0;\\n",1)
+mdio=mdio.replace("\tu8 wflag;\n","\tu8 wflag = 0;\n",1)
 pci=pci[:left]+mdio+pci[right:]
 macp.write_text(mac); pcip.write_text(pci)
 print("PATCHED mac.c: ltecoex_bckp initialized to 0")
@@ -179,7 +179,7 @@ for n,line in enumerate(lines,1):
     if exe=="mkdir" and len(argv)==3 and argv[1]=="-p" and argv[2].startswith(str(src)+"/build/"):
         commands.append(("mkdir",t))
     elif exe=="echo": commands.append(("echo",t))
-    elif exe=="python3" and len(argv)>=2 and argv[1]==str(src/"scripts/gen_fw_blobs.py"):
+    elif exe=="python3" and argv==["python3",str(src/"scripts/gen_fw_blobs.py"),str(src/"firmware"),str(src/"src/compat/fw_blobs.c")]:
         commands.append(("firmware-generator",t))
     elif exe=="rsync" and len(argv)==5 and argv[1:3]==["-a","--exclude=MacOS"] and argv[3]==str(src)+"/RTL88WiFiNative.kext/" and argv[4]==str(src)+"/build/out/RTL88WiFiNative.kext/":
         commands.append(("kext-template-copy",t))
@@ -238,6 +238,10 @@ ARTIFACT_REMOTE=""
 ARTIFACT_SHA=""
 ARTIFACT_BYTES=0
 KEXT="$SRC/build/out/RTL88WiFiNative.kext"
+if [[ "$BUILD_RC" -eq 0 && ( ! -f "$KEXT/Contents/MacOS/RTL88WiFiNative" || ! -f "$KEXT/Contents/Info.plist" ) ]]; then
+  echo "BUILD_VALIDATION_FAILED=expected Kext executable or Info.plist is missing" >> "$REPORT"
+  BUILD_RC=97
+fi
 if [[ "$BUILD_RC" -eq 0 && -f "$KEXT/Contents/MacOS/RTL88WiFiNative" && -f "$KEXT/Contents/Info.plist" ]]; then
   {
     echo
