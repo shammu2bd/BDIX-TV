@@ -321,8 +321,8 @@ edge_lines=["STAGE67_PACKET_AND_POOL_CALL_EDGE_INVENTORY"]
 for block in re.split(r"(?=^===== METHOD )","\n".join(disasm_lines),flags=re.M):
  header=next((x for x in block.splitlines() if x.startswith("===== METHOD ")),None)
  if not header: continue
- calls=[x.strip() for x in block.splitlines() if re.search(r"\\bcall\\b|\\bjmp\\s+qword ptr\\b",x)]
- edge_lines.append("\\n"+header)
+ calls=[x.strip() for x in block.splitlines() if re.search(r"\bcall\b|\bjmp\s+qword ptr\b",x)]
+ edge_lines.append("\n"+header)
  edge_lines += calls or ["NO_CALL_EDGES_CAPTURED"]
 (out/"dispatch-edge-inventory.txt").write_text("\n".join(edge_lines)+"\n")
 
