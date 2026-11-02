@@ -393,3 +393,7 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage62/<run>/` directory. Reports are uploaded to `Development/Logs/stage62/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED.
+
+## Master stage history (Stages 1–88)
+
+The consolidated chronological record is maintained in [RTL88WiFi-STAGE-HISTORY.md](./RTL88WiFi-STAGE-HISTORY.md). It covers the recovered Stage 1–19 foundation and packet/ABI work, the native-target and packaging sequence, and the Stage 20–88 source/ABI/readiness audits. The current recorded state is Stage 88 V1: WMM/QueueSet ABI evidence improved, but native registration and TX/RX packet ownership handoffs are still incomplete; implementation authorization remains **NO** and the activation gate remains **BLOCKED**. See [output.log](./output.log) for timestamped run checkpoints.
