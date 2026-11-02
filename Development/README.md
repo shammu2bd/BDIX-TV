@@ -168,3 +168,15 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 The runner stores temporary output only inside the Stage26 source project's `run log/stage44/` directory. Every report part and supporting audit file is retained both in a timestamped `Development/Logs/stage44/<run>/` folder and as a unique stage/timestamp-named file directly under `Development/Logs/`; every upload is read back and SHA-verified. A concise checkpoint is appended to `Development/output.log`. This audit does not close the activation gate: queue registration, TX/RX completion ownership, publication, and teardown still require verified implementation.
+
+## Stage45 — exact BSD finalization cleanup callback audit
+
+Stage45 is a read-only 24H32 Kernel Collection audit of the additional virtual call made by Apple's inherited `IOSkywalkNetworkInterface::finalizeBSDInterface` at vtable byte offset `0x858`. It resolves that slot across the relevant IOSkywalk and IO80211 class vtables, checks the neighboring slots, and disassembles each distinct executable target. It also records the Stage43 source fingerprints and the surrounding source lifecycle context. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage45-v1-bsd-finalize-cleanup-slot-audit.sh | bash
+```
+
+Temporary output stays under the Stage26 source project's `run log/stage45/` directory. Every report part and supporting audit file is saved in a timestamped `Development/Logs/stage45/<run>/` folder and as a unique file directly under `Development/Logs/`; uploads are read back and SHA-verified. A checkpoint is appended to `Development/output.log`. Identifying the callback does not close the activation gate; queue registration, TX/RX completion ownership, publication and full teardown must still be verified.
