@@ -192,3 +192,15 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 Temporary output is kept under the Stage26 source project's `run log/stage46/` directory. Reports and supporting evidence are uploaded both to a per-run `Development/Logs/stage46/<run>/` folder and to unique files directly under `Development/Logs/`. Each upload is read back and SHA-verified, and the checkpoint is appended to `Development/output.log`. The activation gate remains blocked until queue registration, TX/RX completion ownership, publication and complete teardown are all verified.
+
+## Stage47 — logical-link and TX/RX queue-set teardown audit
+
+Stage47 is a read-only macOS Sequoia 15.8.1 (24H32) Kernel Collection audit of the next layer after Stage46: `IOSkywalkNetworkInterface::deleteLogicalLink`, `IOSkywalkLogicalLink` ownership, `IOSkywalkQueueSet` attachment/detachment, and TX/RX submission/completion queue lifecycle. It resolves symbols and vtable targets from the actual target Kernel Collection, verifies owner/executable ranges, disassembles relevant methods, and captures matching native WCL source context plus the Stage43 source fingerprints. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage47-v1-logical-link-queue-teardown-audit.sh | bash
+```
+
+Temporary output is kept under the Stage26 source project's `run log/stage47/` directory. Report and ABI audit parts, source context, source fingerprints and upstream verification are uploaded in a timestamped `Development/Logs/stage47/<run>/` folder and as unique files directly under `Development/Logs/`. Each upload is read back and SHA-verified; a checkpoint is appended to `Development/output.log`. The activation gate remains blocked until queue registration, TX/RX completion ownership, publication and safe rollback/teardown are verified.
