@@ -3,7 +3,7 @@
 # Read-only project scan. Uses the user's existing GitHub CLI login (gh auth).
 # Does not initialize Git, edit source, build/install/load a kext, or alter OpenCore.
 set -Eeuo pipefail
-trap 'rc=$?; echo "STAGE35D_ERROR=exit:$rc line:$LINENO" >&2; exit "$rc"' ERR
+trap 'rc=$?; echo "STAGE35D_ERROR=exit:$rc line:$LINENO" >&2; if [[ -f "${OUT:-}/upload-error.txt" ]]; then echo "UPLOAD_ERROR_LOG=$OUT/upload-error.txt" >&2; tail -40 "$OUT/upload-error.txt" >&2; fi; exit "$rc"' ERR
 
 REPO="shammu2bd/BDIX-TV"
 DOWNLOADS="$HOME/Downloads"
@@ -82,13 +82,33 @@ obj={"message":message,"content":base64.b64encode(pathlib.Path(file_path).read_b
 if sha: obj["sha"]=sha
 pathlib.Path(dest).write_text(json.dumps(obj))
 PY
-  gh api --method PUT "repos/$REPO/contents/$path" --input "$payload" >"$response"
+  if ! gh api --method PUT "repos/$REPO/contents/$path" --input "$payload" >"$response" 2>"$OUT/upload-error.txt"; then
+    {
+      echo "UPLOAD_FAILED_PATH=$path"
+      echo "UPLOAD_HTTP_OR_GH_ERROR:"
+      cat "$OUT/upload-error.txt"
+      echo "PAYLOAD_BYTES=$(wc -c <"$payload" | tr -d ' ')"
+      echo "AUTH_ACCOUNT=$(gh api user --jq .login 2>&1 || true)"
+      echo "REPO_PERMISSION_CHECK:"
+      gh api "repos/$REPO" --jq '.full_name + " push=" + (.permissions.push|tostring)' 2>&1 || true
+    } >>"$OUT/upload-error.txt"
+    echo "ERROR: upload failed for $path; details: $OUT/upload-error.txt" >&2
+    return 1
+  fi
   put="$(python3 - "$response" <<'PY'
 import json,sys
-print(json.load(open(sys.argv[1]))["content"]["sha"])
+data=json.load(open(sys.argv[1]))
+sha=(data.get("content") or {}).get("sha")
+if not sha:
+    raise SystemExit("GitHub PUT response did not contain content.sha: "+repr(data)[:1000])
+print(sha)
 PY
 )"
-  got="$(gh api "repos/$REPO/contents/$path" --jq .sha)"
+  if ! got="$(gh api "repos/$REPO/contents/$path" --jq .sha 2>"$OUT/readback-error.txt")"; then
+    echo "READBACK_FAILED_PATH=$path" >>"$OUT/upload-error.txt"
+    cat "$OUT/readback-error.txt" >>"$OUT/upload-error.txt"
+    return 1
+  fi
   [[ "$put" == "$got" ]] || { echo "ERROR: GitHub SHA readback mismatch: $path"; return 1; }
   UPLOAD_SHA="$got"
 }
