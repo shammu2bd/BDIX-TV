@@ -200,6 +200,7 @@ MAN="$OUT/manifest.txt"
 { echo "STAGE=86";echo "VERSION=STAGE86_V1_20261103";echo "RUN=$RUN";echo "TARGET=15.8.1/24H32/x86_64";echo "PREDECESSOR=Stage85";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "ACTIVATION_GATE=BLOCKED"; } > "$MAN"
 for f in "$OUT/audit-summary.txt" "$OUT/source-tree-revalidation.txt" "$OUT/queue-array-reference-inventory.txt" "$OUT/registration-callsite-inventory.txt" "$OUT/pointer-array-declaration-inventory.txt" "$OUT/report.txt"; do echo "ARTIFACT|$(basename "$f")|$(blob "$f")" >> "$MAN"; done
 for f in "$OUT/audit-summary.txt" "$OUT/source-tree-revalidation.txt" "$OUT/queue-array-reference-inventory.txt" "$OUT/registration-callsite-inventory.txt" "$OUT/pointer-array-declaration-inventory.txt" "$OUT/report.txt" "$MAN"; do upload "$f" "Development/Logs/stage86/$RUN/$(basename "$f")"; done
+gh api "repos/$REPO/contents/Development/output.log" > "$OUT/output-before.json"
 python3 - "$OUT/output-before.json" "$OUT/output-payload.json" "$RUN" "$QUEUE_STATE" "$REG_COUNT" <<'PY'
 import base64,json,pathlib,sys
 p=pathlib.Path(sys.argv[1]); o=json.load(open(p)); old=base64.b64decode(o["content"])
