@@ -90,8 +90,12 @@ out=pathlib.Path(sys.argv[2]);summary_path=pathlib.Path(sys.argv[3]);report_path
 def section(marker):
  i=flow.find(marker)
  if i<0: raise SystemExit("missing pinned method section: "+marker)
- j=flow.find("\n===== ",i+len(marker))
- return flow[i:j if j>=0 else len(flow)]
+ # Skip the immediately following "===== METHOD class=..." heading;
+ # that heading belongs to this section, not the next section.
+ first=flow.find("\n===== ",i+len(marker))
+ if first<0: return flow[i:]
+ second=flow.find("\n===== ",first+1)
+ return flow[i:second if second>=0 else len(flow)]
 def ins(block):
  a=block.find("DISASSEMBLY_BEGIN");b=block.find("DISASSEMBLY_END",a)
  if a<0 or b<0: raise SystemExit("bad disassembly block")
