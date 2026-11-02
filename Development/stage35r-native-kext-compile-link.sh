@@ -167,6 +167,10 @@ set -e
   echo "--- Build output tail ---"
   tail -160 "$BUILDLOG"
   echo
+  echo "--- Complete build output ---"
+  cat "$BUILDLOG"
+  echo "--- End complete build output ---"
+  echo
 } >> "$REPORT"
 
 KEXT="$SRC/build/out/RTL88WiFiNative.kext"
@@ -201,19 +205,20 @@ for p in sorted(x for x in root.rglob("*") if x.is_file()):
     h.update(len(data).to_bytes(8,"big")); h.update(data); count+=1
 pathlib.Path(sys.argv[2]).write_text("files=%d\nsha256=%s\n"%(count,h.hexdigest()))
 PY
+if cmp -s "$OUT/source-before.sha256" "$OUT/source-after.sha256"; then
+  SOURCE_TREE_MODIFIED=NO
+else
+  SOURCE_TREE_MODIFIED=YES
+fi
 {
   echo
   echo "--- Source tree immutability check ---"
   cat "$OUT/source-after.sha256"
-  if cmp -s "$OUT/source-before.sha256" "$OUT/source-after.sha256"; then
-    echo "SOURCE_TREE_MODIFIED=NO"
-  else
-    echo "SOURCE_TREE_MODIFIED=YES"
-  fi
+  echo "SOURCE_TREE_MODIFIED=$SOURCE_TREE_MODIFIED"
   echo
   echo "--- Safety boundary ---"
   echo "BUILD_OUTPUTS_WRITTEN=YES"
-  echo "SOURCE_FILES_EDITED=NO (verified by aggregate source fingerprint when hashes match)"
+  echo "SOURCE_FILES_EDITED=$([[ "$SOURCE_TREE_MODIFIED" == NO ]] && echo NO || echo YES)"
   echo "KEXT_INSTALL=NOT_RUN"
   echo "KEXT_LOAD=NOT_RUN"
   echo "CODESIGN=NOT_RUN"
@@ -288,4 +293,5 @@ echo "STAGE35R_REPORT_PARTS=$COUNT"
 echo "STAGE35R_LOG_URL=https://github.com/$REPO/tree/main/Development/Logs/stage35r/$RUN"
 
 # A failed compile/link should still upload diagnostics, then return the make exit.
+trap - ERR
 exit "$BUILD_RC"
