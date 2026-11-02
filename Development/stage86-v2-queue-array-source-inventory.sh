@@ -52,7 +52,7 @@ PY
  g="$(gh api "repos/$REPO/contents/Development/output.log" -q .sha)"
  [[ "$p" == "$g" ]] || fail "output.log readback mismatch"
 }
-trap 'rc=$?; if ((rc!=0)); then { echo "STAGE=86";echo "VERSION=STAGE86_V1_20261103";echo "RUN=$RUN";echo "EXIT_CODE=$rc";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "INSTALL=NOT_RUN";echo "LOAD=NOT_RUN";tail -n 160 "$OUT/console-output.log"; } > "$OUT/failure-report.txt"; if gh auth status >/dev/null 2>&1; then python3 - "$OUT/failure-report.txt" "$OUT/failure.json" <<'PY'
+trap 'rc=$?; if ((rc!=0)); then { echo "STAGE=86";echo "VERSION=STAGE86_V2_20261103";echo "RUN=$RUN";echo "EXIT_CODE=$rc";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "INSTALL=NOT_RUN";echo "LOAD=NOT_RUN";tail -n 160 "$OUT/console-output.log"; } > "$OUT/failure-report.txt"; if gh auth status >/dev/null 2>&1; then python3 - "$OUT/failure-report.txt" "$OUT/failure.json" <<'PY'
 import base64,json,pathlib,sys
 p=pathlib.Path(sys.argv[1])
 pathlib.Path(sys.argv[2]).write_text(json.dumps({"message":"Stage86 failure report","content":base64.b64encode(p.read_bytes()).decode()}))
@@ -207,7 +207,7 @@ summary=[
 summary_out.write_text("\n".join(summary)+"\n")
 report_out.write_text("\n".join([
 "========== STAGE 86 QUEUE ARRAY SOURCE INVENTORY ==========",
-"VERSION=STAGE86_V1_20261103","RUN="+run,"TARGET=macOS_15.8.1_24H32_x86_64",
+"VERSION=STAGE86_V2_20261103","RUN="+run,"TARGET=macOS_15.8.1_24H32_x86_64",
 *summary,
 "LIMIT=PASS means the whole driver source inventory completed against the pinned baseline. It does not mean a missing array or registration call has been implemented.",
 "========== END STAGE 86 =========="])+"\n")
@@ -217,14 +217,14 @@ PY
 QUEUE_STATE="$(grep '^QUEUE_ARRAY_SOURCE=' "$OUT/audit-summary.txt" | cut -d= -f2)"
 REG_COUNT="$(grep '^NATIVE_REGISTRATION_CALL_LIKE_REFERENCES=' "$OUT/audit-summary.txt" | cut -d= -f2)"
 MAN="$OUT/manifest.txt"
-{ echo "STAGE=86";echo "VERSION=STAGE86_V1_20261103";echo "RUN=$RUN";echo "TARGET=15.8.1/24H32/x86_64";echo "PREDECESSOR=Stage85";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "ACTIVATION_GATE=BLOCKED"; } > "$MAN"
+{ echo "STAGE=86";echo "VERSION=STAGE86_V2_20261103";echo "RUN=$RUN";echo "TARGET=15.8.1/24H32/x86_64";echo "PREDECESSOR=Stage85";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "ACTIVATION_GATE=BLOCKED"; } > "$MAN"
 for f in "$OUT/audit-summary.txt" "$OUT/source-tree-revalidation.txt" "$OUT/queue-array-reference-inventory.txt" "$OUT/registration-callsite-inventory.txt" "$OUT/pointer-array-declaration-inventory.txt" "$OUT/report.txt"; do echo "ARTIFACT|$(basename "$f")|$(blob "$f")" >> "$MAN"; done
 for f in "$OUT/audit-summary.txt" "$OUT/source-tree-revalidation.txt" "$OUT/queue-array-reference-inventory.txt" "$OUT/registration-callsite-inventory.txt" "$OUT/pointer-array-declaration-inventory.txt" "$OUT/report.txt" "$MAN"; do upload "$f" "Development/Logs/stage86/$RUN/$(basename "$f")"; done
 gh api "repos/$REPO/contents/Development/output.log" > "$OUT/output-before.json"
 python3 - "$OUT/output-before.json" "$OUT/output-payload.json" "$RUN" "$QUEUE_STATE" "$REG_COUNT" <<'PY'
 import base64,json,pathlib,sys
 p=pathlib.Path(sys.argv[1]); o=json.load(open(p)); old=base64.b64decode(o["content"])
-entry=("\n========== STAGE 86 QUEUE ARRAY SOURCE INVENTORY ==========\nSTAGE86_RUN: "+sys.argv[3]+"\nSTAGE86_VERSION: STAGE86_V1_20261103\nSTAGE86_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\nQUEUE_ARRAY_SOURCE: "+sys.argv[4]+"\nNATIVE_REGISTRATION_CALLS: "+sys.argv[5]+"\nACTIVATION_GATE: BLOCKED\nSTAGE86_LOGS: Development/Logs/stage86/"+sys.argv[3]+"/\n============================================================\n").encode()
+entry=("\n========== STAGE 86 QUEUE ARRAY SOURCE INVENTORY ==========\nSTAGE86_RUN: "+sys.argv[3]+"\nSTAGE86_VERSION: STAGE86_V2_20261103\nSTAGE86_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\nQUEUE_ARRAY_SOURCE: "+sys.argv[4]+"\nNATIVE_REGISTRATION_CALLS: "+sys.argv[5]+"\nACTIVATION_GATE: BLOCKED\nSTAGE86_LOGS: Development/Logs/stage86/"+sys.argv[3]+"/\n============================================================\n").encode()
 pathlib.Path(sys.argv[2]).write_text(json.dumps({"message":"Append Stage86 queue array source inventory","sha":o["sha"],"content":base64.b64encode(old.rstrip()+entry).decode()}))
 PY
 gh api --method PUT "repos/$REPO/contents/Development/output.log" --input "$OUT/output-payload.json" > "$OUT/output-put.json"
