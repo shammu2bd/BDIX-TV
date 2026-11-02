@@ -159,7 +159,7 @@ The runner fetches the canonical `Development/output.log`, verifies Stage21 and 
 
 ## Stage44 — exact BSD prepare/finalize callback audit
 
-Stage44 is a read-only 24H32 Kernel Collection audit of `IO80211InfraInterface::prepareBSDInterface`, its inherited BSD finalization path, ancestor implementations, and the relevant vtable ownership. It first verifies that the local Stage43 interface source and ABI header still match their expected SHA-256 fingerprints. It records source context, exact method disassembly, vtable matches, and loaded networking-family context. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
+Stage44 is a read-only 24H32 Kernel Collection audit of `IO80211InfraInterface::prepareBSDInterface`, its inherited BSD finalization path, ancestor implementations, and the relevant vtable ownership. It first verifies that the local Stage43 interface source, ABI header, and concrete interface declaration still match their expected SHA-256 fingerprints. It records source context, exact method disassembly, vtable matches, and loaded networking-family context. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
 
 Run on the target Mac:
 
