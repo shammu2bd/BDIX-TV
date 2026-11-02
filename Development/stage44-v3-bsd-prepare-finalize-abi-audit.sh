@@ -355,7 +355,8 @@ MANIFEST="$OUT/manifest.txt"
 
 # Every artifact is retained twice: grouped by run and as unique root-level filenames.
 upload_artifact() {
-  local f="$1" suffix="$2" root_name="stage44-$RUN-$suffix" group_name
+  local f="$1" suffix="$2" root_name group_name
+  root_name="stage44-$RUN-$suffix"
   local base
   base="$(basename "$f")"
   [[ "$base" == *.txt ]] || base="$base.txt"
