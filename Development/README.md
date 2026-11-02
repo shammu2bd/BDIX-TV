@@ -224,7 +224,7 @@ Stage49 is a read-only correlation pass over the Stage26 RTL88WiFi native WCL so
 Run on the target Intel Hackintosh:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage49-v1-source-to-abi-correlation-audit.sh" | bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage49-v2-source-to-abi-correlation-audit.sh" | bash
 ```
 
-All temporary files are stored under the Stage26 source project's `run log/stage49/<run>/` directory. The runner appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; Stage49 does not authorize queue registration or hardware testing.
+V2 corrects the teardown-pattern regular expression that stopped the first runner and uploads the manifest only after all artifact paths are recorded. All temporary files are stored under the Stage26 source project's `run log/stage49/<run>/` directory. The runner appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; Stage49 does not authorize queue registration or hardware testing.
