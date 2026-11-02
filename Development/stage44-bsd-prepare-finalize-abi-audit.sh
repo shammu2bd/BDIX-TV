@@ -5,7 +5,7 @@
 set -Eeuo pipefail
 
 REPO="shammu2bd/BDIX-TV"
-SOURCE_ROOT="\${SOURCE_ROOT:-$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source}"
+SOURCE_ROOT="${SOURCE_ROOT:-$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source}"
 SRC="$SOURCE_ROOT/driver/RTL88WiFi"
 BOOTKC="/System/Library/KernelCollections/BootKernelExtensions.kc"
 UPSTREAM_COMMIT="cea28a5297633118177cee6a75e86d8bc57f1960"
@@ -269,8 +269,9 @@ split -b 220k "$REPORT" "$OUT/report-"
 split -b 220k "$OUT/source-context.txt" "$OUT/source-context-"
 split -b 220k "$OUT/abi-audit.txt" "$OUT/abi-audit-"
 
+PAYLOAD_INDEX=0
 upload_file() {
-  local local_file="$1" remote_path="$2" message="$3" allow_update="\${4:-0}"
+  local local_file="$1" remote_path="$2" message="$3" allow_update="${4:-0}"
   local old payload response put got
   old="$(gh api "repos/$REPO/contents/$remote_path" --jq .sha 2>/dev/null || true)"
   if [[ -n "$old" && "$allow_update" != "1" ]]; then
@@ -335,7 +336,6 @@ for part in "$OUT"/report-*; do
   upload_artifact "$part" "$suffix"
 done
 for part in "$OUT"/source-context-* "$OUT"/abi-audit-*; do
-  [[ -f "$part" ]] || continue
   [[ -f "$part" ]] || continue
   base="$(basename "$part")"
   upload_artifact "$part" "$base.txt"
