@@ -306,3 +306,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage55/<run>/` directory. Artifacts are uploaded to grouped and unique root-mirror paths with Git blob SHA readback verification, followed by a checkpoint in `Development/output.log`. The activation gate remains BLOCKED; this is an audit, not an implementation or hardware-test authorization.
+
+
+## Stage56 — RegistrationInfo, queue callbacks and TX/RX integration audit
+
+Stage56 is a read-only ownership and callback audit for the native WCL frontend on macOS Sequoia 15.8.1 (24H32). It first downloads and Git-blob-SHA verifies all eight Stage55 predecessor artifacts, then checks the Stage43 source fingerprints. It extracts qualified method bodies for `RTW88WCLInfraInterface`, `RTW88WCLController`, `RTW88WCLSkywalkQueues`, `RTW88WCLSkywalkTxAdapter`, and `RTW88WCLSkywalkRxAdapter`. The audit focuses on RegistrationInfo preparation/cleanup, queue and pool creation, constructor callback arguments, TX submission/completion sinks, RX consumer callbacks, and actual controller/interface wiring. It distinguishes helper existence from whether a live startup path calls that helper. This stage does not modify source, build/sign/install/load a kext, or alter OpenCore/SIP/NVRAM.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage56-v1-registration-queue-txrx-integration-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage56/<run>/` directory. Artifacts are uploaded to grouped and unique root-mirror paths with Git blob SHA readback verification, followed by a checkpoint in `Development/output.log`. The activation gate remains BLOCKED; this is an audit, not an implementation or hardware-test authorization.
