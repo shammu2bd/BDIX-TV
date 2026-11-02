@@ -81,7 +81,7 @@ for n,line in enumerate(lines,1):
         # command. Arguments such as hw.logicalcpu must never be mistaken for
         # executable names.
         commands=[]
-        for part in re.split(r"\\s*(?:&&|\\|\\||[;&|])\\s*",expr):
+        for part in re.split(r"\s*(?:&&|\|\||[;&|])\s*",expr):
             part=part.strip()
             if not part:
                 continue
