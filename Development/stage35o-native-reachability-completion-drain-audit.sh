@@ -256,7 +256,7 @@ flag("ADAPTER_DRAIN_DEFINITION_EXISTS",bool(re.search(r"::drainCompletions\s*\("
 flag("CONTROLLER_HAS_COMPLETION_DRAIN_CALL",bool(re.search(r"drainCompletions\s*\(",native_text)))
 flag("COMPAT_CALLBACK_CONTEXT_CLEAR_IN_NATIVE_TREE",
      bool(re.search(r"rtw88_set_hw_callbacks\s*\(\s*nullptr\s*,\s*nullptr\s*\)",native_text)))
-flag("NOTE=Use call-site contexts and target membership; lexical presence alone does not prove runtime execution.")
+print("NOTE=Use call-site contexts and target membership; lexical presence alone does not prove runtime execution.")
 
 print("\n--- Conclusion boundaries / open questions ---")
 questions=[
