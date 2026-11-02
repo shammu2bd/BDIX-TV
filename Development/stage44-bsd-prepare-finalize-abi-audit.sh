@@ -12,6 +12,7 @@ UPSTREAM_COMMIT="cea28a5297633118177cee6a75e86d8bc57f1960"
 UPSTREAM_RAW="https://raw.githubusercontent.com/watchthelight-labs/WTLKcAbi/$UPSTREAM_COMMIT"
 EXPECTED_STAGE43_CPP="2a6da4ac698635e2bfe904a23004536478d60cad99718ec3d7186e9be68cfc9b"
 EXPECTED_ABI_HEADER="63a6a038ef7513312c686199b00e8cf45a16d251c7792ab03d2f5986f9fd84fb"
+EXPECTED_INTERFACE_HEADER="9b1181fd35990cebc128228503bc671a60a680815a698c79121ac9bdcf23cfc4"
 
 STAMP="$(date -u '+%Y%m%d-%H%M%S')"
 RUN="run-$STAMP"
@@ -81,12 +82,13 @@ PY
 cat "$OUT/upstream-verification.txt" >> "$REPORT"
 
 # Verify that the audited tree is exactly the Stage43 source state for both touched files.
-python3 - "$SRC" "$EXPECTED_STAGE43_CPP" "$EXPECTED_ABI_HEADER" > "$OUT/source-fingerprint.txt" <<'PY'
+python3 - "$SRC" "$EXPECTED_STAGE43_CPP" "$EXPECTED_ABI_HEADER" "$EXPECTED_INTERFACE_HEADER" > "$OUT/source-fingerprint.txt" <<'PY'
 import hashlib,pathlib,sys
 src=pathlib.Path(sys.argv[1])
 items={
  "src/kext/wcl24h32/RTW88WCLInfraInterface.cpp":sys.argv[2],
  "src/kext/wcl24h32/RTW88WCL24H32InterfaceABI.hpp":sys.argv[3],
+ "src/kext/wcl24h32/RTW88WCLInfraInterface.hpp":sys.argv[4],
 }
 bad=[]
 for rel,want in items.items():
