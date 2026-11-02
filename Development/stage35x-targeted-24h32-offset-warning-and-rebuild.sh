@@ -5,7 +5,7 @@
 # No signing, installation, loading, OpenCore changes, or hardware test.
 set -Eeuo pipefail
 
-echo "STAGE35X_SCRIPT_VERSION=1"
+echo "STAGE35X_SCRIPT_VERSION=2"
 REPO="shammu2bd/BDIX-TV"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 SRC="$SOURCE_ROOT/driver/RTL88WiFi"
@@ -36,6 +36,43 @@ SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
 [[ -d "$SDKROOT" ]] || { echo "ERROR: SDKROOT invalid"; exit 6; }
 gh auth status >/dev/null 2>&1 || { echo "ERROR: GitHub CLI is not authenticated"; exit 7; }
 
+# Verify this Xcode Clang accepts the exact diagnostic-group spelling before
+# touching the project ABI header. The control must emit the warning; the
+# pragma case must suppress it without an unknown-warning-option diagnostic.
+cat > "$OUT/offsetof-control.cpp" <<'CPP'
+class Stage35XBase { public: virtual ~Stage35XBase() = default; };
+class Stage35XDerived : public Stage35XBase { public: int member; };
+static_assert(__builtin_offsetof(Stage35XDerived, member) >= 0, "layout probe");
+CPP
+cat > "$OUT/offsetof-pragma.cpp" <<'CPP'
+class Stage35XBase { public: virtual ~Stage35XBase() = default; };
+class Stage35XDerived : public Stage35XBase { public: int member; };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalidoffsetof"
+static_assert(__builtin_offsetof(Stage35XDerived, member) >= 0, "layout probe");
+#pragma clang diagnostic pop
+CPP
+set +e
+xcrun clang++ -std=c++17 -fsyntax-only "$OUT/offsetof-control.cpp" > "$OUT/offsetof-control.log" 2>&1
+CONTROL_RC=$?
+xcrun clang++ -std=c++17 -Werror=unknown-warning-option -fsyntax-only "$OUT/offsetof-pragma.cpp" > "$OUT/offsetof-pragma.log" 2>&1
+PRAGMA_RC=$?
+set -e
+if [[ "$CONTROL_RC" -ne 0 || "$PRAGMA_RC" -ne 0 ]] ||
+   ! grep -q "offset of on non-standard-layout type" "$OUT/offsetof-control.log" ||
+   grep -Eq "unknown warning group|offset of on non-standard-layout type" "$OUT/offsetof-pragma.log"; then
+  echo "ERROR: Xcode Clang rejected or failed to prove the -Winvalidoffsetof pragma"
+  cat "$OUT/offsetof-control.log" "$OUT/offsetof-pragma.log" >&2
+  exit 8
+fi
+{
+  echo "ABI_DIAGNOSTIC_PRAGMA_SMOKE_TEST=PASS"
+  echo "ABI_DIAGNOSTIC_GROUP=-Winvalidoffsetof"
+  echo "CONTROL_WARNING=OBSERVED"
+  echo "PRAGMA_WARNING=SUPPRESSED"
+  echo "UNKNOWN_WARNING_OPTION=NONE"
+} > "$OUT/pragma-smoke-test.txt"
+
 cp -p "$ABI" "$BACK/RTW88WCL24H32InterfaceABI.hpp"
 ABI_BEFORE="$(shasum -a 256 "$ABI" | awk '{print $1}')"
 python3 - "$ABI" <<'PY'
@@ -51,7 +88,7 @@ required=[
 for x in required:
     if s.count(x)!=1:
         raise SystemExit("ABI_PATCH_PREFLIGHT=BLOCKED expected unique declaration: "+x)
-if '#pragma clang diagnostic ignored "-Winvalid offsetof"' in s:
+if '#pragma clang diagnostic ignored "-Winvalidoffsetof"' in s:
     raise SystemExit("ABI_PATCH_PREFLIGHT=BLOCKED diagnostic pragma already present")
 print("ABI_LAYOUT_PREFLIGHT=PASS")
 print("BASE_CLASS_SIZE=0xd0")
@@ -81,11 +118,12 @@ restore_fw_generated() {
   echo "sdkroot=$SDKROOT"
   echo "target=rtl88wifi-native"
   echo "predecessor=Stage35W run-20261102-015632"
-  echo "predecessor_finding=two -Winvalid offsetof diagnostics at ABI header line 453"
+  echo "predecessor_finding=two -Winvalidoffsetof diagnostics at ABI header line 453"
   echo "patch_scope=diagnostic pragma around exactly one existing static_assert"
   echo "ABI_ASSERTION_VALUE=0x108 (preserved)"
   echo "ABI_SIZE_ASSERTION=0x110 (preserved)"
   echo "no-warning-suppression-outside-this-assertion=YES"
+  cat "$OUT/pragma-smoke-test.txt"
   echo
   echo "--- ABI source before patch ---"
   echo "sha256=$ABI_BEFORE"
@@ -101,7 +139,7 @@ new='''// This kernel ABI class is polymorphic and therefore not standard-layout
 // Clang implements offsetof here as an ABI extension; keep the hard 24H32
 // offset assertion, but scope the expected diagnostic to this assertion only.
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Winvalid offsetof"
+#pragma clang diagnostic ignored "-Winvalidoffsetof"
 static_assert(__offsetof(IOSkywalkEthernetInterface, mExpansionData2) == 0x108, "24H32 Ethernet expansion offset");
 #pragma clang diagnostic pop'''
 if s.count(old)!=1:
@@ -228,8 +266,13 @@ if [[ "$BUILD_RC" -eq 0 ]]; then
   # The exact compiler warning was expected to be suppressed only at the
   # asserted ABI member. Treat its reappearance as a failed patch and rollback.
   ABI_WARNING_COUNT="$(grep -Ec "warning: offset of on non-standard-layout type 'IOSkywalkEthernetInterface'" "$BUILDLOG" || true)"
-  if [[ "$ABI_WARNING_COUNT" -ne 0 ]]; then
-    echo "ABI_WARNING_SUPPRESSION=FAIL count=$ABI_WARNING_COUNT" >> "$REPORT"
+  ABI_UNKNOWN_GROUP_COUNT="$(grep -Ec "unknown warning group '-Winvalidoffsetof'" "$BUILDLOG" || true)"
+  {
+    echo "ABI_NON_STANDARD_LAYOUT_OFFSET_WARNING_LINES=$ABI_WARNING_COUNT"
+    echo "ABI_UNKNOWN_WARNING_GROUP_LINES=$ABI_UNKNOWN_GROUP_COUNT"
+  } >> "$REPORT"
+  if [[ "$ABI_WARNING_COUNT" -ne 0 || "$ABI_UNKNOWN_GROUP_COUNT" -ne 0 ]]; then
+    echo "ABI_WARNING_SUPPRESSION=FAIL offset_warnings=$ABI_WARNING_COUNT unknown_group_warnings=$ABI_UNKNOWN_GROUP_COUNT" >> "$REPORT"
     BUILD_RC=96
   else
     echo "ABI_WARNING_SUPPRESSION=PASS" >> "$REPORT"
