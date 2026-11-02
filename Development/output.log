@@ -104,3 +104,10 @@ STAGE48_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — this audit maps Apple's registration and callback ABI; it does not implement queue creation, TX/RX completion, publication or safe rollback in RTL88WiFi
 STAGE48_LOGS: Development/Logs/stage48/run-20261102-115133-c4f9565a517a/ and unique files directly under Development/Logs/
 ==============================================================
+========== STAGE 49 SOURCE-TO-ABI CORRELATION ==========
+STAGE49_RUN: run-20261102-122652-fc6a55d99118
+STAGE49_SCOPE: read-only correlation of native registration-info, queue construction/order, pool ownership, callback wiring, TX/RX datapath and rollback against Stage48 24H32 ABI evidence
+STAGE49_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — source-pattern correlation is not proof of safe queue activation; manual ABI/ownership review and implementation remain required
+STAGE49_LOGS: Development/Logs/stage49/run-20261102-122652-fc6a55d99118/ and unique files directly under Development/Logs/
+========================================================
