@@ -1,4 +1,4 @@
-STAGE: 44
+STAGE: 45
 RUN: run-20261102-101549-1b79be98d4ea
 PURPOSE: read-only exact 24H32 finalizeBSDInterface cleanup callback at vtable offset 0x858 and teardown ownership audit
 TARGET: macOS 15.8.1 / 24H32 / x86_64
