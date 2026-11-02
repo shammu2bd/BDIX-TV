@@ -344,3 +344,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage58/<run>/` directory. Artifacts are uploaded to a timestamped `Development/Logs/stage58/<run>/` folder and as unique root-mirror files; each upload is read back and SHA-verified before a checkpoint is appended to `Development/output.log`. The activation gate remains BLOCKED. This stage is evidence gathering only; it does not authorize queue registration, a kext build, or hardware testing.
+
+## Stage59 — packet-queue virtual dispatch ABI and registration contract audit
+
+Stage59 is a read-only audit of the exact 24H32 packet-queue virtual methods that surround the QueueSet initialization callsite. It verifies every Stage58 V2 artifact by Git blob SHA and checks the Stage43 source fingerprints. It resolves and disassembles `IOSkywalkPacketQueue::getFreeSpace`, related queue methods, QueueSet initialization and the network registration methods; records the surrounding vtable slots for the base queue and all four queue subclasses; and captures the actual indirect-callsite registers around QueueSet's `[vtable + 0x218]` dispatch. It compares the binary evidence with the local SDK prototype and scans the complete source tree for private QueueSet/LogicalLink structure declarations and native constructor/registration callsites. The audit keeps the vtable symbol, SDK method declaration and callsite register evidence separate rather than assuming a private queue-type enum from the slot name. It also rechecks native TX/RX callback and interface registration reachability. This stage does not edit source, build/sign/install/load a kext, or alter OpenCore/SIP/NVRAM.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage59-v1-packet-queue-dispatch-registration-contract-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage59/<run>/` directory. Reports are uploaded to a timestamped `Development/Logs/stage59/<run>/` folder and as unique root-mirror files; each upload is read back and SHA-verified before a checkpoint is appended to `Development/output.log`. The activation gate remains BLOCKED. This is an ABI investigation only; it does not authorize queue registration, a kext build, or hardware testing.
+
