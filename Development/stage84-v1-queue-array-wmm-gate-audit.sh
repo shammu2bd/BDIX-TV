@@ -62,6 +62,9 @@ BASE="https://raw.githubusercontent.com/$REPO/main/Development/Logs"
 pin stage73-fingerprint.txt 74a6ab39ea5e273d1788d17ea8c99895a1fd86df "$BASE/stage73/run-20261102-180530-d711b3944b06/source-tree-fingerprint.txt"
 pin stage61-queue-jump-tables.txt 7b017c03a4f008ba017a0f40d557132a3f623f2f "$BASE/stage61/run-20261102-152354-434ec3c3ae26/queueset-classification-jump-tables.txt"
 pin stage61-queue-command-disassembly.txt 0e2edad27bfd9b0346d1d0bc44fbb2cc539fdf43 "$BASE/stage61/run-20261102-152354-434ec3c3ae26/queue-command-method-disassembly.txt"
+pin stage61-queueset-init-disassembly.txt 80d8fd7434a835f3cc6a072edb36419bfcfdd5d6 "$BASE/stage61/run-20261102-152354-434ec3c3ae26/queueset-init-disassembly.txt"
+pin stage62-method-disassembly.txt af5d43e7d7371910b8e65829309ef6b7b52ea700 "$BASE/stage62/run-20261102-161032-d54adc732d87/method-disassembly.txt"
+pin stage62-queueset-info.txt ef25fdc28340d6e6bc18d6e80ff011b7df334a51 "$BASE/stage62/run-20261102-161032-d54adc732d87/queueset-info-word-crosswalk.txt"
 pin stage80-crosswalk.txt 423dd2db9e87f579e157294eb7da1131af0de873 "$BASE/stage80/run-20261102-185641-e10688bb526c/queue-constructor-and-typecode-crosswalk.txt"
 pin stage80-summary.txt 9c93002085f931a11dd3c8b98ac8926787257778 "$BASE/stage80/run-20261102-185641-e10688bb526c/audit-summary.txt"
 gh api "repos/$REPO/contents/Development/output.log" > "$OUT/output-current.json"
@@ -81,10 +84,11 @@ for f in audit-summary.txt report.txt; do
  pin "stage83-$f" "$want" "$BASE/stage83/$S83/$f"
 done
 grep -q '^RESULT=PASS$' "$OUT/stage83-audit-summary.txt" || fail "Stage83 predecessor not PASS"
-python3 - "$SRC" "$OUT/stage73-fingerprint.txt" "$OUT/source-tree-revalidation.txt" "$OUT/queue-array-and-wmm-gate-matrix.txt" "$OUT/audit-summary.txt" "$OUT/report.txt" "$RUN" "$OUT/stage80-crosswalk.txt" "$OUT/stage61-queue-jump-tables.txt" "$OUT/stage61-queue-command-disassembly.txt" <<'PY'
+python3 - "$SRC" "$OUT/stage73-fingerprint.txt" "$OUT/source-tree-revalidation.txt" "$OUT/queue-array-and-wmm-gate-matrix.txt" "$OUT/audit-summary.txt" "$OUT/report.txt" "$RUN" "$OUT/stage80-crosswalk.txt" "$OUT/stage61-queue-jump-tables.txt" "$OUT/stage61-queue-command-disassembly.txt" "$OUT/stage61-queueset-init-disassembly.txt" "$OUT/stage62-method-disassembly.txt" "$OUT/stage62-queueset-info.txt" <<'PY'
 import hashlib,pathlib,re,sys
 src=pathlib.Path(sys.argv[1]);fp=pathlib.Path(sys.argv[2]);reval=pathlib.Path(sys.argv[3]);matrix_path=pathlib.Path(sys.argv[4]);summary_path=pathlib.Path(sys.argv[5]);report_path=pathlib.Path(sys.argv[6]);run=sys.argv[7]
 cross=pathlib.Path(sys.argv[8]).read_text(errors="replace");jumps=pathlib.Path(sys.argv[9]).read_text(errors="replace");cmd=pathlib.Path(sys.argv[10]).read_text(errors="replace")
+qset_init=pathlib.Path(sys.argv[11]).read_text(errors="replace");registration=pathlib.Path(sys.argv[12]).read_text(errors="replace");qset_info=pathlib.Path(sys.argv[13]).read_text(errors="replace")
 expected={}
 for line in fp.read_text().splitlines():
  m=re.match(r"^([0-9a-f]{64})  (.+)$",line)
@@ -133,10 +137,16 @@ for p in files:
 typecodes=all(x in cross for x in ["FACTORY_TO_APPLE_TYPECODE_MATCHES=4/4","APPLE_TYPECODES=1_TX_SUBMISSION,2_TX_COMPLETION,3_RX_SUBMISSION,4_RX_COMPLETION"])
 queue_classifier=all(x in jumps for x in ["QUEUE_KIND=1 CLASS=IOSkywalkTxSubmissionQueue","QUEUE_KIND=2 CLASS=IOSkywalkTxCompletionQueue","QUEUE_KIND=3 CLASS=IOSkywalkRxSubmissionQueue","QUEUE_KIND=4 CLASS=IOSkywalkRxCompletionQueue"])
 command_record=all(x in cmd for x in ["mov dword ptr [rdx], 0x1","mov dword ptr [rdx], 0x2","mov dword ptr [rdx], 0x3","mov dword ptr [rdx], 0x4"])
+qset_loop=all(x in qset_init for x in ["mov esi, 0x10000","mov ecx, 0x10","call qword ptr [rax + 0x218]","cmp r12, qword ptr [r14 + 0x58]","jb"])
+wmm_call=("call 0xffffff800298ac44" in registration and "mov rdi, rdx" in registration and "mov rsi, rbx" in registration)
+wmm_control=("CONTROL_WORD_VALUES=0x3 when WMM sched-model check is false; 0xb when true" in qset_info and "OPTIONAL_EXTRA_NEXUS_ALLOCATION" in qset_info)
 checks={
 "FOUR_DRIVER_QUEUE_FACTORY_MEMBERS_PRESENT":all("RESULT=PASS" in x for x in factory_rows),
 "STAGE80_TYPECODE_CROSSWALK_4_OF_4":typecodes,
 "APPLE_QUEUESET_KIND_TABLE_HAS_FOUR_TYPES":queue_classifier,
+"QUEUESET_ITERATES_INPUT_ARRAY_AND_QUERIES_TYPECODE":qset_loop,
+"WMM_PREDICATE_RECEIVES_QUEUE_POINTER_AND_COUNT":wmm_call,
+"QUEUESET_WMM_CONTROL_BIT_IS_EVIDENCE_BACKED":wmm_control,
 "PERFORMCOMMAND_EMITS_FOUR_TYPE_CODES":command_record,
 "DRIVER_QUEUE_POINTER_ARRAY_NOT_FOUND":len(array_hits)==0,
 "DRIVER_NATIVE_REGISTRATION_CALL_NOT_FOUND":len(calls)==0,
@@ -151,11 +161,11 @@ rows.extend(calls or ["NATIVE_REGISTRATION_CALLS=NONE"])
 rows += ["\nAPPLE_QUEUESET_CLASSIFICATION_EVIDENCE",
 "TYPECODE_MAP=1_TX_SUBMISSION,2_TX_COMPLETION,3_RX_SUBMISSION,4_RX_COMPLETION",
 "QUEUESET_CLASSIFIES_EACH_SUPPLIED_QUEUE_BY_PERFORMCOMMAND_TYPECODE=YES",
-"QUEUESET_ITERATES_THE_SUPPLIED_POINTER_ARRAY_UP_TO_QUEUE_COUNT=YES",
+"QUEUESET_ITERATES_THE_SUPPLIED_POINTER_ARRAY_UP_TO_QUEUE_COUNT="+("YES" if qset_loop else "REVIEW_REQUIRED"),
 "INPUT_ARRAY_ORDER_REQUIRED=NOT_PROVEN",
-"WMM_PREDICATE_CALLED_WITH_QUEUE_POINTER_AND_COUNT=YES",
+"WMM_PREDICATE_CALLED_WITH_QUEUE_POINTER_AND_COUNT="+("YES" if wmm_call else "REVIEW_REQUIRED"),
 "WMM_PREDICATE_BODY_AND_EXACT_ACCEPTANCE_RULE=NOT_IN_PINNED_METHOD_SET",
-"QUEUESET_WMM_CONTROL_BIT_3_ENABLES_AN_ADDITIONAL_WMM_CAPABILITY_PATH=YES",
+"QUEUESET_WMM_CONTROL_BIT_3_ENABLES_AN_ADDITIONAL_WMM_CAPABILITY_PATH="+("YES" if wmm_control else "REVIEW_REQUIRED"),
 "WMM_REQUIRED_QUEUE_COMBINATION_OR_ORDER=UNRESOLVED",
 "NOTE=Type-code grouping supports classification independent of ordinal position, but it does not prove the WMM predicate has no order-sensitive requirement."]
 for k,v in checks.items(): rows.append("CHECK="+k+" RESULT="+("PASS" if v else "REVIEW_REQUIRED"))
@@ -167,7 +177,7 @@ summary=[
 "APPLE_TYPECODE_CROSSWALK=4/4","APPLE_QUEUESET_TYPECODE_CLASSIFICATION=CONFIRMED",
 "DRIVER_QUEUE_POINTER_ARRAY="+("NOT_FOUND" if not array_hits else "CANDIDATE_FOUND_REVIEW"),
 "DRIVER_NATIVE_REGISTRATION_CALLS="+str(len(calls)),
-"WMM_PREDICATE_CALLED_WITH_ARRAY_AND_COUNT=YES","WMM_PREDICATE_ACCEPTANCE_RULE=UNRESOLVED",
+"WMM_PREDICATE_CALLED_WITH_ARRAY_AND_COUNT="+("YES" if wmm_call else "REVIEW_REQUIRED"),"WMM_PREDICATE_ACCEPTANCE_RULE=UNRESOLVED",
 "INPUT_ARRAY_ORDER=NOT_PROVEN_AS_REQUIRED",
 "BUILD=NOT_RUN","INSTALL=NOT_RUN","LOAD=NOT_RUN","OPENCORE_MODIFIED=NO","SOURCE_MODIFIED=NO",
 "IMPLEMENTATION_AUTHORIZED=NO",
