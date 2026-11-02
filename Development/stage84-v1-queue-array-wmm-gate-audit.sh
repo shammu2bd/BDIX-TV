@@ -136,9 +136,9 @@ for p in files:
    calls.append(p.relative_to(src).as_posix()+":"+str(line)+":"+m.group(0))
 typecodes=all(x in cross for x in ["FACTORY_TO_APPLE_TYPECODE_MATCHES=4/4","APPLE_TYPECODES=1_TX_SUBMISSION,2_TX_COMPLETION,3_RX_SUBMISSION,4_RX_COMPLETION"])
 queue_classifier=all(x in jumps for x in ["QUEUE_KIND=1 CLASS=IOSkywalkTxSubmissionQueue","QUEUE_KIND=2 CLASS=IOSkywalkTxCompletionQueue","QUEUE_KIND=3 CLASS=IOSkywalkRxSubmissionQueue","QUEUE_KIND=4 CLASS=IOSkywalkRxCompletionQueue"])
-command_record=all(x in cmd for x in ["mov dword ptr [rdx], 0x1","mov dword ptr [rdx], 0x2","mov dword ptr [rdx], 0x3","mov dword ptr [rdx], 0x4"])
-qset_loop=all(x in qset_init for x in ["mov esi, 0x10000","mov ecx, 0x10","call qword ptr [rax + 0x218]","cmp r12, qword ptr [r14 + 0x58]","jb"])
-wmm_call=("call 0xffffff800298ac44" in registration and "mov rdi, rdx" in registration and "mov rsi, rbx" in registration)
+command_record=all(re.search(r"mov\\s+dword ptr \\[rdx\\],\\s*0x"+str(n)+r"\\b",cmd,re.I) for n in range(1,5))
+qset_loop=all(re.search(p,qset_init,re.I) for p in [r"mov\\s+esi,\\s*0x10000",r"mov\\s+ecx,\\s*0x10",r"call\\s+qword ptr \\[rax \\+ 0x218\\]",r"cmp\\s+r15,\\s*qword ptr \\[r14 \\+ 0x58\\]",r"jb\\s"])
+wmm_call=all(re.search(p,registration,re.I) for p in [r"call\\s+0xffffff800298ac44\\b",r"mov\\s+rdi,\\s*rdx",r"mov\\s+rsi,\\s*rbx"])
 wmm_control=("CONTROL_WORD_VALUES=0x3 when WMM sched-model check is false; 0xb when true" in qset_info and "OPTIONAL_EXTRA_NEXUS_ALLOCATION" in qset_info)
 checks={
 "FOUR_DRIVER_QUEUE_FACTORY_MEMBERS_PRESENT":all("RESULT=PASS" in x for x in factory_rows),
