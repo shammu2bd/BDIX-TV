@@ -293,3 +293,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary files are kept under the Stage26 source project's `run log/stage54/<run>/` directory. The corrected V2 runner fixes the method range formatter by supplying both range endpoints. It checks the pinned WTLKcAbi tools and Stage43 source fingerprints, uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, and then appends a checkpoint to `Development/output.log`. It does not edit driver source, build/sign/install/load a kext, change OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; this audit does not authorize interface registration or hardware testing.
+
+
+## Stage55 — native factory, registration and datapath reachability crosswalk
+
+Stage55 is a read-only source-to-ABI correlation audit for the Sequoia 15.8.1 (24H32) native WCL frontend. It downloads and Git-blob-SHA verifies the completed Stage54 V2 evidence, checks the Stage43 source fingerprints, extracts the native controller/interface method bodies, and inventories call sites related to interface construction, provider initialization, radio attachment, primary-interface publication, Ethernet/network registration, QueueSet/LogicalLink creation, and TX/RX adapter callbacks. The reachability matrix distinguishes what is present from what was not found in the selected method bodies; absence from that scope is not treated as proof of global absence. This stage does not modify source, build/sign/install/load a kext, or alter OpenCore/SIP/NVRAM.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage55-v1-native-factory-registration-reachability-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage55/<run>/` directory. Artifacts are uploaded to grouped and unique root-mirror paths with Git blob SHA readback verification, followed by a checkpoint in `Development/output.log`. The activation gate remains BLOCKED; this is an audit, not an implementation or hardware-test authorization.
