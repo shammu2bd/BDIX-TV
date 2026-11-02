@@ -22,7 +22,7 @@ for tool in gh python3 shasum split find grep xcrun; do
 done
 [[ -f "$SRC/Makefile" ]] || { echo "ERROR: project Makefile missing: $SRC/Makefile"; exit 3; }
 [[ -f "$SRC/src/kext/wcl24h32/RTW88WCLSkywalkQueues.cpp" ]] || { echo "ERROR: WCL Skywalk queues source missing"; exit 4; }
-[[ -f "$SRC/src/kext/wcl24h32/RTW88WCLWorkQueue.cpp" ]] || { echo "ERROR: WCL workqueue source missing"; exit 5; }
+[[ -f "$SRC/src/kext/RTW88WCLWorkQueue.cpp" ]] || { echo "ERROR: WCL workqueue source missing at $SRC/src/kext/RTW88WCLWorkQueue.cpp"; exit 5; }
 gh auth status >/dev/null 2>&1 || { echo "ERROR: GitHub CLI is not authenticated"; exit 6; }
 
 DEVELOPER_DIR="$(xcode-select -p 2>/dev/null || true)"
