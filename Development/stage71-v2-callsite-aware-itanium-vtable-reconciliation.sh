@@ -249,7 +249,7 @@ summary=[
 (out/"audit-summary.txt").write_text("\n".join(summary)+"\n")
 report=[
  "========== STAGE 71 CALLSITE-AWARE ITANIUM VTABLE RECONCILIATION ==========",
- "VERSION=STAGE71_V1_20261102","RUN="+out.name,"TARGET=15.8.1/24H32/x86_64",
+ "VERSION=STAGE71_V2_20261102","RUN="+out.name,"TARGET=15.8.1/24H32/x86_64",
  "PREDECESSOR=Stage70 corrected-index audit plus pinned Stage64–69 callsite disassemblies",
  "PURPOSE=classify each vtable operand as an object-vptr displacement or direct _ZTV-base displacement before index correction; Stage64 checkForWork callsites are pinned for TxSubmissionQueue offsets 0x1d8/0x1e0",
  "KEY_CORRECTION=Stage65 queue initialization loads __ZTV20IOSkywalkPacketQueue directly and calls [ZTV+0x240]; use index 72 without another +0x10",
@@ -267,7 +267,7 @@ MAN="$OUT/manifest.txt"
 {
  echo "STAGE=71"; echo "VERSION=$VERSION"; echo "RUN=$RUN"
  echo "PURPOSE=callsite pointer-provenance and mixed static/object Itanium vtable reconciliation"
- echo "TARGET=$OSVER/$BUILD/$ARCH"; echo "PREDECESSOR=Stage70 plus Stage65-69 raw caller disassemblies"
+ echo "TARGET=$OSVER/$BUILD/$ARCH"; echo "PREDECESSOR=Stage70 plus Stage64-69 callsite disassemblies"
  echo "SOURCE_MODIFIED=NO"; echo "BUILD=NOT_RUN"; echo "ACTIVATION_GATE=BLOCKED"; echo "LOCAL_OUTPUT=$OUT"
 } > "$MAN"
 PAYLOAD_INDEX=0
