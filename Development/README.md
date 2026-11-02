@@ -180,3 +180,15 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 Temporary output stays under the Stage26 source project's `run log/stage45/` directory. Every report part and supporting audit file is saved in a timestamped `Development/Logs/stage45/<run>/` folder and as a unique file directly under `Development/Logs/`; uploads are read back and SHA-verified. A checkpoint is appended to `Development/output.log`. Identifying the callback does not close the activation gate; queue registration, TX/RX completion ownership, publication and full teardown must still be verified.
+
+## Stage46 — network deregistration and packet-pool ownership audit
+
+Stage46 is a read-only macOS Sequoia 15.8.1 (24H32) Kernel Collection audit of the network-interface teardown path exposed by Stage45. It verifies the Stage43 source fingerprints, resolves and disassembles `IOSkywalkNetworkInterface::deregisterNetworkInterface`, discovers the target KC's actual `IOSkywalkLogicalLink` and `IOSkywalkPacketBufferPool` lifecycle symbols, records relevant class vtables and owners, and compares the Apple stop/free teardown sequence with the native WCL source context. Mangled method names are discovered from the actual KC symbol tables rather than guessed. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage46-v2-network-deregistration-pool-ownership-audit.sh | bash
+```
+
+Temporary output is kept under the Stage26 source project's `run log/stage46/` directory. Reports and supporting evidence are uploaded both to a per-run `Development/Logs/stage46/<run>/` folder and to unique files directly under `Development/Logs/`. Each upload is read back and SHA-verified, and the checkpoint is appended to `Development/output.log`. The activation gate remains blocked until queue registration, TX/RX completion ownership, publication and complete teardown are all verified.
