@@ -172,7 +172,7 @@ while IFS= read -r binary; do
   } >> "$REPORT"
 
   for method in registerEthernetInterface deregisterEthernetInterface initRegistrationInfo; do
-    symbol="$(grep -E "$method" "$NMLOG" | awk 'NR==1 {print $NF}' | sed 's/^_//')"
+    symbol="$({ grep -E "$method" "$NMLOG" || true; } | awk 'NR==1 {print $NF}' | sed 's/^_//')"
     [[ -n "$symbol" ]] || continue
     DISLOG="$OUT/disasm-$INDEX-$method.txt"
     otool -arch x86_64 -tvV -p "_$symbol" "$binary" > "$DISLOG" 2>&1 || \
