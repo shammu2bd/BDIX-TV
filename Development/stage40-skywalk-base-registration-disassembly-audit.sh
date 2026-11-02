@@ -1,9 +1,9 @@
 #!/bin/bash
 # Stage 40 — fileset-aware disassembly of exact 24H32 Skywalk methods.
-# VERSION_MARKER: STAGE40_V1_20261102
+# VERSION_MARKER: STAGE40_V2_20261102
 # READ ONLY: no driver source edits, build, signing, install, Kext load or OpenCore changes.
 set -Eeuo pipefail
-echo "STAGE40_SCRIPT_VERSION=1"
+echo "STAGE40_SCRIPT_VERSION=2"
 
 REPO="shammu2bd/BDIX-TV"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
@@ -276,7 +276,7 @@ PY2
 }
 
 MANIFEST="$OUT/manifest.txt"
-printf 'STAGE: 39\nRUN: %s\nPURPOSE: fileset-aware disassembly of exact 24H32 Skywalk methods\nBUILD: NOT_RUN\nSOURCE_MODIFIED: NO\nUPSTREAM: watchthelight-labs/WTLKcAbi@%s\n' "$RUN" "$UPSTREAM_COMMIT" > "$MANIFEST"
+printf 'STAGE: 40\nRUN: %s\nPURPOSE: fileset-aware disassembly of exact 24H32 Skywalk methods\nBUILD: NOT_RUN\nSOURCE_MODIFIED: NO\nUPSTREAM: watchthelight-labs/WTLKcAbi@%s\n' "$RUN" "$UPSTREAM_COMMIT" > "$MANIFEST"
 COUNT=0
 for part in "$OUT"/parts/report-*; do
  [[ -f "$part" ]] || continue
@@ -287,7 +287,7 @@ for part in "$OUT"/parts/report-*; do
  COUNT=$((COUNT+1))
 done
 [[ "$COUNT" -gt 0 ]]
-upload_file "$MANIFEST" "Development/Logs/stage40/$RUN/manifest.txt" "Add Stage39 manifest $RUN" "$OUT/manifest.json" "$OUT/manifest-response.json"
+upload_file "$MANIFEST" "Development/Logs/stage40/$RUN/manifest.txt" "Add Stage40 manifest $RUN" "$OUT/manifest.json" "$OUT/manifest-response.json"
 echo "STAGE40_STATUS=UPLOADED_AND_READBACK_VERIFIED"
 echo "STAGE40_LOCAL_OUTPUT=$OUT"
 echo "STAGE40_RUN=$RUN"
