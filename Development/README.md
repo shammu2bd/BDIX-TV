@@ -319,3 +319,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage56/<run>/` directory. Artifacts are uploaded to grouped and unique root-mirror paths with Git blob SHA readback verification, followed by a checkpoint in `Development/output.log`. The activation gate remains BLOCKED; this is an audit, not an implementation or hardware-test authorization.
+
+
+## Stage57 — 24H32 Skywalk queue callback ABI and adapter handoff audit
+
+Stage57 is a read-only comparison of the exact queue callback/dispatch ABI from the macOS Sequoia 15.8.1 (24H32) Boot Kernel Collection against the native WCL queue and adapter source. It verifies the Stage56 predecessor artifacts and the earlier Stage48 queue ABI evidence by Git blob SHA, checks the Stage43 source fingerprints, discovers/disassembles relevant methods for `IOSkywalkPacketQueue`, the TX/RX submission/completion queues, `IOSkywalkQueueSet`, and `IOSkywalkLogicalLink`, and records queue vtable slots. It also extracts native queue action methods, TX completion-ticket methods, RX sink methods, and the SDK callback declarations. The resulting crosswalk checks which action functions are bound at queue construction and whether they actually hand packets to the TX/RX adapters. This stage does not modify source, build/sign/install/load a kext, or alter OpenCore/SIP/NVRAM.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage57-v1-skywalk-queue-callback-abi-handoff-audit.sh" | bash
+```
+
+Temporary output stays under the Stage26 source project's `run log/stage57/<run>/` directory. Grouped and unique root-mirror artifacts are uploaded with Git blob SHA readback verification, followed by a checkpoint in `Development/output.log`. The activation gate remains BLOCKED; this is an ABI/callback audit, not queue activation or hardware-test authorization.
