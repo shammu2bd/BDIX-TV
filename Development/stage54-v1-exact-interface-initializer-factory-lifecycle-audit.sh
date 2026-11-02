@@ -1,5 +1,5 @@
 #!/bin/bash
-# Stage 53 — IO80211 controller/interface factory and vtable contract audit.
+# Stage 54 — exact IO80211 provider initializer, interface factory and lifecycle audit.
 # VERSION_MARKER: STAGE54_V1_20261102
 # READ ONLY: no source edits, build, signing, install/load, SIP/NVRAM, or OpenCore changes.
 set -Eeuo pipefail
@@ -290,13 +290,13 @@ summary=[
 PY
 
 {
- echo "========== STAGE 53 IO80211 INTERFACE FACTORY / VTABLE AUDIT =========="
+ echo "========== STAGE 54 EXACT INTERFACE INITIALIZER / FACTORY / LIFECYCLE AUDIT =========="
  echo "VERSION=$VERSION"
  echo "RUN=$RUN"
  echo "TARGET=$OSVER/$BUILD/$ARCH"
  echo "SOURCE_ROOT=$SOURCE_ROOT"
  echo "PREDECESSOR=Stage53 V2 run-20261102-130406-23ab158090aa"
- echo "exact provider initializer, IO80211 interface/controller lifecycle, primary-interface getter, AppleBCMWLANCore interface factory and start/registration call chains"
+ echo "SCOPE=exact provider initializer, IO80211 interface/controller lifecycle, primary-interface getter, AppleBCMWLANCore interface factory and start/registration call chains"
  echo "SOURCE_MODIFIED=NO"
  echo "BUILD=NOT_RUN"
  echo "INSTALL=NOT_RUN"
@@ -311,7 +311,8 @@ PY
  echo "VTABLE_INDEX=$OUT/vtable-index.txt"
  echo "ABI_METHOD_DISASSEMBLY=$OUT/abi-method-disassembly.txt"
  echo "CALL_EDGE_INDEX=$OUT/call-edge-index.txt"
- echo "SOURCE_CONTRACT_CONTEXT=$OUT/source-contract-context.txt\n echo "METHOD_STATUS=$OUT/method-status.txt""
+ echo "SOURCE_CONTRACT_CONTEXT=$OUT/source-contract-context.txt"
+ echo "METHOD_STATUS=$OUT/method-status.txt"
  echo
  echo "SOURCE_TREE_MODIFIED=NO"
  echo "BUILD=NOT_RUN"
@@ -322,7 +323,7 @@ PY
  echo "SIP_NVRAM_MODIFIED=NO"
  echo "HARDWARE_TEST=NOT_RUN"
  echo "SYSTEM_FILES_MODIFIED=NO"
- echo "========== END STAGE 53 =========="
+ echo "========== END STAGE 54 =========="
 } > "$OUT/report.txt"
 
 github_sha() {
@@ -376,7 +377,7 @@ PY2
 
 MAN="$OUT/manifest.txt"
 {
- echo "STAGE=53"
+ echo "STAGE=54"
  echo "VERSION=$VERSION"
  echo "RUN=$RUN"
  echo "PURPOSE=read-only exact provider initializer, factory and interface lifecycle ABI audit"
@@ -418,12 +419,12 @@ remote,dst,run,version=sys.argv[1:]
 obj=json.load(open(remote))
 old=base64.b64decode(obj["content"])
 entry=(
- "\n========== STAGE 53 IO80211 INTERFACE FACTORY / VTABLE AUDIT ==========\n"
+ "\n========== STAGE 54 EXACT INTERFACE INITIALIZER / FACTORY / LIFECYCLE AUDIT ==========\n"
  "STAGE54_RUN: %s\n"%run+
  "STAGE54_VERSION: %s\n"%version+
- "STAGE54_SCOPE: target 24H32 BootKC class/vtable and method audit for IO80211 controller, Skywalk/infra interfaces, primary interface getter and Apple reference registration path\n"+
+ "STAGE54_SCOPE: exact IO80211SkywalkInterface provider initializer, interface/controller lifecycle methods, primary-interface getter and AppleBCMWLANCore factory/start lifecycle methods\n"+
  "STAGE54_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\n"+
- "ACTIVATION_GATE: BLOCKED — framework ABI audit only; no driver registration implementation or hardware-test authorization\n"+
+ "ACTIVATION_GATE: BLOCKED — read-only ABI and call-path evidence; no driver registration implementation or hardware-test authorization\n"+
  "STAGE54_LOGS: Development/Logs/stage54/%s/ and unique files directly under Development/Logs/\n"%run+
  "==================================================================\n"
 ).encode()
