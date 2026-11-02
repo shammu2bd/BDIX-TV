@@ -156,3 +156,15 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 The runner fetches the canonical `Development/output.log`, verifies Stage21 and prior prerequisites, appends the Stage22 report, uploads it to GitHub and checks the remote blob SHA. It does not modify source, build, install, load, register/enable queues, change OpenCore/SIP/NVRAM, or touch the known-good legacy kext. Stage22 remains REVIEW_REQUIRED and the activation gate remains BLOCKED pending manual closure of all six ownership/lifecycle contracts.
+
+## Stage44 — exact BSD prepare/finalize callback audit
+
+Stage44 is a read-only 24H32 Kernel Collection audit of `IO80211InfraInterface::prepareBSDInterface`, its inherited BSD finalization path, ancestor implementations, and the relevant vtable ownership. It first verifies that the local Stage43 interface source and ABI header still match their expected SHA-256 fingerprints. It records source context, exact method disassembly, vtable matches, and loaded networking-family context. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage44-bsd-prepare-finalize-abi-audit.sh | bash
+```
+
+The runner stores temporary output only inside the Stage26 source project's `run log/stage44/` directory. Every report part and supporting audit file is retained both in a timestamped `Development/Logs/stage44/<run>/` folder and as a unique stage/timestamp-named file directly under `Development/Logs/`; every upload is read back and SHA-verified. A concise checkpoint is appended to `Development/output.log`. This audit does not close the activation gate: queue registration, TX/RX completion ownership, publication, and teardown still require verified implementation.
