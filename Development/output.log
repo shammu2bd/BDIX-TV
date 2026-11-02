@@ -297,3 +297,11 @@ STAGE69_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — packet ownership and device queue handoff still require a reviewed implementation
 STAGE69_LOGS: Development/Logs/stage69/run-20261102-172739-c3f4b42353af/
 ==================================================================
+========== STAGE 70 CORRECTED ITANIUM VTABLE ADDRESS-POINT AUDIT ==========
+STAGE70_RUN: run-20261102-173755-eb9da21f3b1c
+STAGE70_VERSION: STAGE70_V1_20261102
+STAGE70_SCOPE: corrected all Stage65–69 virtual call target indices using Itanium _ZTV+0x10 primary address-point rule
+STAGE70_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — ABI target correction only; native registration and TX/RX ownership implementation remain open
+STAGE70_LOGS: Development/Logs/stage70/run-20261102-173755-eb9da21f3b1c/
+==================================================================
