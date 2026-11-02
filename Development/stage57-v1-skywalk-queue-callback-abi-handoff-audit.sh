@@ -1,11 +1,11 @@
 #!/bin/bash
-# Stage 57 — 24H32 Skywalk queue callback ABI and adapter handoff audit.
-# VERSION_MARKER: STAGE57_V1_20261102
+# Stage 57 V2 — 24H32 Skywalk queue callback ABI and adapter handoff audit.
+# VERSION_MARKER: STAGE57_V2_20261102
 # READ ONLY: no source edits, build, signing, install/load, SIP/NVRAM, or OpenCore changes.
 set -Eeuo pipefail
 
 REPO="shammu2bd/BDIX-TV"
-VERSION="STAGE57_V1_20261102"
+VERSION="STAGE57_V2_20261102"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 SRC="$SOURCE_ROOT/driver/RTL88WiFi"
 BOOTKC="/System/Library/KernelCollections/BootKernelExtensions.kc"
@@ -218,7 +218,7 @@ for owner in sorted({x[3] for x in resolved}):
  discovery.append("CARVED_OWNER=%s BYTES=%d"%(owner,carved.stat().st_size))
  for cls,nm,va,o,end in [x for x in resolved if x[3]==owner]:
   all_disasm.append("\n===== METHOD class=%s symbol=%s address=0x%x owner=%s range=0x%x..0x%x ====="%(
-   cls,nm,va,o,end))
+   cls,nm,va,o,va,end))
   args=["-d","-M","intel","--no-show-raw-insn","--start-address=0x%x"%va,
         "--stop-address=0x%x"%end,str(carved)]
   p=subprocess.run([objdump]+args,text=True,capture_output=True)
