@@ -452,3 +452,11 @@ PY
 STAGE71_FAILURE_REPORT: Development/Logs/stage71/run-20261102-174607-3f2880c9ea17/failure-report.txt
 STAGE71_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
 ==============================================
+========== STAGE 71 CALLSITE-AWARE ITANIUM VTABLE RECONCILIATION ==========
+STAGE71_RUN: run-20261102-175229-49906f891bf4
+STAGE71_VERSION: STAGE71_V2_20261102
+STAGE71_SCOPE: distinguish object-vptr offsets from direct _ZTV-base offsets and reconcile Stage64–69 virtual targets
+STAGE71_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — ABI target reconciliation only; native registration and TX/RX ownership implementation remain open
+STAGE71_LOGS: Development/Logs/stage71/run-20261102-175229-49906f891bf4/
+==================================================================
