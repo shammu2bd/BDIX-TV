@@ -1,9 +1,9 @@
 #!/bin/bash
 # Stage 36 — read-only 24H32 Skywalk registration and callback ABI evidence audit.
-# VERSION_MARKER: STAGE36_V1_20261102
+# VERSION_MARKER: STAGE36_V2_20261102
 # No source edits, build, signing, installation, Kext load, or OpenCore changes.
 set -Eeuo pipefail
-echo "STAGE36_SCRIPT_VERSION=1"
+echo "STAGE36_SCRIPT_VERSION=2"
 
 REPO="shammu2bd/BDIX-TV"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
@@ -34,7 +34,7 @@ ARCH="$(uname -m 2>/dev/null || echo UNKNOWN)"
 
 {
   echo "========== STAGE 36: 24H32 SKYWALK REGISTRATION / CALLBACK ABI AUDIT =========="
-  echo "script_version=STAGE36_V1_20261102"
+  echo "script_version=STAGE36_V2_20261102"
   echo "timestamp_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
   echo "host=$(hostname 2>/dev/null || echo unknown)"
   echo "product_version=$OSVER"
