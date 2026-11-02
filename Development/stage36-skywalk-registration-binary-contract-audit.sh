@@ -17,7 +17,7 @@ UPLOAD_ERROR="$OUT/upload-error.txt"
 mkdir -p "$OUT"
 trap 'rc=$?; echo "STAGE36_ERROR=exit:$rc line:$LINENO" >&2; [[ -f "$UPLOAD_ERROR" ]] && tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
 
-for tool in gh python3 shasum split find grep awk nm otool strings file sw_vers uname; do
+for tool in gh python3 shasum split find grep awk nm otool strings file sw_vers uname xcrun; do
   command -v "$tool" >/dev/null 2>&1 || { echo "ERROR: required tool missing: $tool"; exit 2; }
 done
 [[ -f "$SRC/Makefile" ]] || { echo "ERROR: Stage26 project Makefile missing: $SRC/Makefile"; exit 3; }
