@@ -389,7 +389,7 @@ Stage62 is a read-only continuation of Stage61. It verifies the ten Stage61 pred
 Run on the target Intel Hackintosh:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage62-v1-queueset-logical-link-registration-metadata-audit.sh" | bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage62-v1-queueset-logical-link-registration-metadata-audit.sh" | bash
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage62/<run>/` directory. Reports are uploaded to `Development/Logs/stage62/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED.
