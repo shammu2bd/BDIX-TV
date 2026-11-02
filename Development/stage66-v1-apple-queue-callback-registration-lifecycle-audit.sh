@@ -241,7 +241,7 @@ for cls,pat in helper_expect:
  if not any(c==cls and re.search(pat,n,re.I) for c,n,k in methods.values()):
   missing.append(cls+"_"+pat)
 if missing: issues += ["EXPECTED_METHOD_MISSING_"+x for x in missing]
-base_ok=any("vtable@0x240:" in n for c,n,k in methods.values())
+base_ok=any(x.startswith("SLOT offset=0x240") and "target=0x" in x and "owner=UNKNOWN" not in x for x in base_vtable_lines)
 all_ok=len(resolved)>0 and len(status)==len(resolved) and all("result=PASS" in x for x in status)
 setup_count=sum(1 for _,_,k,_,_,_ in resolved if k=="queue-init")
 life_count=sum(1 for _,_,k,_,_,_ in resolved if k=="packet-lifecycle")
