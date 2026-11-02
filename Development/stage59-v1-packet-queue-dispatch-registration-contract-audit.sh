@@ -333,8 +333,8 @@ def global_code(pattern):
 checks=[
  ("SDK declares getFreeSpace as a no-argument UInt32 virtual","IOSkywalkPacketQueue.h",r"virtual\s+UInt32\s+getFreeSpace\s*\(\s*\)"),
  ("SDK declares getPacketCount as a no-argument UInt32 virtual","IOSkywalkPacketQueue.h",r"virtual\s+UInt32\s+getPacketCount\s*\(\s*\)\s*=\s*0"),
- ("native WCL calls QueueSet construction API","GLOBAL",r"createWithQueues\\s*\\("),
- ("native WCL calls LogicalLink construction API","GLOBAL",r"createWithQueueSet\\s*\\("),
+ ("native WCL calls QueueSet construction API","GLOBAL",r"createWithQueues\s*\("),
+ ("native WCL calls LogicalLink construction API","GLOBAL",r"createWithQueueSet\s*\("),
  ("controller allocates and creates native queues","RTW88WCLController::start",r"new\s+RTW88WCLSkywalkQueues[\s\S]*_skywalkQueues\s*->\s*createQueues\s*\("),
  ("controller reaches registration API","RTW88WCLController::start",r"registerInfraEthernetInterface|registerEthernetInterface"),
  ("infra start calls RegistrationInfo helper","RTW88WCLInfraInterface::start",r"prepareRegistrationInfo\s*\("),
