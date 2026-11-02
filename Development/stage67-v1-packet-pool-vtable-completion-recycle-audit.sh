@@ -19,8 +19,104 @@ TOOLS="$OUT/tools"
 CACHE="$OUT/kc-cache"
 mkdir -p "$OUT" "$PREV" "$TOOLS" "$CACHE"
 UPLOAD_ERROR="$OUT/upload-error.txt"
-trap 'rc=$?; trap - ERR; echo "STAGE67_ERROR=exit:$rc line:$LINENO" >&2; [[ ! -f "$UPLOAD_ERROR" ]] || tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
-fail(){ echo "ERROR: $*" >&2; exit 2; }
+CONSOLE_LOG="$OUT/console-output.log"
+LAST_ERROR_LINE="unknown"
+LAST_ERROR_COMMAND="unknown"
+exec > >(tee -a "$CONSOLE_LOG") 2>&1
+
+capture_error(){
+ local rc=$?
+ LAST_ERROR_LINE="$LINENO"
+ LAST_ERROR_COMMAND="$BASH_COMMAND"
+ return 0
+}
+fail(){
+ LAST_ERROR_LINE="${BASH_LINENO[0]:-$LINENO}"
+ LAST_ERROR_COMMAND="fail: $*"
+ echo "ERROR: $*" >&2
+ exit 2
+}
+on_exit(){
+ local rc="$1" report_path="Development/Logs/stage67/$RUN/failure-report.txt"
+ [[ "$rc" -ne 0 ]] || return 0
+ trap - EXIT ERR
+ set +e
+ {
+  echo "STAGE=67"
+  echo "VERSION=$VERSION"
+  echo "RUN=$RUN"
+  echo "EXIT_CODE=$rc"
+  echo "FAILED_LINE=$LAST_ERROR_LINE"
+  printf 'FAILED_COMMAND=%s\n' "$LAST_ERROR_COMMAND"
+  echo "SOURCE_MODIFIED=NO"
+  echo "BUILD=NOT_RUN"
+  echo "INSTALL=NOT_RUN"
+  echo "LOAD=NOT_RUN"
+  echo "OPENCORE_MODIFIED=NO"
+  echo "TIME_UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null)"
+  echo
+  echo "========== CAPTURED CONSOLE OUTPUT (last 300 lines) =========="
+  [[ ! -f "$CONSOLE_LOG" ]] || tail -n 300 "$CONSOLE_LOG"
+  echo
+  echo "========== GENERATED FILES =========="
+  find "$OUT" -maxdepth 2 -type f -print 2>/dev/null
+ } > "$OUT/failure-report.txt"
+
+ echo "STAGE67_FAILED=YES"
+ echo "STAGE67_FAILURE_REPORT_LOCAL=$OUT/failure-report.txt"
+ if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+  python3 - "$OUT/failure-report.txt" "$OUT/failure-payload.json" <<'PY'
+import base64,json,pathlib,sys
+src,dst=sys.argv[1:]
+pathlib.Path(dst).write_text(json.dumps({
+ "message":"Upload Stage67 automatic failure report",
+ "content":base64.b64encode(pathlib.Path(src).read_bytes()).decode()
+}))
+PY
+  if gh api --method PUT "repos/$REPO/contents/$report_path" --input "$OUT/failure-payload.json" > "$OUT/failure-put.json"; then
+   echo "STAGE67_FAILURE_REPORT_GITHUB=Development/Logs/stage67/$RUN/failure-report.txt"
+  else
+   echo "STAGE67_FAILURE_REPORT_UPLOAD=FAILED" >> "$OUT/failure-report.txt"
+   echo "STAGE67_FAILURE_REPORT_UPLOAD=FAILED"
+  fi
+
+  if gh api "repos/$REPO/contents/Development/output.log" > "$OUT/failure-remote-output.json"; then
+   python3 - "$OUT/failure-remote-output.json" "$OUT/failure-output-payload.json" "$RUN" "$VERSION" "$rc" "$report_path" "$LAST_ERROR_LINE" "$LAST_ERROR_COMMAND" <<'PY'
+import base64,json,pathlib,sys
+remote,payload,run,version,rc,report,line,command=sys.argv[1:]
+obj=json.load(open(remote))
+old=base64.b64decode(obj["content"])
+entry=(
+ "\n========== STAGE 67 FAILURE REPORT ==========\n"
+ "STAGE67_FAILURE_RUN: %s\n"%run+
+ "STAGE67_VERSION: %s\n"%version+
+ "STAGE67_EXIT_CODE: %s\n"%rc+
+ "STAGE67_FAILED_LINE: %s\n"%line+
+ "STAGE67_FAILED_COMMAND: %s\n"%command+
+ "STAGE67_FAILURE_REPORT: %s\n"%report+
+ "STAGE67_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\n"
+ "==============================================\n").encode()
+pathlib.Path(payload).write_text(json.dumps({
+ "message":"Append Stage67 failure details to output.log",
+ "sha":obj["sha"],
+ "content":base64.b64encode(old.rstrip()+entry).decode()
+}))
+PY
+   if gh api --method PUT "repos/$REPO/contents/Development/output.log" --input "$OUT/failure-output-payload.json" > "$OUT/failure-output-put.json"; then
+    echo "STAGE67_FAILURE_OUTPUT_LOG=UPDATED"
+   else
+    echo "STAGE67_FAILURE_OUTPUT_LOG=FAILED"
+   fi
+  else
+   echo "STAGE67_FAILURE_OUTPUT_LOG=FETCH_FAILED"
+  fi
+ else
+  echo "STAGE67_FAILURE_REPORT_UPLOAD=SKIPPED_GITHUB_AUTH_UNAVAILABLE"
+ fi
+ exit "$rc"
+}
+trap 'capture_error' ERR
+trap 'on_exit $?' EXIT
 
 for t in curl gh python3 shasum grep awk sw_vers uname xcrun wc tr split; do
  command -v "$t" >/dev/null 2>&1 || fail "required tool missing: $t"
@@ -219,6 +315,16 @@ cross += [
  "COMPLETION_HOOK_DYNAMIC_OBJECT=Stage66 TX completion path calls object at queue offset +0xf0 through vtable offset +0x268; dynamic class not established by available pinned evidence",
  "OWNERSHIP_RULE=do not equate callback count with number of packets safely reclaimed until packet vtable targets and pool target bodies are reviewed"]
 (out/"packet-ownership-callsite-crosswalk.txt").write_text("\n".join(cross)+"\n")
+
+# The required call-edge artifact is generated from the captured method disassembly.
+edge_lines=["STAGE67_PACKET_AND_POOL_CALL_EDGE_INVENTORY"]
+for block in re.split(r"(?=^===== METHOD )","\n".join(disasm_lines),flags=re.M):
+ header=next((x for x in block.splitlines() if x.startswith("===== METHOD ")),None)
+ if not header: continue
+ calls=[x.strip() for x in block.splitlines() if re.search(r"\\bcall\\b|\\bjmp\\s+qword ptr\\b",x)]
+ edge_lines.append("\\n"+header)
+ edge_lines += calls or ["NO_CALL_EDGES_CAPTURED"]
+(out/"dispatch-edge-inventory.txt").write_text("\n".join(edge_lines)+"\n")
 
 expected_slots=(slot_pass["IOSkywalkPacket"]==3 and slot_pass["IOSkywalkPacketBufferPool"]==1)
 all_ok=len(resolved)>0 and len(status)==len(resolved) and all("result=PASS" in x for x in status)
