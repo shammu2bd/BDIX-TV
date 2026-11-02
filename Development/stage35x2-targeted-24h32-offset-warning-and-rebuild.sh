@@ -23,7 +23,7 @@ BACK="$OUT/backups"
 mkdir -p "$OUT" "$BACK"
 PATCH_ACTIVE=0
 FW_BACKUP_ACTIVE=0
-trap 'rc=$?; if [[ "$FW_BACKUP_ACTIVE" == 1 ]]; then restore_fw_generated || true; fi; if [[ "$PATCH_ACTIVE" == 1 ]]; then rollback_abi || true; fi; echo "STAGE35X_ERROR=exit:$rc line:$LINENO" >&2; [[ -f "$UPLOAD_ERROR" ]] && tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
+trap 'rc=$?; if [[ "$FW_BACKUP_ACTIVE" == 1 ]]; then restore_fw_generated || true; fi; if [[ "$PATCH_ACTIVE" == 1 ]]; then rollback_abi || true; fi; echo "STAGE35X2_ERROR=exit:$rc line:$LINENO" >&2; [[ -f "$UPLOAD_ERROR" ]] && tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
 
 for tool in gh python3 make xcrun split shasum tar file lipo plutil grep awk; do
   command -v "$tool" >/dev/null 2>&1 || { echo "ERROR: required tool missing: $tool"; exit 2; }
@@ -204,7 +204,7 @@ FW_BACKUP="$BACK/fw_blobs.c"
 FW_ORIG_PRESENT=0
 if [[ -f "$FW_GENERATED" ]]; then cp -p "$FW_GENERATED" "$FW_BACKUP"; FW_ORIG_PRESENT=1; fi
 FW_BACKUP_ACTIVE=1
-trap 'rc=$?; if [[ "$FW_BACKUP_ACTIVE" == 1 ]]; then restore_fw_generated || true; fi; if [[ "$PATCH_ACTIVE" == 1 ]]; then rollback_abi || true; fi; echo "STAGE35X_ERROR=exit:$rc line:$LINENO" >&2; [[ -f "$UPLOAD_ERROR" ]] && tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
+trap 'rc=$?; if [[ "$FW_BACKUP_ACTIVE" == 1 ]]; then restore_fw_generated || true; fi; if [[ "$PATCH_ACTIVE" == 1 ]]; then rollback_abi || true; fi; echo "STAGE35X2_ERROR=exit:$rc line:$LINENO" >&2; [[ -f "$UPLOAD_ERROR" ]] && tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
 
 set +e
 (cd "$SRC" && env -u MAKEFLAGS -u MFLAGS -u MAKEFILES make -B -f Makefile rtl88wifi-native) > "$BUILDLOG" 2>&1
@@ -308,7 +308,7 @@ ABI_AFTER="$(shasum -a 256 "$ABI" | awk '{print $1}')"
   echo "CODESIGN=NOT_RUN"
   echo "OPENCORE_MODIFIED=NO"
   echo "HARDWARE_TEST=NOT_RUN"
-  echo "========== END STAGE 35X =========="
+  echo "========== END STAGE 35X2 =========="
 } >> "$REPORT"
 
 upload_file() {
@@ -337,8 +337,8 @@ PY2
 }
 
 if [[ -n "$ARTIFACT" ]]; then
-  ARTIFACT_REMOTE="Development/Artifacts/stage35x/RTL88WiFiNative-$RUN.tar.gz"
-  upload_file "$ARTIFACT" "$ARTIFACT_REMOTE" "Add Stage35X native Kext artifact $RUN" "$OUT/artifact-upload.json" "$OUT/artifact-upload-response.json"
+  ARTIFACT_REMOTE="Development/Artifacts/stage35x2/RTL88WiFiNative-$RUN.tar.gz"
+  upload_file "$ARTIFACT" "$ARTIFACT_REMOTE" "Add Stage35X2 native Kext artifact $RUN" "$OUT/artifact-upload.json" "$OUT/artifact-upload-response.json"
   ARTIFACT_BLOB="$UPLOAD_SHA"
   echo "KEXT_ARCHIVE_GITHUB_PATH=$ARTIFACT_REMOTE" >> "$REPORT"
   echo "KEXT_ARCHIVE_GITHUB_BLOB=$ARTIFACT_BLOB" >> "$REPORT"
@@ -349,23 +349,23 @@ split -b 220k "$REPORT" "$OUT/parts/report-"
 MANIFEST="$OUT/manifest.txt"
 ARTIFACT_PATH="$ARTIFACT_REMOTE"; [[ -n "$ARTIFACT_PATH" ]] || ARTIFACT_PATH="NONE"
 ARTIFACT_SHA_VALUE="$ARTIFACT_SHA"; [[ -n "$ARTIFACT_SHA_VALUE" ]] || ARTIFACT_SHA_VALUE="NONE"
-printf 'STAGE: 35X\nRUN: %s\nTARGET: rtl88wifi-native\nBUILD_EXIT: %s\nPATCH_SCOPE: targeted clang diagnostic around preserved ABI offset assertion\nABI_ASSERTION: 0x108\nARTIFACT_PATH: %s\nARTIFACT_BLOB: %s\nARTIFACT_SHA256: %s\nARTIFACT_BYTES: %s\n' "$RUN" "$BUILD_RC" "$ARTIFACT_PATH" "$ARTIFACT_BLOB" "$ARTIFACT_SHA_VALUE" "$ARTIFACT_BYTES" > "$MANIFEST"
+printf 'STAGE: 35X2\nRUN: %s\nTARGET: rtl88wifi-native\nBUILD_EXIT: %s\nPATCH_SCOPE: targeted clang diagnostic around preserved ABI offset assertion\nABI_ASSERTION: 0x108\nARTIFACT_PATH: %s\nARTIFACT_BLOB: %s\nARTIFACT_SHA256: %s\nARTIFACT_BYTES: %s\n' "$RUN" "$BUILD_RC" "$ARTIFACT_PATH" "$ARTIFACT_BLOB" "$ARTIFACT_SHA_VALUE" "$ARTIFACT_BYTES" > "$MANIFEST"
 COUNT=0
 for part in "$OUT"/parts/report-*; do
   [[ -f "$part" ]] || continue
   name="$(basename "$part").txt"
-  remote="Development/Logs/stage35x/$RUN/$name"
-  upload_file "$part" "$remote" "Add Stage35X build report $RUN/$name" "$OUT/log-upload.json" "$OUT/log-upload-response.json"
+  remote="Development/Logs/stage35x2/$RUN/$name"
+  upload_file "$part" "$remote" "Add Stage35X2 build report $RUN/$name" "$OUT/log-upload.json" "$OUT/log-upload-response.json"
   printf '%s | github_blob=%s | bytes=%s | sha256=%s\n' "$remote" "$UPLOAD_SHA" "$(wc -c < "$part" | tr -d ' ')" "$(shasum -a 256 "$part" | awk '{print $1}')" >> "$MANIFEST"
   COUNT=$((COUNT+1))
 done
 [[ "$COUNT" -gt 0 ]]
-upload_file "$MANIFEST" "Development/Logs/stage35x/$RUN/manifest.txt" "Add Stage35X manifest $RUN" "$OUT/manifest-upload.json" "$OUT/manifest-upload-response.json"
+upload_file "$MANIFEST" "Development/Logs/stage35x2/$RUN/manifest.txt" "Add Stage35X2 manifest $RUN" "$OUT/manifest-upload.json" "$OUT/manifest-upload-response.json"
 
-echo "STAGE35X_STATUS=UPLOADED_AND_READBACK_VERIFIED"
-echo "STAGE35X_RUN=$RUN"
-echo "STAGE35X_BUILD_EXIT=$BUILD_RC"
-echo "STAGE35X_ABI_PATCH_PERSISTED=$([[ "$BUILD_RC" -eq 0 ]] && echo YES || echo NO)"
-echo "STAGE35X_LOG_URL=https://github.com/$REPO/tree/main/Development/Logs/stage35x/$RUN"
+echo "STAGE35X2_STATUS=UPLOADED_AND_READBACK_VERIFIED"
+echo "STAGE35X2_RUN=$RUN"
+echo "STAGE35X2_BUILD_EXIT=$BUILD_RC"
+echo "STAGE35X2_ABI_PATCH_PERSISTED=$([[ "$BUILD_RC" -eq 0 ]] && echo YES || echo NO)"
+echo "STAGE35X2_LOG_URL=https://github.com/$REPO/tree/main/Development/Logs/stage35x2/$RUN"
 trap - ERR
 exit "$BUILD_RC"
