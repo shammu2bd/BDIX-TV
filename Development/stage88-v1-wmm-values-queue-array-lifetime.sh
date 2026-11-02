@@ -184,6 +184,8 @@ abi_checks={
         bool(re.search(r"mov\s+qword ptr \[r14 \+ 0x18\],\s*rax",queue_init,re.I)),
     "QUEUESET_INIT_COPIES_QUEUE_POINTERS_INTO_INTERNAL_STORAGE":
         bool(re.search(r"mov\s+qword ptr \[rax \+ 8\*r12\],\s*r13",queue_init,re.I)),
+    "QUEUESET_INIT_DOES_NOT_STORE_CALLER_ARRAY_BASE_POINTER":
+        not bool(re.search(r"mov\s+qword ptr \[r14 \+ [^\]]+\],\s*rbx",queue_init,re.I)),
     "QUEUESET_INIT_RETAINS_QUEUE_OBJECTS":
         bool(re.search(r"call\s+qword ptr \[rax \+ 0x20\]",queue_init,re.I)),
     "QUEUESET_FREE_CLEARS_BACKREFERENCE_AND_RELEASES_QUEUE":
@@ -473,7 +475,7 @@ def get(k):
     for line in summary.splitlines():
         if line.startswith(k+"="):
             return line.split("=",1)[1]
-            return "UNKNOWN"
+    return "UNKNOWN"
 entry=(
     "\n========== STAGE 88 WMM VALUES / QUEUE ARRAY LIFETIME ==========\n"
     "STAGE88_RUN: "+sys.argv[3]+"\n"
