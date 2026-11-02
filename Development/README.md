@@ -397,3 +397,7 @@ Temporary output remains under the Stage26 source project's `run log/stage62/<ru
 ## Master stage history (Stages 1–88)
 
 The consolidated chronological record is maintained in [RTL88WiFi-STAGE-HISTORY.md](./RTL88WiFi-STAGE-HISTORY.md). It covers the recovered Stage 1–19 foundation and packet/ABI work, the native-target and packaging sequence, and the Stage 20–88 source/ABI/readiness audits. The current recorded state is Stage 88 V1: WMM/QueueSet ABI evidence improved, but native registration and TX/RX packet ownership handoffs are still incomplete; implementation authorization remains **NO** and the activation gate remains **BLOCKED**. See [output.log](./output.log) for timestamped run checkpoints.
+
+## Native implementation roadmap — Stages 89–101
+
+The next implementation sequence is documented in [RTL88WiFi-ROADMAP-STAGE89-101.md](./RTL88WiFi-ROADMAP-STAGE89-101.md). It defines Stages 89–101, implementation dependencies, exit criteria, and mandatory gates before registration, package/load testing and hardware validation. The roadmap is a plan, not activation authorization; current implementation authorization remains **NO**.
