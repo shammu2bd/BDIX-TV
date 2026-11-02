@@ -277,8 +277,9 @@ upload_file() {
     echo "REFUSING_TO_OVERWRITE_UNIQUE_LOG=$remote_path" >> "$UPLOAD_ERROR"
     return 1
   fi
-  payload="$OUT/payload-$((\$(find "$OUT" -maxdepth 1 -name 'payload-*' | wc -l | tr -d ' ')+1)).json"
-  response="$OUT/response-$((\$(find "$OUT" -maxdepth 1 -name 'response-*' | wc -l | tr -d ' ')+1)).json"
+  PAYLOAD_INDEX=$((PAYLOAD_INDEX+1))
+  payload="$OUT/payload-$PAYLOAD_INDEX.json"
+  response="$OUT/response-$PAYLOAD_INDEX.json"
   python3 - "$local_file" "$old" "$message" "$payload" <<'PY2'
 import base64,json,pathlib,sys
 f,sha,msg,dst=sys.argv[1:]
@@ -318,7 +319,10 @@ MANIFEST="$OUT/manifest.txt"
 # Every artifact is retained twice: grouped by run and as unique root-level filenames.
 upload_artifact() {
   local f="$1" suffix="$2" root_name="stage44-$RUN-$suffix" group_name
-  group_name="Development/Logs/stage44/$RUN/$(basename "$f")"
+  local base
+  base="$(basename "$f")"
+  [[ "$base" == *.txt ]] || base="$base.txt"
+  group_name="Development/Logs/stage44/$RUN/$base"
   upload_file "$f" "$group_name" "Add Stage44 grouped log $RUN $(basename "$f")"
   echo "GROUPED_ARTIFACT=$group_name | GITHUB_BLOB=$UPLOAD_SHA" >> "$MANIFEST"
   upload_file "$f" "Development/Logs/$root_name" "Add unique Stage44 log $RUN $suffix"
@@ -327,7 +331,7 @@ upload_artifact() {
 
 for part in "$OUT"/report-*; do
   [[ -f "$part" ]] || continue
-  suffix="$(basename "$part" | sed 's/^report-/report-/')txt"
+  suffix="$(basename "$part").txt"
   upload_artifact "$part" "$suffix"
 done
 for part in "$OUT"/source-context-* "$OUT"/abi-audit-*; do
