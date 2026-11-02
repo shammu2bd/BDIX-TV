@@ -109,7 +109,7 @@ if "STAGE43_SOURCE_CONTINUITY=PASS" not in (root/"source-fingerprint.txt").read_
 PY
 
 # Fetch immutable Stage48 queue ABI reference evidence.
-RAW48="https://raw.githubusercontent.com/$REPO/main/Development/Logs/stage48/run-$STAGE48_RUN"
+RAW48="https://raw.githubusercontent.com/$REPO/main/Development/Logs/stage48/$STAGE48_RUN"
 for name in report-aa.txt report-ab.txt report-ac.txt abi-audit-aa.txt abi-audit-ab.txt abi-audit-ac.txt manifest.txt; do
  curl -fsSLo "$PREV48/$name" "$RAW48/$name"
 done
@@ -134,19 +134,20 @@ PY
 
 python3 - "$SRC" "$BOOTKC" "$CACHE" "$OBJDUMP" "$OUT" "$PREV48" "$PREV56" <<'PY'
 import os,pathlib,re,subprocess,sys
-src,kc_path,cache,objdump,out,prev48,prev56=map(pathlib.Path,sys.argv[1:7])+[pathlib.Path(sys.argv[7])]
-# Correct the argument mapping explicitly; retain string executable path.
+src=pathlib.Path(sys.argv[1])
+kc_path=sys.argv[2]
+cache=pathlib.Path(sys.argv[3])
 objdump=sys.argv[4]
-out=pathlib.Path(sys.argv[5]); prev48=pathlib.Path(sys.argv[6]); prev56=pathlib.Path(sys.argv[7])
-sys.path.insert(0,sys.argv[1] if False else str(pathlib.Path(sys.argv[0]).parent))
-# Parser tools are passed through the environment-independent sibling path.
+out=pathlib.Path(sys.argv[5])
+prev48=pathlib.Path(sys.argv[6])
+prev56=pathlib.Path(sys.argv[7])
 tools=out/"tools"
 sys.path.insert(0,str(tools))
 from kcfile import KC
 import disasm
 os.environ["LLVM_OBJDUMP"]=objdump
 kc=KC(sys.argv[2])
-parser=disasm.Disassembler(kc,str(pathlib.Path(sys.argv[3])))
+parser=disasm.Disassembler(kc,str(cache))
 
 classes={
  "IOSkywalkPacketQueue":r"(initWithPool|initialize|free|packetCompletion)",
@@ -212,7 +213,7 @@ discovery.append("\nMETHODS_RESOLVED=%d"%len(resolved))
 all_disasm=[]; status=[]
 for owner in sorted({x[3] for x in resolved}):
  safe=re.sub(r"[^A-Za-z0-9_.-]","_",owner)
- carved=pathlib.Path(sys.argv[3])/(safe+".macho")
+ carved=cache/(safe+".macho")
  kc.carve(owner,str(carved))
  discovery.append("CARVED_OWNER=%s BYTES=%d"%(owner,carved.stat().st_size))
  for cls,nm,va,o,end in [x for x in resolved if x[3]==owner]:
