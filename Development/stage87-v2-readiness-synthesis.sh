@@ -82,7 +82,7 @@ for spec in \
  [[ "$(blob "$OUT/$label-$name")" == "$want" ]] || fail "$label artifact SHA mismatch: $name"
 done
 python3 - "$OUT" "$RUN" <<'PY'
-import pathlib,sys
+import pathlib,re,sys
 out=pathlib.Path(sys.argv[1]); run=sys.argv[2]
 def kv(name):
  d={}
@@ -187,14 +187,14 @@ print("\n".join(summary))
 if issues: raise SystemExit("Stage87 evidence synthesis requires review")
 PY
 MAN="$OUT/manifest.txt"
-{ echo "STAGE=87";echo "VERSION=STAGE87_V1_20261103";echo "RUN=$RUN";echo "TARGET=15.8.1/24H32/x86_64";echo "PREDECESSOR=Stages82-86";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "ACTIVATION_GATE=BLOCKED"; } > "$MAN"
+{ echo "STAGE=87";echo "VERSION=STAGE87_V2_20261103";echo "RUN=$RUN";echo "TARGET=15.8.1/24H32/x86_64";echo "PREDECESSOR=Stages82-86";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "ACTIVATION_GATE=BLOCKED"; } > "$MAN"
 for f in "$OUT/audit-summary.txt" "$OUT/implementation-blocker-matrix.txt" "$OUT/evidence-chain.txt" "$OUT/report.txt"; do echo "ARTIFACT|$(basename "$f")|$(blob "$f")" >> "$MAN"; done
 for f in "$OUT/audit-summary.txt" "$OUT/implementation-blocker-matrix.txt" "$OUT/evidence-chain.txt" "$OUT/report.txt" "$MAN"; do upload "$f" "Development/Logs/stage87/$RUN/$(basename "$f")"; done
 gh api "repos/$REPO/contents/Development/output.log" > "$OUT/output-before.json"
 python3 - "$OUT/output-before.json" "$OUT/output-payload.json" "$RUN" <<'PY'
 import base64,json,pathlib,sys
 o=json.load(open(sys.argv[1]));old=base64.b64decode(o["content"])
-entry=("\n========== STAGE 87 IMPLEMENTATION READINESS ==========\nSTAGE87_RUN: "+sys.argv[3]+"\nSTAGE87_VERSION: STAGE87_V1_20261103\nSTAGE87_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\nEVIDENCE_CHAIN: STAGES_82_83_84_85_86_PASS | IMPLEMENTATION_AUTHORIZED: NO | ACTIVATION_GATE: BLOCKED\nSTAGE87_LOGS: Development/Logs/stage87/"+sys.argv[3]+"/\n=======================================================\n").encode()
+entry=("\n========== STAGE 87 IMPLEMENTATION READINESS ==========\nSTAGE87_RUN: "+sys.argv[3]+"\nSTAGE87_VERSION: STAGE87_V2_20261103\nSTAGE87_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\nEVIDENCE_CHAIN: STAGES_82_83_84_85_86_PASS | IMPLEMENTATION_AUTHORIZED: NO | ACTIVATION_GATE: BLOCKED\nSTAGE87_LOGS: Development/Logs/stage87/"+sys.argv[3]+"/\n=======================================================\n").encode()
 pathlib.Path(sys.argv[2]).write_text(json.dumps({"message":"Append Stage87 readiness synthesis","sha":o["sha"],"content":base64.b64encode(old.rstrip()+entry).decode()}))
 PY
 gh api --method PUT "repos/$REPO/contents/Development/output.log" --input "$OUT/output-payload.json" > "$OUT/output-put.json"
