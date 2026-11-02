@@ -74,6 +74,7 @@ PY
    echo "WARNING: host differs from pinned target 24H32 x86_64; treat binary conclusions as provisional."
  fi
 } > "$REPORT"
+cat "$OUT/upstream-verification.txt" >> "$REPORT"
 
 # Source continuity is checked without changing the project tree.
 python3 - "$SRC" <<'PY' >> "$REPORT"
@@ -118,6 +119,7 @@ print("\n--- Fileset parser and kernel collection identity ---")
 print("PYTHON_VERSION="+sys.version.split()[0])
 print("OBJDUMP_VERSION="+subprocess.run([objdump,"--version"],text=True,capture_output=True).stdout.splitlines()[0])
 kc=KC(kc_path)
+parser=disasm.Disassembler(kc,cache)
 print("BOOTKC_SHA256="+kc.sha256())
 print("FILESET_ENTRY_COUNT=%d"%len(kc.entries))
 for bid,vm,fo in kc.entries:
@@ -215,7 +217,7 @@ for label,sym,va,owner,end in resolved:
             print("OBJDUMP_ATTEMPT_%d_STDOUT_END"%idx)
         if p.returncode==0 and lines:
             print("METHOD_DISASSEMBLY_%s=PASS"%label)
-            print("DETECTED_INSTRUCTION_LINES=%d"%len(lines))
+            print("DETECTED_INSTRUCTION_LINES=%d"%len(parsed_addrs))
             success=True
             break
     if not success:
