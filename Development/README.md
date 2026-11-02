@@ -254,3 +254,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary files are stored only under the Stage26 source project's `run log/stage51/<run>/` directory. The runner uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; this audit does not authorize interface registration or hardware testing.
+
+
+## Stage52 — IOKit personality, class-registration and provider-contract audit
+
+Stage52 is a read-only audit of the IOKit service/personality contract connecting the native controller and infrastructure protocol. It parses every kext `Info.plist` under the source tree and reports `IOKitPersonalities` keys such as `IOClass`, `IOProviderClass` and `IOMatchCategory`; indexes class inheritance and `OSMetaClass` declarations; extracts provider-init, `attachRadio`, `getController`, controller-start and teardown method bodies; and maps source references to interface factories, primary-interface getters/setters and service registration. It verifies the Stage43 source fingerprints and reports direct source edges separately from possible Apple framework-internal behavior.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage52-v1-iokit-personality-provider-contract-audit.sh" | bash
+```
+
+Temporary files are stored only under the Stage26 source project's `run log/stage52/<run>/` directory. The runner uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; this audit does not authorize interface registration or hardware testing.
