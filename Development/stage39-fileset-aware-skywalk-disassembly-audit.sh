@@ -40,7 +40,7 @@ export LLVM_OBJDUMP="$OBJDUMP"
 # Pin and verify the two audited upstream Python files by their GitHub blob IDs.
 curl -fsSLo "$TOOLS/kcfile.py" "$UPSTREAM_RAW/kcfile.py"
 curl -fsSLo "$TOOLS/disasm.py" "$UPSTREAM_RAW/disasm.py"
-python3 - "$TOOLS" <<'PY'
+python3 - "$TOOLS" > "$OUT/upstream-verification.txt" <<'PY'
 import hashlib,pathlib,sys
 root=pathlib.Path(sys.argv[1])
 expected={
@@ -198,15 +198,9 @@ for label,sym,va,owner,end in resolved:
     success=False
     for idx,args in enumerate(attempts,1):
         p=subprocess.run([objdump]+args,text=True,capture_output=True)
-        lines=[]
-        for line in p.stdout.splitlines():
-            z=line.strip()
-            if re.match(r"^[0-9a-fA-F]{1,16}:\s+[A-Za-z][A-Za-z0-9_.]*",z):
-                lines.append(line)
-            elif re.match(r"^[0-9a-fA-F]{1,16}:\s+(?:[0-9a-fA-F]{2}\s+)+[A-Za-z]",z):
-                lines.append(line)
+        parsed_addrs,parsed_ins=parser._parse(p.stdout)
         print("OBJDUMP_ATTEMPT_%d_EXIT=%d"%(idx,p.returncode))
-        print("OBJDUMP_ATTEMPT_%d_INSTRUCTIONS=%d"%(idx,len(lines)))
+        print("OBJDUMP_ATTEMPT_%d_INSTRUCTIONS=%d"%(idx,len(parsed_addrs)))
         if p.stderr.strip():
             print("OBJDUMP_ATTEMPT_%d_STDERR_BEGIN"%idx)
             print(p.stderr[:5000].rstrip())
@@ -215,7 +209,7 @@ for label,sym,va,owner,end in resolved:
             print("OBJDUMP_ATTEMPT_%d_STDOUT_BEGIN"%idx)
             print(p.stdout[:24000].rstrip())
             print("OBJDUMP_ATTEMPT_%d_STDOUT_END"%idx)
-        if p.returncode==0 and lines:
+        if p.returncode==0 and parsed_addrs:
             print("METHOD_DISASSEMBLY_%s=PASS"%label)
             print("DETECTED_INSTRUCTION_LINES=%d"%len(parsed_addrs))
             success=True
