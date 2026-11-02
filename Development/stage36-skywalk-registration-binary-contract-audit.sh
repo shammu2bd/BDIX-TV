@@ -15,7 +15,7 @@ OUT="$HOME/Downloads/Stage36-$RUN"
 REPORT="$OUT/report.txt"
 UPLOAD_ERROR="$OUT/upload-error.txt"
 mkdir -p "$OUT"
-trap 'rc=$?; echo "STAGE36_ERROR=exit:$rc line:$LINENO" >&2; [[ -f "$UPLOAD_ERROR" ]] && tail -60 "$UPLOAD_ERROR" >&2; exit "$rc"' ERR
+trap 'rc=$?; trap - ERR; echo "STAGE36_ERROR=exit:$rc line:$LINENO" >&2; if [[ -f "$UPLOAD_ERROR" ]]; then tail -60 "$UPLOAD_ERROR" >&2; fi; exit "$rc"' ERR
 
 for tool in gh python3 shasum split find grep awk nm otool strings file sw_vers uname xcrun; do
   command -v "$tool" >/dev/null 2>&1 || { echo "ERROR: required tool missing: $tool"; exit 2; }
@@ -172,7 +172,7 @@ while IFS= read -r binary; do
   } >> "$REPORT"
 
   for method in registerEthernetInterface deregisterEthernetInterface initRegistrationInfo; do
-    symbol="$({ grep -E "$method" "$NMLOG" || true; } | awk 'NR==1 {print $NF}' | sed 's/^_//')"
+    symbol="$(awk -v method="$method" 'index($0, method) { print $NF; exit }' "$NMLOG" | sed 's/^_//')"
     [[ -n "$symbol" ]] || continue
     DISLOG="$OUT/disasm-$INDEX-$method.txt"
     otool -arch x86_64 -tvV -p "_$symbol" "$binary" > "$DISLOG" 2>&1 || \
