@@ -216,3 +216,15 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output is kept under the Stage26 source project's `run log/stage48/` directory. Report, ABI-audit and source-context parts, source fingerprints and upstream verification are uploaded both to a timestamped `Development/Logs/stage48/<run>/` folder and as unique files directly under `Development/Logs/`. Each upload is read back and SHA-verified; a concise checkpoint is appended to `Development/output.log`. The runner stops if the Stage43 source fingerprints do not match. The activation gate remains blocked: this audit maps Apple's registration and callback ABI but does not implement queue creation, TX/RX completion, interface publication or safe rollback in RTL88WiFi.
+
+## Stage49 — native source-to-24H32 ABI correlation and activation-gap audit
+
+Stage49 is a read-only correlation pass over the Stage26 RTL88WiFi native WCL source and the exact Stage48 Sequoia 15.8.1 (24H32) registration/queue ABI evidence. It captures numbered source context and builds a cautious pattern-presence gap matrix for registration-info lifecycle, queue constructors and callback wiring, queue-set grouping/order, TX/RX pool ownership, TX completion/ticket draining, RX refill/network enqueue, and rollback/teardown. It retrieves the Stage48 ABI reports from GitHub, verifies the Stage43 source fingerprints, and records the evidence locally before uploading grouped and unique root-mirror artifacts with Git blob SHA readback verification. Pattern matches are evidence pointers, not proof of semantic correctness; manual review remains mandatory.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage49-v1-source-to-abi-correlation-audit.sh" | bash
+```
+
+All temporary files are stored under the Stage26 source project's `run log/stage49/<run>/` directory. The runner appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; Stage49 does not authorize queue registration or hardware testing.
