@@ -15,7 +15,7 @@ EXPECTED_ABI_HEADER="63a6a038ef7513312c686199b00e8cf45a16d251c7792ab03d2f5986f9f
 EXPECTED_INTERFACE_HEADER="9b1181fd35990cebc128228503bc671a60a680815a698c79121ac9bdcf23cfc4"
 
 STAMP="$(date -u '+%Y%m%d-%H%M%S')"
-RUN="run-$STAMP"
+RUN="run-$STAMP-$(python3 -c 'import secrets; print(secrets.token_hex(3))')"
 OUT="$SOURCE_ROOT/run log/stage44/$RUN"
 TOOLS="$OUT/tools"
 CACHE="$OUT/kc-cache"
@@ -275,7 +275,7 @@ PAYLOAD_INDEX=0
 upload_file() {
   local local_file="$1" remote_path="$2" message="$3" allow_update="${4:-0}"
   local old payload response put got
-  old="$(gh api "repos/$REPO/contents/$remote_path" --jq .sha 2>/dev/null || true)"
+  old="$(gh api "repos/$REPO/contents/$remote_path" --jq '.sha // empty' 2>/dev/null || true)"
   if [[ -n "$old" && "$allow_update" != "1" ]]; then
     echo "REFUSING_TO_OVERWRITE_UNIQUE_LOG=$remote_path" >> "$UPLOAD_ERROR"
     return 1
