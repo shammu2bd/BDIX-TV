@@ -240,7 +240,15 @@ ARTIFACT_BLOB="NONE"
 ARTIFACT_BYTES=0
 KEXT="$SRC/build/out/RTL88WiFiNative.kext"
 if [[ "$BUILD_RC" -eq 0 && -f "$KEXT/Contents/MacOS/RTL88WiFiNative" && -f "$KEXT/Contents/Info.plist" ]]; then
-  if ! plutil -lint "$KEXT/Contents/Info.plist" >/dev/null 2>&1 || ! lipo -verify_arch x86_64 "$KEXT/Contents/MacOS/RTL88WiFiNative" >/dev/null 2>&1; then
+  FILE_INFO="$(file "$KEXT/Contents/MacOS/RTL88WiFiNative" 2>&1)"
+  LIPO_INFO="$(lipo -info "$KEXT/Contents/MacOS/RTL88WiFiNative" 2>&1)"
+  PLIST_INFO="$(plutil -lint "$KEXT/Contents/Info.plist" 2>&1)"
+  {
+    echo "KEXT_EXECUTABLE_FILE=$FILE_INFO"
+    echo "KEXT_ARCHITECTURES=$LIPO_INFO"
+    echo "KEXT_INFO_PLIST_VALIDATION=$PLIST_INFO"
+  } >> "$REPORT"
+  if [[ "$FILE_INFO" != *"x86_64"* || "$LIPO_INFO" != *"x86_64"* || "$PLIST_INFO" != *"OK"* ]]; then
     echo "BUILD_VALIDATION_FAILED=plist or x86_64 architecture validation failed" >> "$REPORT"
     BUILD_RC=98
   fi
