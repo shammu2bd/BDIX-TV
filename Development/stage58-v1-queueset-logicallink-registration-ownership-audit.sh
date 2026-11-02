@@ -147,6 +147,7 @@ for cls,pat in classes.items():
 queue_classes=("IOSkywalkTxSubmissionQueue","IOSkywalkTxCompletionQueue",
                "IOSkywalkRxSubmissionQueue","IOSkywalkRxCompletionQueue")
 slot_lines=["STAGE58_QUEUESET_VTABLE_DISPATCH_SLOT_AUDIT","SLOT_BYTE_OFFSET=0x218","SLOT_INDEX=67","SEMANTICS=record resolved virtual target; do not label it a queue-type classifier"]
+queue_slot_symbols=[]
 for cls in ("IOSkywalkPacketQueue",)+queue_classes:
  try: vt=kc.vtable(cls)
  except Exception as e:
@@ -155,12 +156,17 @@ for cls in ("IOSkywalkPacketQueue",)+queue_classes:
   slot_lines.append("VTABLE_%s=SLOT_NOT_AVAILABLE"%cls); continue
  word,raw,tgt,nm=vt[67]
  owner=kc.owner(tgt) or kc.sym_owner.get(tgt) or "UNKNOWN"
- slot_lines.append("QUEUE_TYPE_SLOT class=%s target=0x%x owner=%s symbol=%s"%(cls,tgt,owner,nm))
+ slot_lines.append("QUEUESET_DISPATCH_SLOT class=%s target=0x%x owner=%s symbol=%s"%(cls,tgt,owner,nm))
+ if cls in queue_classes: queue_slot_symbols.append(nm)
  # Capture adjacent slots as context; queue subclasses may share inherited slots.
  for idx in range(max(0,64),min(len(vt),71)):
   w,r,t,n=vt[idx]
   slot_lines.append("VTABLE_CONTEXT class=%s index=%d offset=0x%x target=0x%x symbol=%s"%(
    cls,idx,idx*8,t,n))
+if len(queue_slot_symbols)==4 and set(queue_slot_symbols)=={"__ZNK20IOSkywalkPacketQueue12getFreeSpaceEv"}:
+ slot_lines.append("ALL_FOUR_QUEUE_SUBCLASSES_RESOLVE_TO=IOSkywalkPacketQueue::getFreeSpace")
+else:
+ slot_lines.append("ALL_FOUR_QUEUE_SUBCLASSES_RESOLVE_TO=REVIEW_REQUIRED:"+repr(queue_slot_symbols))
 (out/"vtable-dispatch-slot-context.txt").write_text("\n".join(slot_lines)+"\n")
 
 # Resolve selected registration/ownership methods from the actual KC and disassemble.
@@ -286,15 +292,15 @@ for cls,name,path,line,sig,body in records:
 def scope_text(key):return "\n".join(scopes.get(key,[]))
 checks=[
  ("controller creates the native infrastructure interface","RTW88WCLController::start",r"new\s+RTW88WCLInfraInterface|create.*InfraInterface"),
- ("controller allocates the Skywalk queue owner","RTW88WCLController::start",r"new\\s+RTW88WCLSkywalkQueues"),
- ("controller calls Skywalk queue createQueues","RTW88WCLController::start",r"_skywalkQueues\\s*->\\s*createQueues\\s*\\("),
+ ("controller allocates the Skywalk queue owner","RTW88WCLController::start",r"new\s+RTW88WCLSkywalkQueues"),
+ ("controller calls Skywalk queue createQueues","RTW88WCLController::start",r"_skywalkQueues\s*->\s*createQueues\s*\("),
  ("controller reaches native Skywalk registration","RTW88WCLController::start",r"registerInfraEthernetInterface|registerEthernetInterface"),
  ("interface start prepares RegistrationInfo","RTW88WCLInfraInterface::start",r"prepareRegistrationInfo"),
  ("interface start invokes Apple registration","RTW88WCLInfraInterface::start",r"registerInfraEthernetInterface|registerEthernetInterface"),
  ("interface start creates or owns the four queues","RTW88WCLInfraInterface::start",r"RTW88WCLSkywalkQueues|createQueues"),
  ("queue creation constructs QueueSet","RTW88WCLSkywalkQueues::createQueues",r"IOSkywalkQueueSet|createWithQueues"),
  ("queue creation constructs LogicalLink","RTW88WCLSkywalkQueues::createQueues",r"IOSkywalkLogicalLink|createWithQueueSet"),
- ("queue teardown releases all queue objects before either pool","RTW88WCLSkywalkQueues::destroyQueues",r"_rxCompletion[\\s\\S]*_rxSubmission[\\s\\S]*_txCompletion[\\s\\S]*_txSubmission[\\s\\S]*_rxPool[\\s\\S]*_txPool"),
+ ("queue teardown releases all queue objects before either pool","RTW88WCLSkywalkQueues::destroyQueues",r"_rxCompletion[\s\S]*_rxSubmission[\s\S]*_txCompletion[\s\S]*_txSubmission[\s\S]*_rxPool[\s\S]*_txPool"),
  ("registration source passes queue array and both pools","RTW88WCLInfraInterface::start",r"registerInfraEthernetInterface\s*\([^;]*_txPool[^;]*_rxPool"),
  ("RegistrationInfo helper is called by interface start","RTW88WCLInfraInterface::start",r"prepareRegistrationInfo\s*\("),
  ("RX staged ring is handed to networking queue","RTW88WCLController::stagedRxFrame",r"enqueuePacketsForNetworking|_rxCompletion")
@@ -359,7 +365,7 @@ summary=[
  "APPLE_METHODS_RESOLVED=%d"%len(resolved),
  "APPLE_METHODS_DISASSEMBLED_PASS=%d"%sum("result=PASS" in x for x in status),
  "APPLE_CLASS_COUNT=%d"%len(classes),
- "QUEUESET_VIRTUAL_DISPATCH_SLOT=0x218 / index 67",
+ "QUEUESET_VIRTUAL_DISPATCH_SLOT=0x218 / index 67",\n "RESOLVED_VTABLE_TARGET=IOSkywalkPacketQueue::getFreeSpace",
  "NATIVE_SOURCE_FILES_SCANNED=%d"%len(source_files),
  "NATIVE_METHOD_DEFINITIONS_FOUND=%d"%len(records),
  "STAGE57_PREDECESSOR=VERIFIED",
