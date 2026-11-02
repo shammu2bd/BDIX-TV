@@ -56,7 +56,7 @@ for n,line in enumerate(lines,1):
         issues.append("RECURSIVE_MAKE_REFERENCE line %d: %s"%(n,line.strip()))
     if "$(file" in line or "${file" in line or "$(guile" in line or "$(eval" in line:
         issues.append("POTENTIALLY_SIDE_EFFECTING_MAKE_FUNCTION line %d: %s"%(n,line.strip()))
-    if re.match(r"^\t[ \t]*[ @-]*\+",line):
+    if re.match(r"^\t[ \t]*[ @+-]*\+",line):
         issues.append("FORCE_EXECUTED_RECIPE line %d: %s"%(n,line.strip()))
 # Dependency files included by Makefile are normally plain target prerequisites.
 # Reject any existing dependency file containing force-run or recursive-make markers.
@@ -66,7 +66,7 @@ for p in depfiles:
         d=p.read_text(errors="replace")
     except OSError as e:
         issues.append("DEPFILE_READ_ERROR %s %s"%(p,e)); continue
-    if "$(MAKE)" in d or re.search(r"(?m)^\t[ \t]*[ @-]*\+",d):
+    if "$(MAKE)" in d or "$(shell" in d or "${shell" in d or "$(file" in d or "$(eval" in d or re.search(r"(?m)^\t[ \t]*[ @+-]*\+",d):
         issues.append("UNSAFE_INCLUDED_DEPFILE %s"%p)
 print("MAKEFILE=%s"%makefile)
 print("DEPFILES_SCANNED=%d"%len(depfiles))
