@@ -204,3 +204,15 @@ curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/
 ```
 
 Temporary output is kept under the Stage26 source project's `run log/stage47/` directory. Report and ABI audit parts, source context, source fingerprints and upstream verification are uploaded in a timestamped `Development/Logs/stage47/<run>/` folder and as unique files directly under `Development/Logs/`. Each upload is read back and SHA-verified; a checkpoint is appended to `Development/output.log`. The activation gate remains blocked until queue registration, TX/RX completion ownership, publication and safe rollback/teardown are verified.
+
+## Stage48 — registration bridge, queue construction and callback ABI audit
+
+Stage48 is a read-only audit of the next layer after Stage47. It discovers and disassembles the actual 24H32 implementations for `IO80211InfraInterface::registerInfraEthernetInterface`, the `IOSkywalkEthernetInterface` registration overloads, `IOSkywalkNetworkInterface` registration, `IOSkywalkQueueSet` construction, and packet-queue/TX/RX initializer and callback-bearing methods. It records the mangled constructor signatures, direct call edges, relevant vtable targets, matching WCL source context, loaded networking-family context, and the Stage43 source fingerprints. Method names are discovered from the target Kernel Collection instead of being guessed. It does not edit source, build, sign, install, load, change SIP/NVRAM, or modify OpenCore.
+
+Run on the target Mac:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage48-v1-registration-queue-construction-audit.sh" | bash
+```
+
+Temporary output is kept under the Stage26 source project's `run log/stage48/` directory. Report, ABI-audit and source-context parts, source fingerprints and upstream verification are uploaded both to a timestamped `Development/Logs/stage48/<run>/` folder and as unique files directly under `Development/Logs/`. Each upload is read back and SHA-verified; a concise checkpoint is appended to `Development/output.log`. The runner stops if the Stage43 source fingerprints do not match. The activation gate remains blocked: this audit maps Apple's registration and callback ABI but does not implement queue creation, TX/RX completion, interface publication or safe rollback in RTL88WiFi.
