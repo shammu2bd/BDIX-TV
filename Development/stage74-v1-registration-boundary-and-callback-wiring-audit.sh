@@ -224,7 +224,7 @@ handoff=["STAGE74_CALLBACK_HANDOFF_SOURCE_WIRING"]
 for label,source_fn,source_file,target_fn,target_file in callback_matrix:
  body=clean[source_file]
  # Get the exact callback definition from source lines; count target use within its brace-delimited body.
- pat=re.compile(r"\bRTW88WCLSkywalkQueues\s*::\s*"+source_fn+r"\s*\()
+ pat=re.compile(r"\bRTW88WCLSkywalkQueues\s*::\s*"+source_fn+r"\s*\(")
  m=pat.search(body); count=0
  if m:
   brace=body.find("{",m.end()); depth=0; end=-1
@@ -236,14 +236,14 @@ for label,source_fn,source_file,target_fn,target_file in callback_matrix:
      if depth==0: end=k; break
    if end>=0:
     fnbody=body[brace:end+1]
-    count=len(list(re.finditer(r"(?<![A-Za-z0-9_])"+re.escape(target_fn)+r"\s*\(,fnbody)))
+    count=len(list(re.finditer(r"(?<![A-Za-z0-9_])"+re.escape(target_fn)+r"\s*\(",fnbody)))
  handoff.append("EDGE="+label+"|CALLBACK_FOUND="+("YES" if m else "NO")+"|TARGET_REFERENCE_COUNT="+str(count)+"|RESULT="+("CONNECTED" if count else "MISSING"))
 # Count the adapter drain method's references from every implementation file; distinguish its own definition.
 all_cpp={k:v for k,v in clean.items() if k.endswith((".cpp",".cc",".mm"))}
 drain_refs=[]
 for rel,body in all_cpp.items():
  for n,line in enumerate(body.splitlines(),1):
-  if re.search(r"\bdrainCompletions\s*\(,line):
+  if re.search(r"\bdrainCompletions\s*\(",line):
    drain_refs.append((rel,n,line.strip()))
 handoff.append("TX_DRAIN_REFERENCE_LOCATIONS="+str(len(drain_refs)))
 for rel,n,line in drain_refs: handoff.append("DRAIN_REF="+rel+":"+str(n)+" "+line[:240])
@@ -265,8 +265,8 @@ for n,line in enumerate(infra,1):
 (out/"teardown-and-registration-order.txt").write_text("\n".join(teardown)+"\n")
 
 # Summaries deliberately describe evidence completeness separately from product readiness.
-queue_factory_count=len(re.findall(r"\bwithPool\s*\(,strip_comments(queue)))
-pool_factory_count=len(re.findall(r"\bwithName\s*\(,strip_comments(queue)))
+queue_factory_count=len(re.findall(r"\bwithPool\s*\(",strip_comments(queue)))
+pool_factory_count=len(re.findall(r"\bwithName\s*\(",strip_comments(queue)))
 registration_prepare=count_token(icpp,"initRegistrationInfo")
 # Ignore the function definition when counting registration API tokens; only implementation file callsites matter.
 direct_calls=reg_total
