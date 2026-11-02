@@ -119,3 +119,11 @@ STAGE50_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — direct source call-graph audit only; queue registration and TX/RX datapath remain unapproved until missing edges and rollback are implemented and reviewed
 STAGE50_LOGS: Development/Logs/stage50/run-20261102-123837-7ca0eca6e02f/ and unique files directly under Development/Logs/
 ===============================================================
+========== STAGE 50 REGISTRATION CALL-GRAPH / CALLBACK REACHABILITY ==========
+STAGE50_RUN: run-20261102-124442-a9b4b83d7295
+STAGE50_VERSION: STAGE50_V2_20261102
+STAGE50_SCOPE: exact native method bodies, registration API call sites, QueueSet/LogicalLink construction, TX/RX callback reachability and pinned Stage48 ABI evidence
+STAGE50_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — direct source call-graph audit only; queue registration and TX/RX datapath remain unapproved until missing edges and rollback are implemented and reviewed
+STAGE50_LOGS: Development/Logs/stage50/run-20261102-124442-a9b4b83d7295/ and unique files directly under Development/Logs/
+===============================================================
