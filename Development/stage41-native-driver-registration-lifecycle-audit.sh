@@ -1,9 +1,9 @@
 #!/bin/bash
-# Stage 41 — audit the Skywalk registration helper chain and network-interface vtable slots.
-# VERSION_MARKER: STAGE41_V1_20261102
+# Stage 41 — capture native driver source and audit the remaining Skywalk registration lifecycle.
+# VERSION_MARKER: STAGE41_V2_20261102
 # READ ONLY: no driver source edits, build, signing, install, Kext load or OpenCore changes.
 set -Eeuo pipefail
-echo "STAGE41_SCRIPT_VERSION=1"
+echo "STAGE41_SCRIPT_VERSION=2"
 
 REPO="shammu2bd/BDIX-TV"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
@@ -58,7 +58,7 @@ PY
 
 {
  echo "========== STAGE 40: SKYWALK REGISTRATION HELPER CHAIN =========="
- echo "script_version=STAGE41_V1_20261102"
+ echo "script_version=STAGE41_V2_20261102"
  echo "timestamp_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
  echo "product_version=$OSVER"
  echo "build_version=$BUILD"
@@ -141,7 +141,7 @@ for rel in files:
  print("===== END SOURCE_FILE %s ====="%rel)
 PY_SRC
 
-# The base methods are reached by the verified Ethernet wrapper in Stage 39.
+# Disassemble the remaining logical-link registration and teardown chain before modifying controller code.
 python3 - "$TOOLS" "$BOOTKC" "$CACHE" "$OBJDUMP" <<'PY' >> "$REPORT"
 import os,pathlib,re,subprocess,sys
 tools,kc_path,cache,objdump=sys.argv[1:]
@@ -179,7 +179,7 @@ else:
         print("VTABLE_SLOT offset=0x%x index=%d raw=0x%x target=0x%x symbol=%s owner=%s"%(off,word,raw,tgt,name,kc.owner(tgt) or kc.sym_owner.get(tgt) or "UNKNOWN"))
 
 wanted=[
-("IOSkywalkEthernetInterface.registerEthernetInterface.logical_link","__ZN26IOSkywalkEthernetInterface25registerEthernetInterfaceEPKNS_16RegistrationInfoEP20IOSkywalkLogicalLinkP25IOSkywalkPacketBufferPoolS7_j"),
+("IOSkywalkEthernetInterface.registerEthernetInterface.logical_link","__ZN26IOSkywalkEthernetInterface25registerEthernetInterfaceEPKNS_16RegistrationInfoEP20IOSkywalkLogicalLinkP25IOSkywalkPacketBufferPoolS6_j"),
 ("IOSkywalkEthernetInterface.deregisterEthernetInterface","__ZN26IOSkywalkEthernetInterface27deregisterEthernetInterfaceEj"),
 ("IOSkywalkNetworkInterface.registerNetworkInterface.logical_link","__ZN25IOSkywalkNetworkInterface24registerNetworkInterfaceEPKNS_16RegistrationInfoEP20IOSkywalkLogicalLinkP25IOSkywalkPacketBufferPoolS6_j"),
 ("IOSkywalkNetworkInterface.registerNetworkInterfaceWithLogicalLink","__ZN25IOSkywalkNetworkInterface39registerNetworkInterfaceWithLogicalLinkEPKNS_16RegistrationInfoEP20IOSkywalkLogicalLinkP25IOSkywalkPacketBufferPoolS6_j"),
