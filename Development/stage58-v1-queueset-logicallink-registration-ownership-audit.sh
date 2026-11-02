@@ -1,11 +1,11 @@
 #!/bin/bash
-# Stage 58 — 24H32 QueueSet/LogicalLink registration transaction and ownership audit.
-# VERSION_MARKER: STAGE58_V1_20261102
+# Stage 58 V2 — 24H32 QueueSet/LogicalLink registration transaction and ownership audit.
+# VERSION_MARKER: STAGE58_V2_20261102
 # READ ONLY: no source edits, build, signing, install/load, SIP/NVRAM, or OpenCore changes.
 set -Eeuo pipefail
 
 REPO="shammu2bd/BDIX-TV"
-VERSION="STAGE58_V1_20261102"
+VERSION="STAGE58_V2_20261102"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 SRC="$SOURCE_ROOT/driver/RTL88WiFi"
 BOOTKC="/System/Library/KernelCollections/BootKernelExtensions.kc"
@@ -143,10 +143,10 @@ for cls,pat in classes.items():
   discovery.append("METHOD class=%s address=0x%x owner=%s symbol=%s"%(
    cls,va,kc.owner(va) or kc.sym_owner.get(va) or "UNKNOWN",nm))
 
-# IOSkywalkQueueSet classifies queues through virtual slot 0x218 (index 67).
+# QueueSet dispatches through virtual slot 0x218 (index 67); record the resolved target without assuming it is a queue-type classifier.
 queue_classes=("IOSkywalkTxSubmissionQueue","IOSkywalkTxCompletionQueue",
                "IOSkywalkRxSubmissionQueue","IOSkywalkRxCompletionQueue")
-slot_lines=["STAGE58_QUEUE_TYPE_VTABLE_SLOT_AUDIT","SLOT_BYTE_OFFSET=0x218","SLOT_INDEX=67"]
+slot_lines=["STAGE58_QUEUESET_VTABLE_DISPATCH_SLOT_AUDIT","SLOT_BYTE_OFFSET=0x218","SLOT_INDEX=67","SEMANTICS=record resolved virtual target; do not label it a queue-type classifier"]
 for cls in ("IOSkywalkPacketQueue",)+queue_classes:
  try: vt=kc.vtable(cls)
  except Exception as e:
@@ -161,7 +161,7 @@ for cls in ("IOSkywalkPacketQueue",)+queue_classes:
   w,r,t,n=vt[idx]
   slot_lines.append("VTABLE_CONTEXT class=%s index=%d offset=0x%x target=0x%x symbol=%s"%(
    cls,idx,idx*8,t,n))
-(out/"vtable-queue-type-slots.txt").write_text("\n".join(slot_lines)+"\n")
+(out/"vtable-dispatch-slot-context.txt").write_text("\n".join(slot_lines)+"\n")
 
 # Resolve selected registration/ownership methods from the actual KC and disassemble.
 resolved=[]; issues=[]; seen=set()
@@ -265,7 +265,7 @@ sdk_lines=["STAGE58_SDK_QUEUESET_LOGICALLINK_REGISTRATION_DECLARATIONS"]
 for path,text in source_text.items():
  if pathlib.PurePosixPath(path).name not in sdk_names: continue
  ls=text.splitlines()
- rx=re.compile(r"QueueSetInfo_s|LogicalLinkInfo_s|registerInfraEthernetInterface|registerEthernetInterface|registerNetworkInterface|deregisterNetworkInterface|createWithQueues|initWithQueues|createWithQueueSet|initWithQueueSet|setQueueSet|getQueueType|setLogicalLink|getQueueSetNexusInfo|getLogicalLinkNexusInfo|typedef .*Action|withPool\s*\(",re.I)
+ rx=re.compile(r"getFreeSpace|queryByteFreeSpace|QueueSetInfo_s|LogicalLinkInfo_s|registerInfraEthernetInterface|registerEthernetInterface|registerNetworkInterface|deregisterNetworkInterface|createWithQueues|initWithQueues|createWithQueueSet|initWithQueueSet|setQueueSet|getQueueType|setLogicalLink|getQueueSetNexusInfo|getLogicalLinkNexusInfo|typedef .*Action|withPool\s*\(",re.I)
  picks=set()
  for i,line in enumerate(ls):
   if rx.search(line):
@@ -286,14 +286,15 @@ for cls,name,path,line,sig,body in records:
 def scope_text(key):return "\n".join(scopes.get(key,[]))
 checks=[
  ("controller creates the native infrastructure interface","RTW88WCLController::start",r"new\s+RTW88WCLInfraInterface|create.*InfraInterface"),
- ("controller creates the Skywalk queue owner","RTW88WCLController::start",r"RTW88WCLSkywalkQueues|createQueues"),
+ ("controller allocates the Skywalk queue owner","RTW88WCLController::start",r"new\\s+RTW88WCLSkywalkQueues"),
+ ("controller calls Skywalk queue createQueues","RTW88WCLController::start",r"_skywalkQueues\\s*->\\s*createQueues\\s*\\("),
  ("controller reaches native Skywalk registration","RTW88WCLController::start",r"registerInfraEthernetInterface|registerEthernetInterface"),
  ("interface start prepares RegistrationInfo","RTW88WCLInfraInterface::start",r"prepareRegistrationInfo"),
  ("interface start invokes Apple registration","RTW88WCLInfraInterface::start",r"registerInfraEthernetInterface|registerEthernetInterface"),
  ("interface start creates or owns the four queues","RTW88WCLInfraInterface::start",r"RTW88WCLSkywalkQueues|createQueues"),
  ("queue creation constructs QueueSet","RTW88WCLSkywalkQueues::createQueues",r"IOSkywalkQueueSet|createWithQueues"),
  ("queue creation constructs LogicalLink","RTW88WCLSkywalkQueues::createQueues",r"IOSkywalkLogicalLink|createWithQueueSet"),
- ("queue teardown releases queues before pools","RTW88WCLSkywalkQueues::destroyQueues",r"_txSubmission|_txCompletion|_rxSubmission|_rxCompletion|_txPool|_rxPool"),
+ ("queue teardown releases all queue objects before either pool","RTW88WCLSkywalkQueues::destroyQueues",r"_rxCompletion[\\s\\S]*_rxSubmission[\\s\\S]*_txCompletion[\\s\\S]*_txSubmission[\\s\\S]*_rxPool[\\s\\S]*_txPool"),
  ("registration source passes queue array and both pools","RTW88WCLInfraInterface::start",r"registerInfraEthernetInterface\s*\([^;]*_txPool[^;]*_rxPool"),
  ("RegistrationInfo helper is called by interface start","RTW88WCLInfraInterface::start",r"prepareRegistrationInfo\s*\("),
  ("RX staged ring is handed to networking queue","RTW88WCLController::stagedRxFrame",r"enqueuePacketsForNetworking|_rxCompletion")
@@ -358,7 +359,7 @@ summary=[
  "APPLE_METHODS_RESOLVED=%d"%len(resolved),
  "APPLE_METHODS_DISASSEMBLED_PASS=%d"%sum("result=PASS" in x for x in status),
  "APPLE_CLASS_COUNT=%d"%len(classes),
- "QUEUE_TYPE_VTABLE_SLOT=0x218 / index 67",
+ "QUEUESET_VIRTUAL_DISPATCH_SLOT=0x218 / index 67",
  "NATIVE_SOURCE_FILES_SCANNED=%d"%len(source_files),
  "NATIVE_METHOD_DEFINITIONS_FOUND=%d"%len(records),
  "STAGE57_PREDECESSOR=VERIFIED",
@@ -378,7 +379,7 @@ PY
  echo "TARGET=$OSVER/$BUILD/$ARCH"
  echo "SOURCE_ROOT=$SOURCE_ROOT"
  echo "PREDECESSOR=Stage57 V2 $STAGE57_RUN"
- echo "SCOPE=24H32 interface registration, QueueSet/LogicalLink constructors, queue-type vtable slot, SDK info structures, ownership and rollback"
+ echo "SCOPE=24H32 interface registration, QueueSet/LogicalLink constructors, QueueSet virtual dispatch slot, SDK info structures, ownership and rollback"
  echo "CALLBACK_RETURN_ABI=IOReturn status; packet count is a separate argument"
  echo "SOURCE_MODIFIED=NO"
  echo "BUILD=NOT_RUN"
@@ -393,7 +394,7 @@ PY
  echo "CLASS_METHOD_DISCOVERY=$OUT/class-method-discovery.txt"
  echo "METHOD_DISASSEMBLY=$OUT/method-disassembly.txt"
  echo "METHOD_STATUS=$OUT/method-status.txt"
- echo "QUEUE_TYPE_VTABLE_SLOTS=$OUT/vtable-queue-type-slots.txt"
+ echo "QUEUESET_VIRTUAL_DISPATCH_SLOTS=$OUT/vtable-dispatch-slot-context.txt"
  echo "SDK_QUEUE_LINK_HEADERS=$OUT/sdk-queue-link-registration-headers.txt"
  echo "NATIVE_REGISTRATION_BODIES=$OUT/native-registration-method-bodies.txt"
  echo "TRANSACTION_MATRIX=$OUT/transaction-matrix.txt"
@@ -484,7 +485,7 @@ upload_artifact() {
  upload_one "$file" "$root" 0
  echo "GROUPED=$group | ROOT=$root | SHA256=$(shasum -a 256 "$file" | awk '{print $1}')" >> "$MAN"
 }
-for f in "$OUT"/report.txt "$OUT"/audit-summary.txt "$OUT"/source-fingerprint.txt "$OUT"/class-method-discovery.txt "$OUT"/method-disassembly.txt "$OUT"/method-status.txt "$OUT"/vtable-queue-type-slots.txt "$OUT"/sdk-queue-link-registration-headers.txt "$OUT"/native-registration-method-bodies.txt "$OUT"/transaction-matrix.txt "$OUT"/registration-reference-inventory.txt "$OUT"/callback-return-abi-clarification.txt; do
+for f in "$OUT"/report.txt "$OUT"/audit-summary.txt "$OUT"/source-fingerprint.txt "$OUT"/class-method-discovery.txt "$OUT"/method-disassembly.txt "$OUT"/method-status.txt "$OUT"/vtable-dispatch-slot-context.txt "$OUT"/sdk-queue-link-registration-headers.txt "$OUT"/native-registration-method-bodies.txt "$OUT"/transaction-matrix.txt "$OUT"/registration-reference-inventory.txt "$OUT"/callback-return-abi-clarification.txt; do
  [[ -f "$f" ]] || fail "missing audit artifact: $f"
  bytes="$(wc -c < "$f" | tr -d ' ')"
  if (( bytes <= 225280 )); then
@@ -506,7 +507,7 @@ entry=(
  "\n========== STAGE 58 QUEUESET / LOGICALLINK REGISTRATION AND OWNERSHIP AUDIT ==========\n"
  "STAGE58_RUN: %s\n"%run+
  "STAGE58_VERSION: %s\n"%version+
- "STAGE58_SCOPE: 24H32 interface registration, queue-type classification, QueueSet/LogicalLink metadata, queue ownership and rollback\n"+
+ "STAGE58_SCOPE: 24H32 interface registration, queue dispatch-slot resolution, QueueSet/LogicalLink metadata, queue ownership and rollback\n"+
  "STAGE58_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\n"+
  "ACTIVATION_GATE: BLOCKED — registration/ownership audit only; no queue activation or hardware-test authorization\n"+
  "STAGE58_LOGS: Development/Logs/stage58/%s/ and unique files directly under Development/Logs/\n"%run+
