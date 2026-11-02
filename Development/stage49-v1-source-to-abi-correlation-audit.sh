@@ -80,8 +80,8 @@ matrix=["STAGE49_GAP_MATRIX (pattern-presence only; manual review required)"]
 for label,a,b in checks:
  ma=bool(re.search(a,alltext,re.I)); mb=bool(re.search(b,alltext,re.I))
  matrix.append(f"{label}: {'FOUND' if ma else 'NOT_FOUND'} primary-pattern; {'FOUND' if mb else 'NOT_FOUND'} corroborating-pattern; STATUS=REVIEW_REQUIRED")
-matrix.append("SOURCE_START_FENCE="+("FOUND" if re.search(r"bool\\s+RTW88WCLInfraInterface::start[\\s\\S]{0,1200}?return\\s+false",alltext) else "NOT_CONFIRMED"))
-matrix.append("CALLBACK_ZERO_RETURN="+("FOUND" if re.search(r"(txSubmissionAction|txCompletionAction|rxSubmissionAction|rxCompletionAction)[\\s\\S]{0,1600}?return\\s+0",alltext) else "NOT_CONFIRMED"))
+matrix.append("SOURCE_START_FENCE="+("FOUND" if re.search(r"bool\s+RTW88WCLInfraInterface::start[\s\S]{0,1200}?return\s+false",alltext) else "NOT_CONFIRMED"))
+matrix.append("CALLBACK_ZERO_RETURN="+("FOUND" if re.search(r"(txSubmissionAction|txCompletionAction|rxSubmissionAction|rxCompletionAction)[\s\S]{0,1600}?return\s+0",alltext) else "NOT_CONFIRMED"))
 (out/"gap-matrix.txt").write_text("\n".join(matrix)+"\n")
 PY
 {
