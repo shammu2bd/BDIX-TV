@@ -241,3 +241,16 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary files are stored only under the Stage26 source project's `run log/stage50/<run>/` directory. The runner uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; Stage50 is an audit only and does not authorize queue registration or hardware testing.
+
+
+## Stage51 — controller / infrastructure-interface ownership and lifecycle audit
+
+Stage51 is a read-only source audit of the relationship between `RTW88WCLController` and `RTW88WCLInfraInterface`. It extracts the qualified out-of-line methods for both classes, inventories code-only references across the source tree, and checks direct method-body edges for object construction, radio attach/detach, primary Skywalk interface wiring, registration preparation, and start/stop/free ordering. It also scans textual personality/metadata files for class references and verifies the Stage43 source fingerprints. A direct reference is evidence of a source edge, not proof of runtime execution.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage51-v1-controller-interface-lifecycle-audit.sh" | bash
+```
+
+Temporary files are stored only under the Stage26 source project's `run log/stage51/<run>/` directory. The runner uploads grouped and unique root-mirror artifacts with Git blob SHA readback verification, then appends a checkpoint to `Development/output.log`. It does not edit driver source, build, sign, install or load a kext, modify OpenCore/SIP/NVRAM, or touch the known-good legacy kext. The activation gate remains BLOCKED; this audit does not authorize interface registration or hardware testing.
