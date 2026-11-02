@@ -324,17 +324,18 @@ scopes={}
 for cls,name,path,line,sig,body in records:
  scopes.setdefault(cls+"::"+name,[]).append(code_only(body))
 def scope_text(key):return "\n".join(scopes.get(key,[]))
-def global_code(pattern):
+def global_code(pattern,cpp_only=False):
  rxg=re.compile(pattern,re.I|re.S)
  for path,text in source_text.items():
+  if cpp_only and pathlib.PurePosixPath(path).suffix.lower() not in (".cpp",".cc",".cxx"): continue
   code=code_only(text)
   if rxg.search(code):return True,path
  return False,""
 checks=[
- ("SDK declares getFreeSpace as a no-argument UInt32 virtual","IOSkywalkPacketQueue.h",r"virtual\s+UInt32\s+getFreeSpace\s*\(\s*\)"),
- ("SDK declares getPacketCount as a no-argument UInt32 virtual","IOSkywalkPacketQueue.h",r"virtual\s+UInt32\s+getPacketCount\s*\(\s*\)\s*=\s*0"),
- ("native WCL calls QueueSet construction API","GLOBAL",r"createWithQueues\s*\("),
- ("native WCL calls LogicalLink construction API","GLOBAL",r"createWithQueueSet\s*\("),
+ ("SDK declares getFreeSpace as a no-argument UInt32 virtual","GLOBAL",r"virtual\s+UInt32\s+getFreeSpace\s*\(\s*\)"),
+ ("SDK declares getPacketCount as a no-argument UInt32 virtual","GLOBAL",r"virtual\s+UInt32\s+getPacketCount\s*\(\s*\)\s*=\s*0"),
+ ("native WCL calls QueueSet construction API","CPP",r"createWithQueues\s*\("),
+ ("native WCL calls LogicalLink construction API","CPP",r"createWithQueueSet\s*\("),
  ("controller allocates and creates native queues","RTW88WCLController::start",r"new\s+RTW88WCLSkywalkQueues[\s\S]*_skywalkQueues\s*->\s*createQueues\s*\("),
  ("controller reaches registration API","RTW88WCLController::start",r"registerInfraEthernetInterface|registerEthernetInterface"),
  ("infra start calls RegistrationInfo helper","RTW88WCLInfraInterface::start",r"prepareRegistrationInfo\s*\("),
@@ -351,8 +352,8 @@ matrix=["STAGE59_PACKET_QUEUE_DISPATCH_AND_REGISTRATION_GAP_MATRIX",
         "NATIVE_SOURCE_FILES_SCANNED=%d"%len(source_files),
         "NATIVE_METHOD_DEFINITIONS_FOUND=%d"%len(records)]
 for label,scope,pattern in checks:
- if scope=="GLOBAL":
-  ok,path=global_code(pattern)
+ if scope in ("GLOBAL","CPP"):
+  ok,path=global_code(pattern,cpp_only=(scope=="CPP"))
   matrix += ["\nCHECK="+label,"SCOPE=whole native source tree",
              "RESULT="+("PRESENT" if ok else "NOT_FOUND"),
              "SOURCE="+(path if path else "none")]
