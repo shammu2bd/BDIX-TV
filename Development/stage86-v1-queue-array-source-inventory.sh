@@ -123,7 +123,7 @@ queue_out.write_text("\n".join(qrows)+"\n")
 ptr_patterns=[
  r"\b[A-Za-z_]\w*(?:IOSkywalk|Skywalk|Packet|Queue)[A-Za-z_0-9]*\s*\*+\s*[A-Za-z_]\w*\s*\[\s*\d*\s*\]",
  r"\b(?:std::array|std::vector)\s*<[^;\n>]*(?:Queue|Packet)[^;\n>]*>",
- r"\b(?:OSArray|OSCollection|OSData)\s*\*+\s*[A-Za-z_]\w*",
+ r"\b(?:OSArray|OSCollection|OSData)\s*\*+\s*[A-Za-z_]\w*(?:Queue|Packet)[A-Za-z_0-9]*",
  r"\b[A-Za-z_]\w*(?:Queue|Packet)[A-Za-z_0-9]*\s*\*+\s*[A-Za-z_]\w*\s*=\s*\{"
 ]
 ptr_hits=[]
