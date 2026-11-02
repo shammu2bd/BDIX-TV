@@ -243,9 +243,9 @@ all_cpp={k:v for k,v in clean.items() if k.endswith((".cpp",".cc",".mm"))}
 drain_refs=[]
 for rel,body in all_cpp.items():
  for n,line in enumerate(body.splitlines(),1):
-  if re.search(r"\bdrainCompletions\s*\(",line):
+  if re.search(r"\bdrainCompletions\s*\(",line) and "::drainCompletions" not in line:
    drain_refs.append((rel,n,line.strip()))
-handoff.append("TX_DRAIN_REFERENCE_LOCATIONS="+str(len(drain_refs)))
+handoff.append("TX_DRAIN_CALL_SITES="+str(len(drain_refs)))
 for rel,n,line in drain_refs: handoff.append("DRAIN_REF="+rel+":"+str(n)+" "+line[:240])
 # Controller RX enqueue and stage ring has no deliver-to-Skywalk API in this slice.
 for token in ["enqueueFrame","_stagedRxPackets.push","_stagedRxPackets.pop","inputPacket","receivePacket","deliverPacket"]:
