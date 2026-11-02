@@ -236,8 +236,15 @@ restore_fw_generated
 ARTIFACT=""
 ARTIFACT_REMOTE=""
 ARTIFACT_SHA=""
+ARTIFACT_BLOB="NONE"
 ARTIFACT_BYTES=0
 KEXT="$SRC/build/out/RTL88WiFiNative.kext"
+if [[ "$BUILD_RC" -eq 0 && -f "$KEXT/Contents/MacOS/RTL88WiFiNative" && -f "$KEXT/Contents/Info.plist" ]]; then
+  if ! plutil -lint "$KEXT/Contents/Info.plist" >/dev/null 2>&1 || ! lipo -verify_arch x86_64 "$KEXT/Contents/MacOS/RTL88WiFiNative" >/dev/null 2>&1; then
+    echo "BUILD_VALIDATION_FAILED=plist or x86_64 architecture validation failed" >> "$REPORT"
+    BUILD_RC=98
+  fi
+fi
 if [[ "$BUILD_RC" -eq 0 && ( ! -f "$KEXT/Contents/MacOS/RTL88WiFiNative" || ! -f "$KEXT/Contents/Info.plist" ) ]]; then
   echo "BUILD_VALIDATION_FAILED=expected Kext executable or Info.plist is missing" >> "$REPORT"
   BUILD_RC=97
@@ -317,13 +324,14 @@ if [[ -n "$ARTIFACT" && "$ARTIFACT_BYTES" -le 25000000 ]]; then
   ARTIFACT_REMOTE="Development/Artifacts/stage35t/RTL88WiFiNative-$RUN.tar.gz"
   upload_file "$ARTIFACT" "$ARTIFACT_REMOTE" "Add Stage35T native Kext artifact $RUN" "$OUT/artifact-upload.json" "$OUT/artifact-upload-response.json"
   echo "KEXT_ARCHIVE_GITHUB_PATH=$ARTIFACT_REMOTE" >> "$REPORT"
+  ARTIFACT_BLOB="$UPLOAD_SHA"
   echo "KEXT_ARCHIVE_GITHUB_BLOB=$UPLOAD_SHA" >> "$REPORT"
 fi
 
 mkdir -p "$OUT/parts"
 split -b 220k "$REPORT" "$OUT/parts/report-"
 MANIFEST="$OUT/manifest.txt"
-printf 'STAGE: 35T\nRUN: %s\nTARGET: rtl88wifi-native\nBUILD_EXIT: %s\nPATCH_SCOPE: mac.c ltecoex_bckp=0; pci.c DBI flag=0; pci.c MDIO wflag=0\nARTIFACT_PATH: %s\nARTIFACT_SHA256: %s\nARTIFACT_BYTES: %s\n' "$RUN" "$BUILD_RC" "${ARTIFACT_REMOTE:-NONE}" "${ARTIFACT_SHA:-NONE}" "$ARTIFACT_BYTES" > "$MANIFEST"
+printf 'STAGE: 35T\nRUN: %s\nTARGET: rtl88wifi-native\nBUILD_EXIT: %s\nPATCH_SCOPE: mac.c ltecoex_bckp=0; pci.c DBI flag=0; pci.c MDIO wflag=0\nARTIFACT_PATH: %s\nARTIFACT_BLOB: %s\nARTIFACT_SHA256: %s\nARTIFACT_BYTES: %s\n' "$RUN" "$BUILD_RC" "${ARTIFACT_REMOTE:-NONE}" "$ARTIFACT_BLOB" "${ARTIFACT_SHA:-NONE}" "$ARTIFACT_BYTES" > "$MANIFEST"
 COUNT=0
 for part in "$OUT"/parts/report-*; do
   [[ -f "$part" ]] || continue
