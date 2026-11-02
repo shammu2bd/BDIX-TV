@@ -133,7 +133,7 @@ for block in blocks:
  if m: parsed[m.group(2)]=block
 if len(parsed)!=12: issues.append("RECONCILED_DISASSEMBLY_BLOCK_COUNT_NOT_12")
 contracts=[
- ("getDataLength","__ZNK15IOSkywalkPacket13getDataLengthEv",[r"call\\s+.*__ZNK21IOSkywalkPacketBuffer13getDataLengthEv",r"add\s+r14d,\s*eax",r"mov\s+eax,\s*r14d"]),
+ ("getDataLength","__ZNK15IOSkywalkPacket13getDataLengthEv",[r"call\s+.*__ZNK21IOSkywalkPacketBuffer13getDataLengthEv",r"add\s+r14d,\s*eax",r"mov\s+eax,\s*r14d"]),
  ("packet prepare","__ZN15IOSkywalkPacket7prepareEP20IOSkywalkPacketQueueyj",[r"test\s+byte ptr \[rdi \+ 0x58\], 0x2",r"getDirectionEv",r"\[rax \+ 0x188\]",r"jmp\s+rax"]),
  ("packet completeWithQueue","__ZN15IOSkywalkPacket17completeWithQueueEP20IOSkywalkPacketQueuejj",[r"\[rax \+ 0x148\]",r"\[rax \+ 0x220\]",r"and\s+byte ptr \[r15 \+ 0x58\], -0x3",r"\[rax \+ 0x1a0\]"]),
  ("packet disposePacket","__ZN15IOSkywalkPacket13disposePacketEv",[r"disposePacketBufferEv",r"mov\s+qword ptr \[rbx \+ 0x28\], rax",r"mov\s+qword ptr \[rbx \+ 0x38\], rax",r"mov\s+dword ptr \[rbx \+ 0x64\], eax"]),
