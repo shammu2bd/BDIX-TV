@@ -381,3 +381,15 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage61/<run>/` directory. Reports are uploaded to `Development/Logs/stage61/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED.
+
+## Stage62 — QueueSet / LogicalLink registration metadata audit
+
+Stage62 is a read-only continuation of Stage61. It verifies the ten Stage61 predecessor artifacts by Git blob SHA, then disassembles the 24H32 queue-array registration wrapper, QueueSet/LogicalLink creation and initialization, registration overloads, and related teardown methods. It traces the caller's QueueSet control word (0x3 or 0xb), what QueueSet initialization reads from it, and the separate LogicalLink initializer (the caller stages 0x50 bytes and writes its first dword to 1; the selected initializer reads that first dword). It deliberately does not invent the full private `QueueSetInfo_s` or `LogicalLinkInfo_s` sizes or layouts. It also records constructor/reference and teardown edges and scans the local driver/SDK source for private type declarations. No driver edits, build/sign/install/load, or OpenCore/SIP/NVRAM changes are performed; native registration and packet-path ownership remain activation blockers.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/stage62-v1-queueset-logical-link-registration-metadata-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage62/<run>/` directory. Reports are uploaded to `Development/Logs/stage62/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED.
