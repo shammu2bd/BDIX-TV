@@ -96,7 +96,7 @@ for i,line in enumerate(lines,1):
     m=re.match(r"^([A-Za-z0-9_./%+\-]+)\s*:(?!=)",line)
     if m:
         name=m.group(1)
-        if "native" in name.lower() or "rtl88wifinative" in line.lower() or "native" in line.lower():
+        if "native" in name.lower() or "rtl88wifinative" in name.lower():
             targets.append((name,i,line.strip()))
 print("MAKEFILE_TARGET_DECLARATIONS_WITH_NATIVE=%d"%len(targets))
 for name,n,line in targets:
