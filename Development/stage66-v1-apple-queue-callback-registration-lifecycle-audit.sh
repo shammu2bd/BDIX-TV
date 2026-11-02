@@ -151,13 +151,20 @@ for cls,pat in patterns:
  for va,nm in hits:
   methods[va]=(cls,nm,"packet-lifecycle")
 # Capture base queue methods whose names expose callback registration or dispatch.
-base_hits=[]
+base_hits=[]; excluded_base_data=[]
 for va,nm in kc.methods("IOSkywalkPacketQueue"):
  va=as_addr(va)
+ # kc.methods() can include static class metadata symbols as well as executable methods.
+ # These Itanium member-data symbols are not callable code and must not be disassembled.
+ if re.search(r"(?:metaClass|superClass|gMetaClass)E$",nm,re.I):
+  excluded_base_data.append((va,nm))
+  continue
  if re.search(r"init|callback|action|enqueue|dequeue|complete|submit|packet",nm,re.I):
   methods[va]=("IOSkywalkPacketQueue",nm,"base-queue-method")
   base_hits.append((va,nm))
 discovered += ["BASE_QUEUE_METHOD address=0x%x symbol=%s"%(va,nm) for va,nm in base_hits]
+discovered += ["BASE_QUEUE_NONCODE_METADATA_EXCLUDED address=0x%x symbol=%s"%(va,nm)
+               for va,nm in excluded_base_data]
 
 resolved=[]
 for va,(cls,nm,kind) in sorted(methods.items()):
