@@ -369,3 +369,15 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 ```
 
 Temporary output remains under the Stage26 source project's `run log/stage60/<run>/` directory. Reports are uploaded to `Development/Logs/stage60/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED; this ABI clarification does not authorize queue registration, a kext build, or hardware testing.
+
+## Stage61 — queue descriptor record and QueueSet classification audit
+
+Stage61 is a read-only continuation of Stage60. It verifies the nine Stage60 predecessor artifacts by Git blob SHA, rechecks the corrected queue vtable address point, disassembles `IOSkywalkQueueSet::initWithQueues` and all four concrete queue `performCommand` overrides, and decodes the two relative jump tables used for queue counting and grouping. It verifies the 16-byte per-queue query record passed with command `0x10000`: a 32-bit queue-kind code, a 32-bit capacity field, and a 64-bit packet-buffer-pool pointer. The four kind codes are checked against the concrete queue implementations and QueueSet array/count member offsets. The private `QueueSetInfo_s` argument is explicitly kept separate from this output record. No driver edits, build/sign/install/load, or OpenCore/SIP/NVRAM changes are performed; registration and packet-ownership gaps remain activation blockers.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage61-v1-queue-descriptor-classification-record-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage61/<run>/` directory. Reports are uploaded to `Development/Logs/stage61/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED.
