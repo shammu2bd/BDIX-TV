@@ -23,7 +23,7 @@ This document is the chronological index of the work completed and audited acros
 
 ## Current project state after Stage 88
 
-<badge>IMPLEMENTATION NOT AUTHORIZED</badge>
+**Status: IMPLEMENTATION NOT AUTHORIZED**
 
 The last recorded milestone is **Stage 88 V1** (`run-20261102-205135-b4f4ddc49298`). It decoded the WMM service-class values and verified Apple QueueSet pointer-array lifetime behavior. The native source still does not contain the required four-queue pointer array or a native registration call. Four TX/RX callback ownership handoffs are still missing. The activation gate remains **BLOCKED**.
 
