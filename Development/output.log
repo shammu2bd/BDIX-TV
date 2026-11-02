@@ -111,3 +111,11 @@ STAGE49_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — source-pattern correlation is not proof of safe queue activation; manual ABI/ownership review and implementation remain required
 STAGE49_LOGS: Development/Logs/stage49/run-20261102-122652-fc6a55d99118/ and unique files directly under Development/Logs/
 ========================================================
+========== STAGE 50 REGISTRATION CALL-GRAPH / CALLBACK REACHABILITY ==========
+STAGE50_RUN: run-20261102-123837-7ca0eca6e02f
+STAGE50_VERSION: STAGE50_V1_20261102
+STAGE50_SCOPE: exact native method bodies, registration API call sites, QueueSet/LogicalLink construction, TX/RX callback reachability and pinned Stage48 ABI evidence
+STAGE50_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — direct source call-graph audit only; queue registration and TX/RX datapath remain unapproved until missing edges and rollback are implemented and reviewed
+STAGE50_LOGS: Development/Logs/stage50/run-20261102-123837-7ca0eca6e02f/ and unique files directly under Development/Logs/
+===============================================================
