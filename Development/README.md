@@ -164,7 +164,7 @@ Stage44 is a read-only 24H32 Kernel Collection audit of `IO80211InfraInterface::
 Run on the target Mac:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage44-v3-bsd-prepare-finalize-abi-audit.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage44-v4-bsd-prepare-finalize-abi-audit.sh | bash
 ```
 
 The runner stores temporary output only inside the Stage26 source project's `run log/stage44/` directory. Every report part and supporting audit file is retained both in a timestamped `Development/Logs/stage44/<run>/` folder and as a unique stage/timestamp-named file directly under `Development/Logs/`; every upload is read back and SHA-verified. A concise checkpoint is appended to `Development/output.log`. This audit does not close the activation gate: queue registration, TX/RX completion ownership, publication, and teardown still require verified implementation.
