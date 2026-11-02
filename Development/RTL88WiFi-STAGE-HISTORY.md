@@ -161,6 +161,10 @@ Important distinctions:
 | Native kext installed/loaded and RTL8821CE hardware tested | **NOT RUN / NOT VERIFIED**. |
 | OpenCore block/config change | **NONE** in these audits; preserve the existing configuration and working legacy kext. |
 
+## Implementation roadmap
+
+The proposed next sequence is maintained in [RTL88WiFi-ROADMAP-STAGE89-101.md](./RTL88WiFi-ROADMAP-STAGE89-101.md). It starts with four-queue construction and registration-argument assembly (Stage 89), then packet/queue ownership, the four TX/RX handoffs, integrated registration/rollback, focused tests, clean build, isolated test boot and hardware validation. Reading the roadmap does not authorize registration, signing, installation, loading or OpenCore changes.
+
 ## Next engineering boundary
 
 The next work should be a **separate implementation stage**, not another broad ABI inventory. Before any queue activation, implement and review in the native source:
