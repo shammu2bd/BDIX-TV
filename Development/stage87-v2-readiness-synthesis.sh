@@ -99,15 +99,15 @@ ptr=(out/"STAGE86-pointer-array-declaration-inventory.txt").read_text(errors="re
 queue=(out/"STAGE86-queue-array-reference-inventory.txt").read_text(errors="replace")
 wmm_dis=(out/"STAGE85-wmm-predicate-disassembly.txt").read_text(errors="replace")
 wmm_checks={
- "QUEUE_ARRAY_ITERATION":r"mov\\s+rdi,\\s*qword ptr \\[r14 \\+ 8\\*r15\\]",
- "PERFORMCOMMAND_ID_AND_SIZE":r"mov\\s+esi,\\s*0x10000",
- "PERFORMCOMMAND_SUCCESS_GATE":r"cmp\\s+dword ptr \\[rbp - 0x50\\],\\s*0x1",
+ "QUEUE_ARRAY_ITERATION":r"mov\s+rdi,\s*qword ptr \[r14 \\+ 8\*r15\]",
+ "PERFORMCOMMAND_ID_AND_SIZE":r"mov\s+esi,\s*0x10000",
+ "PERFORMCOMMAND_SUCCESS_GATE":r"cmp\s+dword ptr \[rbp - 0x50\],\s*0x1",
  "SERVICE_CLASS_LOOKUP":"getServiceClass",
  "FOUR_VALUE_WMM_TABLE":"wmmAC",
- "SERVICE_CLASS_MATCH":"cmp\\s+dword ptr \\[rcx \\+ r13\\],\\s*eax",
- "MATCH_COUNT_INCREMENT":"inc\\s+dword ptr \\[rbp \\+ rcx - 0x40\\]",
- "FOUR_TABLE_ENTRIES":"cmp\\s+rcx,\\s*0x3",
- "EXACTLY_ONE_PER_ENTRY":"cmp\\s+dword ptr \\[rbp \\+ 4\\*rcx - 0x40\\],\\s*0x1"
+ "SERVICE_CLASS_MATCH":"cmp\s+dword ptr \[rcx \\+ r13\],\s*eax",
+ "MATCH_COUNT_INCREMENT":"inc\s+dword ptr \[rbp \\+ rcx - 0x40\]",
+ "FOUR_TABLE_ENTRIES":"cmp\s+rcx,\s*0x3",
+ "EXACTLY_ONE_PER_ENTRY":"cmp\s+dword ptr \[rbp \\+ 4\*rcx - 0x40\],\s*0x1"
 }
 wmm_semantics_ok=all((v in wmm_dis if k in ("SERVICE_CLASS_LOOKUP","FOUR_VALUE_WMM_TABLE") else re.search(v,wmm_dis,re.I) is not None) for k,v in wmm_checks.items())
 issues=[]
