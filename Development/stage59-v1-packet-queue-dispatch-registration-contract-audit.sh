@@ -210,13 +210,19 @@ for owner in sorted({x[3] for x in resolved}):
 
 # Preserve the exact QueueSet initWithQueues indirect-dispatch sequence and nearby instructions.
 dispatch_lines=["STAGE59_QUEUESET_INITWITHQUEUES_INDIRECT_DISPATCH_CONTEXT"]
-for block in all_disasm:
- if "symbol=__ZN17IOSkywalkQueueSet14initWithQueues" in block:
-  ls=block.splitlines()
-  indexes=[i for i,line in enumerate(ls) if re.search(r"call\s+qword ptr \[rax \+ 0x218\]",line)]
-  dispatch_lines += ["CALLSITE_COUNT=%d"%len(indexes)]
-  for ix in indexes:
-   dispatch_lines += ["\nCALLSITE_CONTEXT_BEGIN"]+ls[max(0,ix-14):min(len(ls),ix+22)]+["CALLSITE_CONTEXT_END"]
+all_text="\n".join(all_disasm)
+start=all_text.find("===== METHOD class=IOSkywalkQueueSet symbol=__ZN17IOSkywalkQueueSet14initWithQueues")
+if start>=0:
+ end=all_text.find("\n===== METHOD ",start+1)
+ block=all_text[start:end if end>=0 else len(all_text)]
+ ls=block.splitlines()
+ indexes=[i for i,line in enumerate(ls) if re.search(r"call\s+qword ptr \[rax \+ 0x218\]",line)]
+ dispatch_lines.append("QUEUESET_INITWITHQUEUES_METHOD=PRESENT")
+ dispatch_lines.append("CALLSITE_COUNT=%d"%len(indexes))
+ for ix in indexes:
+  dispatch_lines += ["\nCALLSITE_CONTEXT_BEGIN"]+ls[max(0,ix-14):min(len(ls),ix+22)]+["CALLSITE_CONTEXT_END"]
+else:
+ dispatch_lines += ["QUEUESET_INITWITHQUEUES_METHOD=NOT_FOUND","CALLSITE_COUNT=0"]
 (out/"queueset-indirect-callsite-context.txt").write_text("\n".join(dispatch_lines)+"\n")
 
 # Extract local SDK declarations for queue methods and callback typedefs.
