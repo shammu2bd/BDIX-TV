@@ -102,8 +102,8 @@ python3 - "$MAC" "$PCI" <<'PY'
 import pathlib,sys
 macp,pcip=map(pathlib.Path,sys.argv[1:])
 mac=macp.read_text()
-old="\\tu32 ltecoex_bckp;\\n"
-new="\\tu32 ltecoex_bckp = 0;\\n"
+old="\tu32 ltecoex_bckp;\\n"
+new="\tu32 ltecoex_bckp = 0;\\n"
 if mac.count(old)!=1:
     raise SystemExit("PATCH_BLOCKED: mac.c declaration is not unique")
 mac=mac.replace(old,new,1)
@@ -117,15 +117,15 @@ if pci.count(a)!=1 or pci.count(b)!=1 or pci.count(c)!=1 or pci.count(d)!=1:
     raise SystemExit("PATCH_BLOCKED: expected PCI function boundaries are not unique")
 left=pci.index(a); right=pci.index(b,left)
 dbi=pci[left:right]
-if dbi.count("\\tu8 flag;\\n")!=1:
+if dbi.count("\tu8 flag;\\n")!=1:
     raise SystemExit("PATCH_BLOCKED: DBI flag declaration mismatch")
-dbi=dbi.replace("\\tu8 flag;\\n","\\tu8 flag = 0;\\n",1)
+dbi=dbi.replace("\tu8 flag;\\n","\tu8 flag = 0;\\n",1)
 pci=pci[:left]+dbi+pci[right:]
 left=pci.index(c); right=pci.index(d,left)
 mdio=pci[left:right]
-if mdio.count("\\tu8 wflag;\\n")!=1:
+if mdio.count("\tu8 wflag;\\n")!=1:
     raise SystemExit("PATCH_BLOCKED: MDIO wflag declaration mismatch")
-mdio=mdio.replace("\\tu8 wflag;\\n","\\tu8 wflag = 0;\\n",1)
+mdio=mdio.replace("\tu8 wflag;\\n","\tu8 wflag = 0;\\n",1)
 pci=pci[:left]+mdio+pci[right:]
 macp.write_text(mac); pcip.write_text(pci)
 print("PATCHED mac.c: ltecoex_bckp initialized to 0")
@@ -181,7 +181,7 @@ for n,line in enumerate(lines,1):
     elif exe=="echo": commands.append(("echo",t))
     elif exe=="python3" and len(argv)>=2 and argv[1]==str(src/"scripts/gen_fw_blobs.py"):
         commands.append(("firmware-generator",t))
-    elif exe=="rsync" and len(argv)==4 and argv[1:3]==["-a","--exclude=MacOS"] and argv[3].startswith(str(src)+"/"):
+    elif exe=="rsync" and len(argv)==5 and argv[1:3]==["-a","--exclude=MacOS"] and argv[3]==str(src)+"/RTL88WiFiNative.kext/" and argv[4]==str(src)+"/build/out/RTL88WiFiNative.kext/":
         commands.append(("kext-template-copy",t))
     else: issues.append("UNEXPECTED_RECIPE line %d: %s"%(n,t[:260]))
 comp=[x[1] for x in commands if x[0]=="compiler"]
@@ -319,7 +319,7 @@ fi
 mkdir -p "$OUT/parts"
 split -b 220k "$REPORT" "$OUT/parts/report-"
 MANIFEST="$OUT/manifest.txt"
-printf 'STAGE: 35T\nRUN: %s\nTARGET: rtl88wifi-native\nBUILD_EXIT: %s\nPATCH_SCOPE: mac.c ltecoex_bckp=0; pci.c DBI flag=0; pci.c MDIO wflag=0\nARTIFACT_PATH: %s\nARTIFACT_SHA256: %s\nARTIFACT_BYTES: %s\n' "$RUN" "$BUILD_RC" "\${ARTIFACT_REMOTE:-NONE}" "\${ARTIFACT_SHA:-NONE}" "$ARTIFACT_BYTES" > "$MANIFEST"
+printf 'STAGE: 35T\nRUN: %s\nTARGET: rtl88wifi-native\nBUILD_EXIT: %s\nPATCH_SCOPE: mac.c ltecoex_bckp=0; pci.c DBI flag=0; pci.c MDIO wflag=0\nARTIFACT_PATH: %s\nARTIFACT_SHA256: %s\nARTIFACT_BYTES: %s\n' "$RUN" "$BUILD_RC" "${ARTIFACT_REMOTE:-NONE}" "${ARTIFACT_SHA:-NONE}" "$ARTIFACT_BYTES" > "$MANIFEST"
 COUNT=0
 for part in "$OUT"/parts/report-*; do
   [[ -f "$part" ]] || continue
@@ -336,7 +336,7 @@ echo "STAGE35T_STATUS=UPLOADED_AND_READBACK_VERIFIED"
 echo "STAGE35T_RUN=$RUN"
 echo "STAGE35T_BUILD_EXIT=$BUILD_RC"
 echo "STAGE35T_PATCH_PERSISTED=$([[ "$BUILD_RC" -eq 0 ]] && echo YES || echo NO)"
-echo "STAGE35T_ARTIFACT_REMOTE=\${ARTIFACT_REMOTE:-NONE}"
+echo "STAGE35T_ARTIFACT_REMOTE=${ARTIFACT_REMOTE:-NONE}"
 echo "STAGE35T_LOG_URL=https://github.com/$REPO/tree/main/Development/Logs/stage35t/$RUN"
 trap - ERR
 exit "$BUILD_RC"
