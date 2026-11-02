@@ -87,6 +87,12 @@ sys.path.insert(0,str(out/"tools"))
 from kcfile import KC
 os.environ["LLVM_OBJDUMP"]=objdump
 
+def as_addr(value):
+ if isinstance(value,int): return value
+ if value is None: return 0
+ raw=str(value).strip()
+ return int(raw,16) if re.fullmatch(r"(?:0x)?[0-9a-fA-F]+",raw) else int(raw,0)
+
 fingerprint_items={
  "src/kext/wcl24h32/RTW88WCLInfraInterface.cpp":"2a6da4ac698635e2bfe904a23004536478d60cad99718ec3d7186e9be68cfc9b",
  "src/kext/wcl24h32/RTW88WCL24H32InterfaceABI.hpp":"63a6a038ef7513312c686199b00e8cf45a16d251c7792ab03d2f5986f9fd84fb",
@@ -108,6 +114,7 @@ queue_classes=("IOSkywalkTxSubmissionQueue","IOSkywalkTxCompletionQueue",
 # The initWithPool methods call IOSkywalkPacketQueue's vtable slot 0x240.
 for cls in queue_classes:
  for va,nm in kc.methods(cls):
+  va=as_addr(va)
   if re.search(r"initWithPool",nm,re.I):
    methods[va]=(cls,nm,"queue-init")
    discovered.append("QUEUE_INIT class=%s address=0x%x symbol=%s"%(cls,va,nm))
@@ -120,6 +127,7 @@ try:
  idx=0x240//8
  if len(vt)<=idx: raise RuntimeError("vtable too short")
  word,raw,tgt,nm=vt[idx]
+ tgt=as_addr(tgt)
  owner=kc.owner(tgt) or kc.sym_owner.get(tgt) or "UNKNOWN"
  base_vtable_lines.append("SLOT offset=0x240 index=%d target=0x%x owner=%s symbol=%s"%(idx,tgt,owner,nm))
  if not tgt or owner=="UNKNOWN": issues.append("PACKET_QUEUE_INIT_TARGET_UNRESOLVED")
@@ -135,7 +143,9 @@ patterns=[
  ("IOSkywalkRxSubmissionQueue",r"gatedDequeue|refillRxRing|legacyDequeue|listDequeue|retryDequeue"),
  ("IOSkywalkRxCompletionQueue",r"gatedEnqueue|enqueuePacketsForKPipe|enqueuePacketsForNetworking")]
 for cls,pat in patterns:
- hits=[(va,nm) for va,nm in kc.methods(cls) if re.search(pat,nm,re.I)]
+ hits=[]
+ for va,nm in kc.methods(cls):
+  if re.search(pat,nm,re.I): hits.append((as_addr(va),nm))
  discovered.append("LIFECYCLE_DISCOVERY class=%s pattern=%s count=%d"%(cls,pat,len(hits)))
  if not hits: issues.append("LIFECYCLE_HELPER_NOT_FOUND_"+cls)
  for va,nm in hits:
@@ -143,6 +153,7 @@ for cls,pat in patterns:
 # Capture base queue methods whose names expose callback registration or dispatch.
 base_hits=[]
 for va,nm in kc.methods("IOSkywalkPacketQueue"):
+ va=as_addr(va)
  if re.search(r"init|callback|action|enqueue|dequeue|complete|submit|packet",nm,re.I):
   methods[va]=("IOSkywalkPacketQueue",nm,"base-queue-method")
   base_hits.append((va,nm))
