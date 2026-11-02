@@ -255,3 +255,11 @@ STAGE65_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — Apple internal callback helpers are being traced; RTL88WiFi packet ownership handoff remains unimplemented
 STAGE65_LOGS: Development/Logs/stage65/run-20261102-164949-2151a8b9670a/
 ==================================================================
+========== STAGE 66 APPLE QUEUE CALLBACK REGISTRATION / PACKET LIFECYCLE AUDIT ==========
+STAGE66_RUN: run-20261102-170400-52c2a2c1997c
+STAGE66_VERSION: STAGE66_V1_20261102
+STAGE66_SCOPE: four queue initWithPool callbacks, PacketQueue base init dispatch and TX/RX packet lifecycle methods
+STAGE66_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — packet ownership/hardware completion implementation still requires a separate reviewed change
+STAGE66_LOGS: Development/Logs/stage66/run-20261102-170400-52c2a2c1997c/
+==================================================================
