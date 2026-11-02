@@ -32,12 +32,35 @@ PY
  got="$(gh api "repos/$REPO/contents/$p" -q .sha)"
  [[ "$put" == "$want" && "$got" == "$want" ]] || fail "GitHub readback mismatch: $p"
 }
-trap 'rc=$?; if ((rc!=0)); then { echo "STAGE=87";echo "VERSION=STAGE87_V2_20261103";echo "RUN=$RUN";echo "EXIT_CODE=$rc";echo "SOURCE_MODIFIED=NO";echo "BUILD=NOT_RUN";echo "INSTALL=NOT_RUN";echo "LOAD=NOT_RUN";tail -n 160 "$OUT/console-output.log"; } > "$OUT/failure-report.txt"; if gh auth status >/dev/null 2>&1; then python3 - "$OUT/failure-report.txt" "$OUT/failure.json" <<'PY'
+on_exit() {
+  local rc=$?
+  if (( rc != 0 )); then
+    {
+      echo "STAGE=87"
+      echo "VERSION=STAGE87_V2_20261103"
+      echo "RUN=$RUN"
+      echo "EXIT_CODE=$rc"
+      echo "SOURCE_MODIFIED=NO"
+      echo "BUILD=NOT_RUN"
+      echo "INSTALL=NOT_RUN"
+      echo "LOAD=NOT_RUN"
+      tail -n 160 "$OUT/console-output.log"
+    } > "$OUT/failure-report.txt"
+    if gh auth status >/dev/null 2>&1; then
+      python3 - "$OUT/failure-report.txt" "$OUT/failure.json" <<'PYFAIL'
 import base64,json,pathlib,sys
 p=pathlib.Path(sys.argv[1])
-pathlib.Path(sys.argv[2]).write_text(json.dumps({"message":"Stage87 failure report","content":base64.b64encode(p.read_bytes()).decode()}))
-PY
-gh api --method PUT "repos/$REPO/contents/Development/Logs/stage87/$RUN/failure-report.txt" --input "$OUT/failure.json" >/dev/null || true; fi; fi' EXIT
+pathlib.Path(sys.argv[2]).write_text(json.dumps({
+    "message":"Stage87 failure report",
+    "content":base64.b64encode(p.read_bytes()).decode()
+}))
+PYFAIL
+      gh api --method PUT "repos/$REPO/contents/Development/Logs/stage87/$RUN/failure-report.txt" \
+        --input "$OUT/failure.json" >/dev/null 2>&1 || true
+    fi
+  fi
+}
+trap on_exit EXIT
 for t in curl gh python3 grep awk sw_vers uname tee date tail basename cut sed; do command -v "$t" >/dev/null 2>&1 || fail "missing tool $t"; done
 gh auth status >/dev/null 2>&1 || fail "GitHub CLI not authenticated"
 [[ "$(sw_vers -productVersion)" == "15.8.1" && "$(sw_vers -buildVersion)" == "24H32" && "$(uname -m)" == "x86_64" ]] || fail "target must be macOS 15.8.1/24H32/x86_64"
