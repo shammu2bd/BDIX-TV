@@ -51,7 +51,7 @@ PY
 trap 'capture_error' ERR
 trap 'on_exit $?' EXIT
 
-for t in curl gh python3 shasum grep awk sw_vers uname wc tr tee find date tail; do command -v "$t" >/dev/null 2>&1 || fail "required tool missing: $t"; done
+for t in curl gh python3 shasum grep awk sw_vers uname wc tr tee find date tail split; do command -v "$t" >/dev/null 2>&1 || fail "required tool missing: $t"; done
 [[ -d "$SRC/src" ]] || fail "source directory missing: $SRC/src"
 gh auth status >/dev/null 2>&1 || fail "GitHub CLI is not authenticated"
 OSVER="$(sw_vers -productVersion)"; BUILD="$(sw_vers -buildVersion)"; ARCH="$(uname -m)"
