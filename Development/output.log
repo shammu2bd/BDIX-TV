@@ -499,3 +499,11 @@ STAGE79_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — driver registration callsite remains absent
 STAGE79_LOGS: Development/Logs/stage79/run-20261102-185618-e15eed178161/
 ========================================================
+========== STAGE 80 QUEUE TYPECODE CROSSWALK ==========
+STAGE80_RUN: run-20261102-185641-e10688bb526c
+STAGE80_VERSION: STAGE80_V2_20261103
+STAGE80_PREDECESSOR_STAGE79_RUN: run-20261102-185618-e15eed178161
+STAGE80_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — the driver queue-pointer array and native registration call remain absent
+STAGE80_LOGS: Development/Logs/stage80/run-20261102-185641-e10688bb526c/
+=======================================================
