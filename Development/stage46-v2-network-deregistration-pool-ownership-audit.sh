@@ -376,7 +376,7 @@ for label,sym,va,owner,end in resolved:
     if not success: print("METHOD_DISASSEMBLY_%s=REVIEW_REQUIRED"%label)
 
 print("\n--- Audit totals ---")
-print("METHODS_REQUESTED=%d"%(len(wanted)+dynamic_additions))
+print("METHODS_REQUESTED=%d"%(len(wanted)+len(slot_targets)+dynamic_additions))
 print("METHODS_RESOLVED=%d"%len(resolved))
 print("KERNEL_COLLECTION_OPEN_MODE=READ_ONLY")
 PY
