@@ -165,7 +165,8 @@ for va,(cls,nm,kind) in sorted(methods.items()):
  if not owner or owner!=kc.sym_owner.get(va):
   status.append("METHOD class=%s kind=%s symbol=%s address=0x%x owner_validation=FAIL"%(cls,kind,nm,va))
   issues.append("OWNER_VALIDATION_"+nm); continue
- end=kc.next_sym(va) or va+0x1000
+ end_raw=kc.next_sym(va)
+ end=as_addr(end_raw) if end_raw else va+0x1000
  if end<=va or end>va+0x20000: end=va+0x1000
  resolved.append((cls,nm,kind,va,owner,end))
 carved={}
