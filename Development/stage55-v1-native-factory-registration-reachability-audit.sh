@@ -280,7 +280,7 @@ summary=[
  "KEXT_INSTALL=NOT_RUN","KEXT_LOAD=NOT_RUN",
  "OPENCORE_MODIFIED=NO","SIP_NVRAM_MODIFIED=NO","HARDWARE_TEST=NOT_RUN"]
 (out/"audit-summary.txt").write_text("\n".join(summary)+"\n")
-PYPY
+PY
 
 {
  echo "========== STAGE 55 NATIVE SOURCE / FACTORY / REGISTRATION REACHABILITY AUDIT =========="
@@ -300,10 +300,6 @@ PYPY
  echo
  cat "$OUT/audit-summary.txt"
  echo
- echo "CLASS_DISCOVERY=$OUT/class-discovery.txt"
- echo "VTABLE_INDEX=$OUT/vtable-index.txt"
- echo "ABI_METHOD_DISASSEMBLY=$OUT/abi-method-disassembly.txt"
- echo "CALL_EDGE_INDEX=$OUT/call-edge-index.txt"
  echo "SOURCE_CONTRACT_CONTEXT=$OUT/source-contract-context.txt"
  echo "STAGE54_EVIDENCE=$EVIDENCE"
  echo "STAGE54_METHOD_STATUS=$EVIDENCE/method-status.txt"
@@ -420,7 +416,7 @@ remote,dst,run,version=sys.argv[1:]
 obj=json.load(open(remote))
 old=base64.b64decode(obj["content"])
 entry=(
- "\n========== STAGE 54 EXACT INTERFACE INITIALIZER / FACTORY / LIFECYCLE AUDIT ==========\n"
+ "\n========== STAGE 55 NATIVE SOURCE / FACTORY / REGISTRATION REACHABILITY AUDIT ==========\n"
  "STAGE55_RUN: %s\n"%run+
  "STAGE55_VERSION: %s\n"%version+
  "STAGE55_SCOPE: correlate Stage54 verified initializer/factory/lifecycle ABI methods with native controller/interface construction, attach, publication, registration and packet callback edges\n"+
