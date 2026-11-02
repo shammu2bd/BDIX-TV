@@ -215,3 +215,11 @@ STAGE60_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — dispatch target resolved; native registration and TX/RX completion handoff remain open
 STAGE60_LOGS: Development/Logs/stage60/run-20261102-150246-056583bdc528/ and unique files directly under Development/Logs/
 ==================================================================
+========== STAGE 61 QUEUE DESCRIPTOR / QUEUESET CLASSIFICATION AUDIT ==========
+STAGE61_RUN: run-20261102-152354-434ec3c3ae26
+STAGE61_VERSION: STAGE61_V1_20261102
+STAGE61_SCOPE: 24H32 performCommand 16-byte queue descriptor fields, queue-type IDs and QueueSet per-type arrays/counts
+STAGE61_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — ABI grouping classified; native registration and TX/RX completion ownership remain open
+STAGE61_LOGS: Development/Logs/stage61/run-20261102-152354-434ec3c3ae26/ and unique files directly under Development/Logs/
+==================================================================
