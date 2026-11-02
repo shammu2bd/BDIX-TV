@@ -357,3 +357,15 @@ curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development
 
 Temporary output remains under the Stage26 source project's `run log/stage59/<run>/` directory. Reports are uploaded to a timestamped `Development/Logs/stage59/<run>/` folder and as unique root-mirror files; each upload is read back and SHA-verified before a checkpoint is appended to `Development/output.log`. The activation gate remains BLOCKED. This is an ABI investigation only; it does not authorize queue registration, a kext build, or hardware testing.
 
+
+## Stage60 — Itanium vtable address-point and QueueSet dispatch ABI correction
+
+Stage60 is a read-only follow-up to Stage59. It verifies the Stage59 artifacts by Git blob SHA, then checks the pinned WTLKcAbi parser's `KC.vtable()` implementation, which indexes from the beginning of each `_ZTV` symbol. The primary Itanium C++ vptr address point follows two 8-byte prefix entries (offset-to-top and RTTI/typeinfo), so QueueSet's call through `[vptr + 0x218]` maps to `_ZTV + 0x228`, parser index 69—not index 67. Stage60 verifies that index 69 resolves to each concrete queue's `performCommand(UInt32, void *, size_t)` implementation, checks both callsites' argument registers against the SDK prototype, and disassembles the five targets. The private meaning of command `0x10000` and its 16-byte payload is not inferred. Native registration and TX/RX packet ownership gaps remain activation blockers. No source edits, build/sign/install/load, or OpenCore/SIP/NVRAM changes are performed.
+
+Run on the target Intel Hackintosh:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/shammu2bd/BDIX-TV/main/Development/stage60-v1-itanium-vtable-addresspoint-dispatch-audit.sh" | bash
+```
+
+Temporary output remains under the Stage26 source project's `run log/stage60/<run>/` directory. Reports are uploaded to `Development/Logs/stage60/<run>/` and as unique root-mirror files; each upload is read back and SHA-verified before `Development/output.log` is checkpointed. The activation gate remains BLOCKED; this ABI clarification does not authorize queue registration, a kext build, or hardware testing.
