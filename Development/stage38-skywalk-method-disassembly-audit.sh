@@ -19,7 +19,7 @@ SYMBOLS="$OUT/defined-symbols.tsv"
 mkdir -p "$OUT"
 trap 'rc=$?; trap - ERR; echo "STAGE38_ERROR=exit:$rc line:$LINENO" >&2; if [[ -f "$UPLOAD_ERROR" ]]; then tail -60 "$UPLOAD_ERROR" >&2; fi; exit "$rc"' ERR
 
-for tool in gh python3 shasum split grep awk nm otool file sw_vers uname xcrun; do
+for tool in gh python3 shasum split grep awk nm otool file sw_vers uname xcrun kmutil; do
   command -v "$tool" >/dev/null 2>&1 || { echo "ERROR: required tool missing: $tool"; exit 2; }
 done
 [[ -f "$SRC/Makefile" ]] || { echo "ERROR: Stage26 project not found"; exit 3; }
