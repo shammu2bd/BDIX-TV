@@ -305,7 +305,14 @@ PYPY
  echo "ABI_METHOD_DISASSEMBLY=$OUT/abi-method-disassembly.txt"
  echo "CALL_EDGE_INDEX=$OUT/call-edge-index.txt"
  echo "SOURCE_CONTRACT_CONTEXT=$OUT/source-contract-context.txt"
- echo "STAGE54_EVIDENCE=$EVIDENCE"\n echo "SOURCE_FACTORY_CROSSWALK=$OUT/source-factory-crosswalk.txt"\n echo "METHOD_BODY_AUDIT=$OUT/method-body-audit.txt"\n echo "REACHABILITY_MATRIX=$OUT/reachability-matrix.txt"\n echo "SOURCE_REFERENCE_INVENTORY=$OUT/source-reference-inventory.txt"
+ echo "STAGE54_EVIDENCE=$EVIDENCE"
+ echo "STAGE54_METHOD_STATUS=$EVIDENCE/method-status.txt"
+ echo "STAGE54_ABI_DISASSEMBLY=$EVIDENCE/abi-method-disassembly.txt"
+ echo "STAGE54_VTABLE_INDEX=$EVIDENCE/vtable-index.txt"
+ echo "SOURCE_FACTORY_CROSSWALK=$OUT/source-factory-crosswalk.txt"
+ echo "METHOD_BODY_AUDIT=$OUT/method-body-audit.txt"
+ echo "REACHABILITY_MATRIX=$OUT/reachability-matrix.txt"
+ echo "SOURCE_REFERENCE_INVENTORY=$OUT/source-reference-inventory.txt"
  echo
  echo "SOURCE_TREE_MODIFIED=NO"
  echo "BUILD=NOT_RUN"
@@ -316,7 +323,7 @@ PYPY
  echo "SIP_NVRAM_MODIFIED=NO"
  echo "HARDWARE_TEST=NOT_RUN"
  echo "SYSTEM_FILES_MODIFIED=NO"
- echo "========== END STAGE 54 =========="
+ echo "========== END STAGE 55 =========="
 } > "$OUT/report.txt"
 
 github_sha() {
@@ -370,7 +377,7 @@ PY2
 
 MAN="$OUT/manifest.txt"
 {
- echo "STAGE=54"
+ echo "STAGE=55"
  echo "VERSION=$VERSION"
  echo "RUN=$RUN"
  echo "PURPOSE=read-only native source-to-ABI factory, registration and TX/RX datapath reachability crosswalk"
@@ -378,7 +385,8 @@ MAN="$OUT/manifest.txt"
  echo "PREDECESSOR=Stage54 V2 run-20261102-132405-fb0df18fd221"
  echo "SOURCE_MODIFIED=NO"
  echo "BUILD=NOT_RUN"
- echo "ACTIVATION_GATE=BLOCKED"\n echo "STAGE54_PREDECESSOR=run-20261102-132405-fb0df18fd221"
+ echo "ACTIVATION_GATE=BLOCKED"
+ echo "STAGE54_PREDECESSOR=run-20261102-132405-fb0df18fd221"
  echo "LOCAL_OUTPUT=$OUT"
 } > "$MAN"
 
@@ -391,7 +399,7 @@ upload_artifact() {
  upload_one "$file" "$root" 0
  echo "GROUPED=$group | ROOT=$root | SHA256=$(shasum -a 256 "$file" | awk '{print $1}')" >> "$MAN"
 }
-for f in "$OUT"/report.txt "$OUT"/audit-summary.txt "$OUT"/source-fingerprint.txt "$OUT"/source-contract-context.txt "$OUT"/class-discovery.txt "$OUT"/vtable-index.txt "$OUT"/abi-method-disassembly.txt "$OUT"/call-edge-index.txt "$OUT"/method-status.txt "$OUT"/source-factory-crosswalk.txt "$OUT"/method-body-audit.txt "$OUT"/reachability-matrix.txt "$OUT"/source-reference-inventory.txt; do
+for f in "$OUT"/report.txt "$OUT"/audit-summary.txt "$OUT"/source-fingerprint.txt "$OUT"/source-contract-context.txt "$OUT"/source-factory-crosswalk.txt "$OUT"/method-body-audit.txt "$OUT"/reachability-matrix.txt "$OUT"/source-reference-inventory.txt; do
  [[ -f "$f" ]] || fail "missing audit artifact: $f"
  bytes="$(wc -c < "$f" | tr -d ' ')"
  if (( bytes <= 225280 )); then
@@ -417,7 +425,7 @@ entry=(
  "STAGE55_VERSION: %s\n"%version+
  "STAGE55_SCOPE: correlate Stage54 verified initializer/factory/lifecycle ABI methods with native controller/interface construction, attach, publication, registration and packet callback edges\n"+
  "STAGE55_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE\n"+
- "ACTIVATION_GATE: BLOCKED — read-only ABI and call-path evidence; no driver registration implementation or hardware-test authorization\n"+
+ "ACTIVATION_GATE: BLOCKED — source crosswalk only; this does not implement registration or connect packet callbacks\n"+
  "STAGE55_LOGS: Development/Logs/stage55/%s/ and unique files directly under Development/Logs/\n"%run+
  "==================================================================\n"
 ).encode()
