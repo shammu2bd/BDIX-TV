@@ -1,11 +1,11 @@
 #!/bin/bash
 # Stage 47 — exact 24H32 logical-link deletion and TX/RX queue-set teardown audit.
-# VERSION_MARKER: STAGE47_V2_20261102
+# VERSION_MARKER: STAGE47_V1_20261102
 # READ ONLY: no source edits, build, signing, install/load, SIP/NVRAM, or OpenCore changes.
 set -Eeuo pipefail
 
 REPO="shammu2bd/BDIX-TV"
-echo "STAGE47_SCRIPT_VERSION=STAGE47_V2_20261102"
+echo "STAGE47_SCRIPT_VERSION=STAGE47_V1_20261102"
 SOURCE_ROOT="${SOURCE_ROOT:-$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source}"
 SRC="$SOURCE_ROOT/driver/RTL88WiFi"
 BOOTKC="/System/Library/KernelCollections/BootKernelExtensions.kc"
@@ -63,7 +63,7 @@ PY
 
 {
   echo "========== STAGE 47: 24H32 LOGICAL-LINK / QUEUE-SET / TX-RX TEARDOWN CONTRACT =========="
-  echo "script_version=STAGE47_V2_20261102"
+  echo "script_version=STAGE47_V1_20261102"
   echo "timestamp_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
   echo "product_version=$OSVER"
   echo "build_version=$BUILD"
@@ -549,7 +549,7 @@ PY
 upload_file "$OUT/output.log" "Development/output.log" "Append Stage47 BSD lifecycle audit result $RUN" 1
 
 echo
-echo "STAGE47_SCRIPT_VERSION=STAGE47_V2_20261102"
+echo "STAGE47_SCRIPT_VERSION=STAGE47_V1_20261102"
 echo "STAGE47_STATUS=UPLOADED_AND_READBACK_VERIFIED"
 echo "STAGE47_RUN=$RUN"
 echo "STAGE47_LOCAL_OUTPUT=$OUT"
