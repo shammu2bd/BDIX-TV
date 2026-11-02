@@ -4,7 +4,7 @@
 # No signing, installation, loading, or OpenCore modification.
 set -Eeuo pipefail
 
-echo "STAGE35T_SCRIPT_VERSION=1"
+echo "STAGE35T_SCRIPT_VERSION=2"
 REPO="shammu2bd/BDIX-TV"
 SOURCE_ROOT="$HOME/Downloads/RTL88WiFi-1.0.11-WCL-Sequoia-24H32-stage26-clean-source"
 SRC="$SOURCE_ROOT/driver/RTL88WiFi"
@@ -240,17 +240,24 @@ ARTIFACT_BLOB="NONE"
 ARTIFACT_BYTES=0
 KEXT="$SRC/build/out/RTL88WiFiNative.kext"
 if [[ "$BUILD_RC" -eq 0 && -f "$KEXT/Contents/MacOS/RTL88WiFiNative" && -f "$KEXT/Contents/Info.plist" ]]; then
-  FILE_INFO="$(file "$KEXT/Contents/MacOS/RTL88WiFiNative" 2>&1)"
-  LIPO_INFO="$(lipo -info "$KEXT/Contents/MacOS/RTL88WiFiNative" 2>&1)"
-  PLIST_INFO="$(plutil -lint "$KEXT/Contents/Info.plist" 2>&1)"
+  set +e
+  FILE_INFO="$(file "$KEXT/Contents/MacOS/RTL88WiFiNative" 2>&1)"; FILE_RC=$?
+  LIPO_INFO="$(lipo -info "$KEXT/Contents/MacOS/RTL88WiFiNative" 2>&1)"; LIPO_RC=$?
+  PLIST_INFO="$(plutil -lint "$KEXT/Contents/Info.plist" 2>&1)"; PLIST_RC=$?
+  set -e
   {
+    echo "KEXT_EXECUTABLE_FILE_RC=$FILE_RC"
     echo "KEXT_EXECUTABLE_FILE=$FILE_INFO"
+    echo "KEXT_LIPO_INFO_RC=$LIPO_RC"
     echo "KEXT_ARCHITECTURES=$LIPO_INFO"
+    echo "KEXT_PLUTIL_LINT_RC=$PLIST_RC"
     echo "KEXT_INFO_PLIST_VALIDATION=$PLIST_INFO"
   } >> "$REPORT"
-  if [[ "$FILE_INFO" != *"x86_64"* || "$LIPO_INFO" != *"x86_64"* || "$PLIST_INFO" != *"OK"* ]]; then
+  if [[ "$FILE_RC" -ne 0 || "$LIPO_RC" -ne 0 || "$PLIST_RC" -ne 0 || "$FILE_INFO" != *"x86_64"* || "$LIPO_INFO" != *"x86_64"* || "$PLIST_INFO" != *"OK"* ]]; then
     echo "BUILD_VALIDATION_FAILED=plist or x86_64 architecture validation failed" >> "$REPORT"
     BUILD_RC=98
+  else
+    echo "BUILD_VALIDATION=PASS" >> "$REPORT"
   fi
 fi
 if [[ "$BUILD_RC" -eq 0 && ( ! -f "$KEXT/Contents/MacOS/RTL88WiFiNative" || ! -f "$KEXT/Contents/Info.plist" ) ]]; then
