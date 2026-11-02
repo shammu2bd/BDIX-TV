@@ -88,3 +88,11 @@ STAGE46_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN 
 ACTIVATION_GATE: BLOCKED — identifying Apple's deregistration and pool-release order does not implement queue registration, TX/RX completion ownership, publication, or driver teardown
 STAGE46_LOGS: Development/Logs/stage46/run-20261102-102916-604e99bf7c32/ and unique files directly under Development/Logs/
 ==============================================================
+========== STAGE 47 LOGICAL-LINK / QUEUE-SET / TX-RX TEARDOWN AUDIT ==========
+STAGE47_RUN: run-20261102-113242-ae14b45342fc
+STAGE47_SCOPE: IOSkywalkNetworkInterface::deleteLogicalLink, IOSkywalkLogicalLink/IOSkywalkQueueSet attach-detach, TX/RX queue teardown and pool-release ordering
+STAGE43_SOURCE_BASELINE: 2a6da4ac698635e2bfe904a23004536478d60cad99718ec3d7186e9be68cfc9b
+STAGE47_SOURCE_MODIFIED: NO | BUILD: NOT_RUN | INSTALL: NOT_RUN | LOAD: NOT_RUN | OPENCORE_CHANGE: NONE
+ACTIVATION_GATE: BLOCKED — mapping logical-link and queue-set teardown does not implement queue registration, TX/RX completion ownership, publication, or driver rollback
+STAGE47_LOGS: Development/Logs/stage47/run-20261102-113242-ae14b45342fc/ and unique files directly under Development/Logs/
+==============================================================
